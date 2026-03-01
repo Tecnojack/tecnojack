@@ -1,0 +1,98 @@
+.linktree {
+    display: grid;
+    gap: 14px;
+    padding: 22px;
+}
+
+.linktree__head {
+    display: grid;
+    gap: 8px;
+    text-align: center;
+}
+
+.kicker {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: 0.86;
+}
+
+.title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.1;
+}
+
+.linktree__intro {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.linktree__section {
+    display: grid;
+    gap: 10px;
+}
+
+.linktree__section-title {
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: 0.82;
+}
+
+.linktree__grid {
+    display: grid;
+    gap: 10px;
+}
+
+.linktree__card {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 220ms ease, border-color 220ms ease;
+}
+
+.linktree__card:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent-gold) 30%, var(--border));
+}
+
+.linktree__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-soft);
+    background: color-mix(in srgb, var(--accent-gold) 10%, var(--surface));
+}
+
+.linktree__icon img {
+    width: 18px;
+    height: 18px;
+    display: block;
+    opacity: 0.95;
+}
+
+.linktree__text {
+    display: grid;
+    gap: 3px;
+}
+
+.linktree__title {
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.linktree__desc {
+    font-size: 13px;
+    line-height: 1.45;
+}

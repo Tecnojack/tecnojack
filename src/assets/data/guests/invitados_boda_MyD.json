@@ -1,0 +1,730 @@
+[
+  {
+    "id_grupo": 1,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Nathalie Encizo",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Alex Salazar",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 2,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Sara Zapata",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 1,
+        "total": 2
+      },
+      {
+        "nombre": "Jefferson Orozco",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 3,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Eliana Bermudez",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 4,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Sara Garcia",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 5,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Sofia Duran",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Camilo Torres",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 6,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Diego Pinzon",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 7,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Andres Encizo",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 8,
+    "grupo": "Novia",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Alejandra Rojas",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 9,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Dayerly Ramirez",
+        "parentesco": "Mama",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Jorge Horta",
+        "parentesco": "Papa",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 10,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Natalia Horta",
+        "parentesco": "hermana",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 11,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "David Horta",
+        "parentesco": "hermano",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 12,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Edgar Ramirez",
+        "parentesco": "Abuelo",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Elvia Sanchez",
+        "parentesco": "Abuela",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 13,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Miryam Horta",
+        "parentesco": "Tia",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Hernan Mendez",
+        "parentesco": "Tio",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 14,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Deysi Horta",
+        "parentesco": "Tia",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 15,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Karina Mendez",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 3,
+        "total": 4
+      },
+      {
+        "nombre": "Pedro Ospina",
+        "parentesco": "Esposo Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 16,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Miryam Mendez",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 2,
+        "total": 3
+      },
+      {
+        "nombre": "Luis Londoño",
+        "parentesco": "Esposo Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 17,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Yury Mendez",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Leonardo Garcia",
+        "parentesco": "Esposo Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 18,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Deysi Rosas",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 2,
+        "total": 3
+      }
+    ]
+  },
+  {
+    "id_grupo": 19,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Ana Acosta",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Santiago Valencia",
+        "parentesco": "Prima",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 20,
+    "grupo": "Novia",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Rocio Murcia",
+        "parentesco": "Tia",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 21,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "David Perez",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Maria Mora",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 22,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Miller Moreno",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Sofia Arias",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 23,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Sergio Santafe",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Natalia Barreto",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 24,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Jose Bernal",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 25,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Marcela Camargo",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Jhordan Orjuela",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 26,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Juliana Rojas",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Holman Hernandez",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 27,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Catalina Lopez",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 28,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Marco Castillo",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 29,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Claudia España",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 30,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Isabela Guarin",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Daniel Machuca",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 31,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Felipe Sierra",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 32,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Edna Otero",
+        "parentesco": "Mama",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Nestor Riveros",
+        "parentesco": "Esposo Mama",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 33,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Luis Useche",
+        "parentesco": "Papa",
+        "adultos": 1,
+        "ninos": 1,
+        "total": 2
+      },
+      {
+        "nombre": "Tatiana Santamaria",
+        "parentesco": "Esposa Papa",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 34,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Julian Useche",
+        "parentesco": "Hermano",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Wendy Mateus",
+        "parentesco": "Novia Hermano",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 35,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Emperatriz Ortiz",
+        "parentesco": "Abuela",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 36,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Rosalba Ortiz",
+        "parentesco": "Tia",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 37,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Homero Useche",
+        "parentesco": "Abuelo",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 38,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Nestor Gomez",
+        "parentesco": "Primo",
+        "adultos": 1,
+        "ninos": 1,
+        "total": 2
+      },
+      {
+        "nombre": "Ingrid Porras",
+        "parentesco": "Esposa primo",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 39,
+    "grupo": "Novio",
+    "tipo": "Familia",
+    "invitados": [
+      {
+        "nombre": "Oscar Otero",
+        "parentesco": "Tio",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Yaneth Silva",
+        "parentesco": "Esposa Tio",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      },
+      {
+        "nombre": "Felipe Otero",
+        "parentesco": "Primo",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 40,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Sergio Robles",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  },
+  {
+    "id_grupo": 41,
+    "grupo": "Novio",
+    "tipo": "Amigos",
+    "invitados": [
+      {
+        "nombre": "Jabier Guerrero",
+        "parentesco": "Amigos",
+        "adultos": 1,
+        "ninos": 0,
+        "total": 1
+      }
+    ]
+  }
+]

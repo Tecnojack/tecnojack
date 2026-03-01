@@ -1,0 +1,17 @@
+<div *ngIf="!loading(); else loadingTpl">
+    <div class="stage" [class.stage--opened]="opened()">
+        <div class="container stage__passport" *ngIf="!opened()">
+            <tj-passport [weddingNames]="wedding()!.names" [guestName]="guest()!.name" [allowedGuests]="guest()!.allowedGuests" [date]="wedding()!.date" (opened)="onPassportOpened()" />
+        </div>
+
+        <div class="stage__invitation" *ngIf="opened()">
+            <tj-invitation [wedding]="wedding()!" [guest]="guest()!" />
+        </div>
+    </div>
+</div>
+
+<ng-template #loadingTpl>
+    <div class="container">
+        <div class="card loading">Cargando…</div>
+    </div>
+</ng-template>

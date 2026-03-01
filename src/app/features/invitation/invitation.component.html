@@ -1,0 +1,246 @@
+<div class="invitation-page">
+    <header class="hero">
+        <div class="hero__bg" aria-hidden="true"></div>
+        <div class="hero__inner">
+            <div class="hero__copy reveal--left" tjRevealOnScroll>
+                <div class="hero__meta">
+                    <span class="hero__meta-item">{{ wedding.date | date : 'HH:mm' }}</span>
+                    <span class="hero__meta-sep">|</span>
+                    <span class="hero__meta-item">{{ wedding.date | date : 'dd.MM.y' }}</span>
+                </div>
+                <p class="kicker">Tu viaje comienza aquí</p>
+                <h1 class="title hero__title">{{ wedding.names }}</h1>
+                <div class="divider" aria-hidden="true"></div>
+                <p class="muted hero__welcome">{{ welcomeAboardText }}</p>
+                <p class="hero__guest">{{ guest.name }}</p>
+            </div>
+
+            <div class="hero__media reveal--right" tjRevealOnScroll>
+                <h1 class="title hero__title hero__title--photo">{{ wedding.names }}</h1>
+                <div class="frame">
+                    <div class="frame__photo frame__photo--hero">
+                        <img class="frame__img frame__img--hero" src="assets/images/fotos/main.jpg" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero__footer" aria-label="Contador">
+                <p class="hero__quote">
+                    “Cuando te das cuenta de que quieres pasar el resto de tu vida con alguien,
+                    deseas que el resto de tu vida comience lo antes posible”.
+                    <span class="hero__quote-author">— Cuando Harry encontró a Sally</span>
+                </p>
+
+                <div class="countdown" *ngIf="!isEventDay(); else today">
+                    <div class="count" *ngFor="let item of countdown()">
+                        <div class="count__value">{{ item.value }}</div>
+                        <div class="count__label">{{ item.label }}</div>
+                    </div>
+                </div>
+                <ng-template #today>
+                    <div class="today">¡Hoy es el día!</div>
+                </ng-template>
+            </div>
+        </div>
+    </header>
+
+    <section class="band band--destination band--stack">
+        <div class="band__inner">
+            <div class="band__copy reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Destino</h2>
+                <div class="card location">
+                    <div class="location__row location__row--with-action">
+                        <img class="location__icon" src="assets/images/icons/location-pin.svg" alt="" />
+                        <div class="location__text">
+                            <p class="location__kicker muted">Punto de encuentro</p>
+                            <p class="location__name">{{ wedding.location.name }}</p>
+                            <p class="muted location__hint">Ceremonia y celebración en el mismo lugar</p>
+                        </div>
+                        <a class="btn secondary location__cta" [href]="wedding.location.mapsUrl" target="_blank" rel="noopener">
+                            <img class="location__cta-icon" src="assets/images/icons/location-pin.svg" alt="" />
+                            Ver en Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="band__media reveal--right" tjRevealOnScroll aria-hidden="true">
+                <div class="frame frame--wide">
+                    <div class="frame__photo frame__photo--a"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band band--alt">
+        <div class="band__inner">
+            <div class="band__copy reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Equipaje (dress code)</h2>
+                <p class="muted dress__intro">{{ wedding.dressCode.description }}</p>
+
+                <div class="card dress">
+                    <div class="dress__grid">
+                        <div class="dress__item">
+                            <p class="dress__label">Colores reservados</p>
+                            <div class="dress__chips" *ngIf="wedding.dressCode.reservedColors?.length">
+                                <span class="chip chip--swatch" *ngFor="let c of wedding.dressCode.reservedColors" [attr.data-color]="c">{{ c }}</span>
+                            </div>
+                            <p class="muted dress__note">Estos tonos están reservados para la novia.</p>
+                        </div>
+
+                        <div class="dress__item">
+                            <p class="dress__label">Mujeres</p>
+                            <p class="muted dress__note">{{ wedding.dressCode.womenNote }}</p>
+                        </div>
+                    </div>
+
+                    <div class="dress__cta-row">
+                        <a
+                            class="btn secondary dress__cta dress__cta--pinterest"
+                            href="https://co.pinterest.com/mafi18/inspo-de-la-pinta-para-los-lindos/?invite_code=46dfc6757d2c45409064c41debb2cad7&sender=569072240323343160"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <img class="dress__cta-icon" src="assets/images/icons/pinterest.svg" alt="" />
+                            Outfit lindos
+                        </a>
+
+                        <a
+                            class="btn secondary dress__cta dress__cta--pinterest"
+                            href="https://co.pinterest.com/mafi18/inspiraci%C3%B3n-oufit-de-las-lindas/?invite_code=929e555137f2462f95278eead91602c8&sender=569072240323343160"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <img class="dress__cta-icon" src="assets/images/icons/pinterest.svg" alt="" />
+                            Outfit lindas
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="band__media reveal--right" tjRevealOnScroll aria-hidden="true">
+                <div class="frame">
+                    <div class="frame__photo frame__photo--b"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band band--alt band--checkin">
+        <div class="band__inner">
+            <div class="band__copy reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Check-in (confirmación)</h2>
+                <p class="muted checkin__intro">Ayúdanos a organizar el itinerario: confirma tu asistencia.</p>
+
+                <div class="checkin__grid">
+                    <div class="card checkin checkin--rsvp">
+                        <div class="checkin__header">
+                            <div class="checkin__row">
+                                <div class="checkin__icon-wrap" aria-hidden="true">
+                                    <img class="checkin__icon" src="assets/images/icons/plane.svg" alt="" />
+                                </div>
+                                <div class="checkin__text">
+                                    <p class="checkin__title">Confirmación de asistencia</p>
+                                    <p class="muted checkin__desc">Tu respuesta nos ayuda con el itinerario, logística y reservas.</p>
+                                </div>
+                            </div>
+                            <span class="checkin__badge" *ngIf="wedding.rsvpDeadline">Antes del {{ wedding.rsvpDeadline }}</span>
+                        </div>
+
+                        <a class="btn checkin__cta" [href]="rsvpHref()" target="_blank" rel="noopener">Confirmar asistencia</a>
+                    </div>
+
+                    <div class="card checkin checkin--passengers">
+                        <div class="checkin__row">
+                            <div class="checkin__icon-wrap" aria-hidden="true">
+                                <img class="checkin__icon" src="assets/images/icons/cloud.svg" alt="" />
+                            </div>
+                            <div class="checkin__text">
+                                <p class="checkin__title">Lista de pasajeros</p>
+                                <p class="muted checkin__desc">{{ passengerExclusiveNote }}</p>
+                                <p class="muted checkin__desc">{{ passengerTotalNote }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band band--stack">
+        <div class="band__inner">
+            <div class="band__copy reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Galería</h2>
+                <p class="muted">
+                    Unas postales de nuestro viaje: aquí te mostramos algunas fotos que nos encantan y queremos compartir contigo.
+                    Toca una para verla en grande, desliza para navegar y haz zoom.
+                </p>
+            </div>
+            <div class="band__media reveal--right gallery__panel" tjRevealOnScroll aria-label="Galería">
+                <div class="gallery-pswp" #pswpGallery aria-label="Fotos">
+                    <a
+                        class="gallery-pswp__tile"
+                        *ngFor="let item of galleryMeta(); let i = index"
+                        [class]="'gallery-pswp__tile ' + item.cls"
+                        [href]="item.src"
+                        target="_blank"
+                        rel="noopener"
+                        [attr.data-pswp-width]="item.w"
+                        [attr.data-pswp-height]="item.h"
+                        [attr.aria-label]="'Abrir foto ' + (i + 1)"
+                    >
+                        <img class="gallery-pswp__img" [src]="item.src" alt="" loading="lazy" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band band--reverse">
+        <div class="band__inner">
+            <div class="band__copy reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Tu asiento</h2>
+                <div class="card seat">
+                    <div class="seat__row">
+                        <div class="seat__icon-wrap" aria-hidden="true">
+                            <img class="seat__icon" src="assets/images/icons/envelope.svg" alt="" />
+                        </div>
+                        <div class="seat__body">
+                            <p class="seat__kicker muted">Mensaje para tu viaje</p>
+                            <p class="seat__text muted" *ngIf="guest.customMessage && guest.customMessage.trim().length; else seatDefault">{{ guest.customMessage }}</p>
+                            <ng-template #seatDefault>
+                                <p class="seat__text muted">Tu asiento será asignado al llegar. ¡Gracias por acompañarnos en este viaje!</p>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band band--credits">
+        <div class="band__inner">
+            <footer class="tj-footer" aria-label="Desarrollado por TecnoJack">
+                <p class="tj-footer__copy">
+                    © 2026 TECNOJACK. <span class="muted">Transformamos ideas en experiencias digitales memorables. Desarrollo web moderno, arquitectura escalable y producción audiovisual profesional.</span>
+                    <span class="tj-footer__sep">·</span>
+                    <span class="muted">🚀 ¿Tienes un proyecto en mente? Hablemos.</span>
+                    <a class="tj-footer__phone" href="https://wa.me/573145406467" target="_blank" rel="noopener" aria-label="WhatsApp +57 314 540 6467">+57 314 540 6467</a>
+                </p>
+
+                <nav class="tj-footer__social" aria-label="Redes TecnoJack">
+                    <a class="tj-footer__icon" href="https://wa.me/573145406467" target="_blank" rel="noopener" aria-label="WhatsApp TecnoJack +57 314 540 6467">
+                        <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+                    </a>
+                    <a class="tj-footer__icon" href="https://instagram.com/tecnojack" target="_blank" rel="noopener" aria-label="Instagram @tecnojack">
+                        <img src="assets/images/icons/instagram.svg" alt="" aria-hidden="true" />
+                    </a>
+                    <a class="tj-footer__icon" href="https://youtube.com/@tecnojack" target="_blank" rel="noopener" aria-label="YouTube @tecnojack">
+                        <img src="assets/images/icons/youtube.svg" alt="" aria-hidden="true" />
+                    </a>
+                    <a class="tj-footer__icon" href="https://linkedin.com/company/tecnojack" target="_blank" rel="noopener" aria-label="LinkedIn TecnoJack">
+                        <img src="assets/images/icons/linkedin.svg" alt="" aria-hidden="true" />
+                    </a>
+                </nav>
+            </footer>
+        </div>
+    </section>
+</div>

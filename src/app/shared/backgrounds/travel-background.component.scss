@@ -1,0 +1,234 @@
+:host {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.tj-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.tj-bg__paper,
+.tj-bg__map,
+.tj-bg__base,
+.tj-bg__routes,
+.tj-bg__clouds,
+.tj-bg__planes {
+    position: absolute;
+    inset: -6%;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+.tj-bg__base {
+    inset: 0;
+    background: radial-gradient(900px 560px at 30% 18%, color-mix(in srgb, white 42%, transparent), transparent 62%), radial-gradient(1200px 700px at 70% 60%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 64%), var(--background);
+    opacity: 1;
+}
+
+.tj-bg__paper {
+    background-image: url('/assets/images/backgrounds/paper-texture.svg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.75;
+}
+
+.tj-bg__map {
+    inset: -10%;
+    display: grid;
+    place-items: center;
+    opacity: 1;
+}
+
+.tj-bg__map-img {
+    width: min(1200px, 120vw);
+    height: auto;
+    opacity: 0.09;
+    filter: blur(0.55px);
+    transform: translate3d(0, 0, 0);
+    animation: tjMapFloat 160s ease-in-out infinite;
+}
+
+.tj-bg__routes {
+    inset: -12%;
+    display: grid;
+    place-items: center;
+    opacity: 0.7;
+}
+
+.tj-bg__routes-img {
+    width: min(1200px, 120vw);
+    height: auto;
+    opacity: 0.28;
+    filter: blur(0.15px);
+    animation: tjRoutesDrift 120s linear infinite;
+}
+
+.tj-bg__clouds {
+    opacity: 0.75;
+}
+
+.tj-bg__cloud {
+    position: absolute;
+    width: 220px;
+    height: auto;
+    color: var(--text);
+    opacity: 0.55;
+    filter: blur(0.2px);
+}
+
+.tj-bg__cloud--a {
+    top: 10%;
+    left: -18%;
+    animation: tjCloudDriftA 64s linear infinite;
+}
+
+.tj-bg__cloud--b {
+    top: 26%;
+    left: -25%;
+    width: 280px;
+    opacity: 0.42;
+    animation: tjCloudDriftB 92s linear infinite;
+}
+
+.tj-bg__cloud--c {
+    top: 58%;
+    left: -22%;
+    width: 240px;
+    opacity: 0.35;
+    animation: tjCloudDriftC 84s linear infinite;
+}
+
+.tj-bg__planes {
+    opacity: 0.82;
+}
+
+.tj-bg__plane {
+    position: absolute;
+    width: 66px;
+    height: auto;
+    color: var(--accent-gold);
+    opacity: 0.6;
+}
+
+@keyframes tjMapFloat {
+    0% {
+        transform: translate3d(-8px, 0, 0) scale(1);
+    }
+    50% {
+        transform: translate3d(10px, -8px, 0) scale(1.01);
+    }
+    100% {
+        transform: translate3d(-8px, 0, 0) scale(1);
+    }
+}
+
+@keyframes tjRoutesDrift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(12px, -6px, 0);
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.tj-bg__plane--a {
+    top: 42%;
+    left: -12%;
+    animation: tjPlaneA 78s linear infinite;
+}
+
+.tj-bg__plane--b {
+    top: 70%;
+    left: -16%;
+    width: 54px;
+    opacity: 0.55;
+    animation: tjPlaneB 96s linear infinite;
+}
+
+@keyframes tjCloudDriftA {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(70vw) translateY(-8px);
+    }
+    100% {
+        transform: translateX(140vw) translateY(0);
+    }
+}
+
+@keyframes tjCloudDriftB {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(66vw) translateY(10px);
+    }
+    100% {
+        transform: translateX(145vw) translateY(0);
+    }
+}
+
+@keyframes tjCloudDriftC {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(60vw) translateY(-12px);
+    }
+    100% {
+        transform: translateX(138vw) translateY(0);
+    }
+}
+
+@keyframes tjPlaneA {
+    0% {
+        transform: translateX(0) translateY(0) rotate(-6deg);
+    }
+    50% {
+        transform: translateX(72vw) translateY(-10px) rotate(-2deg);
+    }
+    100% {
+        transform: translateX(150vw) translateY(0) rotate(-6deg);
+    }
+}
+
+@keyframes tjPlaneB {
+    0% {
+        transform: translateX(0) translateY(0) rotate(-10deg);
+    }
+    50% {
+        transform: translateX(65vw) translateY(8px) rotate(-6deg);
+    }
+    100% {
+        transform: translateX(155vw) translateY(0) rotate(-10deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce),
+(pointer: coarse),
+(max-width: 767px) {
+    .tj-bg__paper,
+    .tj-bg__map,
+    .tj-bg__routes,
+    .tj-bg__base,
+    .tj-bg__clouds,
+    .tj-bg__planes {
+        transform: none !important;
+    }
+    .tj-bg__cloud,
+    .tj-bg__plane {
+        animation: none !important;
+    }
+    .tj-bg__map-img,
+    .tj-bg__routes-img {
+        animation: none !important;
+    }
+}

@@ -1,0 +1,43 @@
+:root {
+    --primary: #6e7f67;
+    --primary-dark: #3f4f44;
+    --background: #f3efe6;
+    --text: #1e2f36;
+    --accent-gold: #c6a75e;
+    --surface: #ffffff;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+    transition: opacity 520ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal.reveal--left {
+    transform: translate3d(-18px, 12px, 0);
+}
+
+.reveal.reveal--right {
+    transform: translate3d(18px, 12px, 0);
+}
+
+.reveal--visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.reveal--visible.reveal--left,
+.reveal--visible.reveal--right {
+    transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: none;
+    }
+}

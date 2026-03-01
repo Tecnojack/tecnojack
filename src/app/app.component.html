@@ -1,0 +1,19 @@
+<tj-travel-background />
+
+<button
+    type="button"
+    class="btn secondary app-audio-toggle"
+    (click)="audio.toggle()"
+    [attr.aria-pressed]="audio.isPlaying()"
+    [attr.aria-label]="audio.isPlaying() ? 'Silenciar música' : 'Activar música'">
+    <img
+        class="app-audio-toggle__icon"
+        [src]="audio.isPlaying() ? 'assets/images/icons/sound-on.svg' : 'assets/images/icons/sound-off.svg'"
+        alt=""
+        aria-hidden="true" />
+</button>
+
+<div class="app-shell">
+    <h1 class="app-title">Hello, {{ title }}</h1>
+    <router-outlet />
+</div>

@@ -1,0 +1,54 @@
+.loading {
+    text-align: center;
+}
+
+.stage {
+    position: relative;
+    min-height: 560px;
+}
+
+.stage__passport,
+.stage__invitation {
+    transform-origin: 50% 40%;
+}
+
+.stage__passport {
+    animation: tjStageIn 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.stage__invitation {
+    animation: tjCinematicIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes tjStageIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes tjCinematicIn {
+    from {
+        opacity: 0;
+        transform: scale(0.985);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stage__passport,
+    .stage__invitation {
+        animation: none !important;
+    }
+}

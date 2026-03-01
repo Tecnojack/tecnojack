@@ -1,0 +1,44 @@
+<div class="passport" [class.passport--open]="isOpen" (click)="open()">
+    <div class="passport__inner">
+        <section class="passport__front">
+            <div class="passport__light" aria-hidden="true"></div>
+            <p class="passport__title">PASAPORTE</p>
+            <p class="passport__subtitle">A NUESTRA BODA</p>
+
+            <div class="passport__center" aria-hidden="true">
+                <div class="passport__center-line"></div>
+                <div class="passport__compass"></div>
+                <div class="passport__cardinal passport__cardinal--n">N</div>
+                <div class="passport__cardinal passport__cardinal--e">E</div>
+                <div class="passport__cardinal passport__cardinal--s">S</div>
+                <div class="passport__cardinal passport__cardinal--w">W</div>
+
+                <div class="passport__plane">
+                    <div class="passport__plane-emoji" aria-hidden="true">✈︎</div>
+                    <div class="passport__open" aria-hidden="true">Abrir aquí</div>
+                </div>
+            </div>
+
+            <div class="passport__couple">
+                <div class="passport__names">{{ weddingNames }}</div>
+                <div class="passport__date">{{ date | date : 'dd | MM | y' }}</div>
+            </div>
+
+            <div class="passport__ticket" aria-hidden="true">
+                <div class="passport__barcode"></div>
+                <div class="passport__ticket-body">
+                    <div class="passport__ticket-name">{{ guestName }}</div>
+                    <div class="passport__ticket-cups">Cupo(s) <span class="passport__ticket-cups-value">{{ allowedGuests }}</span></div>
+                </div>
+            </div>
+
+            <div class="passport__stamp" aria-hidden="true"></div>
+        </section>
+
+        <section class="passport__back">
+            <div class="passport__light passport__light--back" aria-hidden="true"></div>
+            <p class="passport__kicker">WELCOME</p>
+            <p class="passport__hint">Cargando invitación…</p>
+        </section>
+    </div>
+</div>

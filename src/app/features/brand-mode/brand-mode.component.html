@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card linktree">
+        <div class="linktree__head">
+            <p class="kicker">TECNOJACK</p>
+            <h1 class="title">Producción audiovisual & experiencias digitales</h1>
+            <p class="muted linktree__intro">
+                Impulsamos tu marca y tus momentos con foto y video profesional.
+                También creamos invitaciones digitales modernas y personalizadas para eventos.
+            </p>
+        </div>
+
+        <section class="linktree__section" aria-label="Servicios">
+            <h2 class="linktree__section-title">Servicios</h2>
+            <div class="linktree__grid">
+                <a
+                    class="card linktree__card"
+                    *ngFor="let item of services"
+                    [href]="item.href"
+                    target="_blank"
+                    rel="noopener">
+                    <div class="linktree__icon" aria-hidden="true">
+                        <img [src]="item.icon" alt="" />
+                    </div>
+                    <div class="linktree__text">
+                        <div class="linktree__title">{{ item.title }}</div>
+                        <div class="muted linktree__desc">{{ item.description }}</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="linktree__section" aria-label="Links">
+            <h2 class="linktree__section-title">Links</h2>
+            <div class="linktree__grid">
+                <a
+                    class="card linktree__card"
+                    *ngFor="let item of links"
+                    [href]="item.href"
+                    target="_blank"
+                    rel="noopener">
+                    <div class="linktree__icon" aria-hidden="true">
+                        <img [src]="item.icon" alt="" />
+                    </div>
+                    <div class="linktree__text">
+                        <div class="linktree__title">{{ item.title }}</div>
+                        <div class="muted linktree__desc">{{ item.description }}</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
