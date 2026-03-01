@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { TravelBackgroundComponent } from './shared/backgrounds/travel-background.component';
 import { BackgroundAudioService } from './core/services/background-audio.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,31 @@ import { BackgroundAudioService } from './core/services/background-audio.service
 })
 export class AppComponent implements OnInit {
   readonly audio = inject(BackgroundAudioService);
-  title = 'tecnojack-wedding-engine';
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly documentTitle = inject(Title);
+  appTitle = 'TECNOJACK';
 
   ngOnInit(): void {
     this.audio.start();
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const { wedding, guest } = this.getRouteParams();
+        const slug = guest || wedding;
+        this.documentTitle.setTitle(slug ? `TECNOJACK | ${slug}` : 'TECNOJACK');
+      });
+  }
+
+  private getRouteParams(): { wedding: string; guest: string } {
+    let current: ActivatedRoute | null = this.route;
+    while (current?.firstChild) current = current.firstChild;
+
+    const snapshot = current?.snapshot;
+    return {
+      wedding: String(snapshot?.paramMap.get('wedding') ?? ''),
+      guest: String(snapshot?.paramMap.get('guest') ?? '')
+    };
   }
 }
