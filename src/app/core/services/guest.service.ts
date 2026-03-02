@@ -76,9 +76,27 @@ export class GuestService {
     return `${parts[0]} ${parts[parts.length - 2]}`;
   }
 
+  private joinNames(names: string[]): string {
+    const clean = names.map((n) => String(n ?? '').trim()).filter(Boolean);
+    if (clean.length === 0) return '';
+    if (clean.length === 1) return clean[0];
+    if (clean.length === 2) {
+      return `${clean[0]} & ${clean[1]}`;
+    }
+    return `${clean.slice(0, -1).join(', ')} & ${clean.at(-1)}`;
+  }
+
+  private joinNamesForChildrenSuffix(names: string[]): string {
+    const clean = names.map((n) => String(n ?? '').trim()).filter(Boolean);
+    if (clean.length === 0) return '';
+    if (clean.length === 1) return clean[0];
+    // Cuando agregamos "e hijo(s)", se lee mejor con coma.
+    return clean.join(', ');
+  }
+
   private toGuestFromInvitado(invitado: Invitado): Guest {
     const nombreRaw = String(invitado?.nombre ?? '').trim();
-    const nombre = this.normalizeShortName(nombreRaw);
+    const slugBase = this.normalizeShortName(nombreRaw) || nombreRaw;
     const ninos = Number(invitado?.ninos ?? 0) || 0;
     const adultos = Number(invitado?.adultos ?? 0) || 0;
     const total = Math.max(1, Number(invitado?.total ?? 0) || (adultos + ninos) || 1);
@@ -86,8 +104,8 @@ export class GuestService {
     const childrenSuffix = ninos === 1 ? ' e hijo' : ninos > 1 ? ' e hijos' : '';
 
     return {
-      slug: this.slugify(nombre || nombreRaw),
-      name: `${nombre || nombreRaw}${childrenSuffix}`,
+      slug: this.slugify(slugBase),
+      name: `${nombreRaw}${childrenSuffix}`,
       allowedGuests: total,
       customMessage: 'Nos encantaría que nos acompañes en este viaje.',
       childrenCount: ninos
@@ -129,9 +147,45 @@ export class GuestService {
 
       for (const group of groups) {
         const invitados = Array.isArray(group?.invitados) ? group.invitados : [];
-        for (const invitado of invitados) {
-          const guest = this.toGuestFromInvitado(invitado);
-          if (guest.slug && guest.name) items.push(guest);
+
+        const memberInfo = invitados
+          .map((invitado) => {
+            const nombreRaw = String(invitado?.nombre ?? '').trim();
+            if (!nombreRaw) return null;
+
+            const ninos = Number(invitado?.ninos ?? 0) || 0;
+            const adultos = Number(invitado?.adultos ?? 0) || 0;
+            const total = Math.max(1, Number(invitado?.total ?? 0) || (adultos + ninos) || 1);
+            const slugBase = this.normalizeShortName(nombreRaw) || nombreRaw;
+            const slug = this.slugify(slugBase);
+
+            return { nombreRaw, slug, ninos, adultos, total };
+          })
+          .filter((x): x is NonNullable<typeof x> => !!x);
+
+        if (memberInfo.length === 0) continue;
+
+        const memberNames = memberInfo.map((m) => m.nombreRaw);
+        const totalChildren = memberInfo.reduce((acc, m) => acc + (m.ninos || 0), 0);
+        const totalAllowedGuests = memberInfo.reduce((acc, m) => acc + (m.total || 0), 0);
+
+        const childrenSuffix =
+          totalChildren === 1 ? ' e hijo' : totalChildren > 1 ? ' e hijos' : '';
+
+        const baseName = childrenSuffix
+          ? this.joinNamesForChildrenSuffix(memberNames)
+          : this.joinNames(memberNames);
+
+        const displayName = `${baseName}${childrenSuffix}`;
+
+        for (const member of memberInfo) {
+          items.push({
+            slug: member.slug,
+            name: displayName,
+            allowedGuests: Math.max(1, totalAllowedGuests),
+            customMessage: 'Nos encantaría que nos acompañes en este viaje.',
+            childrenCount: totalChildren || undefined
+          });
         }
       }
 

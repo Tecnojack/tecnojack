@@ -78,7 +78,7 @@ export class InvitationComponent {
   private baseGuestName(): string {
     const raw = String(this.guest?.name ?? '').trim();
     const base = raw.replace(/\s+e\s+hijo(s)?\s*$/i, '').trim();
-    return this.normalizeShortName(base) || base;
+    return base;
   }
 
   private childrenCount(): number {

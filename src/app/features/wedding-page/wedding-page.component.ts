@@ -54,6 +54,58 @@ export class WeddingPageComponent implements OnInit {
     'alejandra'
   ]);
 
+  private decodeGuestParam(value: string): string {
+    const raw = String(value ?? '').trim().replace(/\+/g, ' ');
+    if (!raw) return '';
+    try {
+      return decodeURIComponent(raw);
+    } catch {
+      return raw;
+    }
+  }
+
+  private toTitleCaseWords(value: string): string {
+    const minor = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'e']);
+    const cleaned = String(value ?? '')
+      .trim()
+      .replace(/[_-]+/g, ' ')
+      .replace(/\s+/g, ' ');
+    if (!cleaned) return '';
+
+    const parts = cleaned.split(' ').filter(Boolean);
+    return parts
+      .map((part, idx) => {
+        const lower = part.toLocaleLowerCase('es');
+        if (idx !== 0 && minor.has(lower)) return lower;
+        return lower.charAt(0).toLocaleUpperCase('es') + lower.slice(1);
+      })
+      .join(' ');
+  }
+
+  private splitGuestNamesFromParam(guestParam: string): string[] {
+    const decoded = this.decodeGuestParam(guestParam);
+    if (!decoded) return [];
+
+    // Permite: "Nombre Apellido & Nombre Apellido" o "Nombre Apellido y Nombre Apellido" o con comas.
+    const rawParts = decoded
+      .replace(/\s+/g, ' ')
+      .split(/\s*(?:&|,)\s*|\s+(?:y|and)\s+/gi)
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    return rawParts.map((p) => this.toTitleCaseWords(p)).filter(Boolean);
+  }
+
+  private joinNames(names: string[]): string {
+    const clean = names.map((n) => String(n ?? '').trim()).filter(Boolean);
+    if (clean.length === 0) return '';
+    if (clean.length === 1) return clean[0];
+    if (clean.length === 2) {
+      return `${clean[0]} & ${clean[1]}`;
+    }
+    return `${clean.slice(0, -1).join(', ')} & ${clean.at(-1)}`;
+  }
+
   private normalizeShortNameFromParts(parts: string[]): string {
     const p = parts.filter(Boolean);
     if (p.length === 0) return '';
@@ -116,13 +168,18 @@ export class WeddingPageComponent implements OnInit {
 
   private createFallbackGuest(guestParam?: string, count?: number | null): Guest {
     const fromUrl = (guestParam ?? '').trim();
-    const name = fromUrl ? this.toTitleCaseName(fromUrl) : this.defaultGuestName;
-    const slug = fromUrl ? this.slugify(fromUrl) : 'default';
+    const names = this.splitGuestNamesFromParam(fromUrl);
+    const joined = this.joinNames(names);
+    const name = joined || (fromUrl ? this.toTitleCaseWords(this.decodeGuestParam(fromUrl)) : this.defaultGuestName);
+    const inferredAllowedGuests = count ?? Math.max(1, names.length || 1);
+
+    // Para slug: usamos el string original (sin forzar titlecase), así soporta slugs tipo "jackson-palacios".
+    const slug = fromUrl ? this.slugify(this.decodeGuestParam(fromUrl)) : 'default';
 
     return {
       slug,
       name,
-      allowedGuests: count ?? 1,
+      allowedGuests: inferredAllowedGuests,
       customMessage: 'Nos encantaría que nos acompañes en este viaje.',
       childrenCount: 0
     };

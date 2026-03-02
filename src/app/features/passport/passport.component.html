@@ -27,7 +27,7 @@
             <div class="passport__ticket" aria-hidden="true">
                 <div class="passport__barcode"></div>
                 <div class="passport__ticket-body">
-                    <div class="passport__ticket-name">{{ guestName }}</div>
+                    <div class="passport__ticket-name" [class.passport__ticket-name--multi]="isMultiName">{{ guestName }}</div>
                     <div class="passport__ticket-cups">Cupo(s) <span class="passport__ticket-cups-value">{{ allowedGuests }}</span></div>
                 </div>
             </div>

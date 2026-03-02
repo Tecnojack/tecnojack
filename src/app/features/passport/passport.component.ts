@@ -24,6 +24,14 @@ export class PassportComponent implements AfterViewInit {
 
   isOpen = false;
 
+  get isMultiName(): boolean {
+    const value = String(this.guestName ?? '').trim().toLowerCase();
+    if (!value) return false;
+    // Dos invitados en el mismo pase: normalmente llega como "X y Y" / "X e Y".
+    // También soportamos URLs que incluyan '&'.
+    return /\s(?:y|e)\s/.test(value) || value.includes('&');
+  }
+
   private stampAnim?: AnimationItem;
 
   ngAfterViewInit(): void {
