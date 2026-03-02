@@ -13,7 +13,7 @@ export interface Wedding {
   };
   dressCode: {
     description: string;
-    womenNote: string;
+    womenNote?: string;
     /** Colores reservados (para no usarlos) */
     reservedColors?: string[];
   };
