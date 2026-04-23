@@ -1,0 +1,107 @@
+:host {
+    display: block;
+}
+
+.video-accordion {
+    display: grid;
+    gap: 16px;
+}
+
+.video-accordion__item {
+    overflow: hidden;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        radial-gradient(circle at top right, rgba(0, 151, 178, 0.1), transparent 28%),
+        linear-gradient(180deg, rgba(8, 18, 22, 0.94), rgba(5, 11, 14, 0.96));
+    box-shadow: var(--portfolio-shadow);
+}
+
+.video-accordion__item--open {
+    border-color: rgba(255, 184, 0, 0.2);
+}
+
+.video-accordion__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 24px 22px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.video-accordion__copy {
+    display: grid;
+    gap: 6px;
+}
+
+.video-accordion__copy p,
+.video-accordion__copy span {
+    margin: 0;
+}
+
+.video-accordion__copy p {
+    color: var(--portfolio-text);
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.15rem, 1.7vw, 1.7rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.video-accordion__copy span {
+    max-width: 64ch;
+    color: var(--portfolio-muted);
+    line-height: 1.6;
+}
+
+.video-accordion__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: rgba(0, 151, 178, 0.14);
+    color: var(--portfolio-accent);
+    font-size: 1.45rem;
+    flex: 0 0 auto;
+}
+
+.video-accordion__panel {
+    display: grid;
+    gap: 20px;
+    padding: 0 24px 24px;
+}
+
+.video-accordion__meta {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.video-accordion__meta a {
+    color: var(--portfolio-accent);
+    text-decoration: none;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+}
+
+.video-accordion__meta a:hover {
+    color: var(--portfolio-text);
+}
+
+@media (max-width: 699px) {
+    .video-accordion__header,
+    .video-accordion__panel {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .video-accordion__header {
+        align-items: flex-start;
+    }
+}

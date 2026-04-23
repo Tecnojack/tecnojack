@@ -1,0 +1,794 @@
+<section class="pages-admin">
+  <header class="pages-admin__header">
+    <div>
+      <span class="pages-admin__eyebrow">Páginas</span>
+      <h2>Administra cada página como una unidad completa</h2>
+      <p>Selecciona una página para ver su resumen y administrar sus bloques desde modales separados, sin llenar la pantalla de formularios.</p>
+    </div>
+
+    <a class="pages-admin__primary" [routerLink]="['/admin/pages/new']">Agregar página o servicio</a>
+  </header>
+
+  <div class="pages-admin__layout">
+    <aside class="pages-admin__catalog">
+      <div class="pages-admin__catalog-header">
+        <input type="search" [value]="pageSearch()" (input)="updatePageSearch(($any($event.target)).value)" placeholder="Buscar páginas" />
+        <a class="pages-admin__secondary" [routerLink]="['/admin/pages/new']">Nueva página</a>
+      </div>
+
+      <div class="pages-admin__page-list">
+        <a *ngFor="let page of filteredPages(); trackBy: trackById" class="page-list-card" [routerLink]="['/admin/pages', page.id]" [class.is-active]="selectedPage()?.id === page.id">
+          <div class="page-list-card__header">
+            <strong>{{ page.name }}</strong>
+            <span [class.is-inactive]="page.status !== 'published'">{{ statusLabel(page.status) }}</span>
+          </div>
+          <small>{{ page.routePath }}</small>
+          <p>{{ page.description || 'Sin descripción.' }}</p>
+        </a>
+      </div>
+    </aside>
+
+    <main class="pages-admin__detail">
+      <ng-container *ngIf="selectedPage() as page; else emptyState">
+        <section class="detail-card detail-card--hero">
+          <div class="detail-card__header detail-card__header--hero">
+            <div>
+              <span class="pages-admin__eyebrow">Página seleccionada</span>
+              <h3>{{ page.name }}</h3>
+              <p>{{ page.description || 'Esta página todavía no tiene una descripción comercial definida.' }}</p>
+            </div>
+            <div class="detail-card__hero-actions">
+              <span class="detail-card__route">{{ page.routePath }}</span>
+              <button type="button" class="pages-admin__secondary" (click)="openPageEditModal()">Editar página</button>
+            </div>
+          </div>
+
+          <div class="detail-card__summary">
+            <article *ngFor="let item of pageSummary()">
+              <strong>{{ item.value }}</strong>
+              <span>{{ item.label }}</span>
+            </article>
+          </div>
+
+          <div class="detail-card__meta">
+            <span>{{ page.pageType }}</span>
+            <span>{{ statusLabel(page.status) }}</span>
+            <span>{{ page.active ? 'Activa' : 'Inactiva' }}</span>
+            <span>Orden {{ page.order }}</span>
+          </div>
+        </section>
+
+        <div class="builder-grid">
+          <section class="detail-card">
+            <div class="detail-card__header">
+              <div>
+                <span class="pages-admin__eyebrow">Secciones</span>
+                <h3>Bloques de la página</h3>
+              </div>
+              <button type="button" class="pages-admin__secondary" (click)="openCreateSectionModal()">Agregar sección</button>
+            </div>
+
+            <div class="entity-list">
+              <article *ngFor="let section of pageSections(); trackBy: trackById" class="entity-card" [class.is-selected]="isEditingEntity('section', section.id)">
+                <button type="button" class="entity-card__body" (click)="openEditSectionModal(section)">
+                  <strong>{{ section.name }}</strong>
+                  <small>{{ section.type }} · orden {{ section.order }}</small>
+                  <span>{{ section.enabled ? 'Visible' : 'Oculta' }}</span>
+                </button>
+                <div class="entity-card__actions">
+                  <button type="button" class="entity-card__edit" (click)="openEditSectionModal(section)">Editar</button>
+                  <button type="button" class="entity-card__danger" (click)="removeSection(section)">Eliminar</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="detail-card">
+            <div class="detail-card__header">
+              <div>
+                <span class="pages-admin__eyebrow">Servicios</span>
+                <h3>Servicios ligados a esta página</h3>
+              </div>
+              <button type="button" class="pages-admin__secondary" (click)="openCreateServiceModal()">Crear servicio</button>
+            </div>
+
+            <div class="link-toolbar">
+              <select [value]="serviceLinkId()" (change)="serviceLinkId.set(($any($event.target)).value)">
+                <option value="">Seleccionar servicio existente</option>
+                <option *ngFor="let service of availableServices(); trackBy: trackById" [value]="service.id">{{ service.name }}</option>
+              </select>
+              <button type="button" class="pages-admin__secondary" (click)="linkExistingService()">Vincular</button>
+            </div>
+
+            <div class="entity-list">
+              <article *ngFor="let service of pageServices(); trackBy: trackById" class="entity-card" [class.is-selected]="isEditingEntity('service', service.id)">
+                <button type="button" class="entity-card__body" (click)="openEditServiceModal(service)">
+                  <strong>{{ service.name }}</strong>
+                  <small>{{ service.slug }}</small>
+                  <span>{{ service.ctaLabel }}</span>
+                </button>
+                <div class="entity-card__actions">
+                  <button type="button" class="entity-card__edit" (click)="openEditServiceModal(service)">Editar</button>
+                  <button type="button" class="entity-card__danger" (click)="unlinkService(service)">Quitar</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="detail-card">
+            <div class="detail-card__header">
+              <div>
+                <span class="pages-admin__eyebrow">Paquetes</span>
+                <h3>Paquetes de esta página</h3>
+              </div>
+              <button type="button" class="pages-admin__secondary" (click)="openCreatePackageModal()">Crear paquete</button>
+            </div>
+
+            <div class="link-toolbar">
+              <select [value]="packageLinkId()" (change)="packageLinkId.set(($any($event.target)).value)">
+                <option value="">Seleccionar paquete existente</option>
+                <option *ngFor="let item of availablePackages(); trackBy: trackById" [value]="item.id">{{ packageDisplayName(item) }}</option>
+              </select>
+              <button type="button" class="pages-admin__secondary" (click)="linkExistingPackage()">Vincular</button>
+            </div>
+
+            <div class="entity-list">
+              <article *ngFor="let item of pagePackages(); trackBy: trackById" class="entity-card" [class.is-selected]="isEditingEntity('package', item.id)">
+                <button type="button" class="entity-card__body" (click)="openEditPackageModal(item)">
+                  <strong>{{ packageDisplayName(item) }}</strong>
+                  <small>{{ categorySummary(item.categoryIds) || 'Sin categoría' }}</small>
+                  <span>{{ item.priceLabel || 'Sin precio' }}</span>
+                </button>
+                <div class="entity-card__actions">
+                  <button type="button" class="entity-card__edit" (click)="openEditPackageModal(item)">Editar</button>
+                  <button type="button" class="entity-card__danger" (click)="unlinkPackage(item)">Quitar</button>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyState>
+        <section class="detail-card detail-card--empty">
+          <span class="pages-admin__eyebrow">Páginas</span>
+          <h3>Selecciona una página</h3>
+          <p>Desde aquí la podrás tratar como un contenedor completo: identidad, secciones, servicios y paquetes, pero editando cada elemento dentro de su propio modal.</p>
+        </section>
+      </ng-template>
+    </main>
+  </div>
+
+  <section class="pages-modal" *ngIf="isModalOpen()">
+    <button type="button" class="pages-modal__backdrop" (click)="closeModal()" aria-label="Cerrar"></button>
+
+    <div class="pages-modal__panel">
+      <header class="pages-modal__header">
+        <div>
+          <span class="pages-admin__eyebrow">Editor</span>
+          <h3>{{ modalTitle() }}</h3>
+          <p>{{ modalDescription() }}</p>
+        </div>
+
+        <button type="button" class="pages-modal__close" (click)="closeModal()">Cerrar</button>
+      </header>
+
+      <div class="detail-card__note detail-card__note--danger" *ngIf="formError()">
+        {{ formError() }}
+      </div>
+
+      <form *ngIf="isPageModal()" class="detail-form pages-modal__form" [formGroup]="pageForm" (ngSubmit)="savePageModal()">
+        <section class="modal-group">
+          <div class="modal-group__header">
+            <div>
+              <h4>Identidad de la página</h4>
+              <p>Define el nombre comercial, su ruta y el tipo de experiencia.</p>
+            </div>
+          </div>
+
+          <div class="detail-form__grid">
+            <label>
+              <span>Nombre</span>
+              <input type="text" formControlName="name" placeholder="Ej: Portfolio empresarial" />
+            </label>
+            <label>
+              <span>Slug</span>
+              <input type="text" formControlName="slug" placeholder="portfolio-empresarial" />
+            </label>
+            <label>
+              <span>Ruta</span>
+              <input type="text" formControlName="routePath" placeholder="/portfolio/empresarial" />
+            </label>
+            <label>
+              <span>Tipo</span>
+              <select formControlName="pageType">
+                <option *ngFor="let option of pageTypeOptions" [value]="option.value">{{ option.label }}</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="modal-group">
+          <div class="modal-group__header">
+            <div>
+              <h4>Descripción y SEO</h4>
+              <p>Esto alimenta la lectura comercial y la metadata pública.</p>
+            </div>
+          </div>
+
+          <label>
+            <span>Descripción</span>
+            <textarea rows="4" formControlName="description" placeholder="Qué representa esta página y qué debería vender o mostrar."></textarea>
+          </label>
+
+          <div class="detail-form__grid">
+            <label>
+              <span>Meta title</span>
+              <input type="text" formControlName="metaTitle" placeholder="Título SEO" />
+            </label>
+            <label>
+              <span>Meta description</span>
+              <textarea rows="3" formControlName="metaDescription" placeholder="Descripción SEO"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="modal-group">
+          <div class="modal-group__header">
+            <div>
+              <h4>Publicación</h4>
+              <p>Controla el orden y si esta página ya está visible.</p>
+            </div>
+          </div>
+
+          <div class="detail-form__grid">
+            <label>
+              <span>Status</span>
+              <select formControlName="status">
+                <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+              </select>
+            </label>
+            <label>
+              <span>Orden</span>
+              <input type="number" formControlName="order" />
+            </label>
+            <label class="detail-form__toggle">
+              <span>Estado</span>
+              <div>
+                <input type="checkbox" formControlName="active" />
+                <strong>{{ pageForm.get('active')?.value ? 'Activa' : 'Inactiva' }}</strong>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <div class="detail-card__note" *ngIf="modalMode() === 'create'">
+          Al crearla se genera una estructura inicial con secciones base para que luego puedas configurar servicios, paquetes y bloques de contenido desde esta misma vista.
+        </div>
+
+        <div class="detail-form__actions">
+          <button type="button" class="pages-admin__ghost" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="pages-admin__primary">{{ modalMode() === 'create' ? 'Crear página' : 'Guardar página' }}</button>
+        </div>
+      </form>
+
+      <form *ngIf="isEntityModal()" class="detail-form pages-modal__form" [formGroup]="entityForm" (ngSubmit)="saveEntityModal()">
+        <ng-container [ngSwitch]="modalEntity()">
+          <ng-container *ngSwitchCase="'section'">
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Estructura base</h4>
+                  <p>Nombre, tipo y orden del bloque dentro de la página.</p>
+                </div>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Nombre</span>
+                  <input type="text" formControlName="name" />
+                </label>
+                <label>
+                  <span>Tipo</span>
+                  <select formControlName="type">
+                    <option *ngFor="let option of sectionTypeOptions" [value]="option.value">{{ option.label }}</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Título visible</span>
+                  <input type="text" formControlName="title" />
+                </label>
+                <label>
+                  <span>Orden</span>
+                  <input type="number" formControlName="order" />
+                </label>
+                <label>
+                  <span>Status</span>
+                  <select formControlName="status">
+                    <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Contenido</h4>
+                  <p>Este bloque guarda la copia principal que después consumirá la vista pública.</p>
+                </div>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Subtítulo</span>
+                  <input type="text" formControlName="subtitle" />
+                </label>
+                <label class="detail-form__toggle">
+                  <span>Visibilidad</span>
+                  <div>
+                    <input type="checkbox" formControlName="enabled" />
+                    <strong>{{ entityForm.get('enabled')?.value ? 'Visible' : 'Oculta' }}</strong>
+                  </div>
+                </label>
+              </div>
+
+              <label>
+                <span>Cuerpo</span>
+                <textarea rows="6" formControlName="body"></textarea>
+              </label>
+            </section>
+
+            <section class="modal-group" *ngIf="getSectionEntityOptions().length">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Elementos mostrados</h4>
+                  <p>Selecciona qué servicios, paquetes o recursos deben aparecer dentro de esta sección.</p>
+                </div>
+              </div>
+
+              <div class="quick-add" *ngIf="entityForm.get('type')?.value === 'services' || entityForm.get('type')?.value === 'packages'">
+                <input
+                  type="text"
+                  [value]="quickDraftValue('newSectionEntity')"
+                  (input)="updateQuickDraft('newSectionEntity', ($any($event.target)).value)"
+                  [placeholder]="entityForm.get('type')?.value === 'services' ? 'Crear servicio rápido' : 'Crear paquete rápido'"
+                />
+                <button type="button" class="pages-admin__secondary" (click)="createQuickEntityForSection()">
+                  {{ entityForm.get('type')?.value === 'services' ? 'Agregar servicio' : 'Agregar paquete' }}
+                </button>
+              </div>
+
+              <div class="selector-grid">
+                <label class="selector-card" *ngFor="let option of getSectionEntityOptions(); trackBy: trackById">
+                  <input
+                    type="checkbox"
+                    [checked]="getEntityArrayValues('entityIds').includes(option.id)"
+                    (change)="toggleEntityArrayValue('entityIds', option.id, ($any($event.target)).checked)"
+                  />
+                  <div>
+                    <strong>{{ option.label }}</strong>
+                    <small>{{ option.meta || 'Sin detalle adicional' }}</small>
+                  </div>
+                </label>
+              </div>
+            </section>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'service'">
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Identidad comercial</h4>
+                  <p>Configura cómo se presenta este servicio dentro del sitio.</p>
+                </div>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Nombre</span>
+                  <input type="text" formControlName="name" />
+                </label>
+                <label>
+                  <span>Slug</span>
+                  <input type="text" formControlName="slug" />
+                </label>
+                <label>
+                  <span>Href</span>
+                  <input type="text" formControlName="href" />
+                </label>
+                <label>
+                  <span>CTA</span>
+                  <input type="text" formControlName="ctaLabel" />
+                </label>
+                <label>
+                  <span>Status</span>
+                  <select formControlName="status">
+                    <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Contenido y argumentos de venta</h4>
+                  <p>Usa una línea por punto para que después sea fácil pintarlo en tarjetas o detalles.</p>
+                </div>
+              </div>
+
+              <label>
+                <span>Descripción</span>
+                <textarea rows="5" formControlName="description"></textarea>
+              </label>
+
+              <label>
+                <span>Puntos clave</span>
+                <textarea rows="6" formControlName="pointsText" placeholder="Entrega rápida&#10;Cobertura completa&#10;Edición premium"></textarea>
+              </label>
+
+              <div class="line-list" *ngIf="getControlLines('pointsText').length">
+                <article class="line-chip" *ngFor="let point of getControlLines('pointsText'); let index = index; trackBy: trackByValue">
+                  <span>{{ point }}</span>
+                  <button type="button" (click)="removeLineFromControl('pointsText', index)">Quitar</button>
+                </article>
+              </div>
+
+              <div class="quick-add">
+                <input
+                  type="text"
+                  [value]="quickDraftValue('newPoint')"
+                  (input)="updateQuickDraft('newPoint', ($any($event.target)).value)"
+                  placeholder="Agregar punto clave"
+                />
+                <button type="button" class="pages-admin__secondary" (click)="appendDraftLine('pointsText', 'newPoint')">Añadir punto</button>
+              </div>
+
+              <div class="selector-block">
+                <span class="selector-block__title">Categorías del servicio</span>
+                <div class="selector-grid">
+                  <label class="selector-card" *ngFor="let category of categoryOptions('service'); trackBy: trackById">
+                    <input
+                      type="checkbox"
+                      [checked]="getEntityArrayValues('categoryIds').includes(category.id)"
+                      (change)="toggleEntityArrayValue('categoryIds', category.id, ($any($event.target)).checked)"
+                    />
+                    <div>
+                      <strong>{{ category.name }}</strong>
+                      <small>{{ category.slug }}</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Media y publicación</h4>
+                  <p>Puedes usar una URL directa, seleccionar un recurso existente o subir una imagen desde tu equipo.</p>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-upload__button">
+                  <input
+                    class="file-upload__input"
+                    type="file"
+                    accept="image/*"
+                    (change)="onLocalImageSelected($event, { mediaControl: 'mediaId', namePrefix: entityForm.get('name')?.value || 'Servicio' })"
+                  />
+                  <span>Subir imagen desde archivos</span>
+                </label>
+                <button type="button" class="pages-admin__ghost" (click)="clearImageSelection('mediaId')">Limpiar imagen</button>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Media vinculada</span>
+                  <select formControlName="mediaId">
+                    <option value="">Sin media vinculada</option>
+                    <option *ngFor="let media of allMedia(); trackBy: trackById" [value]="media.id">{{ media.name }}</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Orden</span>
+                  <input type="number" formControlName="order" />
+                </label>
+                <label class="detail-form__toggle">
+                  <span>Estado</span>
+                  <div>
+                    <input type="checkbox" formControlName="active" />
+                    <strong>{{ entityForm.get('active')?.value ? 'Activo' : 'Inactivo' }}</strong>
+                  </div>
+                </label>
+              </div>
+
+              <div class="image-preview" *ngIf="previewMediaUrl() as imageUrl">
+                <ng-container *ngIf="imageUrl">
+                  <img [src]="imageUrl" alt="Preview de servicio" />
+                </ng-container>
+              </div>
+            </section>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'package'">
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Identidad del paquete</h4>
+                  <p>Información base para distinguirlo comercialmente y ordenarlo dentro de la página.</p>
+                </div>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Nombre</span>
+                  <input type="text" formControlName="name" />
+                </label>
+                <label>
+                  <span>Slug</span>
+                  <input type="text" formControlName="slug" />
+                </label>
+                <label>
+                  <span>Tipo de paquete</span>
+                  <input type="text" formControlName="packageTypeLabel" placeholder="Paquete principal" />
+                </label>
+                <label>
+                  <span>Status</span>
+                  <select formControlName="status">
+                    <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Categorías</h4>
+                  <p>Las categorías ahora son entidades reutilizables, no strings sueltos.</p>
+                </div>
+              </div>
+
+              <div class="selector-grid">
+                <label class="selector-card" *ngFor="let category of categoryOptions('package'); trackBy: trackById">
+                  <input
+                    type="checkbox"
+                    [checked]="getEntityArrayValues('categoryIds').includes(category.id)"
+                    (change)="toggleEntityArrayValue('categoryIds', category.id, ($any($event.target)).checked)"
+                  />
+                  <div>
+                    <strong>{{ category.name }}</strong>
+                    <small>{{ category.slug }}</small>
+                  </div>
+                </label>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Oferta comercial</h4>
+                  <p>Aquí defines la promesa, el precio visible y el detalle interno del cobro.</p>
+                </div>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Precio visible</span>
+                  <input type="text" formControlName="priceLabel" />
+                </label>
+                <label>
+                  <span>Precio base numérico</span>
+                  <input type="number" formControlName="basePrice" />
+                </label>
+                <label>
+                  <span>Orden</span>
+                  <input type="number" formControlName="order" />
+                </label>
+                <label class="detail-form__toggle">
+                  <span>Estado</span>
+                  <div>
+                    <input type="checkbox" formControlName="active" />
+                    <strong>{{ entityForm.get('active')?.value ? 'Activo' : 'Inactivo' }}</strong>
+                  </div>
+                </label>
+              </div>
+
+              <label>
+                <span>Resumen</span>
+                <textarea rows="5" formControlName="summary"></textarea>
+              </label>
+
+              <div class="detail-form__grid detail-form__grid--stacked">
+                <label>
+                  <span>Líneas de precio</span>
+                  <textarea rows="5" formControlName="priceLinesText" placeholder="Cobertura 6 horas&#10;Entrega digital&#10;Sesión previa"></textarea>
+                </label>
+                <label>
+                  <span>Notas internas o comerciales</span>
+                  <textarea rows="5" formControlName="notesText" placeholder="Reserva con anticipo&#10;Incluye desplazamiento local"></textarea>
+                </label>
+              </div>
+
+              <div class="line-list" *ngIf="getControlLines('priceLinesText').length">
+                <article class="line-chip" *ngFor="let line of getControlLines('priceLinesText'); let index = index; trackBy: trackByValue">
+                  <span>{{ line }}</span>
+                  <button type="button" (click)="removeLineFromControl('priceLinesText', index)">Quitar</button>
+                </article>
+              </div>
+
+              <div class="quick-add">
+                <input
+                  type="text"
+                  [value]="quickDraftValue('newPriceLine')"
+                  (input)="updateQuickDraft('newPriceLine', ($any($event.target)).value)"
+                  placeholder="Agregar línea de precio"
+                />
+                <button type="button" class="pages-admin__secondary" (click)="appendDraftLine('priceLinesText', 'newPriceLine')">Añadir línea</button>
+              </div>
+
+              <div class="line-list" *ngIf="getControlLines('notesText').length">
+                <article class="line-chip" *ngFor="let note of getControlLines('notesText'); let index = index; trackBy: trackByValue">
+                  <span>{{ note }}</span>
+                  <button type="button" (click)="removeLineFromControl('notesText', index)">Quitar</button>
+                </article>
+              </div>
+
+              <div class="quick-add">
+                <input
+                  type="text"
+                  [value]="quickDraftValue('newNote')"
+                  (input)="updateQuickDraft('newNote', ($any($event.target)).value)"
+                  placeholder="Agregar nota comercial"
+                />
+                <button type="button" class="pages-admin__secondary" (click)="appendDraftLine('notesText', 'newNote')">Añadir nota</button>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Relaciones del paquete</h4>
+                  <p>Selecciona qué servicios base, extras y beneficios componen la oferta.</p>
+                </div>
+              </div>
+
+              <div class="selector-block">
+                <span class="selector-block__title">Servicios incluidos</span>
+                <div class="quick-add">
+                  <input
+                    type="text"
+                    [value]="quickDraftValue('newPackageService')"
+                    (input)="updateQuickDraft('newPackageService', ($any($event.target)).value)"
+                    placeholder="Crear servicio rápido"
+                  />
+                  <button type="button" class="pages-admin__secondary" (click)="createQuickServiceForPackage()">Crear servicio</button>
+                </div>
+                <div class="selector-grid">
+                  <label class="selector-card" *ngFor="let service of pageServices(); trackBy: trackById">
+                    <input
+                      type="checkbox"
+                      [checked]="getEntityArrayValues('serviceIds').includes(service.id)"
+                      (change)="toggleEntityArrayValue('serviceIds', service.id, ($any($event.target)).checked)"
+                    />
+                    <div>
+                      <strong>{{ service.name }}</strong>
+                      <small>{{ service.ctaLabel }}</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="selector-block">
+                <span class="selector-block__title">Servicios adicionales</span>
+                <div class="quick-add">
+                  <input
+                    type="text"
+                    [value]="quickDraftValue('newAdditionalService')"
+                    (input)="updateQuickDraft('newAdditionalService', ($any($event.target)).value)"
+                    placeholder="Crear adicional rápido"
+                  />
+                  <button type="button" class="pages-admin__secondary" (click)="createQuickAdditionalService()">Crear adicional</button>
+                </div>
+                <div class="selector-grid">
+                  <label class="selector-card" *ngFor="let item of allAdditionalServices(); trackBy: trackById">
+                    <input
+                      type="checkbox"
+                      [checked]="getEntityArrayValues('additionalServiceIds').includes(item.id)"
+                      (change)="toggleEntityArrayValue('additionalServiceIds', item.id, ($any($event.target)).checked)"
+                    />
+                    <div>
+                      <strong>{{ additionalServiceDisplayName(item) }}</strong>
+                      <small>{{ item.priceLabel }}</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="selector-block">
+                <span class="selector-block__title">Beneficios y features</span>
+                <div class="quick-add">
+                  <input
+                    type="text"
+                    [value]="quickDraftValue('newFeature')"
+                    (input)="updateQuickDraft('newFeature', ($any($event.target)).value)"
+                    placeholder="Crear feature rápido"
+                  />
+                  <button type="button" class="pages-admin__secondary" (click)="createQuickFeature()">Crear feature</button>
+                </div>
+                <div class="selector-grid">
+                  <label class="selector-card" *ngFor="let feature of allPackageFeatures(); trackBy: trackById">
+                    <input
+                      type="checkbox"
+                      [checked]="getEntityArrayValues('featureIds').includes(feature.id)"
+                      (change)="toggleEntityArrayValue('featureIds', feature.id, ($any($event.target)).checked)"
+                    />
+                    <div>
+                      <strong>{{ featureDisplayName(feature) }}</strong>
+                      <small>{{ categorySummary(feature.categoryIds) || 'Sin categoría' }}</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="modal-group">
+              <div class="modal-group__header">
+                <div>
+                  <h4>Portada y visibilidad</h4>
+                  <p>Controla la imagen principal, ya sea con URL, media existente o subida desde archivos.</p>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-upload__button">
+                  <input
+                    class="file-upload__input"
+                    type="file"
+                    accept="image/*"
+                    (change)="onLocalImageSelected($event, { mediaControl: 'mediaId', namePrefix: entityForm.get('name')?.value || 'Paquete' })"
+                  />
+                  <span>Subir portada desde archivos</span>
+                </label>
+                <button type="button" class="pages-admin__ghost" (click)="clearImageSelection('mediaId')">Limpiar imagen</button>
+              </div>
+
+              <div class="detail-form__grid">
+                <label>
+                  <span>Media vinculada</span>
+                  <select formControlName="mediaId">
+                    <option value="">Sin media vinculada</option>
+                    <option *ngFor="let media of allMedia(); trackBy: trackById" [value]="media.id">{{ media.name }}</option>
+                  </select>
+                </label>
+                <label class="detail-form__toggle">
+                  <span>Destacado</span>
+                  <div>
+                    <input type="checkbox" formControlName="featured" />
+                    <strong>{{ entityForm.get('featured')?.value ? 'Sí' : 'No' }}</strong>
+                  </div>
+                </label>
+              </div>
+
+              <div class="image-preview" *ngIf="previewMediaUrl() as coverImageUrl">
+                <ng-container *ngIf="coverImageUrl">
+                  <img [src]="coverImageUrl" alt="Preview de portada" />
+                </ng-container>
+              </div>
+            </section>
+          </ng-container>
+        </ng-container>
+
+        <div class="detail-form__actions">
+          <button type="button" class="pages-admin__ghost" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="pages-admin__primary" [disabled]="isUploadingMedia()">
+            {{ isUploadingMedia() ? 'Subiendo archivos...' : (modalMode() === 'create' ? 'Crear' : 'Guardar cambios') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</section>

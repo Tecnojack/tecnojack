@@ -1,0 +1,111 @@
+:host {
+    display: contents;
+}
+
+.service-package-request__terms a {
+    color: var(--portfolio-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.service-package-modal {
+    z-index: 160;
+}
+
+.video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 160;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.video-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(2, 9, 12, 0.82);
+    backdrop-filter: blur(14px);
+    cursor: pointer;
+}
+
+.video-modal__panel {
+    position: relative;
+    z-index: 1;
+    width: min(1100px, 100%);
+    display: grid;
+    gap: 18px;
+    padding: 22px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        radial-gradient(circle at top right, rgba(0, 151, 178, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(7, 21, 26, 0.98), rgba(8, 20, 25, 0.96));
+    box-shadow: 0 34px 110px rgba(0, 0, 0, 0.56);
+}
+
+.video-modal__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.video-modal__topbar h2 {
+    margin: 0;
+    color: var(--portfolio-text);
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+    line-height: 1.2;
+}
+
+.video-modal__close {
+    min-height: var(--portfolio-button-height, 46px);
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--portfolio-text);
+    cursor: pointer;
+}
+
+.video-modal__frame {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #000;
+}
+
+.video-modal__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+@media (max-width: 699px) {
+    .video-modal {
+        padding: 14px;
+    }
+
+    .video-modal__panel {
+        padding: 16px;
+    }
+
+    .video-modal__topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 860px) {
+    .video-modal__topbar {
+        flex-wrap: wrap;
+    }
+
+    .video-modal__close {
+        width: 100%;
+        justify-content: center;
+    }
+}

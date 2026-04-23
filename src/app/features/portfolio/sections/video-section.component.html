@@ -1,0 +1,33 @@
+<section class="portfolio-section video-section" id="video">
+    <div class="section-heading" tjRevealOnScroll>
+        <p>{{ heading().eyebrow }}</p>
+        <h2 class="heading-lg">{{ heading().title }}</h2>
+        <p class="text-body text-muted" *ngIf="heading().lead">{{ heading().lead }}</p>
+    </div>
+
+    <div class="video-wall">
+        <article
+            class="video-card"
+            *ngFor="let item of items; let index = index"
+            tjRevealOnScroll
+            [class.reveal--left]="index % 2 === 0"
+            [class.reveal--right]="index % 2 !== 0">
+            <div class="video-card__frame">
+                <div class="video-card__play" aria-hidden="true">▶</div>
+                <iframe
+                    [src]="item.embedUrl"
+                    [title]="item.title"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card__body">
+                <span>{{ item.format }} · {{ item.duration }}</span>
+                <h3 class="heading-md">{{ item.title }}</h3>
+                <p class="text-body text-muted">{{ item.description }}</p>
+            </div>
+        </article>
+    </div>
+</section>

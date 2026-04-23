@@ -1,0 +1,309 @@
+<div class="video-modal" *ngIf="video">
+    <button class="video-modal__backdrop" type="button" (click)="closeModal()" aria-label="Cerrar video"></button>
+
+    <div class="video-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="video.title">
+        <div class="video-modal__topbar">
+            <h2>{{ video.title }}</h2>
+            <button class="video-modal__close btn-text" type="button" (click)="closeModal()">Cerrar</button>
+        </div>
+
+        <div class="video-modal__frame" *ngIf="embedUrl as safeUrl">
+            <iframe
+                [src]="safeUrl"
+                [title]="video.title"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</div>
+
+<div class="service-package-modal" *ngIf="videoPackage as pkg">
+    <button class="service-package-modal__backdrop" type="button" (click)="closeModal()" aria-label="Cerrar detalle"></button>
+
+    <div class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + pkg.name">
+        <div class="service-package-modal__header">
+            <div>
+                <p>Experiencia de detalle</p>
+                <h2 class="heading-lg">{{ pkg.name }}</h2>
+            </div>
+
+            <div class="service-package-modal__header-actions">
+                <button class="service-package-modal__ghost btn-text" type="button" *ngIf="modalStep() === 'request'" (click)="returnToDetail()">
+                    Volver al detalle
+                </button>
+                <button class="service-package-modal__close btn-text" type="button" (click)="closeModal()">Cerrar</button>
+            </div>
+        </div>
+
+        <ng-container *ngIf="modalStep() === 'detail'; else requestStep">
+            <div class="service-package-modal__body service-package-modal__body--detail">
+                <div class="service-package-modal__intro">
+                    <div class="service-package-modal__visuals">
+                        <article class="service-package-modal__visual">
+                            <img
+                                tjFallbackImage
+                                [src]="packageHeroImage(pkg)"
+                                [alt]="pkg.name"
+                                loading="lazy"
+                                decoding="async" />
+                            <div class="service-package-modal__visual-editor">
+                                <strong class="service-package-modal__price">
+                                    {{ packagePriceLabel() }}
+                                </strong>
+                                <p class="text-body text-muted">{{ pkg.description }}</p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="service-package-modal__sections service-package-modal__sections--secondary" *ngIf="detailSecondarySections().length">
+                        <article class="service-package-modal__section" *ngFor="let section of detailSecondarySections()">
+                            <h3 class="heading-md">{{ section.title }}</h3>
+                            <ul>
+                                <li *ngFor="let item of section.items">{{ item }}</li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="service-package-modal__sections">
+                    <article class="service-package-modal__section" *ngFor="let section of detailPrimarySections()">
+                        <h3 class="heading-md">{{ section.title }}</h3>
+                        <ul>
+                            <li *ngFor="let item of section.items">{{ item }}</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+
+            <div class="service-package-modal__footer">
+                <button class="service-package-modal__primary btn-text" type="button" (click)="startRequest('base')">
+                    Solicitar
+                </button>
+                <button class="service-package-modal__secondary btn-text" type="button" (click)="startRequest('custom')">
+                    Personalizar solicitud
+                </button>
+            </div>
+        </ng-container>
+
+        <ng-template #requestStep>
+            <div class="service-package-modal__body service-package-modal__body--request">
+                <details class="service-package-request__accordion" open>
+                    <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
+                <div class="service-package-request__form">
+                    <div class="service-package-request__head">
+                        <p>Solicitud</p>
+                        <h3 class="heading-md">Completa los datos para continuar</h3>
+                    </div>
+
+                    <div class="service-package-request__fields">
+                        <label class="service-package-request__field">
+                            <span>Nombre</span>
+                            <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Teléfono</span>
+                            <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="Tu número" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Ciudad</span>
+                            <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del proyecto" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Fecha estimada</span>
+                            <input type="text" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" placeholder="Ej. 20 de junio de 2026" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Locación</span>
+                            <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Estudio, exterior o locación" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Participantes</span>
+                            <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 4" />
+                        </label>
+
+                        <label class="service-package-request__field service-package-request__field--full">
+                            <span>Notas</span>
+                            <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="4" placeholder="Cuéntanos qué quieres priorizar."></textarea>
+                        </label>
+                    </div>
+                </div>
+                </details>
+
+                <details class="service-package-request__accordion" open>
+                    <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
+                    <div class="service-package-request__builder">
+                        <section class="service-package-request__group">
+                            <div class="service-package-request__group-head">
+                                <p>Tipo de solicitud</p>
+                                <span>Decide si quieres usar el paquete base o armar una versión personalizada.</span>
+                            </div>
+
+                            <div class="service-package-request__mode-grid">
+                                <label class="service-package-request__option service-package-request__option--mode">
+                                    <input type="radio" name="videoRequestMode" [checked]="requestMode() === 'base'" (change)="updateRequestMode('base')" />
+                                    <span>
+                                        Usar paquete base
+                                        <small>Muestra el resumen del paquete con adicionales seleccionables.</small>
+                                    </span>
+                                </label>
+
+                                <label class="service-package-request__option service-package-request__option--mode">
+                                    <input type="radio" name="videoRequestMode" [checked]="requestMode() === 'custom'" (change)="updateRequestMode('custom')" />
+                                    <span>
+                                        Personalizar paquete
+                                        <small>Permite elegir servicios del paquete y adicionales sin calcular precio.</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+                </details>
+
+                <details class="service-package-request__accordion" *ngIf="baseQuoteOptions().length" open>
+                    <summary class="service-package-request__accordion-summary">Paquete base</summary>
+                    <div class="service-package-request__builder">
+                        <section class="service-package-request__group">
+                            <div class="service-package-request__group-head">
+                                <p>Paquete base</p>
+                                <span>Referencia visible del paquete que tomamos como base para la propuesta.</span>
+                            </div>
+
+                            <div class="service-package-request__option-grid">
+                                <label class="service-package-request__option" *ngFor="let option of baseQuoteOptions()">
+                                    <input type="radio" name="videoBaseQuote" [checked]="selectedBaseQuote()?.id === option.id" (change)="updateBaseQuote(option.id)" />
+                                    <span>{{ option.label }}</span>
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+                </details>
+
+                <details class="service-package-request__accordion" open>
+                    <summary class="service-package-request__accordion-summary">Servicios incluidos y entregables</summary>
+                    <div class="service-package-request__builder">
+                        <section class="service-package-request__group" *ngFor="let group of fixedIncludedGroups()">
+                            <div class="service-package-request__group-head">
+                                <p>{{ requestMode() === 'base' ? 'Servicios incluidos' : 'Servicios del paquete' }}</p>
+                                <span>{{ requestMode() === 'base' ? 'Estos servicios ya forman parte del paquete base.' : 'Marca los servicios que quieres conservar en tu paquete personalizado.' }}</span>
+                            </div>
+
+                            <div class="service-package-request__included-list" *ngIf="requestMode() === 'base'; else customServices">
+                                <article class="service-package-request__included-item" *ngFor="let option of group.options">
+                                    <strong>{{ option.label }}</strong>
+                                </article>
+                            </div>
+
+                            <ng-template #customServices>
+                                <div class="service-package-request__option-grid">
+                                    <label class="service-package-request__option" *ngFor="let option of group.options">
+                                        <input type="checkbox" [checked]="isOptionSelected(option.id)" (change)="toggleRequestOption(option.id, $any($event.target).checked)" />
+                                        <span>{{ option.label }}</span>
+                                    </label>
+                                </div>
+                            </ng-template>
+                        </section>
+                    </div>
+                </details>
+
+                <details class="service-package-request__accordion" *ngIf="customAdditionalGroups().length">
+                    <summary class="service-package-request__accordion-summary">Servicios adicionales</summary>
+                    <div class="service-package-request__builder">
+                        <section class="service-package-request__group" *ngFor="let group of customAdditionalGroups()">
+                            <div class="service-package-request__group-head">
+                                <p>Servicios adicionales</p>
+                                <span>{{ group.description }}</span>
+                            </div>
+
+                            <div class="service-package-request__upsell-grid">
+                                <article class="service-package-request__upsell" *ngFor="let option of group.options">
+                                    <div class="service-package-request__upsell-copy">
+                                        <strong>{{ option.name }}</strong>
+                                        <p class="text-body text-muted" *ngIf="option.description">
+                                            {{ option.description }}
+                                        </p>
+                                    </div>
+
+                                    <div class="service-package-request__upsell-actions">
+                                        <span class="service-package-request__upsell-price" *ngIf="option.price">{{ formatCop(option.price) }} COP</span>
+                                        <button
+                                            class="service-package-request__upsell-btn btn-text"
+                                            type="button"
+                                            [attr.aria-pressed]="isOptionSelected(option.id)"
+                                            [attr.title]="isOptionSelected(option.id) ? 'Clic para quitar' : 'Clic para agregar'"
+                                            [class.is-added]="isOptionSelected(option.id)"
+                                            (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
+                                            {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </section>
+                    </div>
+                </details>
+
+                <details class="service-package-request__accordion" open>
+                    <summary class="service-package-request__accordion-summary">Resumen de la solicitud</summary>
+                <aside class="service-package-request__summary">
+                    <p>Resumen de solicitud</p>
+                    <div class="service-package-request__summary-card">
+                        <span>Tipo de servicio</span>
+                        <strong>Video</strong>
+                    </div>
+                    <div class="service-package-request__summary-card">
+                        <span>Modalidad</span>
+                        <strong>{{ requestMode() === 'base' ? 'Usar paquete base' : 'Personalizar paquete' }}</strong>
+                    </div>
+                    <div class="service-package-request__summary-card" *ngIf="selectedBaseQuote()?.label">
+                        <span>Paquete base</span>
+                        <strong>{{ selectedBaseQuote()?.label }}</strong>
+                    </div>
+
+                    <div class="service-package-request__summary-block">
+                        <span>Servicios seleccionados</span>
+                        <ul>
+                            <li *ngFor="let item of requestSummaryServices()">{{ item }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-package-request__summary-block" *ngIf="requestSummaryAdditionalsDetailed().length">
+                        <span>Adicionales seleccionados</span>
+                        <ul>
+                            <li *ngFor="let item of requestSummaryAdditionalsDetailed()">{{ item.name }} — {{ item.priceLabel }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-package-request__summary-card" *ngIf="requestTotalLabel()">
+                        <span>Total estimado</span>
+                        <strong>{{ requestTotalLabel() }}</strong>
+                    </div>
+
+                    <label class="service-package-request__option service-package-request__terms">
+                        <input type="checkbox" [checked]="hasAcceptedTerms()" (change)="hasAcceptedTerms.set($any($event.target).checked)" />
+                        <span>
+                            Acepto los
+                            <a href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
+                        </span>
+                    </label>
+
+                    <a
+                        class="service-package-request__submit btn-text"
+                        [href]="requestWhatsappHref()"
+                        target="_blank"
+                        rel="noopener"
+                        [class.is-disabled]="!hasAcceptedTerms()"
+                        [attr.aria-disabled]="!hasAcceptedTerms()"
+                        (click)="guardRequestSubmit($event)">
+                        {{ requestSubmitLabel() }}
+                    </a>
+                </aside>
+                </details>
+            </div>
+        </ng-template>
+    </div>
+</div>

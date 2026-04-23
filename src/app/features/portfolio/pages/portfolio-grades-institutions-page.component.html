@@ -1,0 +1,120 @@
+<tj-portfolio-shell [navItems]="navItems" subtitle="Grados · Instituciones" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
+    <section
+        class="portfolio-section grades-institutions-hero service-category-hero"
+        [style.--category-hero-image]="'url(' + heroBackgroundImage + ')'">
+        <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+        <div class="service-category-hero__content">
+            <div class="grades-institutions-hero__copy">
+                <p class="service-category-hero__eyebrow">Propuesta institucional</p>
+                <h1 class="heading-xl">{{ heroTitle }}</h1>
+                <p class="text-body text-muted">{{ heroLead }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section">
+        <div class="container grades-institutions-section__content">
+            <header class="grades-institutions-section__head">
+                <h2 class="heading-lg">Modelo de servicio</h2>
+                <p class="text-body text-muted">{{ serviceModelText }}</p>
+            </header>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section grades-institutions-section--investment">
+        <div class="container grades-institutions-section__content">
+            <header class="grades-institutions-section__head">
+                <h2 class="heading-lg">Inversión</h2>
+            </header>
+
+            <div class="grades-institutions-investment">
+                <div class="grades-institutions-investment__main">
+                    <span class="grades-institutions-investment__label">Precio base</span>
+                    <strong class="grades-institutions-investment__value">${{ formatCop(baseInvestmentCop) }} por estudiante</strong>
+                </div>
+                <p class="grades-institutions-investment__note text-body text-muted">Mínimo requerido: {{ minStudents }} estudiantes</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section">
+        <div class="container grades-institutions-section__content">
+            <header class="grades-institutions-section__head">
+                <h2 class="heading-lg">Qué incluye</h2>
+            </header>
+
+            <ul class="grades-institutions-list">
+                <li class="text-body" *ngFor="let item of includesList">{{ item }}</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section">
+        <div class="container grades-institutions-section__content">
+            <article class="grades-institutions-video">
+                <header class="grades-institutions-video__head">
+                    <h2 class="heading-lg">Video institucional</h2>
+                    <p class="text-body text-muted">Un bloque audiovisual opcional para elevar la entrega final ante la institución y las familias.</p>
+                </header>
+
+                <div class="grades-institutions-video__card">
+                    <div class="grades-institutions-video__top">
+                        <div>
+                            <h3 class="heading-md">{{ institutionalVideo.title }}</h3>
+                            <p class="text-body text-muted">Producción audiovisual del evento</p>
+                        </div>
+                        <strong class="grades-institutions-video__price">${{ formatCop(institutionalVideo.priceCop) }}</strong>
+                    </div>
+
+                    <ul class="grades-institutions-list grades-institutions-list--compact">
+                        <li class="text-body" *ngFor="let item of institutionalVideo.items">{{ item }}</li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section">
+        <div class="container grades-institutions-section__content">
+            <header class="grades-institutions-section__head">
+                <h2 class="heading-lg">Adicionales</h2>
+                <p class="text-body text-muted">Complementos opcionales para ampliar la experiencia de cada estudiante.</p>
+            </header>
+
+            <div class="grades-institutions-additionals">
+                <article class="grades-institutions-additional" *ngFor="let item of additionals">
+                    <div class="grades-institutions-additional__top">
+                        <strong class="heading-md">{{ item.name }}</strong>
+                        <span class="grades-institutions-additional__price">${{ formatCop(item.priceCop) }}</span>
+                    </div>
+                    <p class="text-body text-muted">{{ item.description }}</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section">
+        <div class="container grades-institutions-section__content">
+            <header class="grades-institutions-section__head">
+                <h2 class="heading-lg">Condiciones</h2>
+            </header>
+
+            <ul class="grades-institutions-list grades-institutions-list--compact">
+                <li class="text-body" *ngFor="let item of conditions">{{ item }}</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="portfolio-section grades-institutions-section grades-institutions-section--cta">
+        <div class="container grades-institutions-section__content">
+            <div class="grades-institutions-cta">
+                <div class="grades-institutions-cta__copy">
+                    <h2 class="heading-lg">Listos para coordinar tu ceremonia</h2>
+                    <p class="text-body text-muted">Escríbenos por WhatsApp y te enviamos la propuesta según tu institución, fecha y cantidad de estudiantes.</p>
+                </div>
+
+                <a class="btn grades-institutions-cta__btn" [href]="ctaHref" target="_blank" rel="noopener">Solicitar propuesta</a>
+            </div>
+        </div>
+    </section>
+</tj-portfolio-shell>

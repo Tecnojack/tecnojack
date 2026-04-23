@@ -1,6 +1,7 @@
-<tj-travel-background />
+<tj-travel-background *ngIf="showTravelShell" />
 
 <button
+    *ngIf="showTravelShell"
     type="button"
     class="btn secondary app-audio-toggle"
     (click)="audio.toggle()"

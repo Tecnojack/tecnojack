@@ -1,0 +1,28 @@
+:host {
+    display: block;
+}
+
+.service-package-request__terms {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.service-package-request__terms input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.service-package-request__terms a {
+    color: var(--portfolio-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.service-package-request__submit.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    filter: saturate(0.8);
+}

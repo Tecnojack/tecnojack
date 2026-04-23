@@ -1,0 +1,11 @@
+<button class="video-card" type="button" (click)="handleOpen()" [attr.aria-label]="'Abrir video ' + video.title">
+    <div class="video-card__thumb-wrap">
+        <img class="video-card__thumb" tjFallbackImage [src]="video.thumbnail" [alt]="video.title" loading="lazy" decoding="async" />
+        <div class="video-card__overlay" aria-hidden="true"></div>
+        <div class="video-card__play" aria-hidden="true">▶</div>
+    </div>
+
+    <div class="video-card__body">
+        <h3>{{ video.title }}</h3>
+    </div>
+</button>

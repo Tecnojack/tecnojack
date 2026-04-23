@@ -1,0 +1,46 @@
+<section class="portfolio-section group-graduation-section" id="grades-packages">
+    <div class="group-graduation-section__heading" tjRevealOnScroll>
+        <p>Paquetes de grados</p>
+        <h2 class="heading-lg">{{ packageInfo.title }}</h2>
+    </div>
+
+    <div class="group-graduation-section__grid">
+        <article class="group-package-card reveal reveal--left" tjRevealOnScroll>
+            <span class="group-package-card__tag">Paquete</span>
+            <h3 class="heading-md">{{ packageInfo.packageName }}</h3>
+            <strong>{{ packageInfo.price }}</strong>
+
+            <div class="group-package-card__list">
+                <p>Incluye:</p>
+                <ul>
+                    <li *ngFor="let feature of packageInfo.features">{{ feature }}</li>
+                </ul>
+            </div>
+
+            <a class="group-package-card__cta btn-text" [href]="detailHref">
+                Ver detalle
+            </a>
+        </article>
+
+        <div class="group-package-visual reveal reveal--right" tjRevealOnScroll>
+            <img src="assets/images/galery/M&D-15.jpg" alt="Cobertura visual para grados grupales" loading="lazy" decoding="async" />
+        </div>
+    </div>
+
+    <div class="group-graduation-section__shots" tjRevealOnScroll>
+        <div class="group-graduation-section__shots-head">
+            <p>Fotos sugeridas a tomar:</p>
+        </div>
+
+        <div class="group-shots-grid">
+            <article class="group-shot-card" *ngFor="let shot of suggestedShots">
+                <div class="group-shot-card__media">
+                    <img [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
+                </div>
+                <div class="group-shot-card__body">
+                    <strong class="heading-md">{{ shot.title }}</strong>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>

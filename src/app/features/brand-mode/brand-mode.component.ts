@@ -18,7 +18,7 @@ export class BrandModeComponent {
   readonly services: Array<{ title: string; description: string; href: string; icon: string }> = [
     {
       title: 'Audiovisual para bodas',
-      description: 'Foto y video: cobertura, highlights, reels y recuerdo completo.',
+      description: 'Foto y video: cobertura, momentos clave, reels y recuerdo completo.',
       href: this.waLink('Hola TECNOJACK, quiero cotizar audiovisual para boda (foto/video).'),
       icon: 'assets/images/icons/plane.svg'
     },

@@ -1,0 +1,55 @@
+<section class="portfolio-section quince-packages-section" id="quince-packages">
+    <div class="quince-packages-section__heading" tjRevealOnScroll>
+        <p>Quinceañeros</p>
+        <h2 class="heading-lg">{{ title }}</h2>
+    </div>
+
+    <div class="quince-pricing-grid">
+        <article
+            class="quince-pricing-card"
+            *ngFor="let plan of plans; let index = index"
+            tjRevealOnScroll
+            [class.quince-pricing-card--featured]="plan.featured"
+            [class.reveal--left]="index % 2 === 0"
+            [class.reveal--right]="index % 2 !== 0">
+            <div class="quince-pricing-card__badges">
+                <span class="quince-pricing-card__tag">{{ plan.featured ? 'Premium' : 'Plan' }}</span>
+                <span class="quince-pricing-card__status" *ngIf="plan.featured">Destacado</span>
+            </div>
+            <h3 class="heading-md">{{ plan.name }}</h3>
+
+            <div class="quince-pricing-card__price-block" *ngIf="plan.priceLines.length">
+                <p>Precio:</p>
+                <strong *ngFor="let line of plan.priceLines">{{ line }}</strong>
+            </div>
+
+            <div class="quince-pricing-card__list-block">
+                <p>Incluye:</p>
+                <ul>
+                    <li *ngFor="let item of plan.items">{{ item }}</li>
+                </ul>
+            </div>
+
+            <a class="quince-pricing-card__cta btn-text" [href]="planDetailHref(plan.slug)">
+                Ver detalle
+            </a>
+        </article>
+    </div>
+
+    <div class="quince-additionals" tjRevealOnScroll>
+        <div class="quince-additionals__heading">
+            <p>Adicionales</p>
+        </div>
+
+        <div class="quince-additionals__grid">
+            <article class="quince-additionals__card" *ngFor="let item of additionals">
+                <strong class="heading-md">{{ item.title }}</strong>
+                <span>{{ item.price }}</span>
+            </article>
+        </div>
+    </div>
+
+    <div class="quince-package-notes" tjRevealOnScroll>
+        <p class="text-body text-muted" *ngFor="let note of notes">{{ note }}</p>
+    </div>
+</section>

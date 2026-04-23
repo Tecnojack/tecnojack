@@ -1,0 +1,23 @@
+<section class="portfolio-section services-section" id="services">
+    <div class="section-heading" tjRevealOnScroll>
+        <p>{{ heading.eyebrow }}</p>
+        <h2 class="heading-lg">{{ heading.title }}</h2>
+        <p class="text-body text-muted" *ngIf="heading.lead">{{ heading.lead }}</p>
+    </div>
+
+    <div class="services-grid">
+        <article
+            class="service-card"
+            *ngFor="let service of services; let index = index"
+            tjRevealOnScroll
+            [class.reveal--left]="index % 2 === 0"
+            [class.reveal--right]="index % 2 !== 0">
+            <div class="service-card__body">
+                <span class="service-card__index">0{{ index + 1 }}</span>
+                <h3 class="heading-md">{{ service.title }}</h3>
+                <p class="text-body text-muted">{{ service.description }}</p>
+                <a class="service-card__cta btn-text" [href]="service.href">{{ service.ctaLabel || 'Ver paquetes' }}</a>
+            </div>
+        </article>
+    </div>
+</section>

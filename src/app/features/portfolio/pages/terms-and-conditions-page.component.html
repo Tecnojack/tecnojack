@@ -1,0 +1,34 @@
+<tj-portfolio-shell [navItems]="navItems" subtitle="Legal" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp" [editable]="editable">
+    <section class="portfolio-section terms-hero" aria-label="Términos y Condiciones">
+        <div class="terms-hero__inner">
+            <p class="terms-hero__eyebrow">Legal</p>
+            <h1 class="heading-xl">{{ heroTitle }}</h1>
+            <p class="terms-hero__lead text-body text-muted">{{ heroDescription }}</p>
+        </div>
+    </section>
+
+    <section class="portfolio-section terms-content" aria-label="Contenido de Términos y Condiciones">
+        <div class="terms-content__inner">
+            <div class="terms-sections" role="list">
+                <details class="terms-item" role="listitem" *ngFor="let section of sections; let index = index" [attr.open]="index === 0 ? '' : null">
+                    <summary class="terms-item__summary" [attr.aria-label]="section.title">
+                        <span class="terms-item__title">{{ section.title }}</span>
+                        <span class="terms-item__chevron" aria-hidden="true"></span>
+                    </summary>
+
+                    <div class="terms-item__body">
+                        <ng-container *ngIf="getParagraphs(section.content).length; else termsEmptyState">
+                            <p class="terms-item__p text-body text-muted" *ngFor="let paragraph of getParagraphs(section.content)">{{ paragraph }}</p>
+                        </ng-container>
+
+                        <ng-template #termsEmptyState>
+                            <p class="terms-item__empty text-body text-muted">Contenido pendiente por cargar.</p>
+                        </ng-template>
+                    </div>
+                </details>
+            </div>
+
+            <p class="terms-last-updated text-body text-muted">Última actualización: {{ lastUpdatedText }}</p>
+        </div>
+    </section>
+</tj-portfolio-shell>

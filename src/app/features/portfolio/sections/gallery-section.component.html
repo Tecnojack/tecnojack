@@ -1,0 +1,32 @@
+<section class="portfolio-section gallery-section" id="gallery">
+    <div class="section-heading" tjRevealOnScroll>
+        <p>{{ heading().eyebrow }}</p>
+        <h2 class="heading-lg">{{ heading().title }}</h2>
+        <p class="text-body text-muted" *ngIf="heading().lead">{{ heading().lead }}</p>
+    </div>
+
+    <div class="gallery-grid" #pswpGallery>
+        <a
+            class="gallery-item"
+            *ngFor="let item of galleryMeta(); let index = index"
+            tjRevealOnScroll
+            [href]="item.src"
+            [attr.data-pswp-width]="item.width"
+            [attr.data-pswp-height]="item.height"
+            [ngClass]="[item.layoutClass, index % 2 === 0 ? 'reveal--left' : 'reveal--right']">
+            <figure>
+                <img tjFallbackImage [src]="item.src" [alt]="item.alt" loading="lazy" decoding="async" />
+                <figcaption>
+                    <span>{{ item.category }}</span>
+                    <strong class="heading-md">{{ item.title }}</strong>
+                </figcaption>
+            </figure>
+        </a>
+    </div>
+
+    <div class="gallery-section__actions" *ngIf="hasMoreItems()" tjRevealOnScroll>
+        <button class="gallery-section__button btn-text" type="button" (click)="toggleExpanded()">
+            {{ isExpanded() ? 'Ver selección breve' : 'Ver más trabajos' }}
+        </button>
+    </div>
+</section>

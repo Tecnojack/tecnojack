@@ -1,0 +1,19 @@
+<article class="ssc" (click)="onSelect()" (keydown.enter)="onSelect()" tabindex="0" role="button" [attr.aria-label]="'Ver detalles de ' + service.name">
+  <div class="ssc__media">
+    <img
+      [src]="imageSrc"
+      [alt]="service.name"
+      loading="lazy"
+      decoding="async"
+      class="ssc__img"
+    />
+    <span class="ssc__badge">{{ service.priceLabel }}</span>
+  </div>
+  <div class="ssc__body">
+    <h3 class="ssc__name heading-sm">{{ service.name }}</h3>
+    <p class="ssc__desc text-body text-muted">{{ service.shortDescription }}</p>
+    <button class="ssc__cta btn-text" type="button" (click)="$event.stopPropagation(); onSelect()" [attr.aria-label]="'Solicitar ' + service.name">
+      Solicitar
+    </button>
+  </div>
+</article>

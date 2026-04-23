@@ -1,0 +1,100 @@
+<tj-portfolio-shell [navItems]="navItems" subtitle="Sobre mí" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp" [editable]="editable">
+    <section class="portfolio-section about-hero">
+        <div class="about-hero__inner">
+            <div class="about-hero__copy" tjRevealOnScroll>
+                <p class="about-hero__eyebrow">Jackson Palacios</p>
+                <h1 class="heading-xl about-hero__title">Productor Audiovisual<br>&amp; Desarrollador de Software</h1>
+                <p class="about-hero__subtitle">
+                    Productor audiovisual colombiano, con raíces en el Chocó.<br>
+                    Transformo ideas en historias visuales con intención, estética y emoción.
+                </p>
+                <span class="text-body text-muted about-hero__desc">
+                    Combino fotografía, video y desarrollo digital para crear experiencias visuales para bodas, marcas y artistas que buscan algo bien hecho.
+                </span>
+
+                <div class="about-hero__actions">
+                    <a class="btn about-hero__cta-primary" [href]="heroCtaHref" target="_blank" rel="noopener noreferrer">
+                        Cotizar mi proyecto
+                    </a>
+                    <a class="btn secondary about-hero__cta-secondary" [href]="heroScrollTarget">
+                        Ver mi trabajo
+                    </a>
+                </div>
+
+                <ul class="about-hero__proof" aria-label="Datos de experiencia">
+                    <li *ngFor="let item of heroSocialProof">
+                        <span class="about-hero__proof-check" aria-hidden="true">✔</span>
+                        {{ item }}
+                    </li>
+                </ul>
+
+                <strong class="about-hero__tagline">{{ heroTagline }}</strong>
+            </div>
+
+            <figure class="about-hero__photo" tjRevealOnScroll>
+                <img [src]="heroPhotoSrc" alt="Foto de Jackson Palacios" />
+            </figure>
+        </div>
+    </section>
+
+    <section id="about-work" class="portfolio-section about-modules">
+        <article class="about-module" tjRevealOnScroll>
+            <div class="about-module__head">
+                <p>Enfoque</p>
+                <h2 class="heading-lg">Lo que recibes</h2>
+                <span class="text-body text-muted">Una experiencia completa: dirección, estética, emoción y entrega impecable.</span>
+            </div>
+            <div class="about-features" aria-label="Propuesta de valor">
+                <div class="about-feature" *ngFor="let item of valueProps">
+                    <strong class="about-feature__title">{{ item.title }}</strong>
+                    <span class="text-body text-muted about-feature__desc">{{ item.description }}</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="about-module" tjRevealOnScroll>
+            <div class="about-module__head">
+                <p>Proceso</p>
+                <h2 class="heading-lg">Cómo trabajamos</h2>
+                <span class="text-body text-muted">Simple, claro y con calidad en cada paso.</span>
+            </div>
+            <div class="about-steps" aria-label="Proceso de trabajo">
+                <article class="about-step" *ngFor="let step of processSteps; let i = index">
+                    <span class="about-step__num" aria-hidden="true">{{ i + 1 }}</span>
+                    <div class="about-step__body">
+                        <strong class="about-step__title">{{ step.title }}</strong>
+                        <span class="text-body text-muted">{{ step.description }}</span>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+
+    <section class="portfolio-section about-team-section">
+        <div class="about-team-head" tjRevealOnScroll>
+            <p>Equipo</p>
+            <h2 class="heading-lg">Equipo TECNOJACK</h2>
+            <span class="text-body text-muted">Lidero cada proyecto y sumo apoyo de equipo según el alcance.</span>
+        </div>
+
+        <div class="about-team-grid" aria-label="Integrantes del equipo" tjRevealOnScroll>
+            <article
+                class="about-member"
+                *ngFor="let member of teamMembers"
+                [class.about-member--lead]="member.isLead"
+                [attr.data-slot]="member.slot"
+            >
+                <div class="about-member__head">
+                    <strong class="about-member__name">{{ member.name }}</strong>
+                    <span class="text-body text-muted">{{ member.title }}</span>
+                    <span class="about-member__summary text-body text-muted" *ngIf="member.summary">{{ member.summary }}</span>
+                </div>
+                <ul class="about-member__list">
+                    <li *ngFor="let item of member.highlights">{{ item }}</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <tj-contact-section [editable]="editable" />
+</tj-portfolio-shell>

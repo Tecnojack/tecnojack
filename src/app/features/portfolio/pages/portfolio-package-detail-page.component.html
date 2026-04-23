@@ -1,0 +1,341 @@
+<tj-portfolio-shell
+    [navItems]="navItems"
+    [subtitle]="shellSubtitle()"
+    [headerCtaHref]="packageDetail()?.whatsappHref || '/portfolio'"
+    [floatWaHref]="packageDetail()?.whatsappHref"
+    [headerCtaLabel]="'WhatsApp directo'"
+    [footerText]="footerText()"
+    [editable]="editable">
+    <ng-container *ngIf="packageDetail() as detail; else packageMissing">
+        <section
+            class="portfolio-package-detail"
+            [class.portfolio-package-detail--rose]="detail.accent === 'rose'"
+            [class.portfolio-package-detail--modal-open]="isRequestModalOpen()"
+            [class.portfolio-package-detail--featured]="detail.featured">
+            <div class="package-hero" tjRevealOnScroll>
+                <div class="package-hero__copy">
+                    <a class="package-hero__back" [href]="detail.categoryHref">Volver a {{ detail.categoryLabel }}</a>
+                    <p class="package-hero__eyebrow">{{ detail.eyebrow }}</p>
+                    <h1 class="heading-xl">{{ detail.title }}</h1>
+                    <p class="package-hero__lead text-body text-muted">{{ detail.lead }}</p>
+
+                    <div class="package-hero__prices" *ngIf="detail.priceLines.length">
+                        <div class="package-hero__price-card" *ngFor="let price of detail.priceLines">
+                            <span>Costo del servicio</span>
+                            <strong>{{ price }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="package-hero__estimate" *ngIf="estimatedTotalCop() as total">
+                        <span>Estimado con adicionales</span>
+                        <strong>{{ formatCop(total) }}</strong>
+                    </div>
+
+                    <div class="package-hero__actions">
+                        <button class="package-hero__primary btn-text" type="button" (click)="openRequestModal()" aria-label="Abrir solicitud personalizada del paquete">
+                            Solicitud personalizada
+                        </button>
+                        <a class="package-hero__secondary btn-text" [href]="detail.whatsappHref" target="_blank" rel="noopener" aria-label="Solicitar paquete por WhatsApp">
+                            Solicitar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="package-hero__media">
+                    <img tjFallbackImage [src]="detail.image" [alt]="detail.title" loading="eager" decoding="async" />
+                </div>
+            </div>
+
+            <div class="package-sections">
+                <article class="package-section-card" *ngFor="let section of detail.sections" tjRevealOnScroll>
+                    <p>{{ section.title }}</p>
+                    <ul>
+                        <li *ngFor="let item of section.items">{{ item }}</li>
+                    </ul>
+                </article>
+
+                <article class="package-section-card" *ngFor="let group of customAdditionalGroups()" tjRevealOnScroll>
+                    <p>{{ group.title }}</p>
+                    <ul>
+                        <li *ngFor="let option of group.options">
+                            {{ option.label }}
+                            <span *ngIf="option.priceLabel">{{ option.priceLabel }}</span>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+
+            <section class="package-visuals" *ngIf="detail.visuals?.length" tjRevealOnScroll>
+                <div class="package-visuals__head">
+                    <p>Visual guía</p>
+                    <h2 class="heading-lg">{{ detail.visualsTitle }}</h2>
+                </div>
+
+                <div class="package-visuals__grid">
+                    <article class="package-visual-card" *ngFor="let visual of detail.visuals">
+                        <div class="package-visual-card__media">
+                            <img tjFallbackImage [src]="visual.image" [alt]="visual.title" loading="lazy" decoding="async" />
+                        </div>
+                        <strong>{{ visual.title }}</strong>
+                    </article>
+                </div>
+            </section>
+
+            <section class="package-notes" *ngIf="detail.notes?.length" tjRevealOnScroll>
+                <p class="text-body text-muted" *ngFor="let note of detail.notes">{{ note }}</p>
+            </section>
+
+            <div class="package-request-modal" *ngIf="isRequestModalOpen()">
+                <button class="package-request-modal__backdrop" type="button" (click)="closeRequestModal()" aria-label="Cerrar solicitud"></button>
+
+                <div class="package-request-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Solicitud para ' + detail.title">
+                    <div class="package-request-modal__header">
+                        <div>
+                            <p>Solicitud personalizada</p>
+                            <h2 class="heading-lg">{{ detail.title }}</h2>
+                        </div>
+
+                        <button class="package-request-modal__close btn-text" type="button" (click)="closeRequestModal()" aria-label="Cerrar modal">
+                            Cerrar
+                        </button>
+                    </div>
+
+                    <div class="package-request-modal__base-spotlight">
+                        <span>Costo base visible</span>
+                        <strong>{{ selectedBaseQuote()?.label || 'Por definir' }}</strong>
+                    </div>
+
+                    <div class="package-request-modal__body">
+                        <details class="package-request__accordion" open>
+                            <summary class="package-request__accordion-summary">Datos de contacto</summary>
+                        <div class="package-request-form">
+                            <label class="package-request-field">
+                                <span>Nombre</span>
+                                <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
+                            </label>
+
+                            <label class="package-request-field">
+                                <span>Teléfono</span>
+                                <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="Tu número de contacto" />
+                            </label>
+
+                            <label class="package-request-field">
+                                <span>Ciudad</span>
+                                <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del evento" />
+                            </label>
+
+                            <label class="package-request-field">
+                                <span>Fecha estimada</span>
+                                <input type="text" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" placeholder="Ej. 14 de agosto de 2026" />
+                            </label>
+
+                            <label class="package-request-field">
+                                <span>Lugar o locación</span>
+                                <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Salón, finca, iglesia o locación" />
+                            </label>
+
+                            <label class="package-request-field">
+                                <span>Cantidad de invitados</span>
+                                <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 120" />
+                            </label>
+
+                            <label class="package-request-field package-request-field--full">
+                                <span>Notas adicionales</span>
+                                <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="4" placeholder="Cuéntanos lo que te gustaría ajustar o reforzar."></textarea>
+                            </label>
+                        </div>
+                        </details>
+
+                        <details class="package-request__accordion" open>
+                            <summary class="package-request__accordion-summary">Tipo de solicitud</summary>
+                            <div class="package-request-groups">
+                                <section class="package-request-group">
+                                    <div class="package-request-group__head">
+                                        <p>Modalidad de solicitud</p>
+                                        <span>Elige si quieres respetar el paquete base o armar una cotización personalizada.</span>
+                                    </div>
+
+                                    <div class="package-request-options package-request-options--radio">
+                                        <label class="package-request-option package-request-option--mode">
+                                            <input
+                                                type="radio"
+                                                name="requestMode"
+                                                [checked]="isBaseRequestMode()"
+                                                (change)="updateRequestMode('base')" />
+                                            <span>
+                                                Paquete base
+                                                <small>Deja visibles únicamente los servicios incluidos del paquete.</small>
+                                            </span>
+                                        </label>
+
+                                        <label class="package-request-option package-request-option--mode">
+                                            <input
+                                                type="radio"
+                                                name="requestMode"
+                                                [checked]="isCustomRequestMode()"
+                                                (change)="updateRequestMode('custom')" />
+                                            <span>
+                                                Cotización personalizada
+                                                <small>Te permite seleccionar servicios incluidos y adicionales según tu necesidad.</small>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+
+                        <details class="package-request__accordion" *ngIf="detail.baseQuoteOptions.length" open>
+                            <summary class="package-request__accordion-summary">Paquete base</summary>
+                            <div class="package-request-groups">
+                                <section class="package-request-group">
+                                    <div class="package-request-group__head">
+                                        <p>Base de inversión</p>
+                                        <span>Esta referencia económica se usa en el resumen y en la solicitud final.</span>
+                                    </div>
+
+                                    <div class="package-request-options package-request-options--radio">
+                                        <label class="package-request-option" *ngFor="let option of detail.baseQuoteOptions">
+                                            <input
+                                                type="radio"
+                                                name="packageBaseQuote"
+                                                [checked]="selectedBaseQuote()?.id === option.id"
+                                                (change)="updateBaseQuote(option.id)" />
+                                            <span>{{ option.label }}</span>
+                                        </label>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+
+                        <details class="package-request__accordion" open>
+                            <summary class="package-request__accordion-summary">Servicios incluidos y entregables</summary>
+                            <div class="package-request-groups">
+                                <section class="package-request-group" *ngFor="let group of fixedIncludedGroups()">
+                                    <div class="package-request-group__head">
+                                        <p>{{ group.title }}</p>
+                                        <span *ngIf="isBaseRequestMode() && group.description">{{ group.description }}</span>
+                                        <span *ngIf="isCustomRequestMode()">Selecciona solo los servicios incluidos que quieres conservar en la solicitud.</span>
+                                    </div>
+
+                                    <div class="package-request-included-list" *ngIf="isBaseRequestMode()">
+                                        <article class="package-request-included-item" *ngFor="let option of group.options">
+                                            <strong>{{ option.label }}</strong>
+                                        </article>
+                                    </div>
+
+                                    <div class="package-request-options" *ngIf="isCustomRequestMode()">
+                                        <label class="package-request-option" *ngFor="let option of group.options">
+                                            <input
+                                                type="checkbox"
+                                                [checked]="isOptionSelected(option.id)"
+                                                (change)="toggleRequestOption(option.id, $any($event.target).checked)" />
+                                            <span>{{ option.label }}</span>
+                                        </label>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+
+                        <details class="package-request__accordion" *ngIf="customAdditionalGroups().length">
+                            <summary class="package-request__accordion-summary">Servicios adicionales</summary>
+                            <div class="package-request-groups">
+                                <section class="package-request-group" *ngFor="let group of customAdditionalGroups()" [hidden]="!isCustomRequestMode()">
+                                    <div class="package-request-group__head">
+                                        <p>{{ group.title }}</p>
+                                        <span *ngIf="group.description">{{ group.description }}</span>
+                                    </div>
+
+                                    <div class="package-request-options">
+                                        <label class="package-request-option" *ngFor="let option of group.options">
+                                            <input
+                                                type="checkbox"
+                                                [checked]="isOptionSelected(option.id)"
+                                                (change)="toggleRequestOption(option.id, $any($event.target).checked)" />
+                                            <span>
+                                                {{ option.label }}
+                                                <small *ngIf="option.priceLabel">{{ option.priceLabel }}</small>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+
+                        <details class="package-request__accordion" open>
+                            <summary class="package-request__accordion-summary">Resumen de la solicitud</summary>
+                        <aside class="package-request-summary">
+                            <p>Resumen listo para WhatsApp</p>
+
+                            <div class="package-request-summary__pricing">
+                                <div>
+                                    <span>Paquete base</span>
+                                    <strong>{{ selectedBaseQuote()?.label || 'Por definir' }}</strong>
+                                </div>
+                                <div>
+                                    <span>Adicionales</span>
+                                    <strong>{{ formatCop(additionalServicesTotalCop()) }}</strong>
+                                </div>
+                                <div>
+                                    <span>Total estimado</span>
+                                    <strong *ngIf="estimatedTotalCop() as total; else pendingQuote">{{ formatCop(total) }}</strong>
+                                </div>
+                            </div>
+
+                            <ng-template #pendingQuote>
+                                <strong class="package-request-summary__pending">A confirmar según el paquete base</strong>
+                            </ng-template>
+
+                            <ul *ngIf="selectedRequestItems().length; else requestEmpty">
+                                <li *ngFor="let item of selectedRequestItems()">{{ item }}</li>
+                            </ul>
+
+                            <ng-template #requestEmpty>
+                                <span>Ve marcando servicios y el resumen se actualizará en tiempo real.</span>
+                            </ng-template>
+                        </aside>
+                        </details>
+                    </div>
+
+                    <div class="package-request-modal__actions">
+                        <label class="package-request-terms">
+                            <input
+                                class="package-request-terms__checkbox"
+                                type="checkbox"
+                                [checked]="hasAcceptedTerms()"
+                                (change)="hasAcceptedTerms.set($any($event.target).checked)" />
+                            <span class="package-request-terms__label text-body text-muted">
+                                Acepto los
+                                <a class="package-request-terms__link" href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
+                            </span>
+                        </label>
+                        <a class="package-request-modal__ghost btn-text" [href]="detail.categoryHref">
+                            Explorar más paquetes
+                        </a>
+                        <a
+                            class="package-request-modal__submit btn-text"
+                            [href]="requestWhatsappHref()"
+                            target="_blank"
+                            rel="noopener"
+                            [class.is-disabled]="!hasAcceptedTerms()"
+                            [attr.aria-disabled]="!hasAcceptedTerms()"
+                            (click)="guardRequestSubmit($event)">
+                            Enviar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ng-container>
+
+    <ng-template #packageMissing>
+        <section class="portfolio-package-detail portfolio-package-detail--missing">
+            <div class="package-missing" tjRevealOnScroll>
+                <p>Paquete no encontrado</p>
+                <h1 class="heading-xl">Esta página no existe o cambió de ruta.</h1>
+                <a class="btn-text" href="/portfolio">Volver al portafolio</a>
+            </div>
+        </section>
+    </ng-template>
+
+    <tj-contact-section [editable]="editable" />
+</tj-portfolio-shell>

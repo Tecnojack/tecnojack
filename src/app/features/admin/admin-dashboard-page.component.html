@@ -1,0 +1,85 @@
+<section class="dashboard-page">
+  <header class="dashboard-page__header">
+    <div>
+      <span class="dashboard-page__eyebrow">Configuración general</span>
+      <h2>Resumen estructurado del sitio</h2>
+      <p>Aquí ves el estado general y cómo está compuesta cada página antes de entrar a editarla por separado.</p>
+    </div>
+
+    <a class="dashboard-page__primary" [routerLink]="['/admin/pages/new']">Agregar página o servicio</a>
+  </header>
+
+  <section class="dashboard-page__stats">
+    <article *ngFor="let stat of dashboardStats()">
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </article>
+  </section>
+
+  <section class="dashboard-page__general" *ngIf="settings() as settings">
+    <div class="dashboard-page__section-header">
+      <div>
+        <span class="dashboard-page__eyebrow">Base del sitio</span>
+        <h3>{{ settings.siteName }}</h3>
+      </div>
+      <a [routerLink]="['/admin/data/generalSettings']">Modo avanzado</a>
+    </div>
+
+    <div class="dashboard-grid">
+      <article>
+        <span>Tagline</span>
+        <strong>{{ settings.siteTagline }}</strong>
+      </article>
+      <article>
+        <span>Título SEO</span>
+        <strong>{{ settings.defaultTitle }}</strong>
+      </article>
+      <article>
+        <span>WhatsApp</span>
+        <strong>{{ settings.whatsappPhone }}</strong>
+      </article>
+      <article>
+        <span>Footer</span>
+        <strong>{{ settings.footerText }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <section class="dashboard-page__pages">
+    <div class="dashboard-page__section-header">
+      <div>
+        <span class="dashboard-page__eyebrow">Páginas</span>
+        <h3>Dashboard por página</h3>
+      </div>
+      <a [routerLink]="['/admin/pages']">Ver todas</a>
+    </div>
+
+    <div class="page-grid">
+      <article *ngFor="let item of pageSummaries()" class="page-card">
+        <div class="page-card__header">
+          <div>
+            <strong>{{ item.page.name }}</strong>
+            <small>{{ item.page.routePath }}</small>
+          </div>
+          <span class="page-card__status" [class.is-inactive]="!item.page.active">
+            {{ item.page.active ? 'Activa' : 'Inactiva' }}
+          </span>
+        </div>
+
+        <p>{{ item.page.description || 'Sin descripción todavía.' }}</p>
+
+        <div class="page-card__stats">
+          <span>{{ item.sections.length }} secciones</span>
+          <span>{{ item.services.length }} servicios</span>
+          <span>{{ item.packages.length }} paquetes</span>
+          <span>{{ item.stories.length + item.gallery.length }} recursos visuales</span>
+        </div>
+
+        <div class="page-card__actions">
+          <a class="page-card__link" [href]="publicEditHref(item.page)">Abrir vista editable</a>
+          <a class="page-card__link" [routerLink]="['/admin/pages', item.page.id]">Configurar estructura</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

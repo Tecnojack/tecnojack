@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1067" role="img" aria-labelledby="title desc">
+  <title id="title">Imagen pendiente</title>
+  <desc id="desc">Placeholder por defecto para medios no cargados.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3ede5"/>
+      <stop offset="55%" stop-color="#e6d8c8"/>
+      <stop offset="100%" stop-color="#c7a98b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="url(#bg)"/>
+  <g opacity="0.18" fill="#6c4b35">
+    <circle cx="265" cy="250" r="180"/>
+    <circle cx="1335" cy="815" r="220"/>
+    <path d="M1045 145c88 0 160 72 160 160s-72 160-160 160-160-72-160-160 72-160 160-160z"/>
+  </g>
+  <g transform="translate(800 533.5)">
+    <rect x="-255" y="-175" width="510" height="350" rx="34" fill="#fff8f1" stroke="#6c4b35" stroke-width="10"/>
+    <path d="M-188 95l97-113 79 90 98-122 116 145" fill="none" stroke="#6c4b35" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
+    <circle cx="112" cy="-62" r="34" fill="#6c4b35"/>
+    <path d="M-222 162h444" stroke="#6c4b35" stroke-linecap="round" stroke-width="10"/>
+  </g>
+  <g fill="#3f2a1f" font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+    <text x="800" y="860" font-size="58">Imagen pendiente por cargar</text>
+    <text x="800" y="925" font-size="28" opacity="0.78">Este espacio ya tiene un placeholder por defecto desde Firebase y la UI pública.</text>
+  </g>

@@ -1,0 +1,121 @@
+:host {
+    display: block;
+}
+
+.services-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 24px 0;
+}
+
+.section-heading {
+    max-width: none;
+    margin-bottom: 38px;
+    text-align: center;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    margin: 8px auto 0;
+    max-width: 32ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.55rem, 2.2vw, 2.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.services-grid {
+    display: grid;
+    gap: 18px;
+}
+
+.service-card {
+    display: grid;
+    overflow: hidden;
+    border-radius: 30px;
+    border: 1px solid var(--portfolio-line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+    box-shadow: var(--portfolio-shadow);
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 179, 107, 0.28);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+}
+
+.service-card__index {
+    color: rgba(216, 179, 107, 0.72);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+}
+
+.service-card__body {
+    display: grid;
+    gap: 12px;
+    padding: 24px 24px 26px;
+    align-content: start;
+}
+
+.service-card h3 {
+    margin: 0;
+    font-size: 1.45rem;
+}
+
+.service-card p,
+.service-card li {
+    color: var(--portfolio-muted);
+    line-height: 1.58;
+}
+
+.service-card p {
+    margin: 0;
+}
+
+
+.service-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--portfolio-button-height);
+    justify-self: start;
+    padding: 0 var(--portfolio-button-padding-x);
+    border-radius: var(--portfolio-button-radius);
+    border: 1px solid rgba(216, 179, 107, 0.3);
+    background: rgba(216, 179, 107, 0.08);
+    color: var(--portfolio-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+}
+
+@media (min-width: 900px) {
+    .services-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1180px) {
+    .services-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-card,
+    .service-card__media img {
+        transition: none;
+    }
+}

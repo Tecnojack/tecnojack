@@ -1,0 +1,214 @@
+<tj-portfolio-shell [navItems]="navItems" [subtitle]="pageConfig.shellSubtitle" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
+    <section class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="'url(' + pageConfig.hero.backgroundImage + ')'">
+        <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+        <div class="service-category-hero__content" tjRevealOnScroll>
+            <div class="service-category-hero__layout">
+                <div class="service-category-hero__copy">
+                    <p class="service-category-hero__eyebrow">{{ pageConfig.hero.eyebrow }}</p>
+                    <h1 class="heading-xl">{{ pageConfig.hero.title }}</h1>
+                    <p class="service-category-hero__lead text-body text-muted">{{ pageConfig.hero.description }}</p>
+                </div>
+
+                <aside class="service-category-hero__meta" aria-label="Información rápida">
+                    <div class="service-category-hero__facts" aria-label="Datos clave">
+                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
+                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
+                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
+                        </article>
+                    </div>
+
+                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                        <a
+                            class="service-category-hero__social-link"
+                            *ngFor="let link of heroSocialLinks()"
+                            [href]="link.href"
+                            target="_blank"
+                            rel="noopener"
+                            [attr.aria-label]="link.title">
+                            <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
+                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                        </a>
+                    </nav>
+                </aside>
+
+                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
+                    <span *ngFor="let item of pageConfig.hero.highlights">{{ item }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section service-category-packages grades-modes" aria-label="Grados: estudiantes e instituciones">
+        <div class="service-category-packages__head">
+            <h2 class="heading-md service-category-packages__title">{{ pageConfig.packageTitle }}</h2>
+            <p class="service-category-packages__body text-body text-muted">{{ pageConfig.packageLead }}</p>
+        </div>
+
+        <div class="service-category-package-groups">
+            <section class="service-category-package-group">
+                <div class="grades-mode__head">
+                    <div class="service-category-package-group__head">
+                        <p>Para estudiantes</p>
+                        <span>Paquetes individuales</span>
+                    </div>
+
+                </div>
+
+                <div class="service-category-package-group__content">
+                    <div class="service-category-package-group__panel grades-mode__panel grades-mode__panel--students">
+                        <tj-portfolio-service-category-page #studentsPackages [category]="category" [editable]="editable"></tj-portfolio-service-category-page>
+                    </div>
+                </div>
+            </section>
+
+            <section class="service-category-package-group">
+                <div class="grades-mode__head">
+                    <div class="service-category-package-group__head">
+                        <p>Para instituciones</p>
+                        <span>Propuesta organizada</span>
+                    </div>
+
+                    <button class="btn grades-mode__cta grades-mode__cta--accent" type="button" (click)="openInstitutionsRequest()">Solicitar propuesta</button>
+                </div>
+
+                <div class="service-category-package-group__content">
+                    <div class="service-category-package-group__panel grades-mode__panel">
+                        <div class="grades-institutions-compact">
+                            <div class="grades-institutions-compact__row">
+                                <div class="grades-institutions-compact__card">
+                                    <h2 class="heading-md">Inversión</h2>
+                                    <div class="grades-kpi">
+                                        <strong class="grades-kpi__value">${{ formatCop(institutionsInvestmentCop) }}</strong>
+                                        <p class="grades-kpi__meta text-body text-muted">Por estudiante · mínimo {{ institutionsMinStudents }} estudiantes</p>
+                                    </div>
+                                </div>
+
+                                <div class="grades-institutions-compact__card">
+                                    <h2 class="heading-md">Qué incluye</h2>
+                                    <ul class="grades-list">
+                                        <li class="text-body" *ngFor="let item of institutionsIncludes">{{ item }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="grades-institutions-compact__row">
+                                <div class="grades-institutions-compact__card">
+                                    <h2 class="heading-md">Video institucional</h2>
+                                    <div class="grades-kpi grades-kpi--compact">
+                                        <strong class="grades-kpi__value">${{ formatCop(700000) }}</strong>
+                                        <p class="grades-kpi__meta text-body text-muted">Producción y edición profesional</p>
+                                    </div>
+                                    <ul class="grades-list grades-list--compact">
+                                        <li class="text-body" *ngFor="let item of institutionsVideoIncludes">{{ item }}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="grades-institutions-compact__card">
+                                    <h2 class="heading-md">Condiciones</h2>
+                                    <ul class="grades-list grades-list--compact">
+                                        <li class="text-body" *ngFor="let item of institutionsConditions">{{ item }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="grades-institutions-compact__card">
+                                <h2 class="heading-md">Adicionales</h2>
+                                <div class="grades-additionals">
+                                    <article class="grades-additional" *ngFor="let item of institutionsAdditionals">
+                                        <div class="grades-additional__top">
+                                            <strong class="text-body">{{ item.name }}</strong>
+                                            <span class="grades-additional__price">${{ formatCop(item.priceCop) }}</span>
+                                        </div>
+                                        <p class="text-body text-muted">{{ item.description }}</p>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <div class="service-package-modal" *ngIf="isInstitutionsRequestOpen()">
+        <button class="service-package-modal__backdrop" type="button" (click)="closeInstitutionsRequest()" aria-label="Cerrar solicitud"></button>
+        <div class="service-package-modal__panel" role="dialog" aria-modal="true" aria-label="Solicitud para grados institucionales">
+            <div class="service-package-modal__header">
+                <div>
+                    <p>Solicitud</p>
+                    <h2 class="heading-lg">Grados &middot; Instituciones</h2>
+                </div>
+                <div class="service-package-modal__header-actions">
+                    <button class="service-package-modal__close btn-text" type="button" (click)="closeInstitutionsRequest()" aria-label="Cerrar modal">Cerrar</button>
+                </div>
+            </div>
+
+            <div class="service-package-modal__body">
+                <div class="service-package-request__form">
+                    <div class="service-package-request__head">
+                        <p>Solicitud institucional</p>
+                        <h3 class="heading-md">Completa los datos para continuar</h3>
+                    </div>
+
+                    <div class="service-package-request__fields grades-request-fields">
+                        <label class="service-package-request__field service-package-request__field--full">
+                            <span>Institución</span>
+                            <input type="text" [value]="institutionName()" (input)="institutionName.set(($any($event.target).value ?? '').toString())" placeholder="Nombre del colegio / institución" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Contacto</span>
+                            <input type="text" [value]="coordinatorName()" (input)="coordinatorName.set(($any($event.target).value ?? '').toString())" placeholder="Nombre" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Teléfono</span>
+                            <input type="tel" [value]="coordinatorPhone()" (input)="coordinatorPhone.set(($any($event.target).value ?? '').toString())" placeholder="WhatsApp" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Ciudad</span>
+                            <input type="text" [value]="eventCity()" (input)="eventCity.set(($any($event.target).value ?? '').toString())" placeholder="Ciudad" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Fecha estimada</span>
+                            <input type="text" [value]="eventDate()" (input)="eventDate.set(($any($event.target).value ?? '').toString())" placeholder="dd/mm/aaaa" />
+                        </label>
+
+                        <label class="service-package-request__field">
+                            <span>Estudiantes</span>
+                            <input type="number" min="0" [value]="studentCount()" (input)="studentCount.set(($any($event.target).value ?? '').toString())" placeholder="Cantidad aproximada" />
+                        </label>
+
+                        <label class="service-package-request__field service-package-request__field--full">
+                            <span>Notas</span>
+                            <textarea [value]="notes()" (input)="notes.set(($any($event.target).value ?? '').toString())" placeholder="Horario, lugar, tipo de ceremonia, etc."></textarea>
+                        </label>
+
+                        <label class="service-package-request__option service-package-request__terms service-package-request__field--full">
+                            <input type="checkbox" [checked]="hasAcceptedTerms()" (change)="hasAcceptedTerms.set($any($event.target).checked)" />
+                            <span>
+                                Acepto los
+                                <a href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-package-modal__footer">
+                <a
+                    class="service-package-request__submit btn-text"
+                    [href]="institutionsWhatsappHref()"
+                    target="_blank"
+                    rel="noopener"
+                    [class.is-disabled]="!hasAcceptedTerms()"
+                    [attr.aria-disabled]="!hasAcceptedTerms()"
+                    (click)="guardInstitutionsSubmit($event); hasAcceptedTerms() && closeInstitutionsRequest()">
+                    Enviar por WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</tj-portfolio-shell>

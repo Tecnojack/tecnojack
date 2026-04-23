@@ -1,0 +1,192 @@
+:host {
+  display: block;
+}
+
+.grades-institutions-hero {
+  min-height: min(680px, calc(100vh - 132px));
+}
+
+.grades-institutions-hero__copy {
+  display: grid;
+  gap: 14px;
+  max-width: 56ch;
+}
+
+.grades-institutions-section {
+  background: var(--portfolio-surface);
+  border: 1px solid var(--portfolio-line);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.grades-institutions-section__content {
+  padding: clamp(22px, 3.2vw, 46px);
+}
+
+.grades-institutions-section__head {
+  display: grid;
+  gap: 12px;
+  max-width: 70ch;
+}
+
+.grades-institutions-section--investment {
+  background:
+    radial-gradient(circle at 10% 20%, var(--portfolio-brand-glow), transparent 40%),
+    radial-gradient(circle at 90% 10%, var(--portfolio-accent-soft), transparent 38%),
+    var(--portfolio-surface);
+}
+
+.grades-institutions-investment {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+  padding: 18px 18px;
+  border-radius: 22px;
+  border: 1px solid var(--portfolio-line);
+  background: var(--portfolio-surface-strong);
+}
+
+.grades-institutions-investment__main {
+  display: grid;
+  gap: 6px;
+}
+
+.grades-institutions-investment__label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--portfolio-muted);
+}
+
+.grades-institutions-investment__value {
+  font-family: var(--portfolio-font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.grades-institutions-investment__note {
+  margin: 0;
+}
+
+.grades-institutions-list {
+  margin: 18px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.grades-institutions-list--compact {
+  gap: 8px;
+}
+
+.grades-institutions-video {
+  display: grid;
+  gap: 18px;
+}
+
+.grades-institutions-video__head {
+  display: grid;
+  gap: 10px;
+  max-width: 72ch;
+}
+
+.grades-institutions-video__card {
+  border-radius: 24px;
+  border: 1px solid var(--portfolio-line);
+  background: var(--portfolio-brand-soft);
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.grades-institutions-video__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.grades-institutions-video__price {
+  font-family: var(--portfolio-font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.grades-institutions-additionals {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.grades-institutions-additional {
+  border-radius: 22px;
+  border: 1px solid var(--portfolio-line);
+  background: var(--portfolio-surface-strong);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.grades-institutions-additional__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.grades-institutions-additional__price {
+  font-family: var(--portfolio-font-display);
+  font-weight: 800;
+  color: var(--portfolio-accent);
+  white-space: nowrap;
+}
+
+.grades-institutions-section--cta {
+  background:
+    radial-gradient(circle at 18% 20%, var(--portfolio-brand-glow), transparent 36%),
+    radial-gradient(circle at 78% 30%, var(--portfolio-accent-soft), transparent 42%),
+    var(--portfolio-surface);
+}
+
+.grades-institutions-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.grades-institutions-cta__copy {
+  display: grid;
+  gap: 10px;
+  max-width: 72ch;
+}
+
+.grades-institutions-cta__btn {
+  min-width: 220px;
+  padding-inline: 18px;
+  border-radius: 18px;
+}
+
+@media (max-width: 920px) {
+  .grades-institutions-additionals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grades-institutions-cta {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .grades-institutions-additionals {
+    grid-template-columns: 1fr;
+  }
+
+  .grades-institutions-video__top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

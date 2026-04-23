@@ -1,0 +1,104 @@
+<div class="ssm__backdrop" *ngIf="service" (click)="onBackdropClick($event)" role="dialog" aria-modal="true" [attr.aria-label]="service.name">
+  <div class="ssm__panel">
+
+    <button class="ssm__close" type="button" (click)="close()" aria-label="Cerrar">
+      <span aria-hidden="true">✕</span>
+    </button>
+
+    <div class="ssm__layout">
+      <section class="ssm__form-col">
+        <p class="ssm__form-eyebrow">Cotizar servicio</p>
+        <h2 class="ssm__form-title heading-md">{{ service.name }}</h2>
+        <div class="ssm__price-block">
+          <p class="ssm__price-tag">{{ service.priceLabel }}</p>
+          <p class="ssm__price-total" *ngIf="service.addOns?.length">Total estimado: {{ totalPriceLabel }}</p>
+        </div>
+
+        <div class="ssm__addons" *ngIf="service.addOns?.length">
+          <p class="ssm__addons-title">Adicionales</p>
+          <label class="ssm__addon" *ngFor="let addOn of service.addOns; trackBy: trackByAddOn">
+            <input
+              type="checkbox"
+              [checked]="isAddOnSelected(addOn.id)"
+              (change)="toggleAddOn(addOn.id)"
+            />
+            <span class="ssm__addon-copy">
+              <span class="ssm__addon-name">+ {{ addOn.label }}</span>
+              <span class="ssm__addon-price">{{ addOn.priceLabel }}</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="ssm__field">
+          <label class="ssm__label" for="ssm-name">Tu nombre *</label>
+          <input
+            id="ssm-name"
+            class="ssm__input"
+            type="text"
+            [(ngModel)]="form.name"
+            placeholder="¿Cómo te llamas?"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="ssm__field">
+          <label class="ssm__label" for="ssm-phone">Tu WhatsApp *</label>
+          <input
+            id="ssm-phone"
+            class="ssm__input"
+            type="tel"
+            [(ngModel)]="form.phone"
+            placeholder="Ej: 3001234567"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+        <div class="ssm__field">
+          <label class="ssm__label" for="ssm-message">Detalles adicionales</label>
+          <textarea
+            id="ssm-message"
+            class="ssm__input ssm__input--textarea"
+            [(ngModel)]="form.message"
+            placeholder="Cuéntame la fecha, el lugar o lo que necesitas..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <button
+          class="ssm__submit btn"
+          type="button"
+          (click)="sendWhatsApp()"
+          [disabled]="!isFormValid"
+        >
+          Enviar por WhatsApp
+        </button>
+
+        <p class="ssm__terms text-muted">
+          Al enviar aceptas que tu información se usará solo para coordinar este servicio.
+        </p>
+      </section>
+      <section class="ssm__info-col">
+        <div class="ssm__info-image" *ngIf="service.image">
+          <img [src]="service.image" [alt]="service.name" loading="lazy" decoding="async" />
+        </div>
+
+        <p class="ssm__info-desc text-body text-muted">{{ service.description }}</p>
+
+        <div class="ssm__includes">
+          <p class="ssm__includes-title">¿Qué incluye?</p>
+          <ul class="ssm__includes-list">
+            <li *ngFor="let item of selectedIncludes; trackBy: trackByIndex">{{ item }}</li>
+          </ul>
+        </div>
+
+        <ul class="ssm__notes" *ngIf="service.notes?.length">
+          <li *ngFor="let note of service.notes; trackBy: trackByIndex">
+            <span aria-hidden="true">📌</span> {{ note }}
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>

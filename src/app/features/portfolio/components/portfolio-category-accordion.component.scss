@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.service-category-package-group {
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(circle at top right, var(--portfolio-brand-soft), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  box-shadow: var(--portfolio-shadow);
+}
+
+.service-category-package-group__head--toggle {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  background: transparent;
+  border: 0;
+  padding: 24px 24px 22px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--portfolio-text, #ffffff);
+}
+
+.service-category-package-group__head-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.service-category-package-group__head-copy p,
+.service-category-package-group__head-copy span {
+  margin: 0;
+}
+
+.service-category-package-group__head-copy p {
+  color: var(--portfolio-accent);
+  font-family: var(--portfolio-font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.service-category-package-group__head-copy span {
+  max-width: 64ch;
+  color: var(--portfolio-muted);
+  line-height: 1.58;
+}
+
+.service-category-package-group__chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-top: 0.35rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  transition: transform 220ms ease-in-out;
+}
+
+.service-category-package-group__head--toggle[aria-expanded='true'] .service-category-package-group__chevron {
+  transform: rotate(-135deg);
+}
+
+.service-category-package-group__content {
+  will-change: height, opacity;
+}
+
+.service-category-package-group__panel {
+  padding: 0 24px 24px;
+}
+
+.service-category-package-group__head--toggle[aria-expanded='true'] + .service-category-package-group__content .service-category-package-group__panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
+}
+
+.service-category-package-group__empty {
+  padding: 0;
+}
+
+@media (max-width: 699px) {
+  .service-category-package-group__head--toggle {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .service-category-package-group__panel {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

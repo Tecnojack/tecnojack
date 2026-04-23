@@ -1,0 +1,89 @@
+<section class="portfolio-section packages-section" id="packages">
+    <div class="section-heading" tjRevealOnScroll>
+        <p>Paquetes</p>
+        <h2 class="heading-lg">Propuestas claras para vender servicios fotográficos con una presentación profesional.</h2>
+    </div>
+
+    <div class="packages-grid">
+        <article
+            class="package-card"
+            *ngFor="let item of packages"
+            tjRevealOnScroll
+            [class.package-card--featured]="item.featured">
+            <span class="package-card__tag">Fotografía</span>
+            <h3 class="heading-md">{{ item.name }}</h3>
+            <strong>{{ item.priceCop }}</strong>
+            <p class="text-body text-muted">{{ item.summary }}</p>
+
+            <ul>
+                <li *ngFor="let feature of item.features">{{ feature }}</li>
+            </ul>
+
+            <a class="package-card__cta btn-text" [href]="packageHref(item.name)" target="_blank" rel="noopener">
+                Solicitar por WhatsApp
+            </a>
+        </article>
+    </div>
+
+    <div class="packages-subsection" tjRevealOnScroll>
+        <div class="packages-subsection__head">
+            <p>Fotos sugeridas a tomar</p>
+            <h3 class="heading-md">Una guía visual para ofrecer una cobertura más completa en grados y ceremonias.</h3>
+        </div>
+
+        <div class="shots-grid">
+            <article class="shot-card" *ngFor="let shot of suggestedShots">
+                <div class="shot-card__media">
+                    <img [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
+                </div>
+                <div class="shot-card__body">
+                    <strong class="heading-md">{{ shot.title }}</strong>
+                    <p class="text-body text-muted">{{ shot.description }}</p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="packages-subsection packages-subsection--weddings" tjRevealOnScroll>
+        <div class="packages-subsection__head">
+            <p>Bodas</p>
+            <h3 class="heading-md">Pricing table lista para cerrar ventas según nivel de cobertura e inversión.</h3>
+        </div>
+
+        <div class="wedding-grid">
+            <article class="wedding-plan" *ngFor="let plan of weddingPlans" [class.wedding-plan--featured]="plan.featured">
+                <span class="wedding-plan__tag">{{ plan.featured ? 'Premium' : 'Plan' }}</span>
+                <h4 class="heading-md">{{ plan.name }}</h4>
+                <div class="wedding-plan__price">
+                    <strong>{{ plan.priceCop }}</strong>
+                    <span>{{ plan.priceUsd }}</span>
+                </div>
+                <p class="text-body text-muted">{{ plan.summary }}</p>
+
+                <ul>
+                    <li *ngFor="let feature of plan.features">{{ feature }}</li>
+                </ul>
+
+                <a class="wedding-plan__cta btn-text" [href]="weddingPlanHref(plan.name)" target="_blank" rel="noopener">
+                    Solicitar por WhatsApp
+                </a>
+            </article>
+        </div>
+    </div>
+
+    <div class="packages-subsection" tjRevealOnScroll>
+        <div class="packages-subsection__head">
+            <p>Servicios adicionales</p>
+            <h3 class="heading-md">Upsells simples para aumentar ticket promedio sin complicar la decisión del cliente.</h3>
+        </div>
+
+        <div class="extras-grid">
+            <article class="extra-card" *ngFor="let item of additionalServices">
+                <strong class="heading-md">{{ item.title }}</strong>
+                <span>{{ item.price }}</span>
+                <p class="text-body text-muted">{{ item.description }}</p>
+                <button class="btn-text" type="button">Agregar a mi servicio</button>
+            </article>
+        </div>
+    </div>
+</section>
