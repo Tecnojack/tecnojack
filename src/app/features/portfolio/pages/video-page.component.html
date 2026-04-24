@@ -1,5 +1,5 @@
 <tj-portfolio-shell [navItems]="navItems" subtitle="Videos" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
-    <section class="portfolio-section service-category-hero video-page-hero" style="--category-hero-image: url('assets/images/galery/M&D-23.jpg')">
+    <section class="portfolio-section service-category-hero video-page-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
         <div class="service-category-hero__content" tjRevealOnScroll>
@@ -63,7 +63,9 @@
                         <span class="service-package-card__tag" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
                         <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="pkg.isBasePrice">Desde</span>
                     </div>
-                    <img tjFallbackImage [src]="videoPackageImage(pkg)" [alt]="pkg.name" loading="lazy" decoding="async" />
+                    <ng-container *ngIf="videoPackageCover$(pkg) | async as coverUrl">
+                        <img tjFallbackImage [src]="coverUrl" [alt]="pkg.name" loading="lazy" decoding="async" />
+                    </ng-container>
                 </div>
 
                 <div class="service-package-card__body">

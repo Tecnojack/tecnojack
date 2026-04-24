@@ -133,21 +133,100 @@
   background: rgba(244, 239, 228, 0.08);
 }
 
+.dashboard-page__actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.dashboard-page__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(244, 239, 228, 0.08);
+  border: 1px solid rgba(244, 239, 228, 0.12);
+  color: #f4efe4;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(244, 239, 228, 0.15);
+    border-color: rgba(244, 239, 228, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.dashboard-page__status-bar {
+  padding: 1.5rem;
+  background: rgba(244, 239, 228, 0.04);
+  border: 1px dashed rgba(244, 239, 228, 0.1);
+  border-radius: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .progress-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+
+    p {
+      margin: 0;
+      color: #f3ad3a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-count {
+      color: rgba(244, 239, 228, 0.5);
+      flex-shrink: 0;
+    }
+  }
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f3ad3a, #f6d26f);
+  transition: width 0.3s ease;
+}
+
+.success-message {
+  p {
+    color: #9af1d0;
+    font-weight: 600;
+  }
+}
+
 @media (max-width: 960px) {
-  .dashboard-page {
-    padding: 1rem;
-  }
-
-  .dashboard-page__stats,
-  .dashboard-grid,
-  .page-grid,
-  .page-card__stats {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-page__header,
-  .dashboard-page__section-header,
-  .page-card__header {
+  .dashboard-page__actions {
     flex-direction: column;
+    width: 100%;
+    
+    button, a {
+      width: 100%;
+    }
   }
 }

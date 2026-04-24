@@ -1,7 +1,12 @@
-export type FirestoreSecurityScope = 'public-read-admin-write' | 'admin-only';
+export type FirestoreSecurityScope =
+  | 'public-read-admin-write'
+  | 'admin-only'
+  | 'published-read-admin-write'
+  | 'public-create-only'
+  | 'public-create-auth-manage';
 
 export interface FirestoreSecurityRulePlan {
-  collection: 'media' | 'adminUsers' | 'auditLogs';
+  collection: 'media' | 'adminUsers' | 'auditLogs' | 'clients' | 'service_requests';
   scope: FirestoreSecurityScope;
   allowCreate: boolean;
   allowUpdate: boolean;
@@ -12,6 +17,8 @@ export const FIRESTORE_ADMIN_UID_CLAIM = 'admin';
 
 export const FIRESTORE_CMS_RULE_PLAN: readonly FirestoreSecurityRulePlan[] = [
   { collection: 'media', scope: 'public-read-admin-write', allowCreate: true, allowUpdate: true, allowDelete: false },
+  { collection: 'clients', scope: 'published-read-admin-write', allowCreate: true, allowUpdate: true, allowDelete: true },
+  { collection: 'service_requests', scope: 'public-create-auth-manage', allowCreate: true, allowUpdate: true, allowDelete: false },
   { collection: 'adminUsers', scope: 'admin-only', allowCreate: false, allowUpdate: false, allowDelete: false },
   { collection: 'auditLogs', scope: 'admin-only', allowCreate: true, allowUpdate: false, allowDelete: false }
 ] as const;
@@ -45,6 +52,20 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Clientes: solo ver publicados, admin puede gestionar todos
+    match /clients/{clientId} {
+      allow read: if resource.data.status == "published" || isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /service_requests/{requestId} {
+      allow create: if true;
+      allow read, update: if isSignedIn();
+      allow delete: if false;
+    }
+
     match /adminUsers/{uid} {
       allow read: if isAdmin();
       allow write: if false;
@@ -56,4 +77,15 @@ service cloud.firestore {
       allow update, delete: if false;
     }
   }
-}`;
+}
+
+// STORAGE RULES:
+// service firebase.storage {
+//   match /b/{bucket}/o {
+//     match /{allPaths=**} {
+//       allow read: if true;
+//       allow write: if request.auth != null;
+//     }
+//   }
+// }
+`;

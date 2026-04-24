@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { CmsPage } from './models/cms.models';
 import { CmsVisualEditorService } from './services/cms-visual-editor.service';
 import { MockCmsStoreService } from './services/mock-cms-store.service';
+import { StorageStructureService } from './services/storage-structure.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-dashboard-page',
@@ -16,7 +18,18 @@ import { MockCmsStoreService } from './services/mock-cms-store.service';
 export class AdminDashboardPageComponent {
   private readonly store = inject(MockCmsStoreService);
   private readonly visualEditor = inject(CmsVisualEditorService);
+  private readonly storageStructure = inject(StorageStructureService);
   private readonly state = toSignal(this.store.state$, { initialValue: this.store.getSnapshot() });
+
+  readonly isCreatingStructure = signal(false);
+  readonly structureProgress = signal({ 
+    current: 0, 
+    total: 0, 
+    lastPath: '', 
+    success: true, 
+    status: 'exists' as 'created' | 'exists' | 'error' 
+  });
+  readonly showSuccessMessage = signal(false);
 
   readonly settings = computed(() => this.state().generalSettings[0] ?? null);
 
@@ -46,5 +59,43 @@ export class AdminDashboardPageComponent {
 
   publicEditHref(page: CmsPage): string {
     return this.visualEditor.getPublicRouteForPage(page);
+  }
+
+  createStorageStructure(): void {
+    if (this.isCreatingStructure()) return;
+
+    this.isCreatingStructure.set(true);
+    this.showSuccessMessage.set(false);
+    this.structureProgress.set({ 
+      current: 0, 
+      total: 0, 
+      lastPath: 'Iniciando...', 
+      success: true,
+      status: 'exists'
+    });
+
+    this.storageStructure.createFullStructure()
+      .pipe(
+        finalize(() => {
+          this.isCreatingStructure.set(false);
+          this.showSuccessMessage.set(true);
+          setTimeout(() => this.showSuccessMessage.set(false), 5000);
+        })
+      )
+      .subscribe({
+        next: (progress) => {
+          this.structureProgress.set({
+            current: progress.current,
+            total: progress.total,
+            lastPath: progress.path,
+            success: progress.success,
+            status: progress.status
+          });
+        },
+        error: (err) => {
+          console.error('Error creando estructura:', err);
+          this.isCreatingStructure.set(false);
+        }
+      });
   }
 }

@@ -41,7 +41,7 @@ const DEFAULT_FOOTER_TEXT = 'TECNOJACK Studio · fotografía y cine de bodas con
 const DEFAULT_ABOUT_TITLE = 'Sobre la marca';
 const DEFAULT_ABOUT_LEAD =
   'TECNOJACK es una marca audiovisual enfocada en crear piezas visuales con intención, estética y valor emocional.';
-const DEFAULT_HERO_TITLE = 'Capturamos momentos que se convierten en eternidad';
+const DEFAULT_HERO_TITLE = 'Capturamos momentos\nque se convierten en eternidad';
 const DEFAULT_HERO_LEAD = 'Fotografía y cine para bodas, eventos y marcas.';
 const DEFAULT_GALLERY_TITLE = 'Una selección de lo mejor para mostrar estilo, atmósfera y dirección visual.';
 const DEFAULT_VIDEO_TITLE = 'Piezas en video con ritmo, intención y salida comercial.';
@@ -92,7 +92,19 @@ export class PortfolioContentService {
   }
 
   heroStats(): PortfolioStat[] {
-    return portfolioHeroStats;
+    const categories = this.servicePageCategories();
+    const activePackages = categories.reduce(
+      (total, category) => total + this.getPackageDetailsByCategory(category).length,
+      0
+    );
+
+    return [
+      ...portfolioHeroStats,
+      { value: String(activePackages+'+'), label: 'Paquetes activos' },
+      { value: String(categories.length+'+'), label: 'Lineas de servicio' },
+      { value: String('200+'), label: 'Proyectos realizados' }
+
+    ];
   }
 
   heroHighlights(): string[] {

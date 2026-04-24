@@ -1,4 +1,4 @@
-import { DOCUMENT, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,19 +8,25 @@ import {
   inject,
   signal
 } from '@angular/core';
+import { Observable, map, shareReplay, startWith } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import {
+  MEDIA_PUBLIC_FALLBACK_IMAGE,
+  MediaPublicService,
+} from '../../../shared/media/media-public.service';
 
 import { PortfolioPackageCategory } from '../portfolio.data';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { PortfolioServiceCategoryPageComponent } from './portfolio-service-category-page.component';
+import { ServiceRequestService } from '../../../services/service-request.service';
 
 @Component({
   selector: 'tj-portfolio-grades-page',
   standalone: true,
-  imports: [PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective],
+  imports: [AsyncPipe, PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective],
   templateUrl: './portfolio-grades-page.component.html',
   styleUrl: './portfolio-grades-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,10 +34,21 @@ import { PortfolioServiceCategoryPageComponent } from './portfolio-service-categ
 export class PortfolioGradesPageComponent {
   private readonly document = inject(DOCUMENT);
   private readonly content = inject(PortfolioContentService);
+  private readonly mediaPublic = inject(MediaPublicService);
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private readonly serviceRequest = inject(ServiceRequestService);
 
   readonly category: PortfolioPackageCategory = 'grados';
+  readonly heroCategoryHeroImage$: Observable<string | null> = this.mediaPublic
+    .getCoverByFolder('servicios/grados')
+    .pipe(
+      map((url) =>
+        url && url !== MEDIA_PUBLIC_FALLBACK_IMAGE ? `url(${url})` : null,
+      ),
+      startWith(null),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
 
   @ViewChild('studentsPackages')
   private studentsPackages?: PortfolioServiceCategoryPageComponent;
@@ -76,6 +93,12 @@ export class PortfolioGradesPageComponent {
   readonly studentCount = signal('');
   readonly notes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isSubmittingInstitutionsRequest = signal(false);
+  readonly isInstitutionsRequestFormValid = computed(
+    () =>
+      this.coordinatorName().trim().length > 1 &&
+      this.coordinatorPhone().trim().length > 6,
+  );
 
   readonly institutionsWhatsappHref = computed(() => {
     const lines = [
@@ -187,21 +210,67 @@ export class PortfolioGradesPageComponent {
     this.studentsPackages?.closePackageModal();
     this.studentsPackages?.closeStoryModal();
     this.hasAcceptedTerms.set(false);
+    this.isSubmittingInstitutionsRequest.set(false);
     this.isInstitutionsRequestOpen.set(true);
   }
 
   closeInstitutionsRequest(): void {
     this.isInstitutionsRequestOpen.set(false);
     this.hasAcceptedTerms.set(false);
+    this.isSubmittingInstitutionsRequest.set(false);
   }
 
   guardInstitutionsSubmit(event: MouseEvent): void {
-    if (this.hasAcceptedTerms()) {
+    if (this.hasAcceptedTerms() && this.isInstitutionsRequestFormValid()) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  async submitInstitutionsRequest(): Promise<void> {
+    if (
+      !this.hasAcceptedTerms() ||
+      !this.isInstitutionsRequestFormValid() ||
+      this.isSubmittingInstitutionsRequest()
+    ) {
+      return;
+    }
+
+    this.isSubmittingInstitutionsRequest.set(true);
+
+    const messageLines = [
+      'Hola TECNOJACK, quiero solicitar una propuesta para grados institucionales.',
+      '',
+      'Servicio: Grados · Instituciones',
+      `Institución: ${this.institutionName().trim() || 'No definida'}`,
+      `Contacto: ${this.coordinatorName().trim()}`,
+      `Teléfono: ${this.coordinatorPhone().trim()}`,
+      `Ciudad: ${this.eventCity().trim() || 'No definida'}`,
+      `Fecha estimada: ${this.eventDate().trim() || 'No definida'}`,
+      `Estudiantes: ${this.studentCount().trim() || 'No definido'}`,
+      `Notas: ${this.notes().trim() || 'N/A'}`
+    ];
+
+    const message = messageLines.join('\n');
+
+    try {
+      await this.serviceRequest.createRequest({
+        name: this.coordinatorName(),
+        phone: this.coordinatorPhone(),
+        service: 'grados institucionales',
+        package: this.institutionName().trim() || undefined,
+        message,
+        eventDate: this.eventDate(),
+        location: this.eventCity(),
+      });
+    } catch (error) {
+      console.error('No se pudo guardar la solicitud institucional en Firestore', error);
+    }
+
+    window.open(this.institutionsWhatsappHref(), '_blank', 'noopener,noreferrer');
+    this.closeInstitutionsRequest();
   }
 
   formatCop(amount: number): string {

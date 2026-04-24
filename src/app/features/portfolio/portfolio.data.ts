@@ -283,7 +283,7 @@ export interface PortfolioAdditionalService {
 
 const phone = '573145406467';
 const whatsappMessage =
-  'Hola TECNOJACK, quiero información para fotografía y video de boda.';
+  'Hola TECNOJACK, quiero información para cotizar contigo un proyecto audiovisual ¿Me puedes direccionar en la elección de paquetes según mi proyecto?';
 
 export const socialLinks = {
   instagram: 'https://www.instagram.com/tecnojack',
@@ -387,6 +387,7 @@ export const portfolioNavItems: PortfolioNavItem[] = [
   { label: 'GRADOS', href: '/portfolio/grados' },
   { label: 'VIDEOS', href: '/portfolio/videos' },
   { label: 'CORPORATIVOS', href: '/portfolio/corporativos' },
+  { label: 'SOLUCIONES', href: '/soluciones' },
   { label: 'OTROS', href: '/otros' },
   { label: 'SOBRE MÍ', href: '/portfolio/sobre-mi' }
 ];
@@ -398,12 +399,13 @@ export const portfolioLandingNavItems: PortfolioNavItem[] = [
   { label: 'GRADOS', href: '/portfolio/grados' },
   { label: 'VIDEOS', href: '/portfolio/videos' },
   { label: 'CORPORATIVOS', href: '/portfolio/corporativos' },
+  { label: 'SOLUCIONES', href: '/soluciones' },
   { label: 'OTROS', href: '/otros' },
   { label: 'SOBRE MÍ', href: '/portfolio/sobre-mi' }
 ];
 
 export const portfolioHeroStats: PortfolioStat[] = [
-  { value: '10+ años', label: 'Experiencia real en eventos' },
+  { value: '7+ años', label: 'Experiencia real en eventos' },
   { value: '4K', label: 'Calidad cinematográfica' },
   { value: '100%', label: 'Dirección artística' }
 ];
@@ -446,14 +448,16 @@ export const portfolioProfessionalProfile: PortfolioProfessionalProfile = {
 
 export const portfolioServices: PortfolioService[] = [
   {
+    id: 'bodas',
     title: 'Bodas',
     description: 'Historias de boda con estética elegante y lectura emocional del momento.',
-    image: 'assets/images/fotos/main.jpg',
+    image: 'assets/images/fotos/default-cover.png',
     href: '/portfolio/bodas',
     ctaLabel: 'Ver paquetes',
     points: ['Foto + video', 'Color cinematográfico', 'Entrega social y full quality']
   },
   {
+    id: 'quinces',
     title: '15 años',
     description: 'Cobertura visual para celebrar con retratos, clips y momentos clave.',
     image: 'assets/images/galery/M&D-22.jpg',
@@ -462,6 +466,7 @@ export const portfolioServices: PortfolioService[] = [
     points: ['Retratos de gala', 'Clips verticales', 'Cobertura de ceremonia y fiesta']
   },
   {
+    id: 'grados',
     title: 'Grados',
     description: 'Ceremonias y promociones con una cobertura limpia, clara y bien presentada.',
     image: 'assets/images/galery/M&D-15.jpg',
@@ -470,6 +475,7 @@ export const portfolioServices: PortfolioService[] = [
     points: ['Llamado individual', 'Fotos familiares', 'Paquetes por estudiante o grupo']
   },
   {
+    id: 'preboda',
     title: 'Preboda',
     description: 'Sesiones previas con dirección sutil, narrativa visual y una estética íntima.',
     image: 'assets/images/galery/M&D-32.jpg',
@@ -478,6 +484,7 @@ export const portfolioServices: PortfolioService[] = [
     points: ['Dirección creativa', 'Sesión exterior', 'Contenido emocional']
   },
   {
+    id: 'videos',
     title: 'Videos',
     description: 'Producción de video musical, corporativo y creativo con enfoque narrativo.',
     image: 'assets/images/galery/M&D-29.jpg',
@@ -486,12 +493,22 @@ export const portfolioServices: PortfolioService[] = [
     points: ['Videos musicales', 'Corporativo y marca', 'Cortometrajes y creativos']
   },
   {
+    id: 'corporativos',
     title: 'Corporativos',
     description: 'Contenido visual para marcas, equipos y eventos de empresa.',
     image: 'assets/images/galery/M&D-23.jpg',
     href: '/portfolio/corporativos',
     ctaLabel: 'Ver paquetes',
     points: ['Cobertura de marca', 'Clips para redes', 'Registro institucional']
+  },
+  {
+    id: 'solutions',
+    title: 'Soluciones',
+    description: 'Páginas y experiencias digitales pensadas para convertir visitas en consultas reales, con una propuesta visual clara y enfocada en ventas.',
+    image: 'assets/images/fotos/default-cover.png',
+    href: '/soluciones',
+    ctaLabel: 'Ver soluciones',
+    points: ['Landing pages de conversión', 'Presentación de servicios', 'Contacto directo por WhatsApp']
   }
 ];
 
@@ -1063,8 +1080,8 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     amountCop: 350000,
     lead: 'Sesión sencilla y emotiva para capturar momentos naturales como recién casados sin el estrés del evento.',
     image: 'assets/images/galery/M&D-15.jpg',
-    features: ['1 locación cercana', 'Duración de 1 hora', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['20 fotografías editadas', 'Entrega digital en alta resolución', 'Galería online disponible por 1 mes']
+    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
+    deliverables: ['50 fotografías editadas', 'Entrega digital en alta resolución', 'Galería online disponible por 1 mes']
   },
   {
     slug: 'postboda-completa',
@@ -1073,8 +1090,8 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     amountCop: 650000,
     lead: 'Sesión más elaborada que permite explorar diferentes escenarios y lograr fotografías más cuidadas y expresivas.',
     image: 'assets/images/galery/M&D-21.jpg',
-    features: ['1 a 2 locaciones', 'Duración de 2 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['40 fotografías editadas', 'Galería online disponible por 3 meses', 'Entrega digital en alta calidad']
+    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
+    deliverables: ['80 fotografías editadas', 'Galería online disponible por 3 meses', 'Entrega digital en alta calidad']
   },
   {
     slug: 'postboda-premium',
@@ -1085,12 +1102,12 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     image: 'assets/images/galery/M&D-22.jpg',
     features: [
       '2 o más locaciones',
-      'Duración de 3 a 4 horas',
+      'Duración de 5 horas',
       'Dirección creativa avanzada',
       'Planeación previa de concepto visual',
       'Posible desplazamiento'
     ],
-    deliverables: ['80 fotografías editadas', 'Galería online disponible por 6 meses', 'Entrega digital en alta resolución', '5 fotografías impresas']
+    deliverables: ['120 fotografías editadas', 'Galería online disponible por 6 meses', 'Entrega digital en alta resolución', '5 fotografías impresas']
   }
 ];
 
@@ -1439,7 +1456,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     name: 'Plan Especial',
     lead:
       'Una propuesta pensada para parejas que quieren una sesión más completa, mayor variedad de vestuario y una salida social más fuerte.',
-    image: 'assets/images/fotos/main.jpg',
+    image: 'assets/images/fotos/default-cover.png',
     price: '470.000',
     items: ['70 fotos editadas', '3 vestuarios', '3 horas', '1 foto impresa', 'Reel']
   },
@@ -2069,7 +2086,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · video institucional',
     lead: 'Producción completa con enfoque cinematográfico y alto impacto visual.',
-    image: 'assets/images/fotos/main.jpg',
+    image: 'assets/images/fotos/default-cover.png',
     priceLines: ['1900000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-video-institucional-premium-cop', '1900000', 1900000)],
     featured: true,
@@ -2449,7 +2466,7 @@ export function getPortfolioPackageDetailsByCategory(
 
 export const portfolioGalleryItems: PortfolioGalleryItem[] = [
   {
-    src: 'assets/images/fotos/main.jpg',
+    src: 'assets/images/fotos/default-cover.png',
     alt: 'Retrato editorial de pareja en exterior',
     title: 'Luz natural y dirección sutil',
     category: 'Preboda',
@@ -2690,7 +2707,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         images: [
           { src: 'assets/images/galery/M&D-29.jpg', alt: 'Pareja abrazándose durante la boda' },
           { src: 'assets/images/fotos/M&D-31.jpg', alt: 'Retrato editorial de novios durante la recepción' },
-          { src: 'assets/images/fotos/main.jpg', alt: 'Retrato de pareja en exterior' }
+          { src: 'assets/images/fotos/default-cover.png', alt: 'Retrato de pareja en exterior' }
         ]
       },
       {
@@ -2850,7 +2867,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Sesión exterior',
         subtitle: 'Narrativa íntima de pareja',
         images: [
-          { src: 'assets/images/fotos/main.jpg', alt: 'Sesión preboda en exterior con luz natural' },
+          { src: 'assets/images/fotos/default-cover.png', alt: 'Sesión preboda en exterior con luz natural' },
           { src: 'assets/images/galery/M&D-32.jpg', alt: 'Escena romántica en sesión preboda' },
           { src: 'assets/images/galery/M&D-18.jpg', alt: 'Retrato íntimo de pareja antes de la boda' }
         ]

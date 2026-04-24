@@ -3,6 +3,9 @@
 }
 
 .hero-section {
+    --hero-art-brand: color-mix(in srgb, var(--portfolio-brand) 42%, transparent);
+    --hero-art-accent: color-mix(in srgb, var(--portfolio-accent) 32%, transparent);
+
     position: relative;
     width: 100%;
     margin: 0;
@@ -14,6 +17,34 @@
     border-radius: 36px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 28px 120px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section::before,
+.hero-section::after {
+    content: '';
+    position: absolute;
+    inset: auto;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 999px;
+    filter: blur(54px);
+    opacity: 0.38;
+}
+
+.hero-section::before {
+    width: clamp(220px, 28vw, 420px);
+    height: clamp(220px, 28vw, 420px);
+    top: -8%;
+    left: -6%;
+    background: radial-gradient(circle, var(--hero-art-brand) 0%, transparent 72%);
+}
+
+.hero-section::after {
+    width: clamp(240px, 30vw, 460px);
+    height: clamp(240px, 30vw, 460px);
+    right: -8%;
+    bottom: -12%;
+    background: radial-gradient(circle, var(--hero-art-accent) 0%, transparent 70%);
 }
 
 .hero-section__media,
@@ -33,9 +64,11 @@
 
 .hero-section__overlay {
     background:
-        linear-gradient(180deg, rgba(6, 6, 6, 0.18), rgba(6, 6, 6, 0.78) 68%, rgba(6, 6, 6, 0.92)),
-        radial-gradient(circle at 18% 20%, rgba(216, 179, 107, 0.16), transparent 24%),
+        linear-gradient(180deg, rgba(6, 6, 6, 0.14), rgba(6, 6, 6, 0.74) 68%, rgba(6, 6, 6, 0.9)),
+        radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--portfolio-accent) 20%, transparent), transparent 30%),
+        radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--portfolio-brand) 18%, transparent), transparent 34%),
         linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.2));
+    backdrop-filter: blur(2.2px) saturate(108%);
 }
 
 .hero-section__content {
@@ -81,15 +114,32 @@
     line-height: 0.98;
     letter-spacing: -0.04em;
     text-wrap: balance;
+    white-space: pre-line;
 }
 
 .hero-section__lead {
     margin: 20px 0 0;
-    max-width: 32ch;
+    max-width: none;
     color: rgba(246, 241, 232, 0.88);
     font-size: clamp(1rem, 1.45vw, 1.18rem);
     line-height: 1.52;
     margin-inline: auto;
+    white-space: nowrap;
+}
+
+.hero-section__location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 16px auto 0;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(180deg, rgba(0, 151, 178, 0.2), rgba(255, 184, 0, 0.12));
+    color: rgba(244, 252, 255, 0.95);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(10px);
 }
 
 .hero-section__actions {
@@ -167,43 +217,40 @@
 
 .hero-section__aside {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     justify-content: center;
     width: 100%;
 }
 
-.hero-section__aside-card {
-    width: min(100%, 390px);
-    padding: 24px;
-    border: 1px solid rgba(216, 179, 107, 0.28);
-    border-radius: 28px;
-    background: rgba(12, 12, 12, 0.6);
-    box-shadow: var(--portfolio-shadow);
-    backdrop-filter: blur(18px);
-}
-
-.hero-section__floating-kicker {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--portfolio-accent);
-    font-family: var(--portfolio-font-display);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-}
-
-.hero-section__aside-card p {
+.hero-section__aside-text {
     margin: 0;
+    max-width: 100%;
     color: var(--portfolio-muted);
     line-height: 1.65;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.hero-section__aside-card a {
+.hero-section__whatsapp-btn {
     display: inline-flex;
-    margin-top: 16px;
-    color: var(--portfolio-text);
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid color-mix(in srgb, var(--portfolio-accent) 70%, #000000);
+    border-radius: 999px;
+    background: var(--portfolio-accent);
+    color: #201402;
     text-decoration: none;
     font-weight: 600;
+    transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.hero-section__whatsapp-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
 }
 
 .hero-section__highlights {

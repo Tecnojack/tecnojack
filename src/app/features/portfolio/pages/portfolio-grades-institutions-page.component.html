@@ -1,7 +1,7 @@
 <tj-portfolio-shell [navItems]="navItems" subtitle="Grados · Instituciones" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
     <section
         class="portfolio-section grades-institutions-hero service-category-hero"
-        [style.--category-hero-image]="'url(' + heroBackgroundImage + ')'">
+        [style.--category-hero-image]="(heroBackgroundImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
         <div class="service-category-hero__content">
             <div class="grades-institutions-hero__copy">

@@ -10,6 +10,9 @@
 
             <h1 class="heading-xl">{{ heroTitle }}</h1>
             <p class="hero-section__lead text-body text-muted">{{ heroLead }}</p>
+            <p class="hero-section__location-pill" aria-label="Ubicación base">
+                Medellín, Antioquia - Colombia
+            </p>
 
             <div class="hero-section__stats">
                 <article class="hero-stat" *ngFor="let stat of stats">
@@ -20,11 +23,8 @@
         </div>
 
         <aside class="hero-section__aside reveal reveal--right" tjRevealOnScroll>
-            <div class="hero-section__aside-card">
-                <span class="hero-section__floating-kicker">Disponibilidad</span>
-                <p class="text-body text-muted">Fechas limitadas por temporada. Agenda con anticipación.</p>
-                <a class="btn-text" [href]="whatsappHref" target="_blank" rel="noopener">Cotizar por WhatsApp</a>
-            </div>
+            <p class="hero-section__aside-text text-body text-muted">Hablemos de tu próximo proyecto audiovisual.</p>
+            <a class="hero-section__whatsapp-btn" [href]="whatsappHref" target="_blank" rel="noopener">Cotizar</a>
         </aside>
     </div>
 

@@ -1,0 +1,114 @@
+<div
+  class="upload-container"
+  [class.dragging]="isDragging()"
+  [class.uploading]="isUploading()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  @if (status() === "idle") {
+    <div class="upload-content">
+      <div class="icon-box">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+      </div>
+      <div class="text-box">
+        <p class="main-text">
+          Arrastra imágenes aquí o haz clic para seleccionar
+        </p>
+        @if (mode === "cover") {
+          <p class="sub-text">
+            Modo: Cover (Solo 1 imagen, será renombrada a cover.jpg)
+          </p>
+        }
+        @if (mode === "gallery") {
+          <p class="sub-text">Modo: Galería (Múltiples imágenes permitidas)</p>
+        }
+      </div>
+      <input
+        type="file"
+        class="file-input"
+        [multiple]="mode === 'gallery'"
+        accept="image/jpeg,image/png,image/webp"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+  }
+
+  @if (status() === "uploading") {
+    <div class="upload-progress-box">
+      @if (previews().length > 0) {
+        <div class="previews-mini">
+          @for (p of previews(); track p) {
+            <img [src]="p" alt="Preview" />
+          }
+        </div>
+      }
+      <p class="status-text">
+        Subiendo archivos... {{ progress() | number: "1.0-0" }}%
+      </p>
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="progress()"></div>
+      </div>
+    </div>
+  }
+
+  @if (status() === "success") {
+    <div class="upload-result-box success">
+      <div class="icon-box">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <p class="status-text">¡Subida completada con éxito!</p>
+      <button class="btn-reset" (click)="reset()">Subir más</button>
+    </div>
+  }
+
+  @if (status() === "error") {
+    <div class="upload-result-box error">
+      <div class="icon-box">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="15" y1="9" x2="9" y2="15" />
+          <line x1="9" y1="9" x2="15" y2="15" />
+        </svg>
+      </div>
+      <p class="status-text">{{ errorMessage() }}</p>
+      <button class="btn-reset" (click)="reset()">Reintentar</button>
+    </div>
+  }
+</div>

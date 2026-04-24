@@ -73,7 +73,9 @@ export class MediaAdminFolderService {
               id: record.id,
               ...(record.data() as Omit<MediaAdminFolderDoc, 'id'>)
             }))
-            .sort((a, b) => a.path.localeCompare(b.path));
+            .sort((a, b) =>
+              String(a?.path ?? '').localeCompare(String(b?.path ?? ''))
+            );
 
           subscriber.next(folders);
         },

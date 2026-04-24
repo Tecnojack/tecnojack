@@ -2,7 +2,7 @@
     <div class="portfolio-page__aurora" aria-hidden="true"></div>
     <div class="portfolio-page__grain" aria-hidden="true"></div>
 
-    <header class="portfolio-header">
+    <header class="portfolio-header" *ngIf="!hideHeader">
         <a *ngIf="isInternalRoute(brandHref); else brandExternalLink" class="portfolio-header__brand" [routerLink]="brandHref">
             <span class="portfolio-header__brand-mark" aria-hidden="true">
                 <img src="assets/logo.png" alt="" />
@@ -44,13 +44,13 @@
             </ng-container>
         </nav>
 
-        <a
+        <!-- <a
             class="portfolio-header__cta btn-text"
             [href]="resolvedHeaderCtaHref"
             [attr.target]="headerCtaExternal ? '_blank' : null"
             [attr.rel]="headerCtaExternal ? 'noopener' : null">
             {{ headerCtaLabel }}
-        </a>
+        </a> -->
     </header>
 
     <main class="portfolio-main">
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <p class="portfolio-footer__credit text-body text-muted">Sitio fabricado por Jackson Palacios.</p>
+            <p class="portfolio-footer__credit">Imaginado y ejecutado por Jackson Palacios</p>
         </div>
     </footer>
 

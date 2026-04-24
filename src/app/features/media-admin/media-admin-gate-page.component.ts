@@ -1,5 +1,11 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaAdminPageComponent } from './media-admin-page.component';
@@ -10,11 +16,11 @@ const STORAGE_KEY = 'tj_media_admin_unlocked';
 @Component({
   selector: 'tj-media-admin-gate-page',
   standalone: true,
-  imports: [NgIf, MediaAdminPageComponent],
+  imports: [MediaAdminPageComponent],
   template: `
-    <tj-media-admin-page *ngIf="unlocked(); else locked" />
-
-    <ng-template #locked>
+    @if (unlocked()) {
+      <tj-media-admin-page />
+    } @else {
       <main class="container">
         <h1 class="heading-lg">Media Admin</h1>
         <p class="text-body text-muted">Ingresa la clave para acceder.</p>
@@ -26,18 +32,20 @@ const STORAGE_KEY = 'tj_media_admin_unlocked';
               class="input"
               type="password"
               [value]="keyInput()"
-              (input)="keyInput.set(($any($event.target).value ?? ''))"
+              (input)="keyInput.set($any($event.target).value ?? '')"
               autocomplete="off"
               autofocus
             />
           </div>
 
-          <p class="text-body text-muted" *ngIf="error()">{{ error() }}</p>
+          @if (error()) {
+            <p class="text-body text-muted">{{ error() }}</p>
+          }
 
           <button class="btn" type="submit">Entrar</button>
         </form>
       </main>
-    </ng-template>
+    }
   `,
   styles: [
     `
@@ -63,9 +71,9 @@ const STORAGE_KEY = 'tj_media_admin_unlocked';
         background: color-mix(in srgb, var(--surface) 92%, white);
         color: var(--text);
       }
-    `
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaAdminGatePageComponent {
   private readonly route = inject(ActivatedRoute);
@@ -128,7 +136,10 @@ export class MediaAdminGatePageComponent {
   }
 
   private async stripKeyFromUrl(): Promise<void> {
-    const queryParams = { ...this.route.snapshot.queryParams } as Record<string, unknown>;
+    const queryParams = { ...this.route.snapshot.queryParams } as Record<
+      string,
+      unknown
+    >;
     if (!('key' in queryParams)) return;
 
     delete queryParams['key'];
@@ -136,7 +147,7 @@ export class MediaAdminGatePageComponent {
     await this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
-      replaceUrl: true
+      replaceUrl: true,
     });
   }
 }

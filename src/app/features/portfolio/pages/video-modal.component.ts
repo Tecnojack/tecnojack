@@ -1,8 +1,23 @@
-import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, computed, inject, signal } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Observable, map, shareReplay, startWith } from 'rxjs';
 
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { MediaPublicService } from '../../../shared/media/media-public.service';
+import { ServiceRequestService } from '../../../services/service-request.service';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { PortfolioPlaylistVideo } from '../portfolio.data';
 
@@ -56,14 +71,21 @@ type VideoAdditionalRequestOptionGroup = {
 @Component({
   selector: 'tj-video-modal',
   standalone: true,
-  imports: [NgIf, NgFor, FallbackImageDirective],
+  imports: [AsyncPipe, NgIf, NgFor, FallbackImageDirective],
   templateUrl: './video-modal.component.html',
   styleUrl: './video-modal.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoModalComponent implements OnChanges {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly content = inject(PortfolioContentService);
+  private readonly mediaPublic = inject(MediaPublicService);
+  private readonly serviceRequest = inject(ServiceRequestService);
+  readonly defaultCoverImage = 'assets/images/fotos/default-cover.png';
+  private readonly packageHeroImageCache = new Map<
+    string,
+    Observable<string>
+  >();
 
   @Input() video: PortfolioPlaylistVideo | null = null;
 
@@ -92,18 +114,26 @@ export class VideoModalComponent implements OnChanges {
   readonly guestCount = signal('');
   readonly customerNotes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isSubmittingRequest = signal(false);
 
-  readonly baseQuoteOptions = computed<Array<{ id: string; label: string }>>(() => {
-    const pkg = this.videoPackage;
-    if (!pkg) {
-      return [];
-    }
+  readonly baseQuoteOptions = computed<Array<{ id: string; label: string }>>(
+    () => {
+      const pkg = this.videoPackage;
+      if (!pkg) {
+        return [];
+      }
 
-    return [{ id: 'base', label: this.packagePriceLabel() }];
-  });
+      return [{ id: 'base', label: this.packagePriceLabel() }];
+    },
+  );
 
-  readonly selectedBaseQuote = computed<{ id: string; label: string } | undefined>(() =>
-    this.baseQuoteOptions().find((o) => o.id === this.selectedBaseQuoteId()) ?? this.baseQuoteOptions()[0]
+  readonly selectedBaseQuote = computed<
+    { id: string; label: string } | undefined
+  >(
+    () =>
+      this.baseQuoteOptions().find(
+        (o) => o.id === this.selectedBaseQuoteId(),
+      ) ?? this.baseQuoteOptions()[0],
   );
 
   readonly requestOptions = computed<VideoRequestOption[]>(() => {
@@ -113,24 +143,32 @@ export class VideoModalComponent implements OnChanges {
     }
 
     return [
-      ...pkg.features.map((label, index) => ({ id: `feature-${index}`, label })),
-      ...pkg.deliverables.map((label, index) => ({ id: `deliverable-${index}`, label }))
+      ...pkg.features.map((label, index) => ({
+        id: `feature-${index}`,
+        label,
+      })),
+      ...pkg.deliverables.map((label, index) => ({
+        id: `deliverable-${index}`,
+        label,
+      })),
     ];
   });
 
-  readonly additionalRequestOptions = computed<VideoAdditionalRequestOption[]>(() => {
-    const pkg = this.videoPackage;
-    if (!pkg) {
-      return [];
-    }
+  readonly additionalRequestOptions = computed<VideoAdditionalRequestOption[]>(
+    () => {
+      const pkg = this.videoPackage;
+      if (!pkg) {
+        return [];
+      }
 
-    return pkg.additionalServices.map((item, index) => ({
-      id: `additional-${index}`,
-      name: item.name,
-      price: item.price,
-      description: item.description
-    }));
-  });
+      return pkg.additionalServices.map((item, index) => ({
+        id: `additional-${index}`,
+        name: item.name,
+        price: item.price,
+        description: item.description,
+      }));
+    },
+  );
 
   readonly detailPrimarySections = computed<ExperienceSection[]>(() => {
     const pkg = this.videoPackage;
@@ -169,13 +207,16 @@ export class VideoModalComponent implements OnChanges {
     return [
       {
         title: 'Servicios del paquete',
-        description: 'Características y entregables que componen el servicio de video.',
-        options
-      }
+        description:
+          'Características y entregables que componen el servicio de video.',
+        options,
+      },
     ];
   });
 
-  readonly customAdditionalGroups = computed<VideoAdditionalRequestOptionGroup[]>(() => {
+  readonly customAdditionalGroups = computed<
+    VideoAdditionalRequestOptionGroup[]
+  >(() => {
     const options = this.additionalRequestOptions();
     if (!options.length) {
       return [];
@@ -184,25 +225,32 @@ export class VideoModalComponent implements OnChanges {
     return [
       {
         title: 'Servicios adicionales',
-        description: 'Elige los adicionales que quieres incluir en tu solicitud.',
-        options
-      }
+        description:
+          'Elige los adicionales que quieres incluir en tu solicitud.',
+        options,
+      },
     ];
   });
 
   readonly selectedAdditionalOptions = computed(() => {
     const selected = this.requestSelections();
-    return this.customAdditionalGroups().flatMap((group) => group.options.filter((option) => selected[option.id]));
+    return this.customAdditionalGroups().flatMap((group) =>
+      group.options.filter((option) => selected[option.id]),
+    );
   });
 
   readonly selectedIncludedOptions = computed(() => {
     const selected = this.requestSelections();
-    return this.fixedIncludedGroups().flatMap((group) => group.options.filter((option) => selected[option.id]));
+    return this.fixedIncludedGroups().flatMap((group) =>
+      group.options.filter((option) => selected[option.id]),
+    );
   });
 
   readonly requestSummaryServices = computed(() => {
     if (this.requestMode() === 'base') {
-      return this.fixedIncludedGroups().flatMap((group) => group.options.map((option) => option.label));
+      return this.fixedIncludedGroups().flatMap((group) =>
+        group.options.map((option) => option.label),
+      );
     }
 
     return this.selectedIncludedOptions().map((option) => option.label);
@@ -212,8 +260,8 @@ export class VideoModalComponent implements OnChanges {
     this.selectedAdditionalOptions().map((option) => ({
       name: option.name,
       priceLabel: `${this.formatCop(option.price)} COP`,
-      priceAmountCop: option.price
-    }))
+      priceAmountCop: option.price,
+    })),
   );
 
   readonly requestTotalLabel = computed(() => {
@@ -221,12 +269,29 @@ export class VideoModalComponent implements OnChanges {
       return '';
     }
 
-    const additionalTotal = this.selectedAdditionalOptions().reduce((total, option) => total + option.price, 0);
+    const additionalTotal = this.selectedAdditionalOptions().reduce(
+      (total, option) => total + option.price,
+      0,
+    );
     const total = this.videoPackage.price + additionalTotal;
     return `${this.formatCop(total)} COP`;
   });
 
-  readonly requestSubmitLabel = computed(() => (this.requestMode() === 'base' ? 'Enviar por WhatsApp' : 'Enviar propuesta'));
+  readonly requestSubmitLabel = computed(() => {
+    if (this.isSubmittingRequest()) {
+      return 'Enviando...';
+    }
+
+    return this.requestMode() === 'base' ? 'Enviar por WhatsApp' : 'Enviar propuesta';
+  });
+
+  readonly canSubmitRequest = computed(
+    () =>
+      this.hasAcceptedTerms() &&
+      this.customerName().trim().length > 1 &&
+      this.customerPhone().trim().length > 6 &&
+      !this.isSubmittingRequest(),
+  );
 
   readonly requestWhatsappHref = computed(() => {
     const pkg = this.videoPackage;
@@ -239,7 +304,7 @@ export class VideoModalComponent implements OnChanges {
       `Hola TECNOJACK, quiero ${isBase ? 'solicitar' : 'personalizar'} el paquete ${pkg.name}.`,
       '',
       'Tipo de servicio: Video',
-      `Solicitud: ${isBase ? 'Usar paquete base' : 'Personalizar paquete'}`
+      `Solicitud: ${isBase ? 'Usar paquete base' : 'Personalizar paquete'}`,
     ];
 
     if (this.customerName().trim()) {
@@ -273,7 +338,9 @@ export class VideoModalComponent implements OnChanges {
     const additionals = this.requestSummaryAdditionalsDetailed();
     if (additionals.length) {
       lines.push('', 'Adicionales:');
-      additionals.forEach((item) => lines.push(`- ${item.name} — ${item.priceLabel}`));
+      additionals.forEach((item) =>
+        lines.push(`- ${item.name} — ${item.priceLabel}`),
+      );
     }
 
     const totalLabel = this.requestTotalLabel();
@@ -282,7 +349,10 @@ export class VideoModalComponent implements OnChanges {
     }
 
     if (pkg.isBasePrice) {
-      lines.push('', 'Nota: Entiendo que el valor final depende de los requerimientos del proyecto.');
+      lines.push(
+        '',
+        'Nota: Entiendo que el valor final depende de los requerimientos del proyecto.',
+      );
     }
 
     if (this.customerNotes().trim()) {
@@ -304,7 +374,7 @@ export class VideoModalComponent implements OnChanges {
     }
 
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube-nocookie.com/embed/${this.video.videoId}?autoplay=1&rel=0&modestbranding=1`
+      `https://www.youtube-nocookie.com/embed/${this.video.videoId}?autoplay=1&rel=0&modestbranding=1`,
     );
   }
 
@@ -333,21 +403,21 @@ export class VideoModalComponent implements OnChanges {
     return this.videoPackage.isBasePrice ? `Desde ${value}` : value;
   }
 
-  packageHeroImage(pkg: VideoServicePackage): string {
-    switch (pkg.name) {
-      case 'Video Esencial':
-        return 'assets/images/galery/M&D-29.jpg';
-      case 'Video Pro':
-        return 'assets/images/galery/M&D-19.jpg';
-      case 'Video Cinemático':
-        return 'assets/images/galery/M&D-23.jpg';
-      case 'Video Personalizado':
-        return 'assets/images/galery/M&D-32.jpg';
-      case 'Video Cortometraje':
-        return 'assets/images/galery/M&D-18.jpg';
-      default:
-        return 'assets/images/fotos/main.jpg';
+  packageHeroImage$(pkg: VideoServicePackage): Observable<string> {
+    const folder = this.videoPackageFolder(pkg);
+    const cached = this.packageHeroImageCache.get(folder);
+    if (cached) {
+      return cached;
     }
+
+    const image$ = this.mediaPublic.getRealImage(folder).pipe(
+      map((url) => (url ? url : this.defaultCoverImage)),
+      startWith(this.defaultCoverImage),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
+
+    this.packageHeroImageCache.set(folder, image$);
+    return image$;
   }
 
   startRequest(mode: RequestMode): void {
@@ -361,12 +431,79 @@ export class VideoModalComponent implements OnChanges {
   }
 
   guardRequestSubmit(event: MouseEvent): void {
-    if (this.hasAcceptedTerms()) {
+    console.log('[WA_FLOW][VIDEO_MODAL] click:guard', {
+      canSubmitRequest: this.canSubmitRequest(),
+      hasAcceptedTerms: this.hasAcceptedTerms(),
+      nameLen: this.customerName().trim().length,
+      phoneLen: this.customerPhone().trim().length,
+      isSubmittingRequest: this.isSubmittingRequest(),
+    });
+
+    if (!this.canSubmitRequest()) {
+      console.log('[WA_FLOW][VIDEO_MODAL] blocked:invalid-state');
+      event.preventDefault();
+      event.stopPropagation();
       return;
     }
 
-    event.preventDefault();
-    event.stopPropagation();
+    console.log('[WA_FLOW][VIDEO_MODAL] allowed:submit-start');
+    void this.submitRequest();
+  }
+
+  private async submitRequest(): Promise<void> {
+    const pkg = this.videoPackage;
+    console.log('[WA_FLOW][VIDEO_MODAL] submitRequest', {
+      hasPackage: !!pkg,
+      canSubmitRequest: this.canSubmitRequest(),
+      href: this.requestWhatsappHref(),
+    });
+
+    if (!pkg || !this.canSubmitRequest()) {
+      console.log('[WA_FLOW][VIDEO_MODAL] blocked:submit-invalid-state');
+      return;
+    }
+
+    this.isSubmittingRequest.set(true);
+
+    const locationParts = [this.eventCity().trim(), this.venueName().trim()].filter(
+      (part) => part.length > 0,
+    );
+    const summaryLines = [
+      `Tipo de servicio: Video`,
+      `Modalidad: ${this.requestMode() === 'base' ? 'Paquete base' : 'Personalizado'}`,
+      `Servicios: ${this.requestSummaryServices().join(', ') || 'No especificado'}`,
+      `Adicionales: ${this.requestSummaryAdditionalsDetailed().map((item) => item.name).join(', ') || 'Ninguno'}`,
+      `Total estimado: ${this.requestTotalLabel() || 'A confirmar'}`,
+      this.customerNotes().trim() ? `Notas: ${this.customerNotes().trim()}` : '',
+    ]
+      .filter((line) => line.length > 0)
+      .join(' | ');
+
+    try {
+      console.log('[WA_FLOW][VIDEO_MODAL] firestore:creating-request');
+      await this.serviceRequest.createRequest({
+        name: this.customerName(),
+        phone: this.customerPhone(),
+        service: 'Video',
+        package: pkg.name,
+        message: summaryLines,
+        eventDate: this.eventDate(),
+        location: locationParts.join(' - ') || undefined,
+      });
+      console.log('[WA_FLOW][VIDEO_MODAL] firestore:request-created');
+    } catch (error) {
+      console.error('No se pudo guardar la solicitud del paquete de video en Firestore', error);
+    }
+
+    const href = this.requestWhatsappHref();
+    console.log('[WA_FLOW][VIDEO_MODAL] whatsapp:opening', { href });
+    const popup = window.open(href, '_blank', 'noopener');
+    console.log('[WA_FLOW][VIDEO_MODAL] whatsapp:open-result', {
+      opened: !!popup,
+      blockedByBrowser: !popup,
+    });
+    this.isSubmittingRequest.set(false);
+    this.closeModal();
   }
 
   updateRequestMode(mode: RequestMode): void {
@@ -380,7 +517,7 @@ export class VideoModalComponent implements OnChanges {
   toggleRequestOption(optionId: string, checked: boolean): void {
     this.requestSelections.update((current) => ({
       ...current,
-      [optionId]: checked
+      [optionId]: checked,
     }));
   }
 
@@ -416,13 +553,27 @@ export class VideoModalComponent implements OnChanges {
     this.customerNotes.set(value);
   }
 
+  private videoPackageFolder(pkg: VideoServicePackage): string {
+    return `servicios/video/${this.videoPackageSlug(pkg)}`;
+  }
+
+  private videoPackageSlug(pkg: VideoServicePackage): string {
+    return pkg.name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '-');
+  }
+
   private resetRequestState(): void {
-    this.requestSelections.set(
-      {
-        ...Object.fromEntries(this.requestOptions().map((option) => [option.id, true])),
-        ...Object.fromEntries(this.additionalRequestOptions().map((option) => [option.id, false]))
-      }
-    );
+    this.requestSelections.set({
+      ...Object.fromEntries(
+        this.requestOptions().map((option) => [option.id, true]),
+      ),
+      ...Object.fromEntries(
+        this.additionalRequestOptions().map((option) => [option.id, false]),
+      ),
+    });
     this.modalStep.set('detail');
     this.requestMode.set('base');
     this.selectedBaseQuoteId.set('base');
@@ -434,5 +585,6 @@ export class VideoModalComponent implements OnChanges {
     this.guestCount.set('');
     this.customerNotes.set('');
     this.hasAcceptedTerms.set(false);
+    this.isSubmittingRequest.set(false);
   }
 }

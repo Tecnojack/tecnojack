@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,10 +6,16 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { MediaPublicService } from '../../../shared/media/media-public.service';
+import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
+import { ServiceRequestService } from '../../../services/service-request.service';
 import { SimpleService, SimpleServiceAddOn } from '../models/simple-service.model';
 
 const PHONE = '573145406467';
@@ -17,28 +23,43 @@ const PHONE = '573145406467';
 export interface SimpleServiceInquiryForm {
   name: string;
   phone: string;
+  eventDate: string;
+  location: string;
   message: string;
 }
 
 @Component({
   selector: 'tj-simple-service-modal',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule],
+  imports: [AsyncPipe, NgIf, NgFor, FormsModule, FallbackImageDirective, TjImageFallbackPipe],
   templateUrl: './simple-service-modal.component.html',
   styleUrl: './simple-service-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleServiceModalComponent implements OnChanges {
+  private readonly mediaPublic = inject(MediaPublicService);
+  private readonly serviceRequest = inject(ServiceRequestService);
+
   @Input() service: SimpleService | null = null;
   @Output() closeModal = new EventEmitter<void>();
 
-  form: SimpleServiceInquiryForm = { name: '', phone: '', message: '' };
+  form: SimpleServiceInquiryForm = {
+    name: '',
+    phone: '',
+    eventDate: '',
+    location: '',
+    message: ''
+  };
   selectedAddOnIds = new Set<string>();
+  coverImage$: Observable<string> = of('');
+  isSubmitting = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['service'] && changes['service'].currentValue) {
-      this.form = { name: '', phone: '', message: '' };
+      this.form = { name: '', phone: '', eventDate: '', location: '', message: '' };
       this.selectedAddOnIds = new Set<string>();
+      this.coverImage$ = this.resolveCoverImage();
+      this.isSubmitting = false;
     }
   }
 
@@ -103,8 +124,21 @@ export class SimpleServiceModalComponent implements OnChanges {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  sendWhatsApp(): void {
-    if (!this.service || !this.isFormValid) return;
+  async sendWhatsApp(): Promise<void> {
+    console.log('[WA_FLOW][SIMPLE_MODAL] click:sendWhatsApp', {
+      hasService: !!this.service,
+      isFormValid: this.isFormValid,
+      isSubmitting: this.isSubmitting,
+      nameLen: this.form.name.trim().length,
+      phoneLen: this.form.phone.trim().length,
+    });
+
+    if (!this.service || !this.isFormValid || this.isSubmitting) {
+      console.log('[WA_FLOW][SIMPLE_MODAL] blocked:invalid-state');
+      return;
+    }
+
+    this.isSubmitting = true;
 
     const selectedAddOnLines = this.selectedAddOns.length
       ? this.selectedAddOns.map((addOn) => `- ${addOn.label}: ${addOn.priceLabel}`)
@@ -119,6 +153,9 @@ export class SimpleServiceModalComponent implements OnChanges {
       ``,
       `Nombre: ${this.form.name}`,
       `WhatsApp: ${this.form.phone}`,
+      `Servicio: ${this.service.name}`,
+      `Fecha del evento: ${this.form.eventDate.trim() || 'No definida'}`,
+      `Ubicación: ${this.form.location.trim() || 'No definida'}`,
       `Precio base: ${this.service.priceLabel}`,
       `Total estimado: ${this.totalPriceLabel}`,
       ``,
@@ -132,7 +169,48 @@ export class SimpleServiceModalComponent implements OnChanges {
       this.form.message.trim() || '(sin detalles adicionales)'
     ].join('\n');
 
+    const detailsMessage = [
+      this.form.message.trim(),
+      `Adicionales: ${this.selectedAddOns.map((addOn) => addOn.label).join(', ') || 'Ninguno'}`,
+      `Incluye: ${this.selectedIncludes.join(', ')}`,
+      `Total estimado: ${this.totalPriceLabel}`
+    ]
+      .filter((line) => line && line.trim().length)
+      .join(' | ');
+
+    try {
+      console.log('[WA_FLOW][SIMPLE_MODAL] firestore:creating-request');
+      await this.serviceRequest.createRequest({
+        name: this.form.name,
+        phone: this.form.phone,
+        service: this.service.name,
+        package: this.service.id,
+        message: detailsMessage,
+        eventDate: this.form.eventDate,
+        location: this.form.location
+      });
+      console.log('[WA_FLOW][SIMPLE_MODAL] firestore:request-created');
+    } catch (error) {
+      console.error('No se pudo guardar la solicitud en Firestore', error);
+    }
+
     const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    console.log('[WA_FLOW][SIMPLE_MODAL] whatsapp:opening', { url });
+    const popup = window.open(url, '_blank', 'noopener,noreferrer');
+    console.log('[WA_FLOW][SIMPLE_MODAL] whatsapp:open-result', {
+      opened: !!popup,
+      blockedByBrowser: !popup,
+    });
+    this.isSubmitting = false;
+  }
+
+  private resolveCoverImage(): Observable<string> {
+    if (!this.service) {
+      return of('');
+    }
+
+    return this.mediaPublic.getRealImage(
+      `servicios/otros/${this.service.category}/${this.service.id}`,
+    );
   }
 }

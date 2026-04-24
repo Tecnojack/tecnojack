@@ -22,11 +22,18 @@
           [class.service-package-card--featured]="item.detail.featured"
           [class.service-package-card--luxury]="item.detail.slug.includes('luxury')">
           <div class="service-package-card__media">
+            <ng-container *ngIf="coverByDetail(item.detail) | async as coverUrl">
+              <img
+                tjFallbackImage
+                [src]="coverUrl | tjImageFallback"
+                [alt]="item.detail.title"
+                loading="lazy"
+                decoding="async" />
+            </ng-container>
             <div class="service-package-card__media-badges">
               <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
               <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
             </div>
-            <img tjFallbackImage [src]="item.detail.image" [alt]="item.detail.title" loading="lazy" decoding="async" />
           </div>
 
           <div class="service-package-card__body">

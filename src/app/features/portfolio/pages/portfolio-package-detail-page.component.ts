@@ -1,14 +1,29 @@
-import { DOCUMENT, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, computed, effect, inject, signal } from '@angular/core';
+import { AsyncPipe, DOCUMENT, NgFor, NgIf } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
+import { MediaPublicService } from '../../../shared/media/media-public.service';
+import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ContactSectionComponent } from '../sections/contact-section.component';
+import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
+import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { ServiceRequestService } from '../../../services/service-request.service';
 
 const copFormatter = new Intl.NumberFormat('es-CO');
 type RequestMode = 'base' | 'custom';
@@ -16,19 +31,38 @@ type RequestMode = 'base' | 'custom';
 @Component({
   selector: 'tj-portfolio-package-detail-page',
   standalone: true,
-  imports: [NgFor, NgIf, PortfolioShellComponent, ContactSectionComponent, RevealOnScrollDirective, FallbackImageDirective],
+  imports: [
+    AsyncPipe,
+    NgFor,
+    NgIf,
+    ScrollingModule,
+    PortfolioShellComponent,
+    ContactSectionComponent,
+    RevealOnScrollDirective,
+    FallbackImageDirective,
+    LazyImgComponent,
+    TjImageFallbackPipe,
+  ],
   templateUrl: './portfolio-package-detail-page.component.html',
   styleUrl: './portfolio-package-detail-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioPackageDetailPageComponent {
+  private static readonly INITIAL_VISIBLE_IMAGES = 20;
+  private static readonly VISIBLE_IMAGE_STEP = 20;
+  readonly placeholderImage = 'assets/images/placeholder.jpg';
   private readonly route = inject(ActivatedRoute);
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly document = inject(DOCUMENT);
   private readonly content = inject(PortfolioContentService);
+  private readonly mediaPublic = inject(MediaPublicService);
+  private readonly serviceRequest = inject(ServiceRequestService);
 
   readonly isRequestModalOpen = signal(false);
+  readonly visibleVisualImages = signal(
+    PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
+  );
   readonly hasAcceptedTerms = signal(false);
   readonly customerName = signal('');
   readonly customerPhone = signal('');
@@ -40,8 +74,13 @@ export class PortfolioPackageDetailPageComponent {
   readonly requestSelections = signal<Record<string, boolean>>({});
   readonly selectedBaseQuoteId = signal('');
   readonly requestMode = signal<RequestMode>('base');
-  private readonly routeData = toSignal(this.route.data, { initialValue: this.route.snapshot.data as Data });
-  private readonly routeParams = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
+  readonly isSubmittingRequest = signal(false);
+  private readonly routeData = toSignal(this.route.data, {
+    initialValue: this.route.snapshot.data as Data,
+  });
+  private readonly routeParams = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap,
+  });
 
   readonly packageDetail = computed(() => {
     const category = this.routeData()['category'] as string | undefined;
@@ -49,7 +88,13 @@ export class PortfolioPackageDetailPageComponent {
     return this.content.getPackageDetail(category, slug);
   });
 
-  readonly shellSubtitle = computed(() => this.packageDetail()?.categoryLabel ?? 'Portafolio');
+  readonly packageMediaFolder = computed(() =>
+    resolvePortfolioPackageMediaFolder(this.packageDetail()),
+  );
+
+  readonly shellSubtitle = computed(
+    () => this.packageDetail()?.categoryLabel ?? 'Portafolio',
+  );
   readonly footerText = computed(() => {
     const detail = this.packageDetail();
     return detail
@@ -59,10 +104,15 @@ export class PortfolioPackageDetailPageComponent {
 
   readonly selectedRequestItems = computed(() => {
     if (this.requestMode() === 'base') {
-      return this.fixedIncludedGroups().flatMap((group) => group.options.map((option) => option.label));
+      return this.fixedIncludedGroups().flatMap((group) =>
+        group.options.map((option) => option.label),
+      );
     }
 
-    return [...this.selectedIncludedOptions(), ...this.selectedAdditionalOptions()].map((option) => option.label);
+    return [
+      ...this.selectedIncludedOptions(),
+      ...this.selectedAdditionalOptions(),
+    ].map((option) => option.label);
   });
 
   readonly selectedBaseQuote = computed(() => {
@@ -72,7 +122,11 @@ export class PortfolioPackageDetailPageComponent {
       return undefined;
     }
 
-    return detail.baseQuoteOptions.find((option) => option.id === this.selectedBaseQuoteId()) ?? detail.baseQuoteOptions[0];
+    return (
+      detail.baseQuoteOptions.find(
+        (option) => option.id === this.selectedBaseQuoteId(),
+      ) ?? detail.baseQuoteOptions[0]
+    );
   });
 
   readonly selectedAdditionalOptions = computed(() => {
@@ -89,19 +143,24 @@ export class PortfolioPackageDetailPageComponent {
 
     return detail.requestOptionGroups
       .filter((group) => group.selectable)
-      .flatMap((group) => group.options.filter((option) => selected[option.id]));
+      .flatMap((group) =>
+        group.options.filter((option) => selected[option.id]),
+      );
   });
 
   readonly selectedIncludedOptions = computed(() => {
     const selected = this.requestSelections();
 
     return this.fixedIncludedGroups().flatMap((group) =>
-      group.options.filter((option) => selected[option.id])
+      group.options.filter((option) => selected[option.id]),
     );
   });
 
   readonly additionalServicesTotalCop = computed(() =>
-    this.selectedAdditionalOptions().reduce((total, option) => total + (option.priceAmountCop ?? 0), 0)
+    this.selectedAdditionalOptions().reduce(
+      (total, option) => total + (option.priceAmountCop ?? 0),
+      0,
+    ),
   );
 
   readonly estimatedTotalCop = computed(() => {
@@ -114,16 +173,30 @@ export class PortfolioPackageDetailPageComponent {
     return baseAmount + this.additionalServicesTotalCop();
   });
 
-  readonly fixedIncludedGroups = computed(() =>
-    this.packageDetail()?.requestOptionGroups.filter((group) => !group.selectable) ?? []
+  readonly fixedIncludedGroups = computed(
+    () =>
+      this.packageDetail()?.requestOptionGroups.filter(
+        (group) => !group.selectable,
+      ) ?? [],
   );
 
-  readonly customAdditionalGroups = computed(() =>
-    this.packageDetail()?.requestOptionGroups.filter((group) => group.selectable) ?? []
+  readonly customAdditionalGroups = computed(
+    () =>
+      this.packageDetail()?.requestOptionGroups.filter(
+        (group) => group.selectable,
+      ) ?? [],
   );
 
   readonly isBaseRequestMode = computed(() => this.requestMode() === 'base');
-  readonly isCustomRequestMode = computed(() => this.requestMode() === 'custom');
+  readonly isCustomRequestMode = computed(
+    () => this.requestMode() === 'custom',
+  );
+  readonly isRequestFormValid = computed(
+    () =>
+      this.customerName().trim().length > 1 &&
+      this.customerPhone().trim().length > 6 &&
+      !!this.packageDetail(),
+  );
 
   readonly requestWhatsappHref = computed(() => {
     const detail = this.packageDetail();
@@ -132,11 +205,16 @@ export class PortfolioPackageDetailPageComponent {
       return '/portfolio';
     }
 
+    return this.content.buildWhatsappHref(this.buildWhatsappMessage(detail));
+  });
+
+  private buildWhatsappMessage(detail: NonNullable<ReturnType<PortfolioPackageDetailPageComponent['packageDetail']>>): string {
+
     const lines = [
       `Hola TECNOJACK, quiero solicitar el paquete ${detail.title}.`,
       '',
       `Categoría: ${detail.categoryLabel}`,
-      `Modalidad: ${this.requestMode() === 'base' ? 'Paquete base' : 'Cotización personalizada'}`
+      `Modalidad: ${this.requestMode() === 'base' ? 'Paquete base' : 'Cotización personalizada'}`,
     ];
 
     if (this.customerName().trim()) {
@@ -179,7 +257,9 @@ export class PortfolioPackageDetailPageComponent {
     const additionalTotal = this.additionalServicesTotalCop();
 
     if (additionalTotal > 0) {
-      lines.push(`Adicionales seleccionados: ${this.formatCop(additionalTotal)}`);
+      lines.push(
+        `Adicionales seleccionados: ${this.formatCop(additionalTotal)}`,
+      );
     }
 
     const total = this.estimatedTotalCop();
@@ -192,8 +272,8 @@ export class PortfolioPackageDetailPageComponent {
       lines.push('', `Notas: ${this.customerNotes().trim()}`);
     }
 
-    return this.content.buildWhatsappHref(lines.join('\n'));
-  });
+    return lines.join('\n');
+  }
 
   constructor() {
     effect(() => {
@@ -203,7 +283,8 @@ export class PortfolioPackageDetailPageComponent {
         this.title.setTitle('Paquete no encontrado | TECNOJACK');
         this.meta.updateTag({
           name: 'description',
-          content: 'El paquete solicitado no está disponible. Explora las categorías del portafolio de TECNOJACK.'
+          content:
+            'El paquete solicitado no está disponible. Explora las categorías del portafolio de TECNOJACK.',
         });
         return;
       }
@@ -211,12 +292,19 @@ export class PortfolioPackageDetailPageComponent {
       this.requestSelections.set(
         Object.fromEntries(
           detail.requestOptionGroups.flatMap((group) =>
-            group.options.map((option) => [option.id, group.selectable ? option.selectedByDefault === true : true])
-          )
-        )
+            group.options.map((option) => [
+              option.id,
+              group.selectable ? option.selectedByDefault === true : true,
+            ]),
+          ),
+        ),
       );
       this.selectedBaseQuoteId.set(
-        detail.baseQuoteOptions.find((option) => option.selectedByDefault !== false)?.id ?? detail.baseQuoteOptions[0]?.id ?? ''
+        detail.baseQuoteOptions.find(
+          (option) => option.selectedByDefault !== false,
+        )?.id ??
+          detail.baseQuoteOptions[0]?.id ??
+          '',
       );
       this.requestMode.set('base');
       this.customerName.set('');
@@ -228,7 +316,12 @@ export class PortfolioPackageDetailPageComponent {
       this.customerNotes.set('');
       this.hasAcceptedTerms.set(false);
       this.isRequestModalOpen.set(false);
-      this.title.setTitle(`${detail.title} | ${detail.categoryLabel} | TECNOJACK`);
+      this.visibleVisualImages.set(
+        PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
+      );
+      this.title.setTitle(
+        `${detail.title} | ${detail.categoryLabel} | TECNOJACK`,
+      );
       this.meta.updateTag({ name: 'description', content: detail.lead });
     });
 
@@ -247,6 +340,38 @@ export class PortfolioPackageDetailPageComponent {
     });
   }
 
+  packageMediaState() {
+    return this.mediaPublic.getResolvedMediaStateByFolder(
+      this.packageMediaFolder(),
+    );
+  }
+
+  optimizeImage(url: string, width = 400): string {
+    return optimizeImage(url, width);
+  }
+
+  getVisibleGalleryItems(
+    galleryUrls: string[],
+  ): Array<{ id: string; url: string }> {
+    return galleryUrls
+      .slice(0, this.visibleVisualImages())
+      .map((url, index) => ({ id: `${index}-${url}`, url }));
+  }
+
+  hasMoreVisualImages(galleryUrls: string[]): boolean {
+    return galleryUrls.length > this.visibleVisualImages();
+  }
+
+  loadMoreVisualImages(): void {
+    this.visibleVisualImages.update(
+      (current) => current + PortfolioPackageDetailPageComponent.VISIBLE_IMAGE_STEP,
+    );
+  }
+
+  trackById(index: number, item: { id: string }): string {
+    return item.id;
+  }
+
   @HostListener('document:keydown.escape')
   handleEscape(): void {
     if (this.isRequestModalOpen()) {
@@ -256,21 +381,82 @@ export class PortfolioPackageDetailPageComponent {
 
   openRequestModal(): void {
     this.hasAcceptedTerms.set(false);
+    this.isSubmittingRequest.set(false);
     this.isRequestModalOpen.set(true);
   }
 
   closeRequestModal(): void {
     this.isRequestModalOpen.set(false);
     this.hasAcceptedTerms.set(false);
+    this.isSubmittingRequest.set(false);
   }
 
   guardRequestSubmit(event: MouseEvent): void {
-    if (this.hasAcceptedTerms()) {
+    console.log('[WA_FLOW][PACKAGE_DETAIL] click:guard', {
+      hasAcceptedTerms: this.hasAcceptedTerms(),
+      isRequestFormValid: this.isRequestFormValid(),
+      isSubmittingRequest: this.isSubmittingRequest(),
+    });
+
+    if (this.hasAcceptedTerms() && this.isRequestFormValid()) {
       return;
     }
 
+    console.log('[WA_FLOW][PACKAGE_DETAIL] blocked:invalid-state');
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  async submitRequest(): Promise<void> {
+    const detail = this.packageDetail();
+
+    console.log('[WA_FLOW][PACKAGE_DETAIL] click:submitRequest', {
+      hasDetail: !!detail,
+      hasAcceptedTerms: this.hasAcceptedTerms(),
+      isRequestFormValid: this.isRequestFormValid(),
+      isSubmittingRequest: this.isSubmittingRequest(),
+      href: this.requestWhatsappHref(),
+    });
+
+    if (
+      !detail ||
+      !this.hasAcceptedTerms() ||
+      !this.isRequestFormValid() ||
+      this.isSubmittingRequest()
+    ) {
+      console.log('[WA_FLOW][PACKAGE_DETAIL] blocked:submit-invalid-state');
+      return;
+    }
+
+    this.isSubmittingRequest.set(true);
+
+    const message = this.buildWhatsappMessage(detail);
+    const locationParts = [this.eventCity().trim(), this.venueName().trim()].filter((part) => part.length > 0);
+
+    try {
+      console.log('[WA_FLOW][PACKAGE_DETAIL] firestore:creating-request');
+      await this.serviceRequest.createRequest({
+        name: this.customerName(),
+        phone: this.customerPhone(),
+        service: detail.categoryLabel,
+        package: detail.title,
+        message,
+        eventDate: this.eventDate(),
+        location: locationParts.join(' - ') || undefined,
+      });
+      console.log('[WA_FLOW][PACKAGE_DETAIL] firestore:request-created');
+    } catch (error) {
+      console.error('No se pudo guardar la solicitud del paquete en Firestore', error);
+    }
+
+    const href = this.requestWhatsappHref();
+    console.log('[WA_FLOW][PACKAGE_DETAIL] whatsapp:opening', { href });
+    const popup = window.open(href, '_blank', 'noopener,noreferrer');
+    console.log('[WA_FLOW][PACKAGE_DETAIL] whatsapp:open-result', {
+      opened: !!popup,
+      blockedByBrowser: !popup,
+    });
+    this.closeRequestModal();
   }
 
   updateCustomerName(value: string): void {
@@ -304,7 +490,7 @@ export class PortfolioPackageDetailPageComponent {
   toggleRequestOption(optionId: string, checked: boolean): void {
     this.requestSelections.update((current) => ({
       ...current,
-      [optionId]: checked
+      [optionId]: checked,
     }));
   }
 

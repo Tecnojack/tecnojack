@@ -1,0 +1,61 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "media",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "folder",    "order": "ASCENDING"  },
+        { "fieldPath": "status",    "order": "ASCENDING"  },
+        { "fieldPath": "deletedAt", "order": "ASCENDING"  },
+        { "fieldPath": "order",     "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "media",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "folder",    "order": "ASCENDING"  },
+        { "fieldPath": "deletedAt", "order": "ASCENDING"  },
+        { "fieldPath": "order",     "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mediaFolders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "root",       "order": "ASCENDING" },
+        { "fieldPath": "parentPath", "order": "ASCENDING" },
+        { "fieldPath": "path",       "order": "ASCENDING" }
+      ]
+    },
+    {
+      "_comment": "Clientes publicados por servicio, ordenados por fecha de creación",
+      "collectionGroup": "clients",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "service",   "order": "ASCENDING"  },
+        { "fieldPath": "status",    "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "Búsqueda de cliente publicado por slug + servicio",
+      "collectionGroup": "clients",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "slug",    "order": "ASCENDING" },
+        { "fieldPath": "service", "order": "ASCENDING" },
+        { "fieldPath": "status",  "order": "ASCENDING" }
+      ]
+    },
+    {
+      "_comment": "Listado admin de todos los clientes por fecha de creación",
+      "collectionGroup": "clients",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

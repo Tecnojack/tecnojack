@@ -242,7 +242,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-direccion-creativa-revision', label: 'Ronda adicional de ajustes', priceLabel: '$80.000 COP', price: 80000 },
       { id: 'prod-direccion-creativa-entrega-express', label: 'Entrega express', priceLabel: '$70.000 COP', price: 70000 }
     ],
-    image: 'assets/images/fotos/main.jpg'
+    image: 'assets/images/fotos/default-cover.png'
   },
   {
     id: 'prod-guion-storytelling',
@@ -392,7 +392,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'assets/images/fotos/main.jpg'
+    image: 'assets/images/fotos/default-cover.png'
   },
 
   // ── ESTUDIO ───────────────────────────────────────────────────

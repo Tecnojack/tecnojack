@@ -1,5 +1,5 @@
 <div class="service-category-page" *ngIf="pageConfig() as config">
-    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="'url(' + config.hero.backgroundImage + ')'">
+    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
         <div class="service-category-hero__content" tjRevealOnScroll>
@@ -76,11 +76,18 @@
                             [class.reveal--left]="(index + groupIndex) % 2 === 0"
                             [class.reveal--right]="(index + groupIndex) % 2 !== 0">
                             <div class="service-package-card__media">
+                                <ng-container *ngIf="coverByDetail(item.detail) | async as coverUrl">
+                                    <img
+                                        tjFallbackImage
+                                        [src]="coverUrl | tjImageFallback"
+                                        [alt]="item.detail.title"
+                                        loading="lazy"
+                                        decoding="async" />
+                                </ng-container>
                                 <div class="service-package-card__media-badges">
                                     <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
                                     <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
                                 </div>
-                                <img tjFallbackImage [src]="item.detail.image" [alt]="item.detail.title" loading="lazy" decoding="async" />
                             </div>
 
                             <div class="service-package-card__body">
@@ -123,25 +130,79 @@
             <p class="service-category-stories__lead text-body text-muted">{{ config.storiesLead }}</p>
         </div>
 
-        <div class="service-category-stories__grid">
+        <div class="service-category-stories__grid" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
             <button
                 class="story-card"
                 type="button"
-                *ngFor="let story of config.stories; let index = index"
+                *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId"
                 tjRevealOnScroll
+                [class.story-card--empty]="story.images.length === 0"
+                [disabled]="story.images.length === 0"
                 (click)="openStoryModal(index)">
+                <span class="story-card__service-badge">{{ story.title }}</span>
                 <div class="story-card__preview">
-                    <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story)">
-                        <img tjFallbackImage [src]="image.src" [alt]="image.alt" loading="lazy" decoding="async" />
+                    <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
+                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                    </figure>
+
+                    <figure class="story-card__tile story-card__tile--empty" *ngFor="let _slot of getStoryEmptySlots(story)">
+                        <span>Sin imágenes</span>
                     </figure>
                 </div>
 
                 <div class="story-card__copy">
                     <strong class="heading-md">{{ story.clientName }}</strong>
-                    <span class="text-body text-muted">{{ story.location }}</span>
+                    <span class="story-card__meta text-body text-muted">
+                        <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
+                        <span class="story-card__meta-dot" *ngIf="story.location">•</span>
+                        <span>{{ story.location }}</span>
+                    </span>
                 </div>
             </button>
+
+            <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
+                Cargar más
+            </button>
         </div>
+
+        <ng-template #mobileStoriesAccordions>
+            <div class="service-category-stories__accordion-list">
+                <details class="story-accordion" *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId">
+                    <summary class="story-accordion__summary">
+                        <div class="story-accordion__summary-main">
+                            <strong class="heading-md">{{ story.clientName }}</strong>
+                            <span class="story-card__meta text-body text-muted">
+                                <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
+                                <span class="story-card__meta-dot" *ngIf="story.location">•</span>
+                                <span>{{ story.location }}</span>
+                            </span>
+                        </div>
+                        <span class="story-accordion__badge">{{ story.title }}</span>
+                    </summary>
+
+                    <div class="story-accordion__body" *ngIf="story.images.length > 0; else storyAccordionEmpty">
+                        <div class="story-accordion__preview">
+                            <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
+                                <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                            </figure>
+                        </div>
+                        <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
+                            Ver galería
+                        </button>
+                    </div>
+
+                    <ng-template #storyAccordionEmpty>
+                        <div class="story-accordion__body story-accordion__body--empty">
+                            <span class="text-body text-muted">Sin imágenes publicadas.</span>
+                        </div>
+                    </ng-template>
+                </details>
+
+                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
+                    Cargar más
+                </button>
+            </div>
+        </ng-template>
     </section>
 
     <div class="service-package-modal" *ngIf="selectedPackage() as detail">
@@ -163,16 +224,14 @@
             </div>
 
             <ng-container *ngIf="modalStep() === 'detail'; else requestStep">
-                <div class="service-package-modal__body service-package-modal__body--detail">
+                <div class="service-package-modal__body service-package-modal__body--detail" *ngIf="mediaStateByDetail(detail) | async as mediaState">
                     <div class="service-package-modal__intro">
                         <div class="service-package-modal__visuals">
                             <article class="service-package-modal__visual">
-                                <img
-                                    tjFallbackImage
-                                    [src]="detail.image"
+                                <tj-lazy-img
+                                    [src]="optimizeImage(mediaState.coverUrl | tjImageFallback, 400)"
                                     [alt]="detail.title"
-                                    loading="lazy"
-                                    decoding="async" />
+                                    aspectRatio="4 / 3"></tj-lazy-img>
                                 <div class="service-package-modal__visual-editor">
                                     <strong class="service-package-modal__price">
                                         {{ selectedPackagePriceLabel() }}
@@ -181,10 +240,34 @@
                                 </div>
                             </article>
 
-                            <article class="service-package-modal__visual" *ngFor="let item of packageVisuals().slice(1)">
-                                <img tjFallbackImage [src]="item.src" [alt]="item.alt" loading="lazy" decoding="async" />
-                            </article>
+                            <cdk-virtual-scroll-viewport
+                                class="service-package-modal__virtual-viewport"
+                                [itemSize]="260"
+                                [style.height]="getPackageGalleryViewportHeight(mediaState.galleryUrls)">
+                                <article class="service-package-modal__visual" *cdkVirtualFor="let imageItem of getVisiblePackageGalleryItems(mediaState.galleryUrls); trackBy: trackById">
+                                    <tj-lazy-img
+                                        [src]="optimizeImage(imageItem.url | tjImageFallback, 400)"
+                                        [alt]="detail.title"
+                                        aspectRatio="4 / 3"></tj-lazy-img>
+                                </article>
+                            </cdk-virtual-scroll-viewport>
                         </div>
+
+                        <div class="service-package-modal__actions" *ngIf="hasMorePackageImages(mediaState.galleryUrls)">
+                            <button class="service-package-modal__secondary btn-text" type="button" (click)="loadMorePackageImages()">
+                                Cargar más
+                            </button>
+                        </div>
+
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'loading'">
+                            Cargando imágenes...
+                        </p>
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'error'">
+                            No fue posible cargar la galería. Se muestra la imagen por defecto.
+                        </p>
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'empty'">
+                            Aún no hay imágenes publicadas para esta carpeta. Se muestra el fallback por defecto.
+                        </p>
 
                         <div class="service-package-modal__sections service-package-modal__sections--secondary" *ngIf="detailSecondarySections().length">
                             <article class="service-package-modal__section" *ngFor="let section of detailSecondarySections()">
@@ -218,6 +301,7 @@
 
             <ng-template #requestStep>
                 <div class="service-package-modal__body service-package-modal__body--request">
+                    <div class="service-package-request__column service-package-request__column--form">
                     <details class="service-package-request__accordion" open>
                         <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
                     <div class="service-package-request__form">
@@ -244,7 +328,7 @@
 
                             <label class="service-package-request__field">
                                 <span>Fecha estimada</span>
-                                <input type="text" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" placeholder="Ej. 20 de junio de 2026" />
+                                <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
                             </label>
 
                             <label class="service-package-request__field">
@@ -264,7 +348,9 @@
                         </div>
                     </div>
                     </details>
+                    </div>
 
+                    <div class="service-package-request__column service-package-request__column--details">
                     <details class="service-package-request__accordion" open>
                         <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
                         <div class="service-package-request__builder">
@@ -376,7 +462,9 @@
                             </section>
                         </div>
                     </details>
+                    </div>
 
+                    <div class="service-package-request__column service-package-request__column--summary">
                     <details class="service-package-request__accordion" open>
                         <summary class="service-package-request__accordion-summary">Resumen de la solicitud</summary>
                     <aside class="service-package-request__summary">
@@ -436,6 +524,7 @@
                         </a>
                     </aside>
                     </details>
+                    </div>
                 </div>
             </ng-template>
         </div>
@@ -448,6 +537,7 @@
             <div class="story-gallery-modal__topbar">
                 <div>
                     <p>{{ story.clientName }}</p>
+                    <span>Tipo: {{ story.title }} · Fecha: {{ story.subtitle || 'Por confirmar' }}</span>
                     <span>{{ story.location }}</span>
                 </div>
 
@@ -456,7 +546,7 @@
 
             <div class="story-gallery-modal__viewer" *ngIf="currentStoryImage() as image">
                 <button class="story-gallery-modal__nav story-gallery-modal__nav--prev" type="button" (click)="showPreviousStoryImage()" aria-label="Imagen anterior">‹</button>
-                <img tjFallbackImage [src]="image.src" [alt]="image.alt" />
+                <img tjFallbackImage src="assets/images/placeholder.jpg" [src]="image.src" [alt]="image.alt" />
                 <button class="story-gallery-modal__nav story-gallery-modal__nav--next" type="button" (click)="showNextStoryImage()" aria-label="Imagen siguiente">›</button>
             </div>
 
@@ -466,12 +556,15 @@
                     <button
                         class="story-gallery-modal__thumb"
                         type="button"
-                        *ngFor="let image of story.images; let index = index"
+                        *ngFor="let image of getVisibleStoryThumbs(story); let index = index; trackBy: trackByStoryImage"
                         [class.story-gallery-modal__thumb--active]="index === activeStoryImageIndex()"
                         (click)="activeStoryImageIndex.set(index)">
-                        <img tjFallbackImage [src]="image.src" [alt]="image.alt" loading="lazy" decoding="async" />
+                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
                     </button>
                 </div>
+                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStoryThumbs(story)" (click)="loadMoreStoryThumbs()">
+                    Cargar más
+                </button>
             </div>
         </div>
     </div>

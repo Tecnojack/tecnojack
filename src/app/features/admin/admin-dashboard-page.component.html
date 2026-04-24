@@ -6,8 +6,37 @@
       <p>Aquí ves el estado general y cómo está compuesta cada página antes de entrar a editarla por separado.</p>
     </div>
 
-    <a class="dashboard-page__primary" [routerLink]="['/admin/pages/new']">Agregar página o servicio</a>
+    <div class="dashboard-page__actions">
+      <button 
+        class="dashboard-page__secondary" 
+        (click)="createStorageStructure()"
+        [disabled]="isCreatingStructure()">
+        {{ isCreatingStructure() ? 'Creando estructura...' : 'Crear estructura de almacenamiento' }}
+      </button>
+      <a class="dashboard-page__primary" [routerLink]="['/admin/pages/new']">Agregar página o servicio</a>
+    </div>
   </header>
+
+  <section class="dashboard-page__status-bar" *ngIf="isCreatingStructure() || showSuccessMessage()">
+    <div class="progress-container" *ngIf="isCreatingStructure()">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(structureProgress().current / structureProgress().total) * 100"></div>
+      </div>
+      <div class="progress-details">
+        <p>
+          <span *ngIf="structureProgress().status === 'created'">✔ Creada: </span>
+          <span *ngIf="structureProgress().status === 'exists'">⚠ Existente: </span>
+          <span *ngIf="structureProgress().status === 'error'">❌ Error: </span>
+          {{ structureProgress().lastPath }} 
+        </p>
+        <p class="progress-count">{{ structureProgress().current }} de {{ structureProgress().total }}</p>
+      </div>
+    </div>
+    
+    <div class="success-message" *ngIf="showSuccessMessage()">
+      <p>✅ Proceso de estructura finalizado</p>
+    </div>
+  </section>
 
   <section class="dashboard-page__stats">
     <article *ngFor="let stat of dashboardStats()">

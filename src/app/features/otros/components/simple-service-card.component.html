@@ -1,12 +1,15 @@
 <article class="ssc" (click)="onSelect()" (keydown.enter)="onSelect()" tabindex="0" role="button" [attr.aria-label]="'Ver detalles de ' + service.name">
   <div class="ssc__media">
-    <img
-      [src]="imageSrc"
-      [alt]="service.name"
-      loading="lazy"
-      decoding="async"
-      class="ssc__img"
-    />
+    <ng-container *ngIf="coverImage$ | async as coverUrl">
+      <img
+        tjFallbackImage
+        [src]="coverUrl"
+        [alt]="service.name"
+        loading="lazy"
+        decoding="async"
+        class="ssc__img"
+      />
+    </ng-container>
     <span class="ssc__badge">{{ service.priceLabel }}</span>
   </div>
   <div class="ssc__body">

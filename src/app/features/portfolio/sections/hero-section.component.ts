@@ -43,7 +43,9 @@ export class HeroSectionComponent {
   }
 
   get whatsappHref() {
-    return this.content.whatsappHref();
+    return this.content.buildWhatsappHref(
+      'Hola TECNOJACK, quiero cotizar un proyecto audiovisual ¿Me puedes direccionar en la elección de paquetes según mi proyecto?'
+    );
   }
 
   readonly servicesHref = '#services';

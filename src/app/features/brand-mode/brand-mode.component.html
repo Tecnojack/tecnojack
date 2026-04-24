@@ -1,52 +1,104 @@
-<div class="container">
-    <div class="card linktree">
-        <div class="linktree__head">
-            <p class="kicker">TECNOJACK</p>
-            <h1 class="title">Producción audiovisual & experiencias digitales</h1>
-            <p class="muted linktree__intro">
-                Impulsamos tu marca y tus momentos con foto y video profesional.
-                También creamos invitaciones digitales modernas y personalizadas para eventos.
-            </p>
+<tj-portfolio-shell [navItems]="navItems" brandHref="/brand" subtitle="Inicio" [floatWaHref]="primaryWhatsappHref" [hideHeader]="true">
+    <section class="portfolio-section brand-linktree">
+        <div class="brand-linktree__panel">
+            <div class="brand-linktree__head">
+                <picture class="brand-linktree__logo" aria-label="Logo TECNOJACK">
+                    <source [srcset]="brandLogoSquareWhite" media="(max-width: 699px)" />
+                    <img [src]="brandLogoHorizontalWhite" alt="Logo TECNOJACK" />
+                </picture>
+                <p class="brand-linktree__eyebrow">TECNOJACK</p>
+                <h1 class="heading-lg brand-linktree__title">Producción audiovisual y experiencias digitales</h1>
+                <p class="brand-linktree__lead text-body text-muted">
+                    Un acceso directo a lo importante: bodas, videos, corporativos, servicios, clientes e invitaciones.
+                </p>
+            </div>
+
+            <div class="brand-linktree__facts" aria-label="Resumen del sitio">
+                <article class="brand-fact" *ngFor="let item of heroFacts">
+                    <span class="brand-fact__label">{{ item.label }}</span>
+                    <strong class="brand-fact__value">{{ item.value }}</strong>
+                </article>
+            </div>
+
+            <section class="brand-linktree__group" aria-labelledby="brand-services-title">
+                <div class="brand-linktree__group-head">
+                    <p>Servicios</p>
+                    <h2 class="heading-md" id="brand-services-title">Explora por categoría</h2>
+                </div>
+
+                <div class="brand-linktree__list">
+                    <ng-container *ngFor="let item of services">
+                        <a
+                            *ngIf="isInternalRoute(item.href); else externalServiceLink"
+                            class="brand-link"
+                            [routerLink]="item.href">
+                            <span class="brand-link__icon" aria-hidden="true">
+                                <img [src]="item.icon" alt="" />
+                            </span>
+                            <span class="brand-link__text">
+                                <span class="brand-link__eyebrow">{{ item.eyebrow }}</span>
+                                <strong class="brand-link__title">{{ item.title }}</strong>
+                                <span class="brand-link__desc text-body text-muted">{{ item.description }}</span>
+                            </span>
+                            <span class="brand-link__cta">{{ item.cta }}</span>
+                        </a>
+
+                        <ng-template #externalServiceLink>
+                            <a class="brand-link" [href]="item.href" target="_blank" rel="noopener">
+                                <span class="brand-link__icon" aria-hidden="true">
+                                    <img [src]="item.icon" alt="" />
+                                </span>
+                                <span class="brand-link__text">
+                                    <span class="brand-link__eyebrow">{{ item.eyebrow }}</span>
+                                    <strong class="brand-link__title">{{ item.title }}</strong>
+                                    <span class="brand-link__desc text-body text-muted">{{ item.description }}</span>
+                                </span>
+                                <span class="brand-link__cta">{{ item.cta }}</span>
+                            </a>
+                        </ng-template>
+                    </ng-container>
+                </div>
+            </section>
+
+            <section class="brand-linktree__group" aria-labelledby="brand-links-title">
+                <div class="brand-linktree__group-head">
+                    <p>Atajos</p>
+                    <h2 class="heading-md" id="brand-links-title">Contacto y accesos rápidos</h2>
+                </div>
+
+                <div class="brand-linktree__list brand-linktree__list--secondary">
+                    <ng-container *ngFor="let item of links">
+                        <a
+                            *ngIf="isInternalRoute(item.href); else externalQuickLink"
+                            class="brand-link brand-link--secondary"
+                            [routerLink]="item.href">
+                            <span class="brand-link__icon" aria-hidden="true">
+                                <img [src]="item.icon" alt="" />
+                            </span>
+                            <span class="brand-link__text">
+                                <span class="brand-link__eyebrow">{{ item.eyebrow }}</span>
+                                <strong class="brand-link__title">{{ item.title }}</strong>
+                                <span class="brand-link__desc text-body text-muted">{{ item.description }}</span>
+                            </span>
+                            <span class="brand-link__cta">{{ item.cta }}</span>
+                        </a>
+
+                        <ng-template #externalQuickLink>
+                            <a class="brand-link brand-link--secondary" [href]="item.href" target="_blank" rel="noopener">
+                                <span class="brand-link__icon" aria-hidden="true">
+                                    <img [src]="item.icon" alt="" />
+                                </span>
+                                <span class="brand-link__text">
+                                    <span class="brand-link__eyebrow">{{ item.eyebrow }}</span>
+                                    <strong class="brand-link__title">{{ item.title }}</strong>
+                                    <span class="brand-link__desc text-body text-muted">{{ item.description }}</span>
+                                </span>
+                                <span class="brand-link__cta">{{ item.cta }}</span>
+                            </a>
+                        </ng-template>
+                    </ng-container>
+                </div>
+            </section>
         </div>
-
-        <section class="linktree__section" aria-label="Servicios">
-            <h2 class="linktree__section-title">Servicios</h2>
-            <div class="linktree__grid">
-                <a
-                    class="card linktree__card"
-                    *ngFor="let item of services"
-                    [href]="item.href"
-                    target="_blank"
-                    rel="noopener">
-                    <div class="linktree__icon" aria-hidden="true">
-                        <img [src]="item.icon" alt="" />
-                    </div>
-                    <div class="linktree__text">
-                        <div class="linktree__title">{{ item.title }}</div>
-                        <div class="muted linktree__desc">{{ item.description }}</div>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <section class="linktree__section" aria-label="Enlaces">
-            <h2 class="linktree__section-title">Enlaces</h2>
-            <div class="linktree__grid">
-                <a
-                    class="card linktree__card"
-                    *ngFor="let item of links"
-                    [href]="item.href"
-                    target="_blank"
-                    rel="noopener">
-                    <div class="linktree__icon" aria-hidden="true">
-                        <img [src]="item.icon" alt="" />
-                    </div>
-                    <div class="linktree__text">
-                        <div class="linktree__title">{{ item.title }}</div>
-                        <div class="muted linktree__desc">{{ item.description }}</div>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </div>
-</div>
+    </section>
+</tj-portfolio-shell>

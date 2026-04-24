@@ -1,5 +1,5 @@
 <tj-portfolio-shell [navItems]="navItems" [subtitle]="pageConfig.shellSubtitle" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
-    <section class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="'url(' + pageConfig.hero.backgroundImage + ')'">
+    <section class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
         <div class="service-category-hero__content" tjRevealOnScroll>
             <div class="service-category-hero__layout">
@@ -167,13 +167,18 @@
                         </label>
 
                         <label class="service-package-request__field">
+                            <span>Servicio</span>
+                            <input type="text" value="Grados institucionales" readonly />
+                        </label>
+
+                        <label class="service-package-request__field">
                             <span>Ciudad</span>
                             <input type="text" [value]="eventCity()" (input)="eventCity.set(($any($event.target).value ?? '').toString())" placeholder="Ciudad" />
                         </label>
 
                         <label class="service-package-request__field">
                             <span>Fecha estimada</span>
-                            <input type="text" [value]="eventDate()" (input)="eventDate.set(($any($event.target).value ?? '').toString())" placeholder="dd/mm/aaaa" />
+                            <input type="date" [value]="eventDate()" (input)="eventDate.set(($any($event.target).value ?? '').toString())" />
                         </label>
 
                         <label class="service-package-request__field">
@@ -198,16 +203,14 @@
             </div>
 
             <div class="service-package-modal__footer">
-                <a
+                <button
                     class="service-package-request__submit btn-text"
-                    [href]="institutionsWhatsappHref()"
-                    target="_blank"
-                    rel="noopener"
+                    type="button"
                     [class.is-disabled]="!hasAcceptedTerms()"
-                    [attr.aria-disabled]="!hasAcceptedTerms()"
-                    (click)="guardInstitutionsSubmit($event); hasAcceptedTerms() && closeInstitutionsRequest()">
-                    Enviar por WhatsApp
-                </a>
+                    [attr.aria-disabled]="!hasAcceptedTerms() || !isInstitutionsRequestFormValid() || isSubmittingInstitutionsRequest()"
+                    (click)="guardInstitutionsSubmit($event); submitInstitutionsRequest()">
+                    {{ isSubmittingInstitutionsRequest() ? 'Enviando...' : 'Enviar por WhatsApp' }}
+                </button>
             </div>
         </div>
     </div>

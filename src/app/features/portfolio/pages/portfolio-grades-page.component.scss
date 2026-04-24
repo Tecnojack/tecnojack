@@ -69,7 +69,6 @@
 
 /* Comprimir el contenido de estudiantes: solo grilla de paquetes, sin hero/encabezado/historias. */
 .grades-mode__panel--students ::ng-deep .service-category-hero,
-.grades-mode__panel--students ::ng-deep .service-category-stories,
 .grades-mode__panel--students ::ng-deep .service-category-packages__head {
   display: none;
 }

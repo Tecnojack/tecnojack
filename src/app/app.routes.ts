@@ -140,27 +140,33 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'soluciones',
+		loadComponent: () =>
+			import('./features/solutions/solutions-page.component').then(
+				(m) => m.SolutionsPageComponent
+			)
+	},
+	{
 		path: 'media-admin',
 		children: MEDIA_ADMIN_ROUTES
 	},
 	{
 		path: 'admin',
-		children: [
-			{
-				path: 'login',
-				pathMatch: 'full',
-				redirectTo: '/media-admin/login'
-			},
-			{
-				path: '',
-				pathMatch: 'full',
-				redirectTo: '/media-admin'
-			},
-			{
-				path: '**',
-				redirectTo: '/media-admin'
-			}
-		]
+		redirectTo: 'media-admin'
+	},
+	{
+		path: 'clientes/:service/:slug',
+		loadComponent: () =>
+			import('./features/portfolio/components/client-detail.component').then(
+				(m) => m.ClientDetailComponent
+			)
+	},
+	{
+		path: 'clientes',
+		loadComponent: () =>
+			import('./features/portfolio/pages/clients-page.component').then(
+				(m) => m.ClientsPageComponent
+			)
 	},
 	{
 		path: ':wedding/:guest/:count',

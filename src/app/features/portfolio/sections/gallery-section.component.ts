@@ -17,6 +17,7 @@ import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-sc
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import { PortfolioGalleryItem } from '../portfolio.data';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 
 type PhotoSwipeLightboxModule = typeof import('photoswipe/lightbox');
 type PhotoSwipeLightboxType = InstanceType<PhotoSwipeLightboxModule['default']>;
@@ -32,6 +33,7 @@ type GallerySize = { w: number; h: number };
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GallerySectionComponent implements AfterViewInit {
+  readonly placeholderImage = 'assets/images/placeholder.jpg';
   private readonly destroyRef = inject(DestroyRef);
   private readonly content = inject(PortfolioContentService);
 
@@ -111,5 +113,13 @@ export class GallerySectionComponent implements AfterViewInit {
 
   toggleExpanded(): void {
     this.isExpanded.update((value) => !value);
+  }
+
+  optimizeImage(url: string, width = 400): string {
+    return optimizeImage(url, width);
+  }
+
+  trackByGallerySrc(index: number, item: PortfolioGalleryItem): string {
+    return item.src || String(index);
   }
 }

@@ -1,5 +1,9 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -8,7 +12,7 @@ import { MediaAdminAuthService } from './media-admin-auth.service';
 @Component({
   selector: 'tj-media-admin-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule],
   template: `
     <main class="container">
       <h1 class="heading-lg">Media Admin</h1>
@@ -17,17 +21,33 @@ import { MediaAdminAuthService } from './media-admin-auth.service';
       <form class="card" [formGroup]="form" (ngSubmit)="submit()">
         <div class="field">
           <label class="text-body">Email</label>
-          <input class="input" type="email" formControlName="email" autocomplete="email" />
+          <input
+            class="input"
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+          />
         </div>
 
         <div class="field">
           <label class="text-body">Contraseña</label>
-          <input class="input" type="password" formControlName="password" autocomplete="current-password" />
+          <input
+            class="input"
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+          />
         </div>
 
-        <p class="text-body text-muted" *ngIf="error()">{{ error() }}</p>
+        @if (error()) {
+          <p class="text-body text-muted">{{ error() }}</p>
+        }
 
-        <button class="btn" type="submit" [disabled]="loading() || form.invalid">
+        <button
+          class="btn"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
           {{ loading() ? 'Ingresando…' : 'Ingresar' }}
         </button>
       </form>
@@ -57,9 +77,9 @@ import { MediaAdminAuthService } from './media-admin-auth.service';
         background: color-mix(in srgb, var(--surface) 92%, white);
         color: var(--text);
       }
-    `
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaAdminLoginPageComponent {
   private readonly fb = inject(FormBuilder);
@@ -71,7 +91,7 @@ export class MediaAdminLoginPageComponent {
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
   });
 
   async submit(): Promise<void> {
@@ -81,10 +101,16 @@ export class MediaAdminLoginPageComponent {
     this.error.set(null);
 
     try {
-      const redirectTo = this.route.snapshot.queryParamMap.get('redirectTo') ?? '/media-admin';
-      await this.auth.login(this.form.value.email ?? '', this.form.value.password ?? '', redirectTo);
+      const redirectTo =
+        this.route.snapshot.queryParamMap.get('redirectTo') ?? '/media-admin';
+      await this.auth.login(
+        this.form.value.email ?? '',
+        this.form.value.password ?? '',
+        redirectTo,
+      );
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'No se pudo iniciar sesión.';
+      const message =
+        err instanceof Error ? err.message : 'No se pudo iniciar sesión.';
       this.error.set(message);
       this.loading.set(false);
     }

@@ -374,7 +374,7 @@ function buildSectionData(): CmsSectionData[] {
       body: 'Este bloque centraliza el mensaje de apertura de la landing del portfolio y permite evolucionarlo sin tocar componentes.',
       mediaIds: [],
       data: {
-        stats: ['10+ anos', '4K', '100% direccion artistica'],
+        stats: ['7+ anos', '4K', '100% direccion artistica'],
         highlights: ['Estetica cinematografica', 'Cobertura para eventos y marcas', 'Direccion visual con intencion']
       }
     },

@@ -43,7 +43,7 @@
                         <article class="service-package-modal__visual">
                             <img
                                 tjFallbackImage
-                                [src]="packageHeroImage(pkg)"
+                                [src]="(packageHeroImage$(pkg) | async) ?? defaultCoverImage"
                                 [alt]="pkg.name"
                                 loading="lazy"
                                 decoding="async" />
@@ -88,6 +88,7 @@
 
         <ng-template #requestStep>
             <div class="service-package-modal__body service-package-modal__body--request">
+                <div class="service-package-request__column service-package-request__column--form">
                 <details class="service-package-request__accordion" open>
                     <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
                 <div class="service-package-request__form">
@@ -114,7 +115,7 @@
 
                         <label class="service-package-request__field">
                             <span>Fecha estimada</span>
-                            <input type="text" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" placeholder="Ej. 20 de junio de 2026" />
+                            <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
                         </label>
 
                         <label class="service-package-request__field">
@@ -134,7 +135,9 @@
                     </div>
                 </div>
                 </details>
+                </div>
 
+                <div class="service-package-request__column service-package-request__column--details">
                 <details class="service-package-request__accordion" open>
                     <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
                     <div class="service-package-request__builder">
@@ -246,7 +249,9 @@
                         </section>
                     </div>
                 </details>
+                </div>
 
+                <div class="service-package-request__column service-package-request__column--summary">
                 <details class="service-package-request__accordion" open>
                     <summary class="service-package-request__accordion-summary">Resumen de la solicitud</summary>
                 <aside class="service-package-request__summary">
@@ -296,13 +301,14 @@
                         [href]="requestWhatsappHref()"
                         target="_blank"
                         rel="noopener"
-                        [class.is-disabled]="!hasAcceptedTerms()"
-                        [attr.aria-disabled]="!hasAcceptedTerms()"
+                        [class.is-disabled]="!canSubmitRequest()"
+                        [attr.aria-disabled]="!canSubmitRequest()"
                         (click)="guardRequestSubmit($event)">
                         {{ requestSubmitLabel() }}
                     </a>
                 </aside>
                 </details>
+                </div>
             </div>
         </ng-template>
     </div>

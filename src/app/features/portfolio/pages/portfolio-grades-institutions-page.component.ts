@@ -1,7 +1,12 @@
-import { NgFor } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Observable, map, of, shareReplay, startWith, switchMap } from 'rxjs';
 
+import {
+  MEDIA_PUBLIC_FALLBACK_IMAGE,
+  MediaPublicService,
+} from '../../../shared/media/media-public.service';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 
@@ -14,13 +19,14 @@ type AdditionalCard = {
 @Component({
   selector: 'tj-portfolio-grades-institutions-page',
   standalone: true,
-  imports: [PortfolioShellComponent, NgFor],
+  imports: [AsyncPipe, PortfolioShellComponent, NgFor],
   templateUrl: './portfolio-grades-institutions-page.component.html',
   styleUrl: './portfolio-grades-institutions-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PortfolioGradesInstitutionsPageComponent {
   private readonly content = inject(PortfolioContentService);
+  private readonly mediaPublic = inject(MediaPublicService);
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
 
@@ -29,6 +35,25 @@ export class PortfolioGradesInstitutionsPageComponent {
     'Cubrimos ceremonias de grado con un modelo organizado, escalable y enfocado en entregar recuerdos de alta calidad para cada estudiante.';
 
   readonly heroBackgroundImage = 'assets/images/galery/M&D-5.jpg';
+  readonly heroBackgroundImage$: Observable<string | null> = this.mediaPublic
+    .getCoverByFolder('servicios/grados/instituciones')
+    .pipe(
+      switchMap((url) => {
+        if (url && url !== MEDIA_PUBLIC_FALLBACK_IMAGE) {
+          return of(`url(${url})`);
+        }
+
+        return this.mediaPublic.getCoverByFolder('servicios/grados').pipe(
+          map((fallbackUrl) =>
+            fallbackUrl && fallbackUrl !== MEDIA_PUBLIC_FALLBACK_IMAGE
+              ? `url(${fallbackUrl})`
+              : null,
+          ),
+        );
+      }),
+      startWith(null),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
 
   readonly serviceModelText =
     'Trabajamos bajo un modelo por estudiante que permite a la institución ofrecer un servicio profesional sin complicaciones, manteniendo calidad y organización en todo el proceso.';

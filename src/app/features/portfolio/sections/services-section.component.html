@@ -1,23 +1,39 @@
 <section class="portfolio-section services-section" id="services">
-    <div class="section-heading" tjRevealOnScroll>
-        <p>{{ heading.eyebrow }}</p>
-        <h2 class="heading-lg">{{ heading.title }}</h2>
-        <p class="text-body text-muted" *ngIf="heading.lead">{{ heading.lead }}</p>
-    </div>
+    <div class="services-shell" tjRevealOnScroll>
+        <div class="services-shell__accent services-shell__accent--left" aria-hidden="true"></div>
+        <div class="services-shell__accent services-shell__accent--right" aria-hidden="true"></div>
 
-    <div class="services-grid">
-        <article
-            class="service-card"
-            *ngFor="let service of services; let index = index"
-            tjRevealOnScroll
-            [class.reveal--left]="index % 2 === 0"
-            [class.reveal--right]="index % 2 !== 0">
-            <div class="service-card__body">
-                <span class="service-card__index">0{{ index + 1 }}</span>
-                <h3 class="heading-md">{{ service.title }}</h3>
-                <p class="text-body text-muted">{{ service.description }}</p>
-                <a class="service-card__cta btn-text" [href]="service.href">{{ service.ctaLabel || 'Ver paquetes' }}</a>
-            </div>
-        </article>
+        <header class="section-heading">
+            <p class="section-heading__eyebrow">{{ heading.eyebrow }}</p>
+            <h2 class="heading-lg">{{ heading.title }}</h2>
+            <p class="section-heading__meta">{{ services.length }} propuestas activas</p>
+        </header>
+
+        <div class="services-grid">
+            <article
+                class="service-card"
+                *ngFor="let service of services; let index = index"
+                tjRevealOnScroll
+                [class.service-card--featured]="service.id === 'bodas' || service.id === 'solutions'"
+                [class.service-card--solutions]="service.id === 'solutions'"
+                [class.reveal--left]="index % 2 === 0"
+                [class.reveal--right]="index % 2 !== 0">
+                <div class="service-card__glow" aria-hidden="true"></div>
+                <div class="service-card__body">
+                    <div class="service-card__head">
+                        <span class="service-card__index">{{ index + 1 < 10 ? '0' + (index + 1) : index + 1 }}</span>
+                        <span class="service-card__tag">Formato visual</span>
+                    </div>
+
+                    <h3 class="heading-md">{{ service.title }}</h3>
+                    <p class="text-body text-muted">{{ service.description }}</p>
+
+                    <a class="service-card__cta" [href]="service.href">
+                        {{ service.ctaLabel || 'Ver paquetes' }}
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </article>
+        </div>
     </div>
 </section>

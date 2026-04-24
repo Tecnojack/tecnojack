@@ -12,7 +12,7 @@
             [class.portfolio-package-detail--rose]="detail.accent === 'rose'"
             [class.portfolio-package-detail--modal-open]="isRequestModalOpen()"
             [class.portfolio-package-detail--featured]="detail.featured">
-            <div class="package-hero" tjRevealOnScroll>
+            <div class="package-hero" tjRevealOnScroll *ngIf="packageMediaState() | async as mediaState">
                 <div class="package-hero__copy">
                     <a class="package-hero__back" [href]="detail.categoryHref">Volver a {{ detail.categoryLabel }}</a>
                     <p class="package-hero__eyebrow">{{ detail.eyebrow }}</p>
@@ -42,9 +42,15 @@
                 </div>
 
                 <div class="package-hero__media">
-                    <img tjFallbackImage [src]="detail.image" [alt]="detail.title" loading="eager" decoding="async" />
+                    <img tjFallbackImage [src]="mediaState.coverUrl | tjImageFallback" [alt]="detail.title" loading="eager" decoding="async" />
                 </div>
             </div>
+
+            <p class="text-body text-muted" *ngIf="packageMediaState() | async as mediaState">
+                <ng-container *ngIf="mediaState.status === 'loading'">Cargando imágenes...</ng-container>
+                <ng-container *ngIf="mediaState.status === 'error'">No fue posible cargar la galería. Se usa una imagen por defecto.</ng-container>
+                <ng-container *ngIf="mediaState.status === 'empty'">No hay imágenes publicadas para esta carpeta todavía. Se muestra el fallback por defecto.</ng-container>
+            </p>
 
             <div class="package-sections">
                 <article class="package-section-card" *ngFor="let section of detail.sections" tjRevealOnScroll>
@@ -65,19 +71,28 @@
                 </article>
             </div>
 
-            <section class="package-visuals" *ngIf="detail.visuals?.length" tjRevealOnScroll>
+            <section class="package-visuals" *ngIf="packageMediaState() | async as mediaState" tjRevealOnScroll>
                 <div class="package-visuals__head">
                     <p>Visual guía</p>
                     <h2 class="heading-lg">{{ detail.visualsTitle }}</h2>
                 </div>
 
-                <div class="package-visuals__grid">
-                    <article class="package-visual-card" *ngFor="let visual of detail.visuals">
+                <cdk-virtual-scroll-viewport class="package-visuals__grid" [itemSize]="320">
+                    <article class="package-visual-card" *cdkVirtualFor="let imageItem of getVisibleGalleryItems(mediaState.galleryUrls); trackBy: trackById">
                         <div class="package-visual-card__media">
-                            <img tjFallbackImage [src]="visual.image" [alt]="visual.title" loading="lazy" decoding="async" />
+                            <tj-lazy-img
+                                [src]="optimizeImage(imageItem.url | tjImageFallback, 400)"
+                                [alt]="detail.title"
+                                aspectRatio="4 / 3"></tj-lazy-img>
                         </div>
-                        <strong>{{ visual.title }}</strong>
+                        <strong>{{ detail.title }}</strong>
                     </article>
+                </cdk-virtual-scroll-viewport>
+
+                <div class="package-visuals__actions" *ngIf="hasMoreVisualImages(mediaState.galleryUrls)">
+                    <button class="package-hero__secondary btn-text" type="button" (click)="loadMoreVisualImages()">
+                        Cargar más
+                    </button>
                 </div>
             </section>
 
@@ -106,6 +121,7 @@
                     </div>
 
                     <div class="package-request-modal__body">
+                        <div class="package-request__column package-request__column--form">
                         <details class="package-request__accordion" open>
                             <summary class="package-request__accordion-summary">Datos de contacto</summary>
                         <div class="package-request-form">
@@ -120,13 +136,18 @@
                             </label>
 
                             <label class="package-request-field">
+                                <span>Servicio</span>
+                                <input type="text" [value]="detail.categoryLabel" readonly />
+                            </label>
+
+                            <label class="package-request-field">
                                 <span>Ciudad</span>
                                 <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del evento" />
                             </label>
 
                             <label class="package-request-field">
                                 <span>Fecha estimada</span>
-                                <input type="text" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" placeholder="Ej. 14 de agosto de 2026" />
+                                <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
                             </label>
 
                             <label class="package-request-field">
@@ -145,7 +166,9 @@
                             </label>
                         </div>
                         </details>
+                        </div>
 
+                        <div class="package-request__column package-request__column--details">
                         <details class="package-request__accordion" open>
                             <summary class="package-request__accordion-summary">Tipo de solicitud</summary>
                             <div class="package-request-groups">
@@ -260,7 +283,9 @@
                                 </section>
                             </div>
                         </details>
+                        </div>
 
+                        <div class="package-request__column package-request__column--summary">
                         <details class="package-request__accordion" open>
                             <summary class="package-request__accordion-summary">Resumen de la solicitud</summary>
                         <aside class="package-request-summary">
@@ -294,6 +319,7 @@
                             </ng-template>
                         </aside>
                         </details>
+                        </div>
                     </div>
 
                     <div class="package-request-modal__actions">
@@ -311,16 +337,14 @@
                         <a class="package-request-modal__ghost btn-text" [href]="detail.categoryHref">
                             Explorar más paquetes
                         </a>
-                        <a
+                        <button
                             class="package-request-modal__submit btn-text"
-                            [href]="requestWhatsappHref()"
-                            target="_blank"
-                            rel="noopener"
+                            type="button"
                             [class.is-disabled]="!hasAcceptedTerms()"
-                            [attr.aria-disabled]="!hasAcceptedTerms()"
-                            (click)="guardRequestSubmit($event)">
-                            Enviar por WhatsApp
-                        </a>
+                            [attr.aria-disabled]="!hasAcceptedTerms() || !isRequestFormValid() || isSubmittingRequest()"
+                            (click)="guardRequestSubmit($event); submitRequest()">
+                            {{ isSubmittingRequest() ? 'Enviando...' : 'Enviar por WhatsApp' }}
+                        </button>
                     </div>
                 </div>
             </div>

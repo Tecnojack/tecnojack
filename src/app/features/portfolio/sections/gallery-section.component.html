@@ -8,14 +8,20 @@
     <div class="gallery-grid" #pswpGallery>
         <a
             class="gallery-item"
-            *ngFor="let item of galleryMeta(); let index = index"
+            *ngFor="let item of galleryMeta(); let index = index; trackBy: trackByGallerySrc"
             tjRevealOnScroll
             [href]="item.src"
             [attr.data-pswp-width]="item.width"
             [attr.data-pswp-height]="item.height"
             [ngClass]="[item.layoutClass, index % 2 === 0 ? 'reveal--left' : 'reveal--right']">
             <figure>
-                <img tjFallbackImage [src]="item.src" [alt]="item.alt" loading="lazy" decoding="async" />
+                <img
+                    tjFallbackImage
+                    src="assets/images/placeholder.jpg"
+                    [src]="optimizeImage(item.src, 400)"
+                    [alt]="item.alt"
+                    loading="lazy"
+                    decoding="async" />
                 <figcaption>
                     <span>{{ item.category }}</span>
                     <strong class="heading-md">{{ item.title }}</strong>

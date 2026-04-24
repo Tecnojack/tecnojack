@@ -25,6 +25,7 @@ export class PortfolioShellComponent {
   @Input() footerText?: string;
   @Input() editable = false;
   @Input() floatWaHref?: string;
+  @Input() hideHeader = false;
 
   get resolvedHeaderCtaHref(): string {
     return this.headerCtaHref || this.content.whatsappHref();

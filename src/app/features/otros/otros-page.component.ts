@@ -1,8 +1,13 @@
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Observable, map, shareReplay, startWith } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../shared/animations/reveal-on-scroll.directive';
+import {
+  MEDIA_PUBLIC_FALLBACK_IMAGE,
+  MediaPublicService,
+} from '../../shared/media/media-public.service';
 import { PortfolioShellComponent } from '../portfolio/portfolio-shell.component';
 import { PortfolioContentService } from '../portfolio/services/portfolio-content.service';
 import { SimpleServiceCardComponent } from './components/simple-service-card.component';
@@ -21,6 +26,7 @@ const PHONE = '573145406467';
   selector: 'tj-otros-page',
   standalone: true,
   imports: [
+    AsyncPipe,
     NgFor,
     NgIf,
     PortfolioShellComponent,
@@ -36,6 +42,7 @@ export class OtrosPageComponent implements OnInit {
   private readonly content = inject(PortfolioContentService);
   private readonly titleSvc = inject(Title);
   private readonly metaSvc = inject(Meta);
+  private readonly mediaPublic = inject(MediaPublicService);
 
   readonly selectedService = signal<SimpleService | null>(null);
 
@@ -43,6 +50,15 @@ export class OtrosPageComponent implements OnInit {
   readonly categories = SERVICE_CATEGORIES;
   readonly categoryLabels = SERVICE_CATEGORY_LABELS;
   readonly heroBackgroundImage = 'assets/images/galery/M&D-23.jpg';
+  readonly heroCategoryHeroImage$: Observable<string | null> = this.mediaPublic
+    .getCoverByFolder('servicios/otros')
+    .pipe(
+      map((url) =>
+        url && url !== MEDIA_PUBLIC_FALLBACK_IMAGE ? `url(${url})` : null,
+      ),
+      startWith(null),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
   readonly heroScrollTarget = '#cat-fotografia';
   readonly heroFacts = [
     { label: 'Servicios', value: `${this.allServices.length} opciones` },
