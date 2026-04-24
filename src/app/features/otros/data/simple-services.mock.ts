@@ -493,5 +493,119 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     ],
     notes: ['Cuéntanos el plan con anticipación para coordinar bien la logística.'],
     image: 'assets/images/galery/M&D-15.jpg'
+  },
+
+  // ── MATERNIDAD ────────────────────────────────────────────────
+  {
+    id: 'fotografia-embarazo',
+    category: 'maternidad',
+    name: 'Sesión de embarazo',
+    shortDescription: 'Fotografía de maternidad emocional, natural y llena de luz.',
+    description:
+      'Sesión pensada para celebrar una de las etapas más especiales de la vida. Capturo la conexión, la ternura y la emoción de la espera con un estilo natural y cálido.',
+    basePrice: 350000,
+    priceLabel: 'Desde $350.000 COP',
+    includes: [
+      'Sesión de 2 horas en locación natural o estudio',
+      'Dirección suave y cómoda para la mamá',
+      '30 fotografías editadas con estilo cálido y natural',
+      'Retoque estético profesional en cada imagen',
+      'Opciones para incluir pareja o hermanos mayores',
+      'Entrega digital en 7 días hábiles'
+    ]
+  },
+  {
+    id: 'fotografia-baby-shower',
+    category: 'maternidad',
+    name: 'Cobertura baby shower',
+    shortDescription: 'Recuerdos reales de la celebración antes del nacimiento.',
+    description:
+      'Cobertura fotográfica completa del baby shower para capturar la alegría, los detalles y las personas que acompañan esta celebración única.',
+    basePrice: 320000,
+    priceLabel: 'Desde $320.000 COP',
+    includes: [
+      'Cobertura de 2 a 3 horas del evento',
+      'Fotografías del espacio, decoración, invitados y momentos clave',
+      '30 fotografías editadas listas para compartir',
+      'Fotos de detalle y ambiente incluídas',
+      'Formato para redes y recuerdo impreso',
+      'Entrega en 5 días hábiles'
+    ]
+  },
+  {
+    id: 'fotografia-revelacion-genero',
+    category: 'maternidad',
+    name: 'Revelación de género',
+    shortDescription: 'El momento exacto cuando todo se revela.',
+    description:
+      'Captura el instante mágico de la revelación de género con una sesión preparada para no perder nada: la reacción, la emoción y la sorpresa.',
+    basePrice: 300000,
+    priceLabel: 'Desde $300.000 COP',
+    includes: [
+      'Coordinación previa del momento clave',
+      'Cobertura del instante de revelación y reacciones',
+      '30 fotografías editadas de la secuencia completa',
+      'Registro en secuencia: antes, durante y después del momento',
+      'Formato para compartir en redes y familia',
+      'Entrega rápida en 3 días hábiles'
+    ],
+    notes: ['Ideal combinar con sesión de maternidad completa.']
+  },
+
+  // ── MOMENTOS ESPECIALES ───────────────────────────────────────
+  {
+    id: 'fotografia-familiar',
+    category: 'momentos-especiales',
+    name: 'Sesión familiar',
+    shortDescription: 'Fotos auténticas que muestran cómo es tu familia de verdad.',
+    description:
+      'Una sesión natural y relajada donde capturo la dinámica real de tu familia: risas, juegos y momentos espontáneos que merecen quedarse.',
+    basePrice: 350000,
+    priceLabel: 'Desde $350.000 COP',
+    includes: [
+      'Sesión de 2 horas en locación natural',
+      'Dirección suave para adultos y niños',
+      '30 fotografías editadas del grupo familiar',
+      'Fotos en grupo e individuales por solicitud',
+      'Formatos para imprimir y redes sociales',
+      'Entrega digital en 7 días hábiles'
+    ]
+  },
+  {
+    id: 'fotografia-peticion-mano',
+    category: 'momentos-especiales',
+    name: 'Petición de mano',
+    shortDescription: 'Captura el sí más importante de tu vida.',
+    description:
+      'Planeamos juntos el momento perfecto para que tú solo tengas que preocuparte por preguntar. Yo me encargo de capturar cada segundo con discreción y emoción.',
+    basePrice: 380000,
+    priceLabel: 'Desde $380.000 COP',
+    includes: [
+      'Coordinación previa y logística del momento',
+      'Cobertura discreta desde ángulo estratégico',
+      '30 fotografías editadas del instante y la reacción',
+      'Secuencia completa: propuesta + reacción + celebración',
+      'Versión para compartir en redes (formato vertical)',
+      'Entrega en 3 días hábiles'
+    ],
+    notes: ['Todo se coordina con el cliente con anticipación para que sea una sorpresa perfecta.']
+  },
+  {
+    id: 'fotografia-aniversario',
+    category: 'momentos-especiales',
+    name: 'Sesión de aniversario',
+    shortDescription: 'Una sesión para celebrar y recordar lo que han construido juntos.',
+    description:
+      'Sesión fotográfica de pareja con enfoque en el vínculo, la historia compartida y la complicidad. Ideal para aniversarios, fechas especiales o simplemente para recordar quiénes son hoy.',
+    basePrice: 320000,
+    priceLabel: 'Desde $320.000 COP',
+    includes: [
+      'Sesión de 2 horas en locación elegida por la pareja',
+      'Dirección natural orientada a momentos reales',
+      '30 fotografías editadas con estilo cálido',
+      'Fotos en parejas y retratos individuales incluidos',
+      'Opciones en exterior e interior',
+      'Entrega digital en 7 días hábiles'
+    ]
   }
 ];

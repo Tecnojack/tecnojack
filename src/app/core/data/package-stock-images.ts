@@ -214,6 +214,49 @@ export const PACKAGE_STOCK_IMAGES: PackageStockImage[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=800&q=80',
     keywords: ['surprise moment', 'proposal', 'emotion']
+  },
+
+  // ── OTROS · MATERNIDAD ────────────────────────────────────────
+  {
+    path: 'servicios/otros/maternidad/fotografia-embarazo',
+    imageUrl:
+      'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&w=800&q=80',
+    keywords: ['maternity', 'pregnancy', 'natural portrait']
+  },
+  {
+    path: 'servicios/otros/maternidad/fotografia-baby-shower',
+    imageUrl:
+      'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=800&q=80',
+    keywords: ['baby shower', 'celebration', 'pregnancy party']
+  },
+  {
+    path: 'servicios/otros/maternidad/fotografia-revelacion-genero',
+    imageUrl:
+      'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80',
+    keywords: ['gender reveal', 'pink blue', 'surprise']
+  },
+
+  // ── OTROS · FAMILIA ───────────────────────────────────────────
+  // (categoría sin servicios activos — fotografia-familiar movida a momentos-especiales)
+
+  // ── OTROS · MOMENTOS ESPECIALES ───────────────────────────────
+  {
+    path: 'servicios/otros/momentos-especiales/fotografia-familiar',
+    imageUrl:
+      'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?auto=format&fit=crop&w=800&q=80',
+    keywords: ['family session', 'natural family', 'lifestyle']
+  },
+  {
+    path: 'servicios/otros/momentos-especiales/fotografia-peticion-mano',
+    imageUrl:
+      'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+    keywords: ['proposal', 'engagement', 'ring moment']
+  },
+  {
+    path: 'servicios/otros/momentos-especiales/fotografia-aniversario',
+    imageUrl:
+      'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80',
+    keywords: ['anniversary', 'couple', 'romantic session']
   }
 ];
 

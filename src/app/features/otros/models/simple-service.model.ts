@@ -4,7 +4,10 @@ export type ServiceCategory =
   | 'contenido'
   | 'produccion'
   | 'estudio'
-  | 'momentos';
+  | 'momentos'
+  | 'maternidad'
+  | 'familia'
+  | 'momentos-especiales';
 
 export const SERVICE_CATEGORY_LABELS: Record<ServiceCategory, string> = {
   fotografia: 'Fotografía',
@@ -12,7 +15,10 @@ export const SERVICE_CATEGORY_LABELS: Record<ServiceCategory, string> = {
   contenido: 'Contenido',
   produccion: 'Producción',
   estudio: 'Estudio',
-  momentos: 'Momentos'
+  momentos: 'Momentos',
+  maternidad: 'Maternidad',
+  familia: 'Familia',
+  'momentos-especiales': 'Momentos Especiales'
 };
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
@@ -21,7 +27,10 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
   'contenido',
   'produccion',
   'estudio',
-  'momentos'
+  'momentos',
+  'maternidad',
+  'familia',
+  'momentos-especiales'
 ];
 
 export interface SimpleServiceAddOn {

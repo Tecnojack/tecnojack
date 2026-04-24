@@ -38,25 +38,32 @@
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   border: 1px solid var(--op-line);
-  border-radius: 18px;
-  padding: 26px 22px;
+  border-radius: 20px;
+  padding: 32px 28px;
   background:
     radial-gradient(circle at 88% 0%, rgba(98, 217, 255, 0.09), transparent 26%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.012));
+  transition: border-color 260ms ease;
+
+  &:hover {
+    border-color: rgba(170, 225, 245, 0.38);
+  }
 }
 
 .op-category + .op-category {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .op-category__header {
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
 .op-category__title {
   margin: 0;
   position: relative;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  letter-spacing: -0.01em;
 
   &::after {
     content: '';
@@ -64,36 +71,42 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 46px;
+    width: 52px;
     height: 3px;
     background: linear-gradient(90deg, var(--portfolio-accent), #ffc784);
     border-radius: 999px;
+    transition: width 260ms ease;
   }
+}
+
+.op-category:hover .op-category__title::after {
+  width: 80px;
 }
 
 /* ── Grid de servicios ──────────────────────────────── */
 .op-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 20px;
 }
 
 :host ::ng-deep tj-simple-service-card {
   display: block;
-  border-radius: 16px;
-  transition: transform 0.24s ease;
+  border-radius: 20px;
+  transition: transform 0.26s ease, box-shadow 0.26s ease;
 }
 
 :host ::ng-deep tj-simple-service-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(216, 179, 107, 0.18);
 }
 
 .op-contact {
   width: min(1180px, calc(100% - 32px));
-  margin: 14px auto 0;
+  margin: 22px auto 0;
   border: 1px solid rgba(255, 199, 132, 0.32);
-  border-radius: 18px;
-  padding: 28px 22px;
+  border-radius: 20px;
+  padding: 36px 32px;
   background:
     radial-gradient(circle at 84% 18%, rgba(255, 199, 132, 0.14), transparent 32%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.01));
@@ -101,7 +114,7 @@
 
 .op-contact__inner {
   display: grid;
-  gap: 16px;
+  gap: 18px;
   max-width: 620px;
 }
 
@@ -116,19 +129,28 @@
 
 .op-contact__title {
   margin: 0;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  line-height: 1.15;
 }
 
 .op-contact__desc {
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.75;
+  opacity: 0.82;
 }
 
 .op-contact__cta {
   justify-self: start;
   font-weight: 800;
   border-radius: 999px;
-  min-height: 44px;
-  padding-inline: 22px;
+  min-height: 46px;
+  padding-inline: 26px;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(216, 179, 107, 0.25);
+  }
 }
 
 @media (max-width: 860px) {
@@ -151,7 +173,7 @@
 
   .op-category,
   .op-contact {
-    padding: 18px 14px;
+    padding: 20px 16px;
   }
 
   .op-grid {
