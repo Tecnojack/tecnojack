@@ -1,0 +1,361 @@
+:host {
+    display: block;
+}
+
+.packages-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 12px 0;
+}
+
+.section-heading {
+    max-width: none;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    margin: 8px auto 0;
+    max-width: 32ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.55rem, 2.2vw, 2.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.packages-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.package-card {
+    display: grid;
+    gap: 14px;
+    padding: 26px;
+    border-radius: 30px;
+    border: 1px solid var(--portfolio-line);
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: var(--portfolio-shadow);
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.package-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 179, 107, 0.3);
+}
+
+.package-card--featured {
+    background: linear-gradient(180deg, rgba(216, 179, 107, 0.12), rgba(255, 255, 255, 0.03));
+    border-color: rgba(216, 179, 107, 0.3);
+}
+
+.package-card__tag {
+    justify-self: start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(216, 179, 107, 0.15);
+    color: var(--portfolio-accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.package-card__cta,
+.wedding-plan__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin-top: 6px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(216, 179, 107, 0.96), rgba(164, 121, 53, 0.92));
+    color: #120d07;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+.package-card__cta:hover,
+.wedding-plan__cta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+.package-card h3,
+.package-card strong,
+.package-card p,
+.package-card li {
+    margin: 0;
+}
+
+.package-card h3 {
+    font-size: 1.6rem;
+}
+
+.package-card strong {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.package-card p,
+.package-card li {
+    color: var(--portfolio-muted);
+    line-height: 1.72;
+}
+
+.package-card ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.package-card li {
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.packages-subsection {
+    margin-top: 28px;
+    padding: 26px;
+    border-radius: 30px;
+    border: 1px solid var(--portfolio-line);
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: var(--portfolio-shadow);
+}
+
+.packages-subsection__head {
+    max-width: none;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.packages-subsection__head p {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.packages-subsection__head h3 {
+    margin: 8px auto 0;
+    max-width: 34ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.3rem, 1.9vw, 1.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.shots-grid,
+.extras-grid,
+.wedding-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.shot-card,
+.extra-card,
+.wedding-plan {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 10, 10, 0.44);
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.shot-card:hover,
+.extra-card:hover,
+.wedding-plan:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 179, 107, 0.28);
+}
+
+.shot-card {
+    overflow: hidden;
+}
+
+.shot-card__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.shot-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.shot-card__body {
+    display: grid;
+    gap: 8px;
+    padding: 16px;
+}
+
+.shot-card__body strong,
+.shot-card__body p,
+.extra-card strong,
+.extra-card span,
+.extra-card p,
+.wedding-plan h4,
+.wedding-plan strong,
+.wedding-plan span,
+.wedding-plan p,
+.wedding-plan li {
+    margin: 0;
+}
+
+.shot-card__body p,
+.extra-card p,
+.wedding-plan p,
+.wedding-plan li {
+    color: var(--portfolio-muted);
+    line-height: 1.68;
+}
+
+.wedding-grid {
+    margin-top: 8px;
+}
+
+.wedding-plan {
+    display: grid;
+    gap: 12px;
+    padding: 22px;
+}
+
+.wedding-plan--featured {
+    background: linear-gradient(180deg, rgba(216, 179, 107, 0.14), rgba(255, 255, 255, 0.03));
+    border-color: rgba(216, 179, 107, 0.3);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+}
+
+.wedding-plan__tag {
+    justify-self: start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(216, 179, 107, 0.14);
+    color: var(--portfolio-accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.wedding-plan h4 {
+    font-size: 1.55rem;
+}
+
+.wedding-plan__price {
+    display: grid;
+    gap: 4px;
+}
+
+.wedding-plan__price strong {
+    font-size: 1.9rem;
+}
+
+.wedding-plan__price span {
+    color: var(--portfolio-muted);
+}
+
+.wedding-plan ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wedding-plan li {
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.extras-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.extra-card {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+}
+
+.extra-card span {
+    color: var(--portfolio-accent);
+    font-weight: 700;
+}
+
+.extra-card button {
+    min-height: 42px;
+    border: 1px solid rgba(216, 179, 107, 0.28);
+    border-radius: 999px;
+    background: rgba(216, 179, 107, 0.08);
+    color: var(--portfolio-text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+
+.extra-card button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(216, 179, 107, 0.44);
+    background: rgba(216, 179, 107, 0.16);
+}
+
+@media (min-width: 980px) {
+    .packages-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    .shots-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .wedding-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    .package-card--featured {
+        transform: translateY(-14px);
+    }
+
+    .wedding-plan--featured {
+        transform: translateY(-12px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .package-card,
+    .package-card__cta,
+    .wedding-plan__cta,
+    .shot-card,
+    .extra-card,
+    .wedding-plan,
+    .extra-card button {
+        transition: none;
+    }
+
+    .package-card--featured,
+    .wedding-plan--featured {
+        transform: none;
+    }
+}

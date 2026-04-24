@@ -1,0 +1,41 @@
+<section class="portfolio-section prewedding-packages-section" id="prewedding-packages">
+    <div class="prewedding-packages-section__heading" tjRevealOnScroll>
+        <p>Preboda</p>
+        <h2 class="heading-lg">{{ title }}</h2>
+        <p class="prewedding-packages-section__lead text-body text-muted">
+            Una propuesta visual romántica para parejas que quieren una sesión con sensibilidad,
+            dirección estética y una memoria fotográfica con intención.
+        </p>
+    </div>
+
+    <div class="prewedding-pricing-grid">
+        <article
+            class="prewedding-pricing-card"
+            *ngFor="let plan of plans; let index = index"
+            tjRevealOnScroll
+            [class.prewedding-pricing-card--featured]="plan.featured"
+            [class.reveal--left]="index % 2 === 0"
+            [class.reveal--right]="index % 2 !== 0">
+            <div class="prewedding-pricing-card__badges">
+                <span class="prewedding-pricing-card__tag">{{ plan.featured ? 'Premium' : 'Plan' }}</span>
+                <span class="prewedding-pricing-card__status" *ngIf="plan.featured">Favorito</span>
+            </div>
+            <h3 class="heading-md">{{ plan.name }}</h3>
+
+            <div class="prewedding-pricing-card__price-block" *ngIf="plan.price">
+                <strong>{{ plan.price }}</strong>
+            </div>
+
+            <div class="prewedding-pricing-card__list-block" [class.prewedding-pricing-card__list-block--intro]="plan.featured">
+                <p *ngIf="plan.featured">Incluye:</p>
+                <ul>
+                    <li *ngFor="let item of plan.items">{{ item }}</li>
+                </ul>
+            </div>
+
+            <a class="prewedding-pricing-card__cta btn-text" [href]="planDetailHref(plan.slug)">
+                Ver detalle
+            </a>
+        </article>
+    </div>
+</section>

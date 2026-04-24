@@ -1,0 +1,23 @@
+<div class="video-accordion">
+    <section class="video-accordion__item" *ngFor="let category of categories" [class.video-accordion__item--open]="isOpen(category.key)">
+        <button
+            class="video-accordion__header"
+            type="button"
+            (click)="toggleCategory(category.key)"
+            [attr.aria-expanded]="isOpen(category.key)">
+            <div class="video-accordion__copy">
+                <p>{{ category.title }}</p>
+                <span>{{ category.summary }}</span>
+            </div>
+            <span class="video-accordion__icon">{{ isOpen(category.key) ? '−' : '+' }}</span>
+        </button>
+
+        <div class="video-accordion__panel" *ngIf="isOpen(category.key)">
+            <div class="video-accordion__meta">
+                <a *ngIf="category.playlistUrl" [href]="category.playlistUrl" target="_blank" rel="noopener">Ver más videos en YouTube</a>
+            </div>
+
+            <tj-video-grid [items]="category.videos" (openVideo)="handleOpenVideo($event)" />
+        </div>
+    </section>
+</div>

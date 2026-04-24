@@ -110,7 +110,7 @@ export class InvitationComponent {
 
   get welcomeAboardText(): string {
     const total = Math.max(1, Number(this.guest?.allowedGuests ?? 1) || 1);
-    return total === 1 ? 'Bienvenido a bordo' : 'Bienvenidos a bordo';
+    return total === 1 ? 'Te damos la bienvenida' : 'Les damos la bienvenida';
   }
 
   readonly galleryImages: string[] = [
@@ -270,7 +270,7 @@ export class InvitationComponent {
 
     const message = [
       `Hola ${weddingNames},`,
-      'quiero hacer mi check-in y confirmar mi asistencia.',
+      'quiero confirmar mi asistencia.',
       guestName ? `Soy ${guestName}.` : '',
       passengersText,
       'Gracias.'

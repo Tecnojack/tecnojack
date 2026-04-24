@@ -1,0 +1,228 @@
+:host {
+  display: block;
+}
+
+.grades-hub__link {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 220ms ease;
+}
+
+.grades-hub__link:hover {
+  transform: translateY(-2px);
+}
+
+.grades-hub__desc {
+  max-width: 38ch;
+}
+
+@media (max-width: 980px) {
+  .grades-hub__layout {
+    grid-template-areas:
+      'copy'
+      'meta';
+    grid-template-columns: 1fr;
+  }
+
+  .grades-hub__facts {
+    justify-self: start;
+  }
+}
+
+
+.grades-modes {
+  padding: clamp(22px, 3.4vw, 38px);
+}
+
+.grades-modes .service-category-packages__head {
+  margin-bottom: 16px;
+}
+
+.grades-mode__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.grades-mode__cta {
+  height: var(--portfolio-button-height);
+  padding-inline: var(--portfolio-button-padding-x);
+  border-radius: var(--portfolio-button-radius);
+}
+
+.grades-mode__cta--accent {
+  background: var(--portfolio-accent);
+  color: var(--portfolio-bg);
+  border-color: var(--portfolio-accent);
+  font-weight: 700;
+}
+
+.grades-mode__cta--accent:hover {
+  background: color-mix(in srgb, var(--portfolio-accent) 85%, white);
+  border-color: color-mix(in srgb, var(--portfolio-accent) 85%, white);
+}
+
+.grades-mode__panel {
+  padding-top: 14px;
+}
+
+/* Comprimir el contenido de estudiantes: solo grilla de paquetes, sin hero/encabezado/historias. */
+.grades-mode__panel--students ::ng-deep .service-category-hero,
+.grades-mode__panel--students ::ng-deep .service-category-packages__head {
+  display: none;
+}
+
+.grades-mode__panel--students ::ng-deep .service-category-page {
+  gap: 14px;
+}
+
+.grades-mode__panel--students ::ng-deep .service-category-packages {
+  margin-top: 0;
+}
+
+.grades-institutions-compact {
+  display: grid;
+  gap: 14px;
+}
+
+.grades-institutions-compact__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.grades-institutions-compact__card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.grades-institutions-compact__card > h2 {
+  margin: 0;
+}
+
+.grades-kpi {
+  display: grid;
+  gap: 6px;
+}
+
+.grades-kpi__value {
+  font-family: var(--portfolio-font-display);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--portfolio-accent);
+  font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+  line-height: 1.05;
+}
+
+.grades-kpi__meta {
+  margin: 0;
+}
+
+.grades-kpi--compact .grades-kpi__value {
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+}
+
+.grades-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.grades-list li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.grades-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--portfolio-accent);
+  opacity: 0.85;
+}
+
+.grades-list--compact {
+  gap: 6px;
+}
+
+.grades-additionals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.grades-additional {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.grades-additional__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.grades-additional__price {
+  font-family: var(--portfolio-font-display);
+  font-weight: 800;
+  color: var(--portfolio-accent);
+  white-space: nowrap;
+}
+
+.grades-request-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grades-request-fields .service-package-request__terms {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.grades-request-fields .service-package-request__terms a {
+  color: var(--portfolio-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 920px) {
+  .grades-institutions-compact__row {
+    grid-template-columns: 1fr;
+  }
+
+  .grades-additionals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .grades-mode__head {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .grades-request-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .grades-additionals {
+    grid-template-columns: 1fr;
+  }
+}

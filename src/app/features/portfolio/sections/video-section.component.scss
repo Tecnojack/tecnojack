@@ -1,0 +1,128 @@
+:host {
+    display: block;
+}
+
+.video-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 18px 0;
+}
+
+.section-heading {
+    max-width: none;
+    margin-bottom: 34px;
+    text-align: center;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    margin: 8px auto 0;
+    max-width: 32ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.55rem, 2.2vw, 2.35rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.video-wall {
+    display: grid;
+    gap: 16px;
+}
+
+.video-card {
+    overflow: hidden;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.96));
+    box-shadow: var(--portfolio-shadow);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 179, 107, 0.28);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.video-card__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+}
+
+.video-card__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.video-card__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--portfolio-text);
+    font-size: 1.3rem;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+}
+
+.video-card__body {
+    display: grid;
+    gap: 10px;
+    padding: 20px;
+}
+
+.video-card__body span,
+.video-card__body h3,
+.video-card__body p {
+    margin: 0;
+}
+
+.video-card__body span {
+    color: var(--portfolio-accent);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.video-card__body h3 {
+    font-size: 1.4rem;
+}
+
+.video-card__body p {
+    color: var(--portfolio-muted);
+    line-height: 1.72;
+}
+
+@media (min-width: 980px) {
+    .video-wall {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .video-card {
+        transition: none;
+    }
+}

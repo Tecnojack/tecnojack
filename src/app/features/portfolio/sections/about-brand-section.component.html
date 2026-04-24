@@ -1,0 +1,20 @@
+<section class="portfolio-section about-brand-section" id="about">
+    <div class="about-brand-section__intro" tjRevealOnScroll>
+        <p>Sobre la marca</p>
+
+        <h2 class="heading-lg">{{ aboutTitle }}</h2>
+        <p class="about-brand-section__lead text-body text-muted">{{ aboutLead }}</p>
+    </div>
+
+    <div class="about-brand-section__grid">
+        <article
+            class="about-brand-card"
+            *ngFor="let pillar of pillars; let index = index"
+            tjRevealOnScroll
+            [class.reveal--left]="index % 2 === 0"
+            [class.reveal--right]="index % 2 !== 0">
+            <h3 class="heading-md">{{ pillar.title }}</h3>
+            <p class="text-body text-muted">{{ pillar.description }}</p>
+        </article>
+    </div>
+</section>

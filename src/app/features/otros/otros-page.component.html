@@ -1,0 +1,76 @@
+<tj-portfolio-shell [navItems]="navItems" subtitle="Servicios" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
+  <section class="portfolio-section service-category-hero op-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
+    <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+
+    <div class="service-category-hero__content" tjRevealOnScroll>
+      <div class="service-category-hero__layout">
+        <div class="service-category-hero__copy">
+          <p class="service-category-hero__eyebrow">TECNOJACK · Servicios</p>
+          <h1 class="heading-xl">Audiovisual a tu medida</h1>
+          <p class="service-category-hero__lead text-body text-muted">
+            Sesiones, videos, reels y contenido para personas, emprendedores y marcas.
+            Soluciones flexibles, directas y aterrizadas a lo que realmente necesitas.
+          </p>
+        </div>
+
+        <aside class="service-category-hero__meta" aria-label="Información rápida">
+          <div class="service-category-hero__facts" aria-label="Datos clave">
+            <article class="service-category-hero__fact" *ngFor="let fact of heroFacts">
+              <span class="service-category-hero__fact-label">{{ fact.label }}</span>
+              <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
+            </article>
+          </div>
+        </aside>
+
+        <div class="service-category-hero__highlights" aria-label="Aspectos destacados del servicio">
+          <span *ngFor="let item of heroHighlights">{{ item }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-container *ngFor="let cat of categories; trackBy: trackByCategory">
+    <section
+      class="portfolio-section op-category"
+      [attr.id]="'cat-' + cat"
+      *ngIf="getByCategory(cat).length > 0"
+    >
+      <header class="op-category__header" tjRevealOnScroll>
+        <h2 class="heading-lg op-category__title">{{ categoryLabels[cat] }}</h2>
+      </header>
+
+      <div class="op-grid">
+        <tj-simple-service-card
+          *ngFor="let svc of getByCategory(cat); trackBy: trackByServiceId"
+          [service]="svc"
+          (openDetail)="openService($event)"
+          tjRevealOnScroll
+        ></tj-simple-service-card>
+      </div>
+    </section>
+  </ng-container>
+  <section class="portfolio-section op-contact" tjRevealOnScroll>
+    <div class="op-contact__inner">
+      <p class="op-contact__eyebrow">¿No encuentras lo que buscas?</p>
+      <h2 class="heading-lg op-contact__title">Cuéntame tu idea</h2>
+      <p class="text-body text-muted op-contact__desc">
+        Si tienes algo en mente que no encaja en ninguna categoría, hablemos.<br>
+        Armamos una propuesta específica para lo que necesitas.
+      </p>
+      <a
+        class="btn op-contact__cta"
+        [href]="heroWhatsappHref"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Hablar con Jackson
+      </a>
+    </div>
+  </section>
+
+  <tj-simple-service-modal
+    *ngIf="selectedService() !== null"
+    [service]="selectedService()"
+    (closeModal)="closeService()"
+  ></tj-simple-service-modal>
+
+</tj-portfolio-shell>

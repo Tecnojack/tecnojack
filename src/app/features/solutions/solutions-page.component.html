@@ -1,0 +1,556 @@
+<tj-portfolio-shell
+  [navItems]="navItems"
+  [headerCtaHref]="whatsappHref()"
+  [headerCtaLabel]="'Solicitar propuesta'"
+  [floatWaHref]="whatsappHref()"
+  [subtitle]="'Soluciones para crecer'">
+  <div class="solutions-page">
+    <section class="solutions-hero">
+      <div class="solutions-hero__copy">
+        <p class="solutions-hero__eyebrow animate-fade-in-up" style="animation-delay: 0.1s">Soluciones que convierten</p>
+        <h1 class="animate-fade-in-up" style="animation-delay: 0.2s">
+          <span class="text-accent">Vende</span> más con presencia digital <span class="text-warm">profesional</span>
+        </h1>
+        <p class="solutions-hero__lead animate-fade-in-up" style="animation-delay: 0.3s">
+          Tu cliente no compra cuando se confunde. Diseñamos una experiencia clara para que entienda rápido, confíe y te escriba por WhatsApp.
+        </p>
+
+        <div class="solutions-hero__actions animate-fade-in-up" style="animation-delay: 0.4s">
+          <button type="button" class="solutions-hero__cta-primary" (click)="scrollToForm()">Solicitar propuesta</button>
+          <a class="solutions-hero__cta-secondary" [href]="whatsappHref()" target="_blank" rel="noopener">Ver por WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="solutions-hero__visual animate-slide-in-right" style="animation-delay: 0.2s">
+        <div class="hero-card">
+          <div class="hero-card__slide">
+            <div class="hero-slide__value">{{ heroSlides[heroSlideIndex()].value }}</div>
+            <h3 class="hero-slide__label">{{ heroSlides[heroSlideIndex()].label }}</h3>
+            <p class="hero-slide__desc">{{ heroSlides[heroSlideIndex()].desc }}</p>
+          </div>
+          <div class="hero-card__dots">
+            <button
+              *ngFor="let s of heroSlides; let i = index"
+              type="button"
+              class="hero-dot"
+              [class.is-active]="heroSlideIndex() === i"
+              (click)="goToHeroSlide(i)"
+              [attr.aria-label]="'Ver punto ' + (i + 1)"></button>
+          </div>
+          <div class="hero-card__nav">
+            <button type="button" class="hero-nav-btn" (click)="prevHeroSlide()" aria-label="Anterior">←</button>
+            <span class="hero-nav__counter">{{ heroSlideIndex() + 1 }} / {{ heroSlides.length }}</span>
+            <button type="button" class="hero-nav-btn" (click)="nextHeroSlide()" aria-label="Siguiente">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="solutions-selector">
+      <div class="selector-inner">
+        <p class="selector-label animate-fade-in-down" style="animation-delay: 0.1s">Elige tu enfoque</p>
+        <div class="selector-buttons animate-fade-in-up" style="animation-delay: 0.2s">
+          <button
+            type="button"
+            class="selector-btn selector-btn--eventos"
+            [class.is-active]="selectedType() === 'evento'"
+            (click)="selectType('evento')">
+            <span class="selector-btn__label">EVENTOS</span>
+            <span class="selector-btn__icon">✦</span>
+          </button>
+          <button
+            type="button"
+            class="selector-btn selector-btn--negocios"
+            [class.is-active]="selectedType() === 'negocio'"
+            (click)="selectType('negocio')">
+            <span class="selector-btn__label">NEGOCIOS</span>
+            <span class="selector-btn__icon">⬈</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="solutions-business" *ngIf="selectedType() === 'negocio'; else eventosView">
+      <!-- Intro Problem -->
+      <article class="business-block business-block--primary animate-fade-in-up" tjRevealOnScroll>
+        <div class="block-accent block-accent--left"></div>
+        <div class="business-block__content">
+          <p class="business-block__eyebrow">El Problema</p>
+          <h2 class="business-block__headline">
+            Vendes, pero <span class="text-highlight">no se ve</span> que vendes
+          </h2>
+          <ul class="business-block__list">
+            <li><span class="list-marker">◆</span> Todo está en WhatsApp, desordenado.</li>
+            <li><span class="list-marker">◆</span> Tu negocio no transmite profesionalidad.</li>
+            <li><span class="list-marker">◆</span> Pierdes clientes por confusión.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Solution -->
+      <article class="business-block business-block--accent animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.1s">
+        <div class="block-accent block-accent--right"></div>
+        <div class="business-block__content">
+          <p class="business-block__eyebrow">La Solución</p>
+          <h2 class="business-block__headline headline--large">
+            Una presencia que <span class="text-warm">vende por ti</span>
+          </h2>
+          <p class="business-block__description">
+            Diseñamos desde cero una experiencia donde tu cliente entiende, confía y compra. En segundos.
+          </p>
+          <div class="solution-stats">
+            <div class="stat-item">
+              <span class="stat-value">3s</span>
+              <span class="stat-label">para entender</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">1-click</span>
+              <span class="stat-label">para comprar</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">24/7</span>
+              <span class="stat-label">vendiendo</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- What You Get -->
+      <article class="business-block business-block--secondary animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.2s">
+        <div class="block-accent block-accent--top"></div>
+        <p class="business-block__eyebrow">Qué Logras</p>
+        <div class="benefits-grid">
+          <div class="benefit-card animate-slide-in-left" style="animation-delay: 0.25s">
+            <h3>Claridad Total</h3>
+            <p>Tu cliente entiende qué ofreces sin confusión.</p>
+          </div>
+          <div class="benefit-card animate-slide-in-right" style="animation-delay: 0.3s">
+            <h3>Confianza Visual</h3>
+            <p>Imágenes profesionales que venden credibilidad.</p>
+          </div>
+          <div class="benefit-card animate-slide-in-left" style="animation-delay: 0.35s">
+            <h3>Ventas Directas</h3>
+            <p>Botón directo a WhatsApp. Cierres rápidos.</p>
+          </div>
+          <div class="benefit-card animate-slide-in-right" style="animation-delay: 0.4s">
+            <h3>Marca Profesional</h3>
+            <p>Link que puedes compartir en redes con orgullo.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Segment Cards -->
+      <article class="business-block business-block--cases animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.3s">
+        <p class="business-block__eyebrow">¿Tu negocio es de estos?</p>
+        <h3 class="cases-title">Esta propuesta está hecha para ti</h3>
+        <p class="cases-intro">No importa el tamaño. Si tienes uno de estos negocios, hay una solución digital que puede cambiarte los resultados.</p>
+        <div class="segment-grid">
+
+          <div class="segment-card animate-scale-in" style="animation-delay: 0.35s">
+            <div class="segment-card__header">
+              <span class="segment-icon">💇</span>
+              <div>
+                <h4>Peluquerías & Salones</h4>
+                <span class="segment-tag">Servicios de belleza</span>
+              </div>
+            </div>
+            <p class="segment-hook">El 80% de tus clientes buscan fotos del trabajo antes de ir. Si no las tienen fácil, van a otro lado.</p>
+            <ul class="segment-features">
+              <li>Galería de transformaciones que genera confianza instantánea</li>
+              <li>Lista de servicios y precios siempre visibles</li>
+              <li>Reservas directas por WhatsApp sin idas y venidas</li>
+            </ul>
+          </div>
+
+          <div class="segment-card animate-scale-in" style="animation-delay: 0.4s">
+            <div class="segment-card__header">
+              <span class="segment-icon">👗</span>
+              <div>
+                <h4>Tiendas de Ropa & Moda</h4>
+                <span class="segment-tag">Comercio minorista</span>
+              </div>
+            </div>
+            <p class="segment-hook">Un catálogo visual bien hecho puede triplicar tus consultas por WhatsApp sin que muevas un dedo extra.</p>
+            <ul class="segment-features">
+              <li>Catálogo organizado por colección y talla</li>
+              <li>Fotos profesionales que muestran calidad real</li>
+              <li>Proceso de pedidos claro para que el cliente no dude</li>
+            </ul>
+          </div>
+
+          <div class="segment-card animate-scale-in" style="animation-delay: 0.45s">
+            <div class="segment-card__header">
+              <span class="segment-icon">🚀</span>
+              <div>
+                <h4>Emprendedores & Freelancers</h4>
+                <span class="segment-tag">Servicios personales</span>
+              </div>
+            </div>
+            <p class="segment-hook">Tu hoja de vida está en WhatsApp y eso frena a muchos clientes potenciales. Un link profesional cambia eso.</p>
+            <ul class="segment-features">
+              <li>Página de presentación personal con tu historia</li>
+              <li>Portafolio o servicios que hablan por ti</li>
+              <li>Contacto claro que invita a contratarte</li>
+            </ul>
+          </div>
+
+          <div class="segment-card animate-scale-in" style="animation-delay: 0.5s">
+            <div class="segment-card__header">
+              <span class="segment-icon">🏪</span>
+              <div>
+                <h4>Negocios Locales</h4>
+                <span class="segment-tag">Restaurantes, cafés, comercios</span>
+              </div>
+            </div>
+            <p class="segment-hook">El 90% de las personas busca en Google antes de ir a un lugar. Si no apareces bien, pierdes sin saberlo.</p>
+            <ul class="segment-features">
+              <li>Menú o catálogo digital siempre actualizado</li>
+              <li>Fotos del ambiente que enamoran antes de llegar</li>
+              <li>Horario, ubicación y contacto sin fricción</li>
+            </ul>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- What's Included -->
+      <article class="business-block business-block--features animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.4s">
+        <p class="business-block__eyebrow">Incluye</p>
+        <div class="features-showcase">
+          <div class="feature-col">
+            <ul class="feature-list">
+              <li><span class="feature-icon">📷</span> Fotografía profesional</li>
+              <li><span class="feature-icon">🎬</span> Video corto</li>
+              <li><span class="feature-icon">🎯</span> Landing page optimizada</li>
+            </ul>
+          </div>
+          <div class="feature-col">
+            <ul class="feature-list">
+              <li><span class="feature-icon">📚</span> Catálogo digital</li>
+              <li><span class="feature-icon">💬</span> Integración WhatsApp</li>
+              <li><span class="feature-icon">✨</span> Optimización visual</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Final CTA -->
+      <article class="business-block business-block--final animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.5s">
+        <h2 class="final-headline">Tu negocio merece una presencia que <span class="text-accent">venda por ti</span></h2>
+      </article>
+    </section>
+
+    <ng-template #eventosView>
+      <section class="events-landing">
+        <!-- Intro -->
+        <article class="event-intro animate-fade-in-up" tjRevealOnScroll>
+          <p class="event-intro__eyebrow animate-slide-in-left">✦ Experiencia Completa</p>
+          <h2 class="event-intro__headline animate-slide-in-right" style="animation-delay: 0.1s">
+            Tu evento no debería vivirse <span class="text-warm">solo un día</span>
+          </h2>
+          <p class="event-intro__lead animate-fade-in-up" style="animation-delay: 0.2s">
+            Creamos experiencias digitales que acompañan tu evento antes, durante y después. Todo pensado para que se vea increíble y se sienta aún mejor.
+          </p>
+        </article>
+
+        <!-- Before Event -->
+        <article class="event-moment animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.1s">
+          <div class="event-moment__accent event-moment__accent--before"></div>
+          <div class="event-moment__content">
+            <div class="moment-tag">Antes</div>
+            <h3 class="moment-headline">Todo empieza <span class="text-accent">antes</span> del evento</h3>
+            <p class="moment-text">
+              Diseñamos invitaciones digitales donde tus invitados encuentran toda la información, confirman asistencia y comienzan a vivir el evento desde el primer clic.
+            </p>
+            <div class="moment-features">
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.15s">Invitación digital</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.2s">Confirmación</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.25s">Detalles completos</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- During Event -->
+        <article class="event-moment event-moment--during animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.2s">
+          <div class="event-moment__accent event-moment__accent--during"></div>
+          <div class="event-moment__content">
+            <div class="moment-tag moment-tag--during">Durante</div>
+            <h3 class="moment-headline">Capturamos <span class="text-warm">cada momento</span></h3>
+            <p class="moment-text">
+              Sin forzar, sin posar. Capturamos momentos reales que luego se convierten en recuerdos que vas a querer volver a ver una y mil veces más.
+            </p>
+            <div class="moment-features">
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.25s">Fotografía profesional</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.3s">Video en vivo</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.35s">Momentos auténticos</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- After Event -->
+        <article class="event-moment event-moment--after animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.3s">
+          <div class="event-moment__accent event-moment__accent--after"></div>
+          <div class="event-moment__content">
+            <div class="moment-tag moment-tag--after">Después</div>
+            <h3 class="moment-headline">Tu evento <span class="text-accent">no termina</span> cuando se acaba</h3>
+            <p class="moment-text">
+              Galerías privadas, contenido organizado y piezas visuales que te permiten revivir todo cuando quieras y compartir recuerdos con quienes estuvieron.
+            </p>
+            <div class="moment-features">
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.35s">Galería privada</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.4s">Contenido organizado</span>
+              <span class="feature-chip animate-pulse" style="animation-delay: 0.45s">Acceso permanente</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Complete Experience Message -->
+        <article class="event-message animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.4s">
+          <h2 class="message-headline">
+            <span class="text-accent">Más</span> que fotos o video,<br />
+            <span class="text-warm">creamos una experiencia</span>
+          </h2>
+          <p class="message-subtext">Eventos que se recuerdan por siempre</p>
+        </article>
+
+        <!-- Event Types -->
+        <article class="event-types animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.5s">
+          <p class="section-eyebrow">Cubrimos todo tipo de evento:</p>
+          <div class="event-types-grid">
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.55s">
+              <span class="type-icon">💍</span>
+              <h4>Bodas</h4>
+              <p>Cada detalle, cada emoción, para siempre</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.58s">
+              <span class="type-icon">🎵</span>
+              <h4>Conciertos</h4>
+              <p>Capturamos la energía en vivo: luces, escena y atmósfera</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.61s">
+              <span class="type-icon">🎂</span>
+              <h4>Cumpleaños</h4>
+              <p>Celebraciones que merecen ser inmortalizadas</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.64s">
+              <span class="type-icon">👑</span>
+              <h4>Quinceañeras</h4>
+              <p>Un día único que recordarás toda la vida</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.67s">
+              <span class="type-icon">🎓</span>
+              <h4>Graduaciones</h4>
+              <p>El inicio de una nueva etapa, bien documentado</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.70s">
+              <span class="type-icon">🎉</span>
+              <h4>Eventos Corporativos</h4>
+              <p>Lanzamientos, conferencias y team building con impacto visual</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.73s">
+              <span class="type-icon">🕊️</span>
+              <h4>Bautizos y Baby Showers</h4>
+              <p>Los primeros recuerdos de una nueva vida</p>
+            </div>
+            <div class="event-type-card animate-scale-in" style="animation-delay: 0.76s">
+              <span class="type-icon">🎤</span>
+              <h4>Charlas y Talleres</h4>
+              <p>Cobertura profesional para ponentes y marcas</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Final CTA -->
+        <article class="event-final-cta animate-fade-in-up" tjRevealOnScroll style="animation-delay: 0.6s">
+          <div class="final-cta-accent"></div>
+          <p class="cta-text">Cada evento es diferente.<br />Diseñamos una propuesta única para ti.</p>
+        </article>
+      </section>
+    </ng-template>
+
+    <!-- ==================== PROPUESTA DESTACADA ==================== -->
+    <section class="solutions-proposal" tjRevealOnScroll>
+      <div class="proposal-accent proposal-accent--left"></div>
+      <div class="proposal-accent proposal-accent--right"></div>
+
+      <p class="proposal__eyebrow">Lo que recibirás</p>
+
+      <ng-container *ngIf="selectedType() === 'negocio'">
+        <h2 class="proposal__headline">
+          Una presencia digital que <span class="text-accent">trabaja</span> por ti
+        </h2>
+        <p class="proposal__lead">
+          Te entregamos una <strong>plataforma visual profesional</strong> diseñada para que tus clientes te entiendan en segundos, confíen en lo que ofreces y te contacten directo por WhatsApp. Sin confusión, sin fricción.
+        </p>
+        <ul class="proposal__items">
+          <li class="proposal__item">
+            <span class="proposal__item-dot"></span>
+            <div>
+              <strong>Catálogo visual</strong> — Tus productos o servicios presentados con claridad y sin ambigüedad
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot"></span>
+            <div>
+              <strong>Identidad de marca</strong> — Colores, tipografía y tono que transmiten profesionalismo
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot"></span>
+            <div>
+              <strong>Proceso de contacto directo</strong> — Tu cliente llega a WhatsApp en un clic, listo para cerrar
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot"></span>
+            <div>
+              <strong>Disponible 24/7</strong> — Funciona mientras duermes, en cualquier dispositivo
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+
+      <ng-container *ngIf="selectedType() === 'evento'">
+        <h2 class="proposal__headline">
+          Una cobertura que convierte tu evento en <span class="text-warm">un recuerdo eterno</span>
+        </h2>
+        <p class="proposal__lead">
+          Te ofrecemos una <strong>experiencia audiovisual completa</strong> que acompaña tu evento antes, durante y después. Cada detalle capturado, organizado y listo para compartir.
+        </p>
+        <ul class="proposal__items">
+          <li class="proposal__item">
+            <span class="proposal__item-dot proposal__item-dot--warm"></span>
+            <div>
+              <strong>Invitación digital</strong> — Diseño único con toda la info y confirmación de asistencia
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot proposal__item-dot--warm"></span>
+            <div>
+              <strong>Fotografía y video profesional</strong> — Momentos reales capturados sin poses forzadas
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot proposal__item-dot--warm"></span>
+            <div>
+              <strong>Galería privada</strong> — Todo el contenido organizado y con acceso permanente
+            </div>
+          </li>
+          <li class="proposal__item">
+            <span class="proposal__item-dot proposal__item-dot--warm"></span>
+            <div>
+              <strong>Piezas para compartir</strong> — Highlights y clips listos para redes sociales
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+
+      <button type="button" class="proposal__cta" (click)="scrollToForm()">
+        Solicitar mi propuesta personalizada →
+      </button>
+    </section>
+
+    <section class="solutions-form" id="soluciones-form">
+      <header class="form-header">
+        <p class="form-eyebrow animate-fade-in-down">Vamos a lograrlo</p>
+        <h2 class="form-title animate-fade-in-up" style="animation-delay: 0.1s">
+          Cuéntanos qué necesitas <span class="text-accent">resolver</span>
+        </h2>
+        <p class="form-subtitle animate-fade-in-up" style="animation-delay: 0.15s">
+          Y nos encargamos de organizar tu venta digital
+        </p>
+      </header>
+
+      <form class="solutions-form__grid animate-fade-in-up" style="animation-delay: 0.2s">
+        <label class="form-field">
+          <span class="field-label">Tu nombre</span>
+          <input
+            type="text"
+            class="field-input"
+            [value]="name()"
+            (input)="updateName($any($event.target).value)"
+            placeholder="¿Cómo te llamas?" />
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">WhatsApp</span>
+          <input
+            type="tel"
+            class="field-input"
+            [value]="phone()"
+            (input)="updatePhone($any($event.target).value)"
+            placeholder="+57 300 000 0000" />
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">Negocio o marca</span>
+          <input
+            type="text"
+            class="field-input"
+            [value]="businessName()"
+            (input)="updateBusinessName($any($event.target).value)"
+            placeholder="Nombre de tu negocio" />
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">Tipo</span>
+          <select class="field-select" [value]="selectedType()" (change)="selectType($any($event.target).value)">
+            <option value="negocio">Negocio</option>
+            <option value="evento">Evento</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">Ubicación</span>
+          <input
+            type="text"
+            class="field-input"
+            [value]="location()"
+            (input)="updateLocation($any($event.target).value)"
+            placeholder="Ciudad o zona" />
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">Fecha objetivo</span>
+          <input
+            type="date"
+            class="field-input"
+            [value]="date()"
+            (input)="updateDate($any($event.target).value)" />
+        </label>
+
+        <label class="form-field">
+          <span class="field-label">Rango de inversión</span>
+          <select class="field-select" [value]="budgetRange()" (change)="updateBudgetRange($any($event.target).value)">
+            <option value="">Selecciona una opción</option>
+            <option value="a-definir">A definir</option>
+            <option value="bajo">Inicial / básico</option>
+            <option value="medio">Intermedio</option>
+            <option value="alto">Alto / escalable</option>
+          </select>
+        </label>
+
+        <label class="form-field form-field--full">
+          <span class="field-label">¿Qué necesitas resolver?</span>
+          <textarea
+            class="field-textarea"
+            [value]="need()"
+            (input)="updateNeed($any($event.target).value)"
+            rows="5"
+            placeholder="Cuéntanos qué te está frenando hoy para vender más..."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="solutions-form__cta"
+            [disabled]="!canSubmit()"
+            (click)="submit()">
+            {{ isSubmitting() ? '⏳ Enviando...' : '✓ Solicitar propuesta' }}
+          </button>
+          <p class="solutions-form__note" *ngIf="feedback()">{{ feedback() }}</p>
+        </div>
+      </form>
+    </section>
+  </div>
+</tj-portfolio-shell>

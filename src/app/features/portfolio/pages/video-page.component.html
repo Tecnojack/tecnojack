@@ -1,0 +1,115 @@
+<tj-portfolio-shell [navItems]="navItems" subtitle="Videos" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
+    <section class="portfolio-section service-category-hero video-page-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
+        <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+
+        <div class="service-category-hero__content" tjRevealOnScroll>
+            <div class="service-category-hero__layout">
+                <div class="service-category-hero__copy">
+                    <p class="service-category-hero__eyebrow">Portafolio audiovisual</p>
+                    <h1 class="heading-xl">Producción audiovisual con enfoque cinéfilo.</h1>
+                    <p class="service-category-hero__lead text-body text-muted">
+                        Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.
+                    </p>
+                </div>
+
+                <aside class="service-category-hero__meta" aria-label="Información rápida">
+                    <div class="service-category-hero__facts" aria-label="Datos clave">
+                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
+                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
+                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
+                        </article>
+                    </div>
+
+                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                        <a
+                            class="service-category-hero__social-link"
+                            *ngFor="let link of heroSocialLinks()"
+                            [href]="link.href"
+                            target="_blank"
+                            rel="noopener"
+                            [attr.aria-label]="link.title">
+                            <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
+                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                        </a>
+                    </nav>
+                </aside>
+
+                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
+                    <span>Videos musicales</span>
+                    <span>Bodas &amp; eventos</span>
+                    <span>Cortometrajes</span>
+                    <span>Contenido para redes</span>
+                    <span>Dirección creativa</span>
+                    <span>Color grading profesional</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section service-category-packages" id="paquetes">
+        <div class="service-category-packages__head" tjRevealOnScroll>
+            <h2 class="heading-md service-category-packages__title">Paquetes de video</h2>
+            <p class="service-category-packages__body text-body text-muted">
+                Elige una base y ajustamos según tu idea, locaciones y complejidad.
+            </p>
+        </div>
+
+        <div class="service-category-packages__grid">
+            <article class="service-package-card" *ngFor="let pkg of videoPackages; let index = index"
+                [class.reveal--left]="index % 2 === 0"
+                [class.reveal--right]="index % 2 !== 0">
+                <div class="service-package-card__media">
+                    <div class="service-package-card__media-badges">
+                        <span class="service-package-card__tag" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
+                        <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="pkg.isBasePrice">Desde</span>
+                    </div>
+                    <ng-container *ngIf="videoPackageCover$(pkg) | async as coverUrl">
+                        <img tjFallbackImage [src]="coverUrl" [alt]="pkg.name" loading="lazy" decoding="async" />
+                    </ng-container>
+                </div>
+
+                <div class="service-package-card__body">
+                    <div class="service-package-card__headline">
+                        <div class="service-package-card__title-row">
+                            <div class="service-package-card__title-stack">
+                                <h3 class="heading-md">{{ pkg.name }}</h3>
+                                <p class="service-package-card__tagline text-body text-muted" *ngIf="pkg.tagline">{{ pkg.tagline }}</p>
+                            </div>
+                        </div>
+                        <div class="service-package-card__price-block">
+                            <span class="service-package-card__price-label">Inversión</span>
+                            <strong class="service-package-card__price">{{ priceLabel(pkg) }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="service-package-card__copy">
+                        <p class="text-body text-muted">{{ pkg.description }}</p>
+                    </div>
+
+                    <ul class="service-package-card__list">
+                        <li *ngFor="let item of packageHighlights(pkg)">{{ item }}</li>
+                    </ul>
+
+                    <button class="service-package-card__cta btn-text" type="button" (click)="openVideoPackage(pkg)">
+                        Ver detalle
+                    </button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="portfolio-section video-page-content">
+        <div class="video-page-content__head" tjRevealOnScroll>
+            <p>Explora por tipo de proyecto</p>
+            <h2 class="heading-md">Videos realizados</h2>
+        </div>
+
+        <tj-video-accordion [categories]="categories" (openVideo)="openVideo($event)" />
+    </section>
+
+    <tj-video-modal
+        portfolioOverlay
+        [video]="selectedVideo()"
+        [videoPackage]="selectedVideoPackage()"
+        (close)="closeVideo()" />
+</tj-portfolio-shell>

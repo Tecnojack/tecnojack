@@ -1,0 +1,31 @@
+<section class="portfolio-section contact-section" id="contact">
+    <div class="contact-section__grid">
+        <div class="contact-section__copy" tjRevealOnScroll>
+            <p class="contact-section__eyebrow">Contacto</p>
+            <h2 class="heading-lg">{{ title }}</h2>
+            <p class="contact-section__lead text-body text-muted">{{ lead }}</p>
+
+            <a class="contact-section__primary btn-text" [href]="whatsappHref" target="_blank" rel="noopener">
+                Hablar por WhatsApp
+            </a>
+        </div>
+
+        <div class="contact-section__panel" tjRevealOnScroll>
+            <div class="contact-section__panel-copy">
+                <p class="text-body text-muted">{{ body }}</p>
+            </div>
+
+            <div class="contact-section__links">
+                <a class="contact-card" *ngFor="let item of links" [href]="item.href" target="_blank" rel="noopener">
+                    <div class="contact-card__icon">
+                        <fa-icon [icon]="icons[item.platform]"></fa-icon>
+                    </div>
+                    <div>
+                        <strong class="heading-md">{{ item.title }}</strong>
+                        <p class="text-body text-muted">{{ item.description }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

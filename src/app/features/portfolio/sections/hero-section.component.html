@@ -1,0 +1,37 @@
+<section class="portfolio-section hero-section" id="hero">
+    <div class="hero-section__media" aria-hidden="true">
+        <img tjFallbackImage [src]="heroImageUrl" alt="" fetchpriority="high" />
+        <div class="hero-section__overlay"></div>
+    </div>
+
+    <div class="hero-section__content">
+        <div class="hero-section__copy">
+            <p class="hero-section__eyebrow">{{ heroEyebrow }}</p>
+
+            <h1 class="heading-xl">{{ heroTitle }}</h1>
+            <p class="hero-section__lead text-body text-muted">{{ heroLead }}</p>
+            <p class="hero-section__location-pill" aria-label="Ubicación base">
+                Medellín, Antioquia - Colombia
+            </p>
+
+            <div class="hero-section__stats">
+                <article class="hero-stat" *ngFor="let stat of stats">
+                    <strong>{{ stat.value }}</strong>
+                    <span>{{ stat.label }}</span>
+                </article>
+            </div>
+        </div>
+
+        <aside class="hero-section__aside reveal reveal--right" tjRevealOnScroll>
+            <p class="hero-section__aside-text text-body text-muted">Hablemos de tu próximo proyecto audiovisual.</p>
+            <a class="hero-section__whatsapp-btn" [href]="whatsappHref" target="_blank" rel="noopener">Cotizar</a>
+        </aside>
+    </div>
+
+    <div class="hero-section__highlights" tjRevealOnScroll>
+        <article class="hero-highlight" *ngFor="let item of highlights">
+            <span></span>
+            <p class="text-body">{{ item }}</p>
+        </article>
+    </div>
+</section>

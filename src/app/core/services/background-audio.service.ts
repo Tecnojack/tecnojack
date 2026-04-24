@@ -63,7 +63,9 @@ export class BackgroundAudioService {
   }
 
   pause(): void {
-    this.ensureAudio().pause();
+    if (!this.audio) return;
+    this.audio.pause();
+    this._isPlaying.set(false);
   }
 
   toggle(): void {

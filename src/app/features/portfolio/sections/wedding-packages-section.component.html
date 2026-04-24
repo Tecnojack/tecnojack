@@ -1,0 +1,102 @@
+<section class="portfolio-section wedding-packages-section" id="wedding-packages">
+    <div class="wedding-packages-section__heading" tjRevealOnScroll>
+        <p>Paquetes de boda</p>
+        <h2 class="heading-lg">{{ title }}</h2>
+    </div>
+
+    <div class="wedding-package-block" tjRevealOnScroll>
+        <div class="wedding-package-block__head">
+            <p>Foto + video</p>
+            <h3 class="heading-md">{{ title }}</h3>
+        </div>
+
+        <div class="wedding-pricing-grid">
+            <article
+                class="wedding-pricing-card"
+                *ngFor="let plan of mainPlans; let index = index"
+                tjRevealOnScroll
+                [class.wedding-pricing-card--featured]="plan.featured"
+                [class.reveal--left]="index % 2 === 0"
+                [class.reveal--right]="index % 2 !== 0">
+                <div class="wedding-pricing-card__badges">
+                    <span class="wedding-pricing-card__tag">Foto + video</span>
+                    <span class="wedding-pricing-card__status" *ngIf="plan.featured">Premium</span>
+                </div>
+                <h4 class="heading-md">{{ plan.name }}</h4>
+
+                <div class="wedding-pricing-card__price-block">
+                    <p>Precio:</p>
+                    <strong *ngFor="let price of plan.priceLines">{{ price }}</strong>
+                </div>
+
+                <div class="wedding-pricing-card__list-block">
+                    <p>Incluye:</p>
+                    <ul>
+                        <li *ngFor="let item of plan.items">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <div class="wedding-pricing-card__list-block">
+                    <p>Incluye momentos:</p>
+                    <ul>
+                        <li *ngFor="let item of plan.coverage">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <a class="wedding-pricing-card__cta btn-text" [href]="planDetailHref(plan.slug)">
+                    Ver detalle
+                </a>
+            </article>
+        </div>
+    </div>
+
+    <div class="wedding-package-block wedding-package-block--photo-only" tjRevealOnScroll>
+        <div class="wedding-package-block__head">
+            <p>Solo fotografía</p>
+            <h3 class="heading-md">{{ photoOnlyTitle }}</h3>
+        </div>
+
+        <div class="wedding-pricing-grid wedding-pricing-grid--photo-only">
+            <article
+                class="wedding-pricing-card wedding-pricing-card--photo-only"
+                *ngFor="let plan of photoOnlyPlans; let index = index"
+                tjRevealOnScroll
+                [class.wedding-pricing-card--featured]="plan.featured"
+                [class.reveal--left]="index % 2 === 0"
+                [class.reveal--right]="index % 2 !== 0">
+                <div class="wedding-pricing-card__badges">
+                    <span class="wedding-pricing-card__tag">Solo fotografía</span>
+                    <span class="wedding-pricing-card__status" *ngIf="plan.featured">Premium</span>
+                </div>
+                <h4 class="heading-md">{{ plan.name }}</h4>
+
+                <div class="wedding-pricing-card__price-block">
+                    <p>Precio:</p>
+                    <strong *ngFor="let price of plan.priceLines">{{ price }}</strong>
+                </div>
+
+                <div class="wedding-pricing-card__list-block">
+                    <p>Incluye:</p>
+                    <ul>
+                        <li *ngFor="let item of plan.items">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <div class="wedding-pricing-card__list-block">
+                    <p>Incluye momentos:</p>
+                    <ul>
+                        <li *ngFor="let item of plan.coverage">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <a class="wedding-pricing-card__cta btn-text" [href]="planDetailHref(plan.slug)">
+                    Ver detalle
+                </a>
+            </article>
+        </div>
+    </div>
+
+    <div class="wedding-package-notes" tjRevealOnScroll>
+        <p class="text-body text-muted" *ngFor="let note of notes">{{ note }}</p>
+    </div>
+</section>

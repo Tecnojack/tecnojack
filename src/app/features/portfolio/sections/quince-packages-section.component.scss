@@ -1,0 +1,226 @@
+:host {
+    display: block;
+}
+
+.quince-packages-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 12px 0;
+}
+
+.quince-packages-section__heading,
+.quince-additionals__heading {
+    max-width: none;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.quince-packages-section__heading p,
+.quince-additionals__heading p {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.quince-packages-section__heading h2 {
+    margin: 8px auto 0;
+    max-width: 32ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.6rem, 2.35vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.quince-pricing-grid,
+.quince-additionals__grid {
+    display: grid;
+    gap: 16px;
+}
+
+.quince-pricing-grid {
+    align-items: start;
+}
+
+.quince-pricing-card,
+.quince-additionals__card,
+.quince-package-notes {
+    border-radius: 30px;
+    border: 1px solid var(--portfolio-line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+    box-shadow: var(--portfolio-shadow);
+}
+
+.quince-pricing-card,
+.quince-additionals__card {
+    display: grid;
+    gap: 16px;
+    padding: 26px;
+    position: relative;
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.quince-pricing-card:hover,
+.quince-additionals__card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(216, 179, 107, 0.28);
+}
+
+.quince-pricing-card--featured {
+    background: linear-gradient(180deg, rgba(216, 179, 107, 0.15), rgba(255, 255, 255, 0.03));
+    border-color: rgba(216, 179, 107, 0.44);
+    box-shadow: 0 32px 92px rgba(0, 0, 0, 0.52);
+}
+
+.quince-pricing-card--featured::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(216, 179, 107, 0.36);
+    pointer-events: none;
+}
+
+.quince-pricing-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quince-pricing-card__tag,
+.quince-pricing-card__status {
+    justify-self: start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.quince-pricing-card__tag {
+    background: rgba(216, 179, 107, 0.14);
+    color: var(--portfolio-accent);
+}
+
+.quince-pricing-card__status {
+    background: linear-gradient(135deg, rgba(216, 179, 107, 0.96), rgba(164, 121, 53, 0.92));
+    color: #120d07;
+}
+
+.quince-pricing-card h3,
+.quince-pricing-card p,
+.quince-pricing-card strong,
+.quince-pricing-card li,
+.quince-additionals__card strong,
+.quince-additionals__card span,
+.quince-package-notes p {
+    margin: 0;
+}
+
+.quince-pricing-card h3 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    line-height: 1.12;
+}
+
+.quince-pricing-card__price-block,
+.quince-pricing-card__list-block {
+    display: grid;
+    gap: 10px;
+}
+
+.quince-pricing-card__price-block p,
+.quince-pricing-card__list-block p {
+    color: var(--portfolio-text);
+    font-weight: 700;
+}
+
+.quince-pricing-card__price-block strong {
+    font-size: 1.75rem;
+}
+
+.quince-pricing-card__list-block ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.quince-pricing-card__list-block li {
+    padding: 12px 14px;
+    border-radius: 18px;
+    color: var(--portfolio-muted);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.62;
+}
+
+.quince-pricing-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--portfolio-button-height);
+    justify-self: stretch;
+    width: 100%;
+    padding: 0 var(--portfolio-button-padding-x);
+    border-radius: var(--portfolio-button-radius);
+    background: linear-gradient(135deg, rgba(216, 179, 107, 0.96), rgba(164, 121, 53, 0.92));
+    color: #120d07;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.96rem;
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+.quince-pricing-card__cta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+.quince-additionals {
+    margin-top: 28px;
+}
+
+.quince-additionals__grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.quince-additionals__card strong {
+    font-size: 1.15rem;
+}
+
+.quince-additionals__card span {
+    color: var(--portfolio-accent);
+    font-weight: 700;
+}
+
+.quince-package-notes {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+    padding: 20px 22px;
+}
+
+.quince-package-notes p {
+    color: var(--portfolio-muted);
+    line-height: 1.72;
+}
+
+@media (min-width: 980px) {
+    .quince-pricing-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quince-pricing-card,
+    .quince-additionals__card,
+    .quince-pricing-card__cta {
+        transition: none;
+    }
+}

@@ -1,0 +1,19 @@
+<section class="portfolio-section professional-profile-section" id="profile">
+    <div class="professional-profile-section__panel" tjRevealOnScroll>
+        <div class="professional-profile-section__copy">
+            <p class="professional-profile-section__eyebrow">{{ profile.eyebrow }}</p>
+            <h2 class="heading-lg">{{ profile.title }}</h2>
+            <p class="professional-profile-section__lead text-body text-muted">{{ profile.lead }}</p>
+        </div>
+
+        <div class="professional-profile-section__aside">
+            <p class="professional-profile-section__label">{{ profile.supportingLabel }}</p>
+
+            <ul class="professional-profile-section__list">
+                <li *ngFor="let item of profile.points">{{ item }}</li>
+            </ul>
+
+            <a class="professional-profile-section__cta btn-text" [href]="profile.ctaHref">{{ profile.ctaLabel }}</a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,571 @@
+<div class="service-category-page" *ngIf="pageConfig() as config">
+    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
+        <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+
+        <div class="service-category-hero__content" tjRevealOnScroll>
+            <div class="service-category-hero__layout">
+                <div class="service-category-hero__copy">
+                    <p class="service-category-hero__eyebrow">{{ config.hero.eyebrow }}</p>
+                    <h1 class="heading-xl">{{ config.hero.title }}</h1>
+                    <p class="service-category-hero__lead text-body text-muted">{{ config.hero.description }}</p>
+                </div>
+
+                <aside class="service-category-hero__meta" aria-label="Información rápida">
+                    <div class="service-category-hero__facts" aria-label="Datos clave">
+                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
+                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
+                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
+                        </article>
+                    </div>
+
+                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                        <a
+                            class="service-category-hero__social-link"
+                            *ngFor="let link of heroSocialLinks()"
+                            [href]="link.href"
+                            target="_blank"
+                            rel="noopener"
+                            [attr.aria-label]="link.title">
+                            <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
+                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                        </a>
+                    </nav>
+                </aside>
+
+                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
+                    <span *ngFor="let item of config.hero.highlights">{{ item }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section service-category-packages" id="service-packages">
+        <div class="service-category-packages__head" tjRevealOnScroll>
+            <h2 class="heading-md service-category-packages__title">{{ config.packageTitle }}</h2>
+            <p class="service-category-packages__body text-body text-muted">{{ config.packageLead }}</p>
+        </div>
+
+        <div class="service-category-package-groups" *ngIf="accordionSections() as sections; else groupedPackages">
+            <tj-portfolio-category-accordion
+                *ngFor="let section of sections; let index = index"
+                [title]="section.title"
+                [lead]="section.lead ?? ''"
+                [packages]="section.cards"
+                [initiallyOpen]="index === 0"
+                (openPackage)="openPackageModal($event)">
+            </tj-portfolio-category-accordion>
+        </div>
+
+        <ng-template #groupedPackages>
+            <div class="service-category-package-groups">
+                <section
+                    class="service-category-package-group"
+                    *ngFor="let group of packageCardGroups(); let groupIndex = index"
+                    tjRevealOnScroll>
+                    <div class="service-category-package-group__head">
+                        <p>{{ group.title }}</p>
+                        <span>{{ group.lead }}</span>
+                    </div>
+
+                    <div class="service-category-packages__grid">
+                        <article
+                            class="service-package-card"
+                            *ngFor="let item of group.cards; let index = index"
+                            [class.service-package-card--featured]="item.detail.featured"
+                            [class.service-package-card--luxury]="item.detail.slug.includes('luxury')"
+                            [class.reveal--left]="(index + groupIndex) % 2 === 0"
+                            [class.reveal--right]="(index + groupIndex) % 2 !== 0">
+                            <div class="service-package-card__media">
+                                <ng-container *ngIf="coverByDetail(item.detail) | async as coverUrl">
+                                    <img
+                                        tjFallbackImage
+                                        [src]="coverUrl | tjImageFallback"
+                                        [alt]="item.detail.title"
+                                        loading="lazy"
+                                        decoding="async" />
+                                </ng-container>
+                                <div class="service-package-card__media-badges">
+                                    <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
+                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
+                                </div>
+                            </div>
+
+                            <div class="service-package-card__body">
+                                <div class="service-package-card__headline">
+                                    <div class="service-package-card__title-row">
+                                        <div class="service-package-card__title-stack">
+                                            <h3 class="heading-md">{{ item.displayName }}</h3>
+                                            <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="service-package-card__price-block">
+                                        <span class="service-package-card__price-label">Inversión</span>
+                                        <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
+                                    </div>
+                                </div>
+
+                                <div class="service-package-card__copy">
+                                    <p class="text-body text-muted">{{ item.detail.lead }}</p>
+                                </div>
+
+                                <ul class="service-package-card__list">
+                                    <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
+                                </ul>
+
+                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageModal(item.detail.slug)">
+                                    Ver detalle
+                                </button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </ng-template>
+    </section>
+
+    <section class="portfolio-section service-category-stories">
+        <div class="service-category-stories__head" tjRevealOnScroll>
+            <p>Clientes / galerías</p>
+            <h2 class="heading-lg">{{ config.storiesTitle }}</h2>
+            <p class="service-category-stories__lead text-body text-muted">{{ config.storiesLead }}</p>
+        </div>
+
+        <div class="service-category-stories__grid" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
+            <button
+                class="story-card"
+                type="button"
+                *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId"
+                tjRevealOnScroll
+                [class.story-card--empty]="story.images.length === 0"
+                [disabled]="story.images.length === 0"
+                (click)="openStoryModal(index)">
+                <span class="story-card__service-badge">{{ story.title }}</span>
+                <div class="story-card__preview">
+                    <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
+                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                    </figure>
+
+                    <figure class="story-card__tile story-card__tile--empty" *ngFor="let _slot of getStoryEmptySlots(story)">
+                        <span>Sin imágenes</span>
+                    </figure>
+                </div>
+
+                <div class="story-card__copy">
+                    <strong class="heading-md">{{ story.clientName }}</strong>
+                    <span class="story-card__meta text-body text-muted">
+                        <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
+                        <span class="story-card__meta-dot" *ngIf="story.location">•</span>
+                        <span>{{ story.location }}</span>
+                    </span>
+                </div>
+            </button>
+
+            <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
+                Cargar más
+            </button>
+        </div>
+
+        <ng-template #mobileStoriesAccordions>
+            <div class="service-category-stories__accordion-list">
+                <details class="story-accordion" *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId">
+                    <summary class="story-accordion__summary">
+                        <div class="story-accordion__summary-main">
+                            <strong class="heading-md">{{ story.clientName }}</strong>
+                            <span class="story-card__meta text-body text-muted">
+                                <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
+                                <span class="story-card__meta-dot" *ngIf="story.location">•</span>
+                                <span>{{ story.location }}</span>
+                            </span>
+                        </div>
+                        <span class="story-accordion__badge">{{ story.title }}</span>
+                    </summary>
+
+                    <div class="story-accordion__body" *ngIf="story.images.length > 0; else storyAccordionEmpty">
+                        <div class="story-accordion__preview">
+                            <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
+                                <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                            </figure>
+                        </div>
+                        <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
+                            Ver galería
+                        </button>
+                    </div>
+
+                    <ng-template #storyAccordionEmpty>
+                        <div class="story-accordion__body story-accordion__body--empty">
+                            <span class="text-body text-muted">Sin imágenes publicadas.</span>
+                        </div>
+                    </ng-template>
+                </details>
+
+                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
+                    Cargar más
+                </button>
+            </div>
+        </ng-template>
+    </section>
+
+    <div class="service-package-modal" *ngIf="selectedPackage() as detail">
+        <button class="service-package-modal__backdrop" type="button" (click)="closePackageModal()" aria-label="Cerrar detalle"></button>
+
+        <div class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + detail.title">
+            <div class="service-package-modal__header">
+                <div>
+                    <p>Experiencia de detalle</p>
+                    <h2 class="heading-lg">{{ detail.title }}</h2>
+                </div>
+
+                <div class="service-package-modal__header-actions">
+                    <button class="service-package-modal__ghost btn-text" type="button" *ngIf="modalStep() === 'request'" (click)="returnToDetail()">
+                        Volver al detalle
+                    </button>
+                    <button class="service-package-modal__close btn-text" type="button" (click)="closePackageModal()">Cerrar</button>
+                </div>
+            </div>
+
+            <ng-container *ngIf="modalStep() === 'detail'; else requestStep">
+                <div class="service-package-modal__body service-package-modal__body--detail" *ngIf="mediaStateByDetail(detail) | async as mediaState">
+                    <div class="service-package-modal__intro">
+                        <div class="service-package-modal__visuals">
+                            <article class="service-package-modal__visual">
+                                <tj-lazy-img
+                                    [src]="optimizeImage(mediaState.coverUrl | tjImageFallback, 400)"
+                                    [alt]="detail.title"
+                                    aspectRatio="4 / 3"></tj-lazy-img>
+                                <div class="service-package-modal__visual-editor">
+                                    <strong class="service-package-modal__price">
+                                        {{ selectedPackagePriceLabel() }}
+                                    </strong>
+                                    <p class="text-body text-muted">{{ detail.lead }}</p>
+                                </div>
+                            </article>
+
+                            <cdk-virtual-scroll-viewport
+                                class="service-package-modal__virtual-viewport"
+                                [itemSize]="260"
+                                [style.height]="getPackageGalleryViewportHeight(mediaState.galleryUrls)">
+                                <article class="service-package-modal__visual" *cdkVirtualFor="let imageItem of getVisiblePackageGalleryItems(mediaState.galleryUrls); trackBy: trackById">
+                                    <tj-lazy-img
+                                        [src]="optimizeImage(imageItem.url | tjImageFallback, 400)"
+                                        [alt]="detail.title"
+                                        aspectRatio="4 / 3"></tj-lazy-img>
+                                </article>
+                            </cdk-virtual-scroll-viewport>
+                        </div>
+
+                        <div class="service-package-modal__actions" *ngIf="hasMorePackageImages(mediaState.galleryUrls)">
+                            <button class="service-package-modal__secondary btn-text" type="button" (click)="loadMorePackageImages()">
+                                Cargar más
+                            </button>
+                        </div>
+
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'loading'">
+                            Cargando imágenes...
+                        </p>
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'error'">
+                            No fue posible cargar la galería. Se muestra la imagen por defecto.
+                        </p>
+                        <p class="text-body text-muted" *ngIf="mediaState.status === 'empty'">
+                            Aún no hay imágenes publicadas para esta carpeta. Se muestra el fallback por defecto.
+                        </p>
+
+                        <div class="service-package-modal__sections service-package-modal__sections--secondary" *ngIf="detailSecondarySections().length">
+                            <article class="service-package-modal__section" *ngFor="let section of detailSecondarySections()">
+                                <h3 class="heading-md">{{ section.title }}</h3>
+                                <ul>
+                                    <li *ngFor="let item of section.items">{{ item }}</li>
+                                </ul>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="service-package-modal__sections">
+                        <article class="service-package-modal__section" *ngFor="let section of detailPrimarySections()">
+                            <h3 class="heading-md">{{ section.title }}</h3>
+                            <ul>
+                                <li *ngFor="let item of section.items">{{ item }}</li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="service-package-modal__footer">
+                    <button class="service-package-modal__primary btn-text" type="button" (click)="startRequest('base')">
+                        Solicitar
+                    </button>
+                    <button class="service-package-modal__secondary btn-text" type="button" (click)="startRequest('custom')">
+                        Personalizar solicitud
+                    </button>
+                </div>
+            </ng-container>
+
+            <ng-template #requestStep>
+                <div class="service-package-modal__body service-package-modal__body--request">
+                    <div class="service-package-request__column service-package-request__column--form">
+                    <details class="service-package-request__accordion" open>
+                        <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
+                    <div class="service-package-request__form">
+                        <div class="service-package-request__head">
+                            <p>Solicitud</p>
+                            <h3 class="heading-md">Completa los datos para continuar</h3>
+                        </div>
+
+                        <div class="service-package-request__fields">
+                            <label class="service-package-request__field">
+                                <span>Nombre</span>
+                                <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
+                            </label>
+
+                            <label class="service-package-request__field">
+                                <span>Teléfono</span>
+                                <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="Tu número" />
+                            </label>
+
+                            <label class="service-package-request__field">
+                                <span>Ciudad</span>
+                                <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del evento" />
+                            </label>
+
+                            <label class="service-package-request__field">
+                                <span>Fecha estimada</span>
+                                <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
+                            </label>
+
+                            <label class="service-package-request__field">
+                                <span>Lugar</span>
+                                <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Salón, finca o locación" />
+                            </label>
+
+                            <label class="service-package-request__field">
+                                <span>Invitados</span>
+                                <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 120" />
+                            </label>
+
+                            <label class="service-package-request__field service-package-request__field--full">
+                                <span>Notas</span>
+                                <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="4" placeholder="Cuéntanos qué quieres priorizar."></textarea>
+                            </label>
+                        </div>
+                    </div>
+                    </details>
+                    </div>
+
+                    <div class="service-package-request__column service-package-request__column--details">
+                    <details class="service-package-request__accordion" open>
+                        <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group">
+                                <div class="service-package-request__group-head">
+                                    <p>Tipo de solicitud</p>
+                                    <span>Decide si quieres usar el paquete base o armar una versión personalizada.</span>
+                                </div>
+
+                                <div class="service-package-request__mode-grid">
+                                    <label class="service-package-request__option service-package-request__option--mode">
+                                        <input type="radio" name="requestMode" [checked]="requestMode() === 'base'" (change)="updateRequestMode('base')" />
+                                        <span>
+                                            Usar paquete base
+                                            <small>Muestra el resumen del paquete con adicionales seleccionables.</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="service-package-request__option service-package-request__option--mode">
+                                        <input type="radio" name="requestMode" [checked]="requestMode() === 'custom'" (change)="updateRequestMode('custom')" />
+                                        <span>
+                                            Personalizar paquete
+                                            <small>Permite elegir servicios del paquete y adicionales sin calcular precio.</small>
+                                        </span>
+                                    </label>
+                                </div>
+                            </section>
+                        </div>
+                    </details>
+
+                    <details class="service-package-request__accordion" *ngIf="detail.baseQuoteOptions.length" open>
+                        <summary class="service-package-request__accordion-summary">Paquete base</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group">
+                                <div class="service-package-request__group-head">
+                                    <p>Paquete base</p>
+                                    <span>Selecciona la referencia visible que quieres tomar como base.</span>
+                                </div>
+
+                                <div class="service-package-request__option-grid">
+                                    <label class="service-package-request__option" *ngFor="let option of detail.baseQuoteOptions">
+                                        <input type="radio" name="baseQuote" [checked]="selectedBaseQuote()?.id === option.id" (change)="updateBaseQuote(option.id)" />
+                                        <span>{{ formatPriceLabel(option.label) }}</span>
+                                    </label>
+                                </div>
+                            </section>
+                        </div>
+                    </details>
+
+                    <details class="service-package-request__accordion" open>
+                        <summary class="service-package-request__accordion-summary">Servicios incluidos y entregables</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group" *ngFor="let group of fixedIncludedGroups()">
+                                <div class="service-package-request__group-head">
+                                    <p>{{ requestMode() === 'base' ? 'Servicios incluidos' : 'Servicios del paquete' }}</p>
+                                    <span>{{ requestMode() === 'base' ? 'Estos servicios ya forman parte del paquete base.' : 'Marca los servicios que quieres conservar en tu paquete personalizado.' }}</span>
+                                </div>
+
+                                <div class="service-package-request__included-list" *ngIf="requestMode() === 'base'; else customServices">
+                                    <article class="service-package-request__included-item" *ngFor="let option of group.options">
+                                        <strong>{{ option.label }}</strong>
+                                    </article>
+                                </div>
+
+                                <ng-template #customServices>
+                                    <div class="service-package-request__option-grid">
+                                        <label class="service-package-request__option" *ngFor="let option of group.options">
+                                            <input type="checkbox" [checked]="isOptionSelected(option.id)" (change)="toggleRequestOption(option.id, $any($event.target).checked)" />
+                                            <span>{{ option.label }}</span>
+                                        </label>
+                                    </div>
+                                </ng-template>
+                            </section>
+                        </div>
+                    </details>
+
+                    <details class="service-package-request__accordion" *ngIf="customAdditionalGroups().length">
+                        <summary class="service-package-request__accordion-summary">Servicios adicionales</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group" *ngFor="let group of customAdditionalGroups()">
+                                <div class="service-package-request__group-head">
+                                    <p>Servicios adicionales</p>
+                                    <span>{{ group.description || 'Elige los adicionales que quieres incluir en tu solicitud.' }}</span>
+                                </div>
+
+                                <div class="service-package-request__upsell-grid">
+                                    <article class="service-package-request__upsell" *ngFor="let option of group.options">
+                                        <div class="service-package-request__upsell-copy">
+                                            <strong>{{ getUpsellName(option.label) }}</strong>
+                                            <p class="text-body text-muted" *ngIf="getUpsellDescription(option.label)">
+                                                {{ getUpsellDescription(option.label) }}
+                                            </p>
+                                        </div>
+
+                                        <div class="service-package-request__upsell-actions">
+                                            <span class="service-package-request__upsell-price" *ngIf="option.priceLabel">{{ option.priceLabel }}</span>
+                                            <button
+                                                class="service-package-request__upsell-btn btn-text"
+                                                type="button"
+                                                [attr.aria-pressed]="isOptionSelected(option.id)"
+                                                [attr.title]="isOptionSelected(option.id) ? 'Clic para quitar' : 'Clic para agregar'"
+                                                [class.is-added]="isOptionSelected(option.id)"
+                                                (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
+                                                {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}
+                                            </button>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </details>
+                    </div>
+
+                    <div class="service-package-request__column service-package-request__column--summary">
+                    <details class="service-package-request__accordion" open>
+                        <summary class="service-package-request__accordion-summary">Resumen de la solicitud</summary>
+                    <aside class="service-package-request__summary">
+                        <p>Resumen de solicitud</p>
+                        <div class="service-package-request__summary-card">
+                            <span>Tipo de evento</span>
+                            <strong>{{ detail.categoryLabel }}</strong>
+                        </div>
+                        <div class="service-package-request__summary-card">
+                            <span>Modalidad</span>
+                            <strong>{{ requestMode() === 'base' ? 'Usar paquete base' : 'Personalizar paquete' }}</strong>
+                        </div>
+                        <div class="service-package-request__summary-card" *ngIf="selectedBaseQuote()?.label">
+                            <span>Paquete base</span>
+                            <strong>{{ formatPriceLabel(selectedBaseQuote()?.label ?? '') }}</strong>
+                        </div>
+
+                        <div class="service-package-request__summary-block">
+                            <span>Servicios seleccionados</span>
+                            <ul>
+                                <li *ngFor="let item of requestSummaryServices()">{{ item }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="service-package-request__summary-block" *ngIf="requestSummaryAdditionalsDetailed().length">
+                            <span>Adicionales seleccionados</span>
+                            <ul>
+                                <li *ngFor="let item of requestSummaryAdditionalsDetailed()">{{ item.name }} — {{ item.priceLabel }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="service-package-request__summary-card" *ngIf="requestTotalLabel()">
+                            <span>Total estimado</span>
+                            <strong>{{ requestTotalLabel() }}</strong>
+                        </div>
+
+                        <label class="service-package-request__option service-package-request__terms">
+                            <input
+                                type="checkbox"
+                                [checked]="hasAcceptedTerms()"
+                                (change)="hasAcceptedTerms.set($any($event.target).checked)" />
+                            <span>
+                                Acepto los
+                                <a href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
+                            </span>
+                        </label>
+
+                        <a
+                            class="service-package-request__submit btn-text"
+                            [href]="requestWhatsappHref()"
+                            target="_blank"
+                            rel="noopener"
+                            [class.is-disabled]="!hasAcceptedTerms()"
+                            [attr.aria-disabled]="!hasAcceptedTerms()"
+                            (click)="guardRequestSubmit($event)">
+                            {{ requestSubmitLabel() }}
+                        </a>
+                    </aside>
+                    </details>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="story-gallery-modal" *ngIf="currentStory() as story">
+        <button class="story-gallery-modal__backdrop" type="button" (click)="closeStoryModal()" aria-label="Cerrar galería"></button>
+
+        <div class="story-gallery-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Galería de ' + story.title">
+            <div class="story-gallery-modal__topbar">
+                <div>
+                    <p>{{ story.clientName }}</p>
+                    <span>Tipo: {{ story.title }} · Fecha: {{ story.subtitle || 'Por confirmar' }}</span>
+                    <span>{{ story.location }}</span>
+                </div>
+
+                <button class="story-gallery-modal__close btn-text" type="button" (click)="closeStoryModal()">Cerrar</button>
+            </div>
+
+            <div class="story-gallery-modal__viewer" *ngIf="currentStoryImage() as image">
+                <button class="story-gallery-modal__nav story-gallery-modal__nav--prev" type="button" (click)="showPreviousStoryImage()" aria-label="Imagen anterior">‹</button>
+                <img tjFallbackImage src="assets/images/placeholder.jpg" [src]="image.src" [alt]="image.alt" />
+                <button class="story-gallery-modal__nav story-gallery-modal__nav--next" type="button" (click)="showNextStoryImage()" aria-label="Imagen siguiente">›</button>
+            </div>
+
+            <div class="story-gallery-modal__footer">
+                <strong>{{ storyImageCounter() }}</strong>
+                <div class="story-gallery-modal__thumbs">
+                    <button
+                        class="story-gallery-modal__thumb"
+                        type="button"
+                        *ngFor="let image of getVisibleStoryThumbs(story); let index = index; trackBy: trackByStoryImage"
+                        [class.story-gallery-modal__thumb--active]="index === activeStoryImageIndex()"
+                        (click)="activeStoryImageIndex.set(index)">
+                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                    </button>
+                </div>
+                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStoryThumbs(story)" (click)="loadMoreStoryThumbs()">
+                    Cargar más
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

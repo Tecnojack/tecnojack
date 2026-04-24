@@ -1,0 +1,313 @@
+<section class="collection-page">
+  <header class="collection-page__header">
+    <div class="collection-page__intro">
+      <span class="collection-page__eyebrow">Coleccion</span>
+      <h2>{{ config().label }}</h2>
+      <p>{{ config().description }}</p>
+
+      <div class="collection-page__stats">
+        <article>
+          <strong>{{ summaryStats().total }}</strong>
+          <span>registros</span>
+        </article>
+        <article>
+          <strong>{{ summaryStats().draft }}</strong>
+          <span>draft</span>
+        </article>
+        <article>
+          <strong>{{ summaryStats().published }}</strong>
+          <span>published</span>
+        </article>
+        <article>
+          <strong>{{ summaryStats().archived }}</strong>
+          <span>archived</span>
+        </article>
+      </div>
+    </div>
+
+    <div class="collection-page__header-actions">
+      <p class="collection-page__flow">Flujo recomendado: define identidad, escribe contenido, vincula relaciones y ajusta estado.</p>
+      <button type="button" class="collection-page__primary" (click)="openCreate()">
+        Crear {{ config().singularLabel }}
+      </button>
+    </div>
+  </header>
+
+  <div class="collection-page__layout">
+    <div class="collection-list">
+      <div class="collection-list__toolbar">
+        <div class="collection-list__toolbar-top">
+          <input
+            type="search"
+            class="collection-list__search"
+            [value]="search()"
+            (input)="updateSearch(($any($event.target)).value)"
+            placeholder="Buscar por nombre, contenido o relaciones" />
+
+          <div class="collection-list__filters" role="tablist" aria-label="Filtros por estado">
+            <button type="button" [class.is-active]="statusFilter() === 'all'" (click)="updateStatusFilter('all')">Todos</button>
+            <button type="button" [class.is-active]="statusFilter() === 'draft'" (click)="updateStatusFilter('draft')">Draft</button>
+            <button type="button" [class.is-active]="statusFilter() === 'published'" (click)="updateStatusFilter('published')">Published</button>
+            <button type="button" [class.is-active]="statusFilter() === 'archived'" (click)="updateStatusFilter('archived')">Archived</button>
+          </div>
+        </div>
+
+        <small *ngIf="search().trim() || statusFilter() !== 'all'">El orden manual solo se puede cambiar cuando no hay filtros activos.</small>
+      </div>
+
+      <div
+        class="collection-list__items"
+        cdkDropList
+        [cdkDropListData]="filteredItems()"
+        (cdkDropListDropped)="drop($event)">
+        <article
+          *ngFor="let item of filteredItems(); trackBy: trackById"
+          class="collection-card"
+          cdkDrag>
+          <div class="collection-card__handle" cdkDragHandle aria-hidden="true">::</div>
+
+          <div class="collection-card__body" (click)="editItem(item)">
+            <div class="collection-card__title-row">
+              <strong>{{ displayName(item) }}</strong>
+              <span class="collection-card__status" [class.is-inactive]="item.status !== 'published'">
+                {{ statusLabel(item.status) }}
+              </span>
+            </div>
+
+            <p *ngIf="subtitleFor(item)" class="collection-card__subtitle">{{ subtitleFor(item) }}</p>
+
+            <p *ngIf="contentSnippet(item)" class="collection-card__snippet">{{ contentSnippet(item) }}</p>
+
+            <div class="collection-card__facts" *ngIf="cardFacts(item).length">
+              <span *ngFor="let fact of cardFacts(item)">{{ fact }}</span>
+            </div>
+
+            <small>Orden {{ item.order }}</small>
+          </div>
+
+          <div class="collection-card__actions">
+            <button type="button" *ngIf="item.status !== 'published'" (click)="publishItem(item); $event.stopPropagation()">
+              Publicar
+            </button>
+            <button type="button" (click)="toggleActive(item); $event.stopPropagation()">
+              {{ item.active ? 'Desactivar' : 'Activar' }}
+            </button>
+            <button type="button" (click)="duplicateItem(item); $event.stopPropagation()">Duplicar</button>
+            <button type="button" [disabled]="!canDelete(item)" (click)="deleteItem(item); $event.stopPropagation()">
+              Soft delete
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <aside class="editor-panel" [class.is-open]="editorOpen()">
+      <div *ngIf="editorOpen(); else editorEmpty" class="editor-panel__content">
+        <div class="editor-panel__header">
+          <div>
+            <span class="collection-page__eyebrow">{{ editorMode() === 'create' ? 'Nuevo registro' : 'Edicion' }}</span>
+            <h3>{{ editorMode() === 'create' ? 'Crear' : 'Editar' }} {{ config().singularLabel }}</h3>
+            <div class="editor-panel__badges" *ngIf="selectedBadges().length">
+              <span *ngFor="let badge of selectedBadges()">{{ badge }}</span>
+            </div>
+          </div>
+          <button type="button" class="editor-panel__close" (click)="closeEditor()">Cerrar</button>
+        </div>
+
+        <div class="editor-panel__guide">
+          <article>
+            <strong>1. Identidad</strong>
+            <span>Define nombre, tipo y ruta si aplica.</span>
+          </article>
+          <article>
+            <strong>2. Contenido</strong>
+            <span>Escribe lo visible y carga listas o media.</span>
+          </article>
+          <article>
+            <strong>3. Relaciones</strong>
+            <span>Vincula desde listados existentes, sin editar IDs.</span>
+          </article>
+        </div>
+
+        <div class="detail-card__note detail-card__note--danger" *ngIf="formError()">
+          {{ formError() }}
+        </div>
+
+        <form class="editor-form" [formGroup]="form" (ngSubmit)="save()">
+          <section *ngFor="let group of fieldGroups()" class="editor-group" [class.editor-group--advanced]="isAdvancedGroup(group)">
+            <header class="editor-group__header">
+              <div>
+                <h4>{{ group.title }}</h4>
+                <p>{{ group.description }}</p>
+              </div>
+            </header>
+
+            <div class="editor-group__fields">
+              <div *ngFor="let field of group.fields" class="editor-form__field" [class.is-invalid]="isInvalid(field)" [class.editor-form__field--toggle]="isStateField(field)">
+                <label [for]="field.key">{{ field.label }}</label>
+                <p class="editor-form__field-help">{{ fieldHelp(field) }}</p>
+
+                <ng-container [ngSwitch]="field.type">
+                  <textarea
+                    *ngSwitchCase="'textarea'"
+                    [id]="field.key"
+                    [rows]="field.rows || 4"
+                    [formControlName]="field.key"
+                    [placeholder]="field.placeholder || ''"></textarea>
+
+                  <div *ngSwitchCase="'chips'" class="chip-editor">
+                    <div class="chip-editor__list" *ngIf="chipValues(field.key).length; else emptyChips">
+                      <button type="button" *ngFor="let chip of chipValues(field.key); let chipIndex = index" class="chip-editor__chip" (click)="removeChipValue(field, chipIndex)">
+                        <span>{{ chip }}</span>
+                        <strong>×</strong>
+                      </button>
+                    </div>
+                    <ng-template #emptyChips>
+                      <div class="chip-editor__empty">Aun no hay elementos cargados.</div>
+                    </ng-template>
+                    <div class="chip-editor__input-row">
+                      <input
+                        [id]="field.key"
+                        type="text"
+                        [value]="chipDraftValue(field.key)"
+                        [placeholder]="field.placeholder || 'Escribe un elemento y presiona Enter'"
+                        (input)="updateChipDraft(field.key, ($any($event.target)).value)"
+                        (keydown)="addChipFromKeyboard(field, $event)" />
+                      <button type="button" class="chip-editor__add" (click)="addChipValue(field)">Agregar</button>
+                    </div>
+                  </div>
+
+                  <textarea
+                    *ngSwitchCase="'json'"
+                    class="editor-form__code"
+                    [id]="field.key"
+                    [rows]="field.rows || 8"
+                    [formControlName]="field.key"></textarea>
+
+                  <input
+                    *ngSwitchCase="'number'"
+                    [id]="field.key"
+                    type="number"
+                    [formControlName]="field.key" />
+
+                  <label *ngSwitchCase="'boolean'" class="editor-form__toggle">
+                    <input [id]="field.key" type="checkbox" [formControlName]="field.key" />
+                    <span>{{ control(field.key).value ? 'Activo' : 'Inactivo' }}</span>
+                  </label>
+
+                  <div *ngSwitchCase="'select'" class="relation-select-editor">
+                    <select [id]="field.key" [formControlName]="field.key">
+                      <option value="">Selecciona</option>
+                      <option *ngFor="let option of getFieldOptions(field)" [value]="option.value">{{ option.label }}</option>
+                    </select>
+
+                    <div *ngIf="relationCollectionKey(field)" class="relation-editor__quick-add">
+                      <input
+                        type="text"
+                        [value]="relationDraftValue(field.key)"
+                        (input)="updateRelationDraft(field.key, ($any($event.target)).value)"
+                        [placeholder]="relationCreateLabel(field)" />
+                      <button type="button" class="relation-editor__quick-button" (click)="createRelationRecord(field, 'select')">
+                        {{ relationCreateLabel(field) }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngSwitchCase="'multiselect'" class="relation-editor">
+                    <div class="relation-editor__header">
+                      <span>{{ relationPreview(field) }}</span>
+                      <small>{{ relationLabel(field) }}</small>
+                    </div>
+
+                    <div *ngIf="relationCollectionSelected(field); else relationDisabled" class="relation-editor__body">
+                      <div *ngIf="relationCollectionKey(field)" class="relation-editor__quick-add relation-editor__quick-add--top">
+                        <input
+                          type="text"
+                          [value]="relationDraftValue(field.key)"
+                          (input)="updateRelationDraft(field.key, ($any($event.target)).value)"
+                          [placeholder]="relationCreateLabel(field)" />
+                        <button type="button" class="relation-editor__quick-button" (click)="createRelationRecord(field, 'multiselect')">
+                          {{ relationCreateLabel(field) }}
+                        </button>
+                      </div>
+
+                      <div class="relation-editor__selected">
+                        <span class="relation-editor__label">Vinculados</span>
+                        <div class="relation-editor__selected-list" *ngIf="getSelectedRelationOptions(field).length; else emptyRelations">
+                          <button type="button" *ngFor="let option of getSelectedRelationOptions(field)" class="relation-editor__selected-chip" (click)="removeRelationValue(field, option.value)">
+                            <span>{{ option.label }}</span>
+                            <strong>×</strong>
+                          </button>
+                        </div>
+                        <ng-template #emptyRelations>
+                          <div class="relation-editor__empty">Todavia no hay registros vinculados.</div>
+                        </ng-template>
+                      </div>
+
+                      <div class="relation-editor__available">
+                        <span class="relation-editor__label">Disponibles</span>
+                        <input
+                          type="search"
+                          [value]="relationSearchValue(field.key)"
+                          (input)="updateRelationSearch(field.key, ($any($event.target)).value)"
+                          placeholder="Filtrar registros disponibles" />
+                        <div class="relation-editor__available-list">
+                          <button type="button" *ngFor="let option of getAvailableRelationOptions(field)" class="relation-editor__option" (click)="addRelationValue(field, option.value)">
+                            <span>{{ option.label }}</span>
+                            <small>Agregar</small>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-template #relationDisabled>
+                      <div class="relation-editor__empty">Primero elige la colección vinculada y luego podrás seleccionar registros.</div>
+                    </ng-template>
+                  </div>
+
+                  <div *ngSwitchCase="'file'" class="file-editor">
+                    <input [id]="field.key" type="file" accept="image/*,video/*,.pdf" (change)="onFileSelected(field, $event)" />
+                    <div class="file-editor__summary" *ngIf="previewUrl()">
+                      <span>Recurso listo para guardar</span>
+                      <small>{{ previewUrl().startsWith('data:') ? 'Archivo mock cargado localmente' : 'Usando URL existente' }}</small>
+                    </div>
+                  </div>
+
+                  <input
+                    *ngSwitchDefault
+                    [id]="field.key"
+                    type="text"
+                    [readOnly]="field.readOnly || false"
+                    [formControlName]="field.key"
+                    [placeholder]="field.placeholder || ''" />
+                </ng-container>
+
+                <small *ngIf="fieldHint(field)">{{ fieldHint(field) }}</small>
+                <small *ngIf="isInvalid(field)">Campo requerido.</small>
+              </div>
+            </div>
+          </section>
+
+          <div *ngIf="previewUrl()" class="editor-form__preview">
+            <span class="collection-page__eyebrow">Preview</span>
+            <img *ngIf="previewUrl().startsWith('data:image') || previewUrl().includes('assets/') || previewUrl().includes('http')" [src]="previewUrl()" alt="Preview del recurso" />
+            <a *ngIf="!previewUrl().startsWith('data:image')" [href]="previewUrl()" target="_blank" rel="noreferrer">Abrir recurso</a>
+          </div>
+
+          <div class="editor-form__actions">
+            <button type="button" class="editor-form__secondary" (click)="closeEditor()">Cancelar</button>
+            <button type="submit" class="editor-form__primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+
+      <ng-template #editorEmpty>
+        <div class="editor-panel__empty">
+          <span class="collection-page__eyebrow">Editor</span>
+          <h3>Selecciona un registro</h3>
+          <p>Abre uno existente o crea uno nuevo. Aquí podrás editar el contenido con una lógica más guiada: identidad, contenido, relaciones, media y publicación.</p>
+        </div>
+      </ng-template>
+    </aside>
+  </div>
+</section>

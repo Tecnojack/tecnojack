@@ -1,0 +1,103 @@
+:host {
+    display: block;
+}
+
+.professional-profile-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 10px 0 22px;
+}
+
+.professional-profile-section__panel {
+    display: grid;
+    gap: 20px;
+    padding: 34px;
+    border-radius: 32px;
+    border: 1px solid var(--portfolio-line);
+    background:
+        radial-gradient(circle at top right, rgba(216, 179, 107, 0.12), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    box-shadow: var(--portfolio-shadow);
+}
+
+.professional-profile-section__copy {
+    display: grid;
+    gap: 14px;
+}
+
+.professional-profile-section__eyebrow,
+.professional-profile-section__label {
+    margin: 0;
+    color: var(--portfolio-accent);
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.professional-profile-section__lead {
+    max-width: 50ch;
+    line-height: 1.58;
+    font-size: 1.03rem;
+}
+
+.professional-profile-section__aside {
+    display: grid;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 26px;
+    border: 1px solid rgba(216, 179, 107, 0.16);
+    background: rgba(12, 12, 12, 0.34);
+}
+
+.professional-profile-section__list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.professional-profile-section__list li {
+    padding: 13px 15px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--portfolio-muted);
+    line-height: 1.5;
+}
+
+.professional-profile-section__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    min-height: var(--portfolio-button-height);
+    padding: 0 var(--portfolio-button-padding-x);
+    border-radius: var(--portfolio-button-radius);
+    border: 1px solid rgba(216, 179, 107, 0.28);
+    background: rgba(216, 179, 107, 0.08);
+    color: var(--portfolio-text);
+    text-decoration: none;
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.professional-profile-section__cta:hover {
+    transform: translateY(-2px);
+    border-color: rgba(216, 179, 107, 0.46);
+    background: rgba(216, 179, 107, 0.12);
+}
+
+@media (min-width: 980px) {
+    .professional-profile-section__panel {
+        grid-template-columns: minmax(0, 1.22fr) minmax(320px, 0.78fr);
+        align-items: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .professional-profile-section__cta {
+        transition: none;
+    }
+}

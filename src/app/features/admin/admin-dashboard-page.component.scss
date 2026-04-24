@@ -1,0 +1,232 @@
+:host {
+  display: block;
+}
+
+.dashboard-page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.dashboard-page__header,
+.dashboard-page__section-header,
+.page-card__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dashboard-page__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f3ad3a;
+}
+
+.dashboard-page h2,
+.dashboard-page h3 {
+  margin: 0.3rem 0 0.45rem;
+}
+
+.dashboard-page p,
+.page-card p {
+  margin: 0;
+  color: rgba(244, 239, 228, 0.74);
+  line-height: 1.5;
+}
+
+.dashboard-page__primary,
+.page-card__link,
+.dashboard-page__section-header a {
+  color: inherit;
+}
+
+.dashboard-page__primary,
+.page-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1rem;
+  border-radius: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.dashboard-page__primary {
+  color: #0f1418;
+  background: linear-gradient(135deg, #f3ad3a, #f6d26f);
+}
+
+.dashboard-page__stats,
+.dashboard-grid,
+.page-grid,
+.page-card__stats {
+  display: grid;
+  gap: 1rem;
+}
+
+.dashboard-page__stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dashboard-page__stats article,
+.dashboard-grid article,
+.page-card {
+  padding: 1rem;
+  border: 1px solid rgba(244, 239, 228, 0.08);
+  border-radius: 1.1rem;
+  background: rgba(9, 14, 18, 0.65);
+}
+
+.dashboard-page__stats strong,
+.dashboard-grid strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1.15rem;
+}
+
+.dashboard-page__general,
+.dashboard-page__pages {
+  display: grid;
+  gap: 1rem;
+}
+
+.dashboard-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dashboard-grid span,
+.page-card__header small,
+.page-card__stats span {
+  color: rgba(244, 239, 228, 0.64);
+}
+
+.page-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.page-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.page-card__stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.page-card__status {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(65, 210, 164, 0.16);
+  color: #9af1d0;
+}
+
+.page-card__status.is-inactive {
+  background: rgba(255, 110, 110, 0.14);
+  color: #ffb1b1;
+}
+
+.page-card__link {
+  width: fit-content;
+  background: rgba(244, 239, 228, 0.08);
+}
+
+.dashboard-page__actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.dashboard-page__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(244, 239, 228, 0.08);
+  border: 1px solid rgba(244, 239, 228, 0.12);
+  color: #f4efe4;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(244, 239, 228, 0.15);
+    border-color: rgba(244, 239, 228, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.dashboard-page__status-bar {
+  padding: 1.5rem;
+  background: rgba(244, 239, 228, 0.04);
+  border: 1px dashed rgba(244, 239, 228, 0.1);
+  border-radius: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .progress-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+
+    p {
+      margin: 0;
+      color: #f3ad3a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-count {
+      color: rgba(244, 239, 228, 0.5);
+      flex-shrink: 0;
+    }
+  }
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f3ad3a, #f6d26f);
+  transition: width 0.3s ease;
+}
+
+.success-message {
+  p {
+    color: #9af1d0;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 960px) {
+  .dashboard-page__actions {
+    flex-direction: column;
+    width: 100%;
+    
+    button, a {
+      width: 100%;
+    }
+  }
+}

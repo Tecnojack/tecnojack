@@ -1,0 +1,63 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <span class="admin-brand__eyebrow">TECNOJACK</span>
+      <h1>Admin CMS</h1>
+      <p>Gestiona el sitio desde un flujo más claro: configuración general, páginas y creación de nuevas vistas de servicio.</p>
+    </div>
+
+    <a class="admin-sidebar__cta" [routerLink]="['/admin/pages/new']">
+      <span>+</span>
+      <div>
+        <strong>Agregar página</strong>
+        <small>Crea una nueva página o servicio con estructura inicial.</small>
+      </div>
+    </a>
+
+    <nav class="admin-nav" aria-label="Secciones principales del admin">
+      <a
+        *ngFor="let item of navItems()"
+        class="admin-nav__item"
+        [routerLink]="item.route"
+        routerLinkActive="is-active">
+        <span class="admin-nav__icon">{{ item.icon }}</span>
+        <span class="admin-nav__content">
+          <strong>{{ item.label }}</strong>
+          <small>{{ item.description }}</small>
+        </span>
+        <span class="admin-nav__count">{{ item.count }}</span>
+      </a>
+    </nav>
+
+    <section class="admin-sidebar__panel">
+      <span class="admin-sidebar__label">Resumen rápido</span>
+      <div class="admin-sidebar__stats">
+        <article *ngFor="let stat of shellStats()">
+          <strong>{{ stat.value }}</strong>
+          <span>{{ stat.label }}</span>
+        </article>
+      </div>
+    </section>
+
+    <div class="admin-sidebar__footer">
+      <div>
+        <span class="admin-sidebar__label">Persistencia</span>
+        <strong>{{ backendLabel }}</strong>
+      </div>
+      <div>
+        <span class="admin-sidebar__label">Sesión</span>
+        <strong>{{ userEmail() }}</strong>
+      </div>
+      <div>
+        <span class="admin-sidebar__label">Registros</span>
+        <strong>{{ totalRecords() }}</strong>
+      </div>
+      <button *ngIf="canResetSeed" type="button" class="admin-reset" (click)="resetDatabase()">Restaurar seed</button>
+      <button type="button" class="admin-reset" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <router-outlet />
+  </main>
+</div>

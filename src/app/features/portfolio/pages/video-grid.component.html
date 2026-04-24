@@ -1,0 +1,11 @@
+<div class="video-grid">
+    <div class="video-grid__items">
+        <tj-video-card *ngFor="let video of visibleVideos()" [video]="video" (open)="handleOpen($event)" />
+    </div>
+
+    <div class="video-grid__footer" *ngIf="hasOverflow()">
+        <button class="video-grid__toggle btn-text" type="button" (click)="toggleExpanded()">
+            {{ expanded() ? 'Ver menos' : 'Ver más videos' }}
+        </button>
+    </div>
+</div>

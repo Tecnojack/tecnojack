@@ -1,0 +1,189 @@
+:host {
+    display: block;
+}
+
+.prewedding-packages-section {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 12px 0;
+}
+
+.prewedding-packages-section__heading {
+    max-width: none;
+    margin-bottom: 26px;
+    text-align: center;
+}
+
+.prewedding-packages-section__heading > p:first-child {
+    margin: 0;
+    color: #f0c8cf;
+    font-family: var(--portfolio-font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.prewedding-packages-section__heading h2 {
+    margin: 8px auto 0;
+    max-width: 32ch;
+    font-family: var(--portfolio-font-display);
+    font-size: clamp(1.6rem, 2.35vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.prewedding-packages-section__lead {
+    margin: 16px auto 0;
+    max-width: 64ch;
+    color: rgba(246, 241, 232, 0.75);
+    line-height: 1.68;
+}
+
+.prewedding-pricing-grid {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+}
+
+.prewedding-pricing-card {
+    display: grid;
+    gap: 16px;
+    padding: 26px;
+    position: relative;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background:
+        radial-gradient(circle at top, rgba(240, 200, 207, 0.12), transparent 35%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.prewedding-pricing-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(240, 200, 207, 0.26);
+}
+
+.prewedding-pricing-card--featured {
+    background:
+        radial-gradient(circle at top, rgba(240, 200, 207, 0.18), transparent 38%),
+        linear-gradient(180deg, rgba(216, 179, 107, 0.1), rgba(255, 255, 255, 0.03));
+    border-color: rgba(240, 200, 207, 0.4);
+    box-shadow: 0 32px 92px rgba(0, 0, 0, 0.52);
+}
+
+.prewedding-pricing-card--featured::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(240, 200, 207, 0.32);
+    pointer-events: none;
+}
+
+.prewedding-pricing-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.prewedding-pricing-card__tag,
+.prewedding-pricing-card__status {
+    justify-self: start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.prewedding-pricing-card__tag {
+    background: rgba(240, 200, 207, 0.12);
+    color: #f0c8cf;
+}
+
+.prewedding-pricing-card__status {
+    background: linear-gradient(135deg, rgba(240, 200, 207, 0.94), rgba(216, 179, 107, 0.9));
+    color: #140d0e;
+}
+
+.prewedding-pricing-card h3,
+.prewedding-pricing-card p,
+.prewedding-pricing-card strong,
+.prewedding-pricing-card li {
+    margin: 0;
+}
+
+.prewedding-pricing-card h3 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    line-height: 1.12;
+}
+
+.prewedding-pricing-card__price-block strong {
+    font-size: 1.95rem;
+}
+
+.prewedding-pricing-card__list-block {
+    display: grid;
+    gap: 10px;
+}
+
+.prewedding-pricing-card__list-block p {
+    color: var(--portfolio-text);
+    font-weight: 700;
+}
+
+.prewedding-pricing-card__list-block ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.prewedding-pricing-card__list-block li {
+    padding: 12px 14px;
+    border-radius: 18px;
+    color: var(--portfolio-muted);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.62;
+}
+
+.prewedding-pricing-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--portfolio-button-height);
+    justify-self: stretch;
+    width: 100%;
+    padding: 0 var(--portfolio-button-padding-x);
+    border-radius: var(--portfolio-button-radius);
+    background: linear-gradient(135deg, rgba(240, 200, 207, 0.92), rgba(216, 179, 107, 0.9));
+    color: #140d0e;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.96rem;
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+.prewedding-pricing-card__cta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+@media (min-width: 980px) {
+    .prewedding-pricing-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prewedding-pricing-card,
+    .prewedding-pricing-card__cta {
+        transition: none;
+    }
+}

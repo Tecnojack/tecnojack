@@ -1,0 +1,124 @@
+<div class="portfolio-page" [class.portfolio-page--editable]="editable">
+    <div class="portfolio-page__aurora" aria-hidden="true"></div>
+    <div class="portfolio-page__grain" aria-hidden="true"></div>
+
+    <header class="portfolio-header" *ngIf="!hideHeader">
+        <a *ngIf="isInternalRoute(brandHref); else brandExternalLink" class="portfolio-header__brand" [routerLink]="brandHref">
+            <span class="portfolio-header__brand-mark" aria-hidden="true">
+                <img src="assets/logo.png" alt="" />
+            </span>
+            <span class="portfolio-header__brand-copy">
+                <span class="portfolio-header__mark">TECNOJACK</span>
+                <span class="portfolio-header__sub" *ngIf="subtitle">{{ subtitle }}</span>
+            </span>
+        </a>
+        <ng-template #brandExternalLink>
+            <a class="portfolio-header__brand" [href]="brandHref">
+                <span class="portfolio-header__brand-mark" aria-hidden="true">
+                    <img src="assets/logo.png" alt="" />
+                </span>
+                <span class="portfolio-header__brand-copy">
+                    <span class="portfolio-header__mark">TECNOJACK</span>
+                    <span class="portfolio-header__sub" *ngIf="subtitle">{{ subtitle }}</span>
+                </span>
+            </a>
+        </ng-template>
+
+        <nav class="portfolio-header__nav" aria-label="Secciones del portafolio">
+            <ng-container *ngFor="let item of navItems">
+                <a
+                    *ngIf="isInternalRoute(item.href); else externalNavLink"
+                    class="portfolio-header__nav-link btn-text"
+                    [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
+                    routerLinkActive="portfolio-header__nav-link--active"
+                    [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }"
+                    [routerLink]="item.href">
+                    {{ item.label }}
+                </a>
+                <ng-template #externalNavLink>
+                    <a
+                        class="portfolio-header__nav-link btn-text"
+                        [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
+                        [href]="item.href">{{ item.label }}</a>
+                </ng-template>
+            </ng-container>
+        </nav>
+
+        <!-- <a
+            class="portfolio-header__cta btn-text"
+            [href]="resolvedHeaderCtaHref"
+            [attr.target]="headerCtaExternal ? '_blank' : null"
+            [attr.rel]="headerCtaExternal ? 'noopener' : null">
+            {{ headerCtaLabel }}
+        </a> -->
+    </header>
+
+    <main class="portfolio-main">
+        <ng-content />
+    </main>
+
+    <footer class="portfolio-footer">
+        <div class="portfolio-footer__inner">
+            <a *ngIf="isInternalRoute(brandHref); else footerBrandExternal" class="portfolio-footer__brand" [routerLink]="brandHref" aria-label="Ir al inicio">
+                <span class="portfolio-footer__brand-mark" aria-hidden="true">
+                    <img src="assets/logo.png" alt="" />
+                </span>
+                <span class="portfolio-footer__brand-copy">
+                    <span class="portfolio-footer__brand-name">TECNOJACK</span>
+                    <span class="portfolio-footer__brand-sub text-body text-muted">Estudio audiovisual</span>
+                </span>
+            </a>
+            <ng-template #footerBrandExternal>
+                <a class="portfolio-footer__brand" [href]="brandHref" aria-label="Ir al inicio">
+                    <span class="portfolio-footer__brand-mark" aria-hidden="true">
+                        <img src="assets/logo.png" alt="" />
+                    </span>
+                    <span class="portfolio-footer__brand-copy">
+                        <span class="portfolio-footer__brand-name">TECNOJACK</span>
+                        <span class="portfolio-footer__brand-sub text-body text-muted">Estudio audiovisual</span>
+                    </span>
+                </a>
+            </ng-template>
+
+            <p class="portfolio-footer__text text-body text-muted">{{ resolvedFooterText }}</p>
+
+            <div class="portfolio-footer__bar" aria-label="Enlaces del sitio">
+                <div class="portfolio-footer__links" aria-label="Enlaces legales">
+                    <a class="btn-text" routerLink="/terminos-y-condiciones">Términos y Condiciones</a>
+
+                    <a *ngIf="isInternalRoute(brandHref); else footerExternalLink" class="btn-text" [routerLink]="brandHref">Volver arriba</a>
+                    <ng-template #footerExternalLink>
+                        <a class="btn-text" [href]="brandHref">Volver arriba</a>
+                    </ng-template>
+                </div>
+
+                <div class="portfolio-footer__social" aria-label="Redes y contacto">
+                    <a
+                        class="portfolio-footer__social-link btn-text"
+                        *ngFor="let link of contactLinks"
+                        [href]="link.href"
+                        target="_blank"
+                        rel="noopener"
+                        [attr.aria-label]="link.title">
+                        <img *ngIf="link.iconSrc" [src]="link.iconSrc" alt="" aria-hidden="true" />
+                        <span>{{ link.title }}</span>
+                    </a>
+                </div>
+            </div>
+
+            <p class="portfolio-footer__credit">Imaginado y ejecutado por Jackson Palacios</p>
+        </div>
+    </footer>
+
+    <a
+        class="portfolio-float-wa btn-text"
+        [href]="whatsappHref"
+        target="_blank"
+        rel="noopener"
+        aria-label="Escribir por WhatsApp a TECNOJACK">
+        <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+        <span>WhatsApp</span>
+    </a>
+
+    <ng-content select="[portfolioOverlay]"></ng-content>
+</div>

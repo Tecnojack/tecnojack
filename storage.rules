@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdminUser() {
+      return isSignedIn() && (
+        request.auth.token.admin == true ||
+        firestore.exists(/databases/(default)/documents/adminUsers/$(request.auth.uid))
+      );
+    }
+
+    // Archivos del media-admin: permitir subida si hay sesión iniciada.
+    match /servicios/{allPaths=**} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Cualquier otra ruta del storage
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdminUser();
+    }
+  }
+}

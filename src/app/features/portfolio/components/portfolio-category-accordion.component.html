@@ -1,0 +1,73 @@
+<section class="service-category-package-group" tjRevealOnScroll>
+  <button
+    class="service-category-package-group__head service-category-package-group__head--toggle"
+    type="button"
+    (click)="toggle()"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Abrir') + ' categoría ' + title">
+    <div class="service-category-package-group__head-copy">
+      <p>{{ title }}</p>
+      <span *ngIf="lead">{{ lead }}</span>
+    </div>
+
+    <span class="service-category-package-group__chevron" aria-hidden="true"></span>
+  </button>
+
+  <div class="service-category-package-group__content" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
+    <div class="service-category-package-group__panel">
+      <div class="service-category-packages__grid" *ngIf="packages.length; else emptyState">
+        <article
+          class="service-package-card"
+          *ngFor="let item of packages; let index = index"
+          [class.service-package-card--featured]="item.detail.featured"
+          [class.service-package-card--luxury]="item.detail.slug.includes('luxury')">
+          <div class="service-package-card__media">
+            <ng-container *ngIf="coverByDetail(item.detail) | async as coverUrl">
+              <img
+                tjFallbackImage
+                [src]="coverUrl | tjImageFallback"
+                [alt]="item.detail.title"
+                loading="lazy"
+                decoding="async" />
+            </ng-container>
+            <div class="service-package-card__media-badges">
+              <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
+              <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
+            </div>
+          </div>
+
+          <div class="service-package-card__body">
+            <div class="service-package-card__headline">
+              <div class="service-package-card__title-row">
+                <div class="service-package-card__title-stack">
+                  <h3 class="heading-md">{{ item.displayName }}</h3>
+                  <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
+                </div>
+              </div>
+              <div class="service-package-card__price-block">
+                <span class="service-package-card__price-label">Inversión</span>
+                <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
+              </div>
+            </div>
+
+            <div class="service-package-card__copy">
+              <p class="text-body text-muted">{{ item.detail.lead }}</p>
+            </div>
+
+            <ul class="service-package-card__list">
+              <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
+            </ul>
+
+            <button class="service-package-card__cta btn-text" type="button" (click)="requestOpenPackage(item.detail.slug)">Ver detalle</button>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="service-category-package-group__empty">
+          <p class="text-body text-muted">Próximamente estaremos agregando paquetes para este servicio</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</section>

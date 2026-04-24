@@ -1,0 +1,32 @@
+<section class="admin-login">
+  <div class="admin-login__panel">
+    <span class="admin-login__eyebrow">Firebase Admin</span>
+    <h1>Acceso al CMS</h1>
+    <p>
+      Ingresa con tu cuenta administrativa. El contenido sigue desacoplado: Auth protege el panel y los datos
+      se resuelven por repositorio.
+    </p>
+
+    <p class="admin-login__routes">
+      Accesos directos: <a href="/admin/login">/admin/login</a>, <a href="/admin">/admin</a>, <a href="/login">/login</a>
+    </p>
+
+    <form class="admin-login__form" [formGroup]="loginForm" (ngSubmit)="submit()">
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" autocomplete="email" placeholder="admin@tecnojack.com" />
+      </label>
+
+      <label>
+        <span>Contraseña</span>
+        <input type="password" formControlName="password" autocomplete="current-password" placeholder="••••••••" />
+      </label>
+
+      <p class="admin-login__error" *ngIf="errorMessage() as error">{{ error }}</p>
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Validando...' : 'Entrar al panel' }}
+      </button>
+    </form>
+  </div>
+</section>

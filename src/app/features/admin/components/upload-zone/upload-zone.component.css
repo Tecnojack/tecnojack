@@ -1,0 +1,131 @@
+.upload-container {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.upload-container.dragging {
+  border-color: #0097b2;
+  background: rgba(0, 151, 178, 0.1);
+  transform: scale(1.02);
+}
+
+.upload-container.uploading {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.upload-content {
+  cursor: pointer;
+  width: 100%;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.icon-box {
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dragging .icon-box {
+  color: #0097b2;
+}
+
+.main-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.sub-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.upload-progress-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+.previews-mini {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.previews-mini img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-text {
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.progress-bar-container {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #0097b2;
+  transition: width 0.3s ease;
+}
+
+.upload-result-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-result-box.success .icon-box {
+  color: #10b981;
+}
+
+.upload-result-box.error .icon-box {
+  color: #ef4444;
+}
+
+.btn-reset {
+  margin-top: 16px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
