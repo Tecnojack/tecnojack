@@ -39,6 +39,11 @@ export interface SimpleServiceInquiryForm {
 export class SimpleServiceModalComponent implements OnChanges {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly serviceRequest = inject(ServiceRequestService);
+  private readonly eventDateFormatter = new Intl.DateTimeFormat('es-CO', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 
   @Input() service: SimpleService | null = null;
   @Output() closeModal = new EventEmitter<void>();
@@ -65,6 +70,17 @@ export class SimpleServiceModalComponent implements OnChanges {
 
   get isFormValid(): boolean {
     return this.form.name.trim().length > 1 && this.form.phone.trim().length > 6;
+  }
+
+  get formattedEventDate(): string {
+    const rawDate = this.form.eventDate.trim();
+
+    if (!rawDate) {
+      return 'Seleccionar fecha';
+    }
+
+    const parsedDate = new Date(`${rawDate}T12:00:00`);
+    return Number.isNaN(parsedDate.getTime()) ? rawDate : this.eventDateFormatter.format(parsedDate);
   }
 
   close(): void {

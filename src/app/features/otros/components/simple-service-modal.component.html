@@ -67,13 +67,23 @@
         </div>
 
         <div class="ssm__field">
-          <label class="ssm__label" for="ssm-message">Detalles adicionales</label>
-          <input
-            id="ssm-event-date"
-            class="ssm__input"
-            type="date"
-            [(ngModel)]="form.eventDate"
-          />
+          <label class="ssm__label" for="ssm-event-date">Fecha estimada</label>
+          <div class="ssm__date-field" [class.ssm__date-field--empty]="!form.eventDate">
+            <div class="ssm__date-display" aria-hidden="true">
+              <span class="ssm__date-icon"></span>
+              <span class="ssm__date-copy">
+                <strong>{{ formattedEventDate }}</strong>
+                <small>{{ form.eventDate ? 'Toca para cambiarla' : 'Elige una fecha aproximada para tu servicio' }}</small>
+              </span>
+            </div>
+            <input
+              id="ssm-event-date"
+              class="ssm__date-input"
+              type="date"
+              [(ngModel)]="form.eventDate"
+              aria-label="Fecha estimada"
+            />
+          </div>
         </div>
 
         <div class="ssm__field">
