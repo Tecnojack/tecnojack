@@ -38,7 +38,7 @@ export class AboutPageComponent {
   readonly heroPhotoSrc = 'assets/images/profile/Jackson Palacios.jpg';
 
   readonly heroCtaHref = buildPortfolioWhatsappHref(
-    'Hola Jackson, vi tu página y quiero cotizar un proyecto audiovisual'
+    'Hola TECNOJACK, vi tu página y quiero cotizar un proyecto audiovisual.'
   );
 
   readonly heroScrollTarget = '#about-work';

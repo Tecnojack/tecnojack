@@ -74,7 +74,7 @@ export class OtrosPageComponent implements OnInit {
   ];
 
   readonly heroWhatsappHref = `https://wa.me/${PHONE}?text=${encodeURIComponent(
-    'Hola Jackson, tengo un proyecto que quiero cotizar y no sé bien cuál es el servicio que necesito.'
+    'Hola TECNOJACK, tengo un proyecto que quiero cotizar y necesito ayuda para identificar el servicio más adecuado.'
   )}`;
 
   get navItems() {
@@ -90,7 +90,7 @@ export class OtrosPageComponent implements OnInit {
     this.metaSvc.updateTag({
       name: 'description',
       content:
-        'Fotografía, video, reels, contenido para redes y más. Servicios audiovisuales flexibles para personas, emprendedores y marcas. TECNOJACK · Antioquia.'
+        'Fotografía, video, reels y contenido para redes para personas, emprendedores y marcas. Servicios audiovisuales flexibles en Medellín y Antioquia.'
     });
   }
 

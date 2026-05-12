@@ -32,7 +32,14 @@
                 <div class="wedding-pricing-card__list-block">
                     <p>Incluye:</p>
                     <ul>
-                        <li *ngFor="let item of plan.items">{{ item }}</li>
+                        <li *ngFor="let item of plan.features">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <div class="wedding-pricing-card__list-block">
+                    <p>Entregables:</p>
+                    <ul>
+                        <li *ngFor="let item of plan.deliverables">{{ item }}</li>
                     </ul>
                 </div>
 

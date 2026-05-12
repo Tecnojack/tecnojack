@@ -382,7 +382,6 @@ body.portfolio-request-modal-open {
     margin: 0;
     min-height: min(760px, calc(100vh - 128px));
     overflow: hidden;
-    border-radius: 38px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background:
         linear-gradient(180deg, rgba(6, 6, 6, 0.18), rgba(6, 6, 6, 0.8) 62%, rgba(6, 6, 6, 0.94)),
@@ -1493,6 +1492,10 @@ body.portfolio-request-modal-open {
 .portfolio-page .service-package-request__accordion-summary {
     list-style: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 14px 16px;
     color: var(--portfolio-accent);
     font-family: var(--portfolio-font-display);
@@ -1506,8 +1509,25 @@ body.portfolio-request-modal-open {
     display: none;
 }
 
+.portfolio-page .service-package-request__accordion-summary::after {
+    content: '';
+    width: 0.68rem;
+    height: 0.68rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.72;
+    flex: 0 0 auto;
+    transition: transform 220ms ease, opacity 220ms ease;
+}
+
 .portfolio-page .service-package-request__accordion[open] > .service-package-request__accordion-summary {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portfolio-page .service-package-request__accordion[open] > .service-package-request__accordion-summary::after {
+    transform: rotate(-135deg);
+    opacity: 1;
 }
 
 .portfolio-page .service-package-request__accordion > :where(.service-package-request__form, .service-package-request__builder, .service-package-request__summary) {
@@ -2129,6 +2149,10 @@ h3,
 .portfolio-package-detail .package-request__accordion-summary {
     list-style: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 14px 16px;
     color: var(--package-accent);
     font-family: var(--portfolio-font-display);
@@ -2142,8 +2166,25 @@ h3,
     display: none;
 }
 
+.portfolio-package-detail .package-request__accordion-summary::after {
+    content: '';
+    width: 0.68rem;
+    height: 0.68rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.72;
+    flex: 0 0 auto;
+    transition: transform 220ms ease, opacity 220ms ease;
+}
+
 .portfolio-package-detail .package-request__accordion[open] > .package-request__accordion-summary {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portfolio-package-detail .package-request__accordion[open] > .package-request__accordion-summary::after {
+    transform: rotate(-135deg);
+    opacity: 1;
 }
 
 .portfolio-package-detail .package-request__accordion > :where(.package-request-form, .package-request-groups, .package-request-summary) {

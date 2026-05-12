@@ -102,6 +102,8 @@ export interface WeddingPackagePlan {
   lead: string;
   image: string;
   items: string[];
+  features: string[];
+  deliverables: string[];
   coverage: string[];
   featured?: boolean;
 }
@@ -113,6 +115,8 @@ export interface WeddingPhotoOnlyPlan {
   lead: string;
   image: string;
   items: string[];
+  features: string[];
+  deliverables: string[];
   coverage: string[];
   featured?: boolean;
 }
@@ -142,6 +146,8 @@ export interface PreweddingPlan {
   image: string;
   price?: string;
   items: string[];
+  features: string[];
+  deliverables: string[];
   featured?: boolean;
 }
 
@@ -283,7 +289,7 @@ export interface PortfolioAdditionalService {
 
 const phone = '573145406467';
 const whatsappMessage =
-  'Hola TECNOJACK, quiero información para cotizar contigo un proyecto audiovisual ¿Me puedes direccionar en la elección de paquetes según mi proyecto?';
+  'Hola TECNOJACK, quiero cotizar un proyecto audiovisual y necesito ayuda para elegir la opción más adecuada según mi evento, marca o necesidad.';
 
 export const socialLinks = {
   instagram: 'https://www.instagram.com/tecnojack',
@@ -335,6 +341,31 @@ function buildBaseQuoteOption(
   selectedByDefault = true
 ): PortfolioBaseQuoteOption {
   return { id, label, amountCop, selectedByDefault };
+}
+
+function buildIncludedRequestOptionGroups(
+  prefix: string,
+  sections: PortfolioPackageDetailSection[]
+): PortfolioRequestOptionGroup[] {
+  return sections
+    .filter((section) => section.items.length > 0)
+    .map((section, index) => ({
+      title: section.title,
+      selectable: false,
+      options: buildRequestOptions(`${prefix}-section-${index + 1}`, section.items)
+    }));
+}
+
+function normalizePortfolioPackageDetail(
+  detail: PortfolioPackageDetail
+): PortfolioPackageDetail {
+  return {
+    ...detail,
+    requestOptionGroups: [
+      ...buildIncludedRequestOptionGroups(detail.slug, detail.sections),
+      ...detail.requestOptionGroups.filter((group) => group.selectable)
+    ]
+  };
 }
 
 function buildWeddingMainBaseQuoteOptions(slug: string): PortfolioBaseQuoteOption[] {
@@ -454,7 +485,7 @@ export const portfolioServices: PortfolioService[] = [
     image: 'assets/images/fotos/default-cover.png',
     href: '/portfolio/bodas',
     ctaLabel: 'Ver paquetes',
-    points: ['Foto + video', 'Color cinematográfico', 'Entrega social y full quality']
+    points: ['Foto + video', 'Color cinematográfico', 'Entrega para redes y archivo final']
   },
   {
     id: 'quinces',
@@ -526,7 +557,7 @@ export const portfolioPackages: PortfolioPackage[] = [
     ]
   },
   {
-    name: 'Film & Photo Experience',
+    name: 'Experiencia Foto + Video',
     price: 'Desde COP 450.000',
     summary: 'Ideal para clientes que buscan una propuesta audiovisual más aspiracional y comercial.',
     featured: true,
@@ -536,7 +567,7 @@ export const portfolioPackages: PortfolioPackage[] = [
       'Edición premium',
       'Entrega web o privada',
       'Apoyo para narrativa visual',
-      'Opciones de upsell integradas'
+      'Opciones para ampliar la cobertura'
     ]
   },
   {
@@ -561,14 +592,14 @@ export const portfolioPhotoPackages: PortfolioPhotoPackage[] = [
     features: ['Todas las fotos digitales', '12 fotografías editadas en JPG']
   },
   {
-    name: 'Recuerdo Signature',
+    name: 'Recuerdo Plus',
     priceCop: '120.000 COP',
     summary: 'Una versión más completa para quien quiere variedad, retratos y una entrega con más detalle.',
     featured: true,
     features: ['Todas las fotos digitales', '25 fotografías editadas en JPG', 'Mini selección prioritaria para compartir']
   },
   {
-    name: 'Recuerdo Full Day',
+    name: 'Recuerdo Integral',
     priceCop: '220.000 COP',
     summary: 'Cobertura superior con mejor narrativa para familias, promociones y clientes que quieren material amplio.',
     features: ['Todas las fotos digitales', '40 fotografías editadas en JPG', 'Cobertura extendida y apoyo en poses']
@@ -662,7 +693,7 @@ export const portfolioAdditionalServices: PortfolioAdditionalService[] = [
   {
     title: 'Video tráiler',
     price: 'Desde 150.000 COP',
-    description: 'Pieza corta de alto impacto para compartir rápido.'
+    description: 'Pieza corta de alto impacto para compartir fácilmente en redes o por WhatsApp.'
   },
   {
     title: 'Reel para redes',
@@ -716,13 +747,13 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
       'Presencia durante toda la ceremonia de grado',
       'Captura individual durante el llamado a grado',
       'Toma grupal del curso',
-      'Momentos espontáneos del evento'
+      'Momentos espontáneos del evento',
+      'Selección curada de fotografías del evento',
+      'Edición básica de color, iluminación y encuadre'
     ],
     deliverables: [
       '50 fotografías digitales en alta calidad',
-      'Selección de las mejores tomas del evento',
-      'Edición básica (color, iluminación y encuadre)',
-      'Entrega digital en formato listo para compartir'
+      'Entrega final por Google Drive'
     ]
   },
   {
@@ -737,14 +768,14 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
       'Sesión fotográfica con enfoque en retrato destacado',
       'Mejor dirección de poses',
       'Cuidado en composición visual para impresión',
-      'Toma con familiares y acompañantes'
+      'Toma con familiares y acompañantes',
+      'Edición mejorada en imágenes seleccionadas',
+      'Optimización de archivos para impresión'
     ],
     deliverables: [
       '50 fotografías digitales en alta calidad',
-      'Edición mejorada en imágenes seleccionadas',
       'Cuadro fotográfico en madera de 70 cm',
-      'Fotografía optimizada para impresión',
-      'Entrega digital completa'
+      'Entrega final por Google Drive'
     ]
   },
   {
@@ -759,14 +790,14 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
       'Cobertura fotográfica más enfocada en momentos emocionales',
       'Selección narrativa de imágenes',
       'Enfoque en recuerdo visual del evento',
-      'Toma con familiares y acompañantes'
+      'Toma con familiares y acompañantes',
+      'Diseño básico del fotobook',
+      'Edición mejorada para impresión'
     ],
     deliverables: [
       '50 fotografías digitales en alta calidad',
       'Fotobook de 5 páginas',
-      'Diseño básico del álbum',
-      'Edición mejorada para impresión',
-      'Entrega digital completa'
+      'Entrega final por Google Drive'
     ]
   },
   {
@@ -781,14 +812,14 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
       'Cobertura completa del momento de grado',
       'Dirección más detallada durante la sesión',
       'Enfoque en recuerdo integral (digital + físico)',
-      'Toma con familiares y acompañantes'
+      'Toma con familiares y acompañantes',
+      'Edición optimizada para impresión'
     ],
     deliverables: [
       '50 fotografías digitales en alta calidad',
       'Fotobook de 5 páginas',
       'Cuadro fotográfico en madera de 70 cm',
-      'Edición optimizada para impresión',
-      'Entrega digital completa'
+      'Entrega final por Google Drive'
     ],
     featured: true
   }
@@ -816,6 +847,19 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería online por 3 meses',
       'Entrega digital en alta resolución'
     ],
+    features: [
+      'Cobertura parcial del evento',
+      '1 fotógrafo',
+      '1 videógrafo',
+      'Duración de 4 a 6 horas',
+      'Dirección básica'
+    ],
+    deliverables: [
+      'Hasta 150 fotografías editadas en alta resolución',
+      'Video principal de 3 a 5 minutos',
+      'Galería digital privada por 3 meses',
+      'Entrega final por Google Drive'
+    ],
     coverage: ['Ceremonia', 'Momentos clave', 'Recepción (parcial)']
   },
   {
@@ -837,6 +881,21 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Video extendido de 15 a 25 minutos',
       'Galería online por 6 meses',
       'Entrega digital en alta calidad'
+    ],
+    features: [
+      'Cobertura amplia del evento',
+      '1 fotógrafo y 1 videógrafo',
+      'Duración de 6 a 8 horas',
+      'Dirección durante el evento'
+    ],
+    deliverables: [
+      'Hasta 300 fotografías editadas en alta resolución',
+      '10 fotografías impresas',
+      '1 fotografía ampliada',
+      'Video principal de 5 a 8 minutos',
+      'Video extendido de 15 a 25 minutos',
+      'Galería digital privada por 6 meses',
+      'Entrega final por Google Drive'
     ],
     coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción']
   },
@@ -864,11 +923,31 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería online por 1 año',
       'Reel para redes'
     ],
+    features: [
+      'Cobertura completa del evento',
+      '1 fotógrafo y 1 videógrafo',
+      'Asistente',
+      'Dirección creativa',
+      'Tomas con gimbal',
+      'Tomas con drone si aplica'
+    ],
+    deliverables: [
+      'Hasta 450 fotografías editadas',
+      'Fotografías impresas',
+      '1 fotografía ampliada',
+      'Álbum fotográfico',
+      'Trailer de 1 minuto',
+      'Video principal de 6 a 10 minutos',
+      'Video extendido de 20 a 30 minutos',
+      'Reel para redes',
+      'Galería digital privada por 1 año',
+      'Entrega final por Google Drive'
+    ],
     coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
   },
   {
     slug: 'luxury-cinematico-foto-video',
-    name: 'Luxury – Producción cinematográfica integral',
+    name: 'Exclusivo – Producción cinematográfica integral',
     priceLines: ["4'800.000 COP"],
     lead:
       'Producción audiovisual de alto nivel donde fotografía y video trabajan juntos para crear una experiencia cinematográfica completa.',
@@ -889,6 +968,26 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Clips para redes',
       'Sesión de preboda incluida',
       'Galería online extendida'
+    ],
+    features: [
+      'Cobertura total del evento',
+      '2 fotógrafos y 2 videógrafos',
+      'Asistente de producción',
+      'Dirección audiovisual completa',
+      'Tomas con gimbal y drone',
+      'Iluminación adicional',
+      'Sesión de preboda incluida'
+    ],
+    deliverables: [
+      'Más de 500 fotografías editadas',
+      'Álbum fotográfico',
+      'Fotografías impresas y ampliaciones',
+      'Trailer cinematográfico',
+      'Video principal de 8 a 10 minutos',
+      'Video documental de 30 a 60 minutos',
+      'Clips para redes',
+      'Galería digital privada extendida',
+      'Entrega final por Google Drive'
     ],
     coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
   }
@@ -915,6 +1014,19 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Entrega digital en alta resolución',
       'Galería online disponible por 3 meses'
     ],
+    features: [
+      'Cobertura parcial del evento (ceremonia y momentos clave)',
+      '1 fotógrafo',
+      'Duración de 3 a 4 horas',
+      'Dirección básica de poses',
+      'Edición con estilo limpio y natural'
+    ],
+    deliverables: [
+      'Hasta 120 fotografías editadas',
+      '10 fotografías impresas (15x21 cm)',
+      'Galería digital privada por 3 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
     coverage: ['Ceremonia', 'Momentos clave']
   },
   {
@@ -937,6 +1049,21 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Entrega digital en alta resolución',
       'Galería online disponible por 6 meses'
     ],
+    features: [
+      'Cobertura amplia del evento',
+      '1 fotógrafo principal',
+      '1 asistente de fotografía',
+      'Duración de 5 a 7 horas',
+      'Dirección y acompañamiento durante el evento',
+      'Edición profesional con estilo natural'
+    ],
+    deliverables: [
+      'Hasta 250 fotografías editadas',
+      '20 fotografías impresas (15x21 cm)',
+      '1 fotografía ampliada (50 cm)',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
     coverage: ['Ceremonia', 'Sesión de fotos', 'Recepción', 'Momentos clave']
   },
   {
@@ -957,9 +1084,25 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Hasta 450 fotografías editadas',
       '20 fotos impresas (15x21 cm)',
       '1 fotografía ampliada (50 cm)',
-      'Álbum fotográfico (book)',
+      'Álbum fotográfico',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 año'
+    ],
+    features: [
+      'Cobertura completa del evento (preparativos hasta la fiesta)',
+      '1 o 2 fotógrafos',
+      '1 asistente',
+      'Dirección creativa (estilo editorial)',
+      'Sesión previa incluida (preboda)',
+      'Edición profesional avanzada'
+    ],
+    deliverables: [
+      'Hasta 450 fotografías editadas',
+      '20 fotografías impresas (15x21 cm)',
+      '1 fotografía ampliada (50 cm)',
+      'Álbum fotográfico',
+      'Galería digital privada por 1 año',
+      'Entrega final en alta resolución por Google Drive'
     ],
     coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
   }
@@ -996,7 +1139,7 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
     lead: 'Cobertura sencilla y emotiva para conservar los momentos más importantes de tu boda.',
     image: 'assets/images/galery/M&D-16.jpg',
     features: ['Cobertura parcial del evento', '1 cámara', 'Grabación en Full HD', 'Audio ambiente', 'Tomas espontáneas'],
-    deliverables: ['Video principal de 3 a 5 minutos', 'Entrega digital en alta calidad', 'Tiempo de entrega: 5 a 7 días']
+    deliverables: ['Video principal de 3 a 5 minutos', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'video-bodas-completo',
@@ -1015,8 +1158,7 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
     deliverables: [
       'Video principal de 5 a 8 minutos',
       'Video extendido de 15 a 25 minutos',
-      'Entrega digital en alta calidad',
-      'Tiempo de entrega: 7 a 10 días'
+      'Entrega final en alta calidad por Google Drive'
     ]
   },
   {
@@ -1038,14 +1180,13 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
       'Trailer de 1 minuto',
       'Video principal de 6 a 10 minutos',
       'Video extendido de 20 a 30 minutos',
-      'Versión optimizada para redes',
-      'Entrega digital en alta calidad',
-      'Tiempo de entrega: 10 a 15 días'
+      '1 versión vertical corta para redes sociales',
+      'Entrega final en alta calidad por Google Drive'
     ]
   },
   {
     slug: 'video-bodas-luxury',
-    name: 'Luxury – Producción cinematográfica de alto nivel',
+    name: 'Exclusivo – Producción cinematográfica de alto nivel',
     priceLines: ["4'200.000 COP"],
     amountCop: 4200000,
     lead: 'Experiencia premium que transforma tu boda en una película con narrativa cinematográfica.',
@@ -1058,16 +1199,15 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
       'Audio profesional con micrófonos dedicados',
       'Iluminación adicional si es necesario',
       'Edición cinematográfica avanzada',
-      'Storytelling estructurado'
+      'Storytelling estructurado',
+      'Edición prioritaria'
     ],
     deliverables: [
       'Trailer cinematográfico de 1 minuto',
       'Video principal de 8 a 10 minutos',
       'Video documental de 30 a 60 minutos o más',
-      'Clips optimizados para redes sociales',
-      'Entrega en alta calidad',
-      'Prioridad en edición',
-      'Tiempo de entrega: 7 a 10 días'
+      '2 a 4 clips cortos para redes sociales',
+      'Entrega final en alta calidad por Google Drive'
     ]
   }
 ];
@@ -1081,7 +1221,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     lead: 'Sesión sencilla y emotiva para capturar momentos naturales como recién casados sin el estrés del evento.',
     image: 'assets/images/galery/M&D-15.jpg',
     features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['50 fotografías editadas', 'Entrega digital en alta resolución', 'Galería online disponible por 1 mes']
+    deliverables: ['50 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'postboda-completa',
@@ -1091,7 +1231,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     lead: 'Sesión más elaborada que permite explorar diferentes escenarios y lograr fotografías más cuidadas y expresivas.',
     image: 'assets/images/galery/M&D-21.jpg',
     features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['80 fotografías editadas', 'Galería online disponible por 3 meses', 'Entrega digital en alta calidad']
+    deliverables: ['80 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'postboda-premium',
@@ -1107,7 +1247,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
       'Planeación previa de concepto visual',
       'Posible desplazamiento'
     ],
-    deliverables: ['120 fotografías editadas', 'Galería online disponible por 6 meses', 'Entrega digital en alta resolución', '5 fotografías impresas']
+    deliverables: ['120 fotografías editadas', 'Galería digital privada por 6 meses', 'Entrega final en alta resolución por Google Drive', '5 fotografías impresas']
   }
 ];
 
@@ -1136,7 +1276,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       'Entrega digital en alta resolución'
     ],
     features: ['Cobertura del evento de 3 a 4 horas', 'Dirección básica de poses', 'Fotografía documental del evento'],
-    deliverables: ['80 a 120 fotografías editadas', '1 fotografía impresa de 50 cm', 'Entrega digital en alta resolución']
+    deliverables: ['80 a 120 fotografías editadas', '1 fotografía impresa de 50 cm', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'quince-completa-historia',
@@ -1155,7 +1295,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       'Entrega en alta resolución'
     ],
     features: ['Cobertura del evento de 5 a 6 horas', 'Dirección de poses', 'Mayor enfoque en momentos clave'],
-    deliverables: ['120 a 180 fotografías editadas', '1 fotografía impresa de 50 cm', 'Galería digital', 'Entrega en alta resolución']
+    deliverables: ['120 a 180 fotografías editadas', '1 fotografía impresa de 50 cm', 'Galería digital privada', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'quince-premium-experiencia-fotografica',
@@ -1184,7 +1324,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       '2 fotografías impresas de 50 cm',
       '5 fotografías impresas tamaño 15 cm',
       'Fotobook básico',
-      'Entrega digital en alta resolución'
+      'Entrega final en alta resolución por Google Drive'
     ]
   }
 ];
@@ -1210,7 +1350,7 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     priceLines: ['700.000 COP'],
     amountCop: 700000,
     features: ['Cobertura de 3 a 4 horas', 'Grabación en alta calidad', 'Enfoque en momentos clave'],
-    deliverables: ['Video de 3 a 5 minutos en 4K', 'Entrega digital']
+    deliverables: ['Video principal de 3 a 5 minutos en 4K', 'Entrega final por Google Drive']
   },
   {
     slug: 'quince-video-completa',
@@ -1220,7 +1360,7 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     priceLines: ["1'200.000 COP"],
     amountCop: 1200000,
     features: ['Cobertura de 5 a 6 horas', 'Grabación profesional con mejor narrativa', 'Tomas dinámicas'],
-    deliverables: ['Video de 5 a 10 minutos en 4K', 'Trailer corto', 'Entrega digital']
+    deliverables: ['Video principal de 5 a 10 minutos en 4K', 'Trailer de 30 a 60 segundos', 'Entrega final por Google Drive']
   },
   {
     slug: 'quince-video-premium-cinematica',
@@ -1235,7 +1375,7 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
       'Equipo de grabación profesional',
       'Dirección creativa avanzada'
     ],
-    deliverables: ['Video principal de 10 a 20 minutos en 4K', 'Trailer de 2 a 3 minutos', 'Reel para redes', 'Entrega digital']
+    deliverables: ['Video principal de 10 a 20 minutos en 4K', 'Trailer de 2 a 3 minutos', '1 reel vertical para redes', 'Entrega final por Google Drive']
   }
 ];
 
@@ -1260,7 +1400,7 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     priceLines: ["1'250.000 COP"],
     amountCop: 1250000,
     features: ['Cobertura de 4 a 5 horas', 'Fotógrafo + videógrafo'],
-    deliverables: ['100 a 140 fotografías editadas', 'Video de 3 a 5 minutos', 'Entrega digital']
+    deliverables: ['100 a 140 fotografías editadas', 'Video principal de 3 a 5 minutos', 'Entrega final por Google Drive']
   },
   {
     slug: 'quince-mixta-completa-experiencia',
@@ -1270,7 +1410,7 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     priceLines: ["1'800.000 COP"],
     amountCop: 1800000,
     features: ['Cobertura de 5 a 7 horas', 'Fotógrafo y videógrafo dedicados'],
-    deliverables: ['140 a 200 fotografías editadas', 'Video de 5 a 10 minutos', 'Trailer corto', 'Fotobook básico', 'Entrega digital']
+    deliverables: ['140 a 200 fotografías editadas', 'Video principal de 5 a 10 minutos', 'Trailer de 30 a 60 segundos', 'Fotobook básico', 'Entrega final por Google Drive']
   },
   {
     slug: 'quince-mixta-premium-produccion-completa',
@@ -1282,11 +1422,12 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     features: ['Cobertura de 7 a 10 horas', 'Equipo de 2 a 3 personas', 'Tomas con drone', 'Dirección creativa avanzada'],
     deliverables: [
       'Hasta 300 fotografías editadas',
-      'Video de 10 a 20 minutos',
-      'Trailer + Reel',
+      'Video principal de 10 a 20 minutos',
+      'Trailer de 1 a 2 minutos',
+      '1 reel vertical para redes',
       'Fotobook de lujo',
-      'Fotografías impresas',
-      'Entrega digital'
+      'Set de fotografías impresas',
+      'Entrega final por Google Drive'
     ]
   }
 ];
@@ -1318,7 +1459,7 @@ const quinceAdditionalUpsells: Array<{ label: string; priceLabel: string; priceA
     priceAmountCop: 180000
   },
   {
-    label: 'Fotobook de lujo||Álbum premium con acabados de alta calidad',
+    label: 'Fotolibro de lujo||Álbum premium con acabados de alta calidad',
     priceLabel: '350.000 COP',
     priceAmountCop: 350000
   },
@@ -1395,7 +1536,9 @@ export const preweddingPlans: PreweddingPlan[] = [
       '20 fotografías editadas',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 mes'
-    ]
+    ],
+    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
+    deliverables: ['20 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'preboda-completa',
@@ -1412,7 +1555,9 @@ export const preweddingPlans: PreweddingPlan[] = [
       '40 fotografías editadas',
       'Entrega digital en alta calidad',
       'Galería online disponible por 3 meses'
-    ]
+    ],
+    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
+    deliverables: ['40 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'preboda-premium',
@@ -1431,6 +1576,19 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Video tipo reel Save the Date',
       'Entrega digital en alta resolución',
       'Galería online disponible por 6 meses'
+    ],
+    features: [
+      '2 o más locaciones',
+      'Duración de 4 a 5 horas',
+      'Dirección creativa avanzada',
+      'Planeación previa de concepto visual',
+      'Posible desplazamiento'
+    ],
+    deliverables: [
+      '60 fotografías editadas',
+      'Video tipo reel Save the Date',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
     ]
   },
   {
@@ -1440,7 +1598,9 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Una sesión breve y delicada para parejas que quieren un recuerdo previo al matrimonio con dirección sutil y luz limpia.',
     image: 'assets/images/galery/M&D-18.jpg',
     price: '280.000',
-    items: ['30 fotos editadas', '1 vestuario', '1 - 2 horas']
+    items: ['30 fotos editadas', '1 vestuario', '1 - 2 horas'],
+    features: ['1 vestuario', 'Duración de 1 a 2 horas'],
+    deliverables: ['30 fotografías editadas', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'plan-completa',
@@ -1449,7 +1609,9 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Más tiempo, más variedad visual y una entrega pensada para parejas que quieren una sesión más amplia sin ir al extremo premium.',
     image: 'assets/images/galery/M&D-32.jpg',
     price: '400.000',
-    items: ['50 fotos editadas', '2 vestuarios', '2 - 3 horas', '1 foto impresa 60CM']
+    items: ['50 fotos editadas', '2 vestuarios', '2 - 3 horas', '1 foto impresa 60CM'],
+    features: ['2 vestuarios', 'Duración de 2 a 3 horas'],
+    deliverables: ['50 fotografías editadas', '1 fotografía impresa de 60 cm', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'plan-especial',
@@ -1458,7 +1620,9 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Una propuesta pensada para parejas que quieren una sesión más completa, mayor variedad de vestuario y una salida social más fuerte.',
     image: 'assets/images/fotos/default-cover.png',
     price: '470.000',
-    items: ['70 fotos editadas', '3 vestuarios', '3 horas', '1 foto impresa', 'Reel']
+    items: ['70 fotos editadas', '3 vestuarios', '3 horas', '1 foto impresa', 'Reel'],
+    features: ['3 vestuarios', 'Duración de 3 horas'],
+    deliverables: ['70 fotografías editadas', '1 fotografía impresa', 'Reel', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'plan-premium',
@@ -1468,7 +1632,9 @@ export const preweddingPlans: PreweddingPlan[] = [
     image: 'assets/images/fotos/M&D-31.jpg',
     price: '700.000',
     featured: true,
-    items: ['70 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos']
+    items: ['70 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos'],
+    features: ['3 o más vestuarios', 'Duración de 4 horas'],
+    deliverables: ['70 fotografías editadas', 'Fotografía impresa', 'Reel', 'Película de hasta 3 minutos', 'Entrega final en alta resolución por Google Drive']
   }
 ];
 
@@ -1490,16 +1656,11 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: buildWeddingHybridSortOrder(plan.slug),
     accent: 'gold' as const,
     sections: [
-      { title: 'Incluye', items: plan.items },
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
       { title: 'Incluye momentos', items: plan.coverage }
     ],
     requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.items, ...plan.coverage])
-      },
       {
         title: 'Servicios adicionales',
         description: 'Suma extras para personalizar la entrega final.',
@@ -1602,16 +1763,11 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: plan.slug === 'sencilla-solo-fotos' ? 1 : plan.slug === 'completa-solo-fotos' ? 2 : 3,
     accent: 'gold' as const,
     sections: [
-      { title: 'Incluye', items: plan.items },
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
       { title: 'Incluye momentos', items: plan.coverage }
     ],
     requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.items, ...plan.coverage])
-      },
       {
         title: 'Servicios adicionales',
         description: 'Complementa el paquete con piezas extra para la entrega.',
@@ -1703,14 +1859,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.features, ...plan.deliverables])
-      }
-    ],
+    requestOptionGroups: [],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de bodas).`)
   })),
@@ -1733,14 +1882,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.features, ...plan.deliverables])
-      }
-    ],
+    requestOptionGroups: [],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (sesión postboda).`)
   })),
@@ -1765,12 +1907,6 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Entregables', items: plan.deliverables }
     ],
     requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Activa o desactiva lo que quieres conservar en tu solicitud.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.features, ...plan.deliverables])
-      },
       {
         title: 'Servicios adicionales',
         description: 'Suma extras para personalizar la entrega final.',
@@ -1803,12 +1939,6 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     ],
     requestOptionGroups: [
       {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.features, ...plan.deliverables])
-      },
-      {
         title: 'Servicios adicionales',
         description: 'Suma extras para personalizar la entrega final.',
         selectable: true,
@@ -1839,12 +1969,6 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Entregables', items: plan.deliverables }
     ],
     requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, [...plan.features, ...plan.deliverables])
-      },
       {
         title: 'Servicios adicionales',
         description: 'Suma extras para personalizar la entrega final.',
@@ -1890,12 +2014,6 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
         { title: 'Entregables del paquete', items: plan.deliverables }
       ],
       requestOptionGroups: [
-        {
-          title: 'Servicios incluidos',
-          description: 'Características y cobertura incluidas en este paquete de grado.',
-          selectable: false,
-          options: buildRequestOptions(`${plan.slug}-service`, plan.features)
-        },
         {
           title: 'Adicionales disponibles',
           description: 'Suma extras para personalizar tu recuerdo de grado.',
@@ -1962,14 +2080,11 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       return 99;
     })(),
     accent: 'rose' as const,
-    sections: [{ title: 'Incluye', items: plan.items }],
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables }
+    ],
     requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Personaliza el paquete quitando o dejando solo lo que necesitas.',
-        selectable: false,
-        options: buildRequestOptions(`${plan.slug}-service`, plan.items)
-      },
       {
         title: 'Complementos opcionales',
         description: 'Añade entregables o extras para ampliar la sesión.',
@@ -2012,25 +2127,10 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['Video institucional de 1 a 2 minutos', 'Formato horizontal', 'Entrega digital']
+        items: ['Video institucional principal de 1 a 2 minutos', 'Archivo final horizontal', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-video-institucional-esencial-service', [
-          'Hasta 4 horas de grabación',
-          '1 locación',
-          'Grabación en 4K',
-          'Tomas de apoyo (B-roll)',
-          'Video institucional de 1 a 2 minutos',
-          'Formato horizontal',
-          'Entrega digital'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Esencial – Presentación corporativa (video institucional).')
   },
   {
@@ -2055,25 +2155,10 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['Video institucional de 2 a 4 minutos', 'Versión corta de 30 a 60 segundos', 'Formatos horizontal y vertical']
+        items: ['Video institucional principal de 2 a 4 minutos', 'Versión corta de 30 a 60 segundos', 'Archivos finales en formato horizontal y vertical', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-video-institucional-completo-service', [
-          'Hasta 6 horas de grabación',
-          '1 a 2 locaciones',
-          'Dirección básica',
-          'Mayor variedad de tomas',
-          'Video institucional de 2 a 4 minutos',
-          'Versión corta de 30 a 60 segundos',
-          'Formatos horizontal y vertical'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Completo – Comunicación de marca (video institucional).')
   },
   {
@@ -2099,26 +2184,10 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['Video principal de 3 a 5 minutos', '2 a 3 videos cortos', 'Adaptaciones para redes sociales', 'Formatos horizontal y vertical']
+        items: ['Video principal de 3 a 5 minutos', '2 a 3 videos cortos', '2 a 3 cortes adaptados para redes sociales', 'Archivos finales en formato horizontal y vertical', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-video-institucional-premium-service', [
-          'Hasta 10 horas de grabación',
-          'Múltiples locaciones',
-          'Dirección creativa',
-          'Tomas con drone (si aplica)',
-          'Video principal de 3 a 5 minutos',
-          '2 a 3 videos cortos',
-          'Adaptaciones para redes sociales',
-          'Formatos horizontal y vertical'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Premium – Producción corporativa (video institucional).')
   },
 
@@ -2127,7 +2196,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     slug: 'corporativos-redes-start',
     categoryLabel: 'Corporativos',
     categoryHref: '/portfolio/corporativos',
-    title: 'Start – Contenido básico',
+    title: 'Base – Contenido esencial',
     packageTypeLabel: 'Contenido para redes',
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · contenido para redes',
@@ -2144,30 +2213,18 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['5 piezas de contenido', 'Formato vertical para redes']
+        items: ['5 piezas de contenido en formato vertical', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-redes-start-service', [
-          'Sesión de grabación de 3 a 4 horas',
-          'Producción básica',
-          '5 piezas de contenido',
-          'Formato vertical para redes'
-        ])
-      }
-    ],
-    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Start – Contenido básico (contenido para redes).')
+    requestOptionGroups: [],
+    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Base – Contenido esencial (contenido para redes).')
   },
   {
     category: 'corporativos' as const,
     slug: 'corporativos-redes-creator',
     categoryLabel: 'Corporativos',
     categoryHref: '/portfolio/corporativos',
-    title: 'Creator – Presencia constante',
+    title: 'Constante – Presencia activa',
     packageTypeLabel: 'Contenido para redes',
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · contenido para redes',
@@ -2184,30 +2241,18 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['10 piezas de contenido', 'Optimización para redes sociales']
+        items: ['10 piezas de contenido listas para publicar', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-redes-creator-service', [
-          'Jornada de hasta 6 horas',
-          'Planeación básica de contenido',
-          '10 piezas de contenido',
-          'Optimización para redes sociales'
-        ])
-      }
-    ],
-    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Creator – Presencia constante (contenido para redes).')
+    requestOptionGroups: [],
+    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Constante – Presencia activa (contenido para redes).')
   },
   {
     category: 'corporativos' as const,
     slug: 'corporativos-redes-pro-content',
     categoryLabel: 'Corporativos',
     categoryHref: '/portfolio/corporativos',
-    title: 'Pro Content – Estrategia audiovisual',
+    title: 'Estratégico – Producción audiovisual',
     packageTypeLabel: 'Contenido para redes',
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · contenido para redes',
@@ -2225,23 +2270,11 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       },
       {
         title: 'Entregables',
-        items: ['15 a 20 piezas de contenido', 'Formatos variados (educativo, promocional, branding)']
+        items: ['15 a 20 piezas de contenido', 'Piezas para formatos educativo, promocional y branding', 'Entrega final por Google Drive']
       }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-redes-pro-content-service', [
-          'Producción estructurada',
-          'Dirección creativa',
-          '15 a 20 piezas de contenido',
-          'Formatos variados (educativo, promocional, branding)'
-        ])
-      }
-    ],
-    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Pro Content – Estrategia audiovisual (contenido para redes).')
+    requestOptionGroups: [],
+    whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Estratégico – Producción audiovisual (contenido para redes).')
   },
 
   {
@@ -2261,20 +2294,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Cobertura del evento', items: ['Hasta 4 horas de cobertura'] },
-      { title: 'Entregables', items: ['60 a 80 fotografías editadas', 'Entrega digital'] }
+      { title: 'Entregables', items: ['60 a 80 fotografías editadas', 'Galería digital privada', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-eventos-esencial-service', [
-          'Hasta 4 horas de cobertura',
-          '60 a 80 fotografías editadas',
-          'Entrega digital'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Esencial – Cobertura básica (eventos corporativos).')
   },
   {
@@ -2294,21 +2316,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Cobertura del evento', items: ['Hasta 6 horas de cobertura', 'Mayor cobertura de momentos'] },
-      { title: 'Entregables', items: ['100 a 150 fotografías editadas', 'Video resumen de 1 a 2 minutos'] }
+      { title: 'Entregables', items: ['100 a 150 fotografías editadas', 'Video resumen de 1 a 2 minutos', 'Galería digital privada', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-eventos-completo-service', [
-          'Hasta 6 horas de cobertura',
-          'Mayor cobertura de momentos',
-          '100 a 150 fotografías editadas',
-          'Video resumen de 1 a 2 minutos'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Completo – Cobertura profesional (eventos corporativos).')
   },
   {
@@ -2329,22 +2339,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Cobertura del evento', items: ['Jornada completa', 'Equipo ampliado'] },
-      { title: 'Entregables', items: ['150 a 250 fotografías editadas', 'Video resumen de 2 a 4 minutos', 'Reel para redes'] }
+      { title: 'Entregables', items: ['150 a 250 fotografías editadas', 'Video resumen de 2 a 4 minutos', 'Reel para redes', 'Galería digital privada', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-eventos-premium-service', [
-          'Jornada completa',
-          'Equipo ampliado',
-          '150 a 250 fotografías editadas',
-          'Video resumen de 2 a 4 minutos',
-          'Reel para redes'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Premium – Cobertura integral (eventos corporativos).')
   },
 
@@ -2365,16 +2362,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Incluye', items: ['Sesión fotográfica'] },
-      { title: 'Entregables', items: ['20 fotografías editadas'] }
+      { title: 'Entregables', items: ['20 fotografías editadas', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-marca-personal-esencial-service', ['Sesión fotográfica', '20 fotografías editadas'])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Esencial – Presencia profesional (marca personal).')
   },
   {
@@ -2394,16 +2384,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Incluye', items: ['Sesión foto + video'] },
-      { title: 'Entregables', items: ['40 fotografías editadas', '3 reels'] }
+      { title: 'Entregables', items: ['40 fotografías editadas', '3 reels', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-marca-personal-completo-service', ['Sesión foto + video', '40 fotografías editadas', '3 reels'])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Completo – Imagen y contenido (marca personal).')
   },
   {
@@ -2424,24 +2407,12 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     accent: 'gold' as const,
     sections: [
       { title: 'Incluye', items: ['Producción completa', 'Dirección creativa'] },
-      { title: 'Entregables', items: ['60 fotografías editadas', '6 a 10 videos cortos'] }
+      { title: 'Entregables', items: ['60 fotografías editadas', '6 a 10 videos cortos', 'Entrega final por Google Drive'] }
     ],
-    requestOptionGroups: [
-      {
-        title: 'Servicios incluidos',
-        description: 'Esta modalidad conserva el contenido completo del paquete base seleccionado.',
-        selectable: false,
-        options: buildRequestOptions('corporativos-marca-personal-premium-service', [
-          'Producción completa',
-          'Dirección creativa',
-          '60 fotografías editadas',
-          '6 a 10 videos cortos'
-        ])
-      }
-    ],
+    requestOptionGroups: [],
     whatsappHref: buildPortfolioWhatsappHref('Hola TECNOJACK, quiero información sobre Premium – Marca personal completa (marca personal).')
   }
-];
+].map(normalizePortfolioPackageDetail);
 
 export function getPortfolioPackageDetail(
   category: string | null | undefined,
@@ -2494,7 +2465,7 @@ export const portfolioGalleryItems: PortfolioGalleryItem[] = [
   {
     src: 'assets/images/fotos/M&D-31.jpg',
     alt: 'Retrato creativo de novios en recepción',
-    title: 'Frames de autor',
+    title: 'Mirada de autor',
     category: 'Bodas'
   },
   {
@@ -2693,7 +2664,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       whatsappMessage: 'Hola TECNOJACK, quiero información sobre cobertura de boda.'
     },
     packageEyebrow: 'Presentación de paquetes',
-    packageTitle: 'Paquetes de boda, de Esencial a Luxury',
+    packageTitle: 'Paquetes de boda, de Esencial a Exclusivo',
     packageLead:
       'Elige tu paquete, compara cobertura y entregables, y cuando tengas tu favorito envíanos la fecha y la ciudad para armar la propuesta y reservar tu cupo.',
     storiesTitle: 'Historias reales',

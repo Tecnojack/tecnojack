@@ -3,13 +3,16 @@
 }
 
 .brand-linktree {
-    width: min(780px, calc(100% - 32px));
+    width: min(760px, calc(100% - 28px));
     margin: 0 auto;
-    padding-top: 8px;
+    padding-top: 18px;
+    display: grid;
+    gap: 18px;
 }
 
 .brand-linktree__panel,
 .brand-linktree__head,
+.brand-linktree__actions,
 .brand-linktree__facts,
 .brand-linktree__group,
 .brand-linktree__group-head,
@@ -20,19 +23,32 @@
 }
 
 .brand-linktree__panel {
+    position: relative;
+    overflow: hidden;
     gap: 18px;
-    padding: clamp(22px, 4vw, 34px);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: clamp(24px, 4vw, 34px);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     background:
-        radial-gradient(circle at 10% 8%, rgba(98, 217, 255, 0.14), transparent 34%),
-        radial-gradient(circle at 92% 88%, rgba(255, 199, 132, 0.12), transparent 34%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+        radial-gradient(circle at 10% 8%, color-mix(in srgb, var(--portfolio-brand) 22%, transparent), transparent 34%),
+        radial-gradient(circle at 92% 88%, color-mix(in srgb, var(--portfolio-accent) 16%, transparent), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
     box-shadow: var(--portfolio-shadow);
 }
 
+.brand-linktree__panel::after {
+    content: '';
+    position: absolute;
+    inset: auto -80px -120px auto;
+    width: 240px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--portfolio-accent) 18%, transparent), transparent 68%);
+    pointer-events: none;
+}
+
 .brand-linktree__head {
-    gap: 12px;
+    gap: 14px;
     text-align: center;
     justify-items: center;
 }
@@ -41,8 +57,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: min(100%, 520px);
-    margin-bottom: 6px;
+    width: min(100%, 420px);
+    margin-bottom: 2px;
 }
 
 .brand-linktree__logo img {
@@ -68,24 +84,72 @@
     margin: 0;
 }
 
+.brand-linktree__title {
+    max-width: 11ch;
+    font-size: clamp(2.2rem, 5.5vw, 3.7rem);
+    line-height: 0.96;
+    letter-spacing: -0.06em;
+    text-wrap: balance;
+}
+
 .brand-linktree__lead {
-    max-width: 52ch;
+    max-width: 46ch;
     margin: 0;
+    font-size: 0.99rem;
+    line-height: 1.62;
+}
+
+.brand-linktree__actions {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 12px;
+    justify-content: center;
+}
+
+.brand-linktree__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease;
+}
+
+.brand-linktree__action:hover {
+    transform: translateY(-2px);
+}
+
+.brand-linktree__action--primary {
+    background: linear-gradient(135deg, #ffb800, #d18b00);
+    border-color: rgba(255, 184, 0, 0.55);
+    color: #130d04;
+    box-shadow: 0 14px 30px rgba(209, 139, 0, 0.22);
+}
+
+.brand-linktree__action--secondary {
+    border-color: color-mix(in srgb, var(--portfolio-brand) 38%, transparent);
+    background: color-mix(in srgb, var(--portfolio-brand) 16%, rgba(255, 255, 255, 0.03));
+    color: var(--portfolio-text);
 }
 
 .brand-linktree__facts {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+    width: 100%;
 }
 
 .brand-fact {
-    gap: 4px;
+    gap: 5px;
     padding: 14px 16px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background:
-        radial-gradient(circle at top right, rgba(255, 184, 0, 0.13), transparent 34%),
-        rgba(255, 255, 255, 0.03);
+        radial-gradient(circle at top right, color-mix(in srgb, var(--portfolio-accent) 15%, transparent), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
     text-align: center;
 }
 
@@ -98,7 +162,7 @@
 
 .brand-fact__value {
     color: var(--portfolio-text);
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 800;
 }
 
@@ -108,11 +172,17 @@
 
 .brand-linktree__group-head {
     gap: 6px;
+    text-align: center;
+    justify-items: center;
+}
+
+.brand-linktree__group-head h2,
+.brand-linktree__group-head p {
+    margin: 0;
 }
 
 .brand-linktree__list {
-    display: grid;
-    gap: 10px;
+    gap: 12px;
 }
 
 .brand-link {
@@ -120,12 +190,12 @@
     grid-template-columns: auto 1fr auto;
     gap: 14px;
     align-items: center;
-    padding: 16px 18px;
-    border-radius: 24px;
+    padding: 18px;
+    border-radius: 22px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background:
-        radial-gradient(circle at top right, rgba(0, 151, 178, 0.12), transparent 28%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
+        radial-gradient(circle at top right, color-mix(in srgb, var(--portfolio-brand) 14%, transparent), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
     box-shadow: var(--portfolio-shadow);
     text-decoration: none;
     color: var(--portfolio-text);
@@ -140,7 +210,7 @@
 
 .brand-link:hover {
     transform: translateY(-3px);
-    border-color: rgba(255, 184, 0, 0.3);
+    border-color: color-mix(in srgb, var(--portfolio-accent) 34%, transparent);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -150,15 +220,15 @@
 }
 
 .brand-link__icon {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 16px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(0, 151, 178, 0.24);
+    border: 1px solid color-mix(in srgb, var(--portfolio-brand) 28%, transparent);
     background:
-        radial-gradient(circle at 30% 24%, rgba(98, 217, 255, 0.35), transparent 40%),
-        linear-gradient(180deg, rgba(0, 151, 178, 0.18), rgba(255, 255, 255, 0.04));
+        radial-gradient(circle at 30% 24%, color-mix(in srgb, var(--portfolio-brand) 28%, white), transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--portfolio-brand) 18%, transparent), rgba(255, 255, 255, 0.04));
 }
 
 .brand-link__icon img {
@@ -170,6 +240,7 @@
 .brand-link__text {
     gap: 4px;
     min-width: 0;
+    text-align: left;
 }
 
 .brand-link__desc {
@@ -189,8 +260,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 40px;
-    padding: 0 14px;
+    min-height: 38px;
+    padding: 0 12px;
     border-radius: 999px;
     background: linear-gradient(135deg, #ffb800, #d18b00);
     border: 1px solid rgba(255, 184, 0, 0.6);
@@ -202,14 +273,14 @@
 }
 
 @media (max-width: 1024px) {
-    .brand-linktree__facts {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .brand-linktree {
+        width: min(760px, calc(100% - 24px));
     }
 }
 
 @media (max-width: 699px) {
     .brand-linktree {
-        width: min(780px, calc(100% - 24px));
+        width: min(760px, calc(100% - 20px));
     }
 
     .brand-linktree__facts {
@@ -225,8 +296,17 @@
         width: min(100%, 220px);
     }
 
+    .brand-linktree__title {
+        max-width: none;
+    }
+
+    .brand-linktree__actions {
+        grid-template-columns: 1fr;
+    }
+
     .brand-link {
         grid-template-columns: auto 1fr;
+        align-items: start;
     }
 
     .brand-link__cta {

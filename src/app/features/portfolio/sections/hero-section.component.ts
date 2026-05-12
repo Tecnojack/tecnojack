@@ -44,7 +44,7 @@ export class HeroSectionComponent {
 
   get whatsappHref() {
     return this.content.buildWhatsappHref(
-      'Hola TECNOJACK, quiero cotizar un proyecto audiovisual ¿Me puedes direccionar en la elección de paquetes según mi proyecto?'
+      'Hola TECNOJACK, quiero cotizar un proyecto audiovisual y necesito ayuda para elegir la opción más adecuada según mi evento, marca o necesidad.'
     );
   }
 

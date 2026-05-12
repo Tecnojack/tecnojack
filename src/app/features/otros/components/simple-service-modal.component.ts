@@ -147,7 +147,7 @@ export class SimpleServiceModalComponent implements OnChanges {
     const includeLines = this.selectedIncludes.map((item) => `- ${item}`);
 
     const text = [
-      `Hola Jackson, quiero cotizar este servicio:`,
+      `Hola TECNOJACK, quiero cotizar este servicio:`,
       ``,
       `*${this.service.name}*`,
       ``,

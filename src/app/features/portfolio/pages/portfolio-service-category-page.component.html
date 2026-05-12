@@ -373,7 +373,7 @@
                                         <input type="radio" name="requestMode" [checked]="requestMode() === 'custom'" (change)="updateRequestMode('custom')" />
                                         <span>
                                             Personalizar paquete
-                                            <small>Permite elegir servicios del paquete y adicionales sin calcular precio.</small>
+                                            <small>Permite elegir cobertura, entregables y adicionales del paquete.</small>
                                         </span>
                                     </label>
                                 </div>
@@ -405,8 +405,8 @@
                         <div class="service-package-request__builder">
                             <section class="service-package-request__group" *ngFor="let group of fixedIncludedGroups()">
                                 <div class="service-package-request__group-head">
-                                    <p>{{ requestMode() === 'base' ? 'Servicios incluidos' : 'Servicios del paquete' }}</p>
-                                    <span>{{ requestMode() === 'base' ? 'Estos servicios ya forman parte del paquete base.' : 'Marca los servicios que quieres conservar en tu paquete personalizado.' }}</span>
+                                    <p>{{ requestMode() === 'base' ? group.title : 'Elementos del paquete' }}</p>
+                                    <span>{{ requestMode() === 'base' ? 'Estos elementos ya forman parte del paquete base.' : 'Marca los elementos que quieres conservar en tu paquete personalizado.' }}</span>
                                 </div>
 
                                 <div class="service-package-request__included-list" *ngIf="requestMode() === 'base'; else customServices">
@@ -483,7 +483,7 @@
                         </div>
 
                         <div class="service-package-request__summary-block">
-                            <span>Servicios seleccionados</span>
+                            <span>Elementos seleccionados</span>
                             <ul>
                                 <li *ngFor="let item of requestSummaryServices()">{{ item }}</li>
                             </ul>

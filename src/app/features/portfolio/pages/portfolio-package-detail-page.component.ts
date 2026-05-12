@@ -98,8 +98,8 @@ export class PortfolioPackageDetailPageComponent {
   readonly footerText = computed(() => {
     const detail = this.packageDetail();
     return detail
-      ? `TECNOJACK Studio · ${detail.categoryLabel} · ${detail.title}.`
-      : 'TECNOJACK Studio · fotografía y cine para celebraciones especiales.';
+      ? `TECNOJACK · ${detail.categoryLabel} · ${detail.title}.`
+      : 'TECNOJACK · fotografía y video para celebraciones especiales.';
   });
 
   readonly selectedRequestItems = computed(() => {
@@ -244,7 +244,7 @@ export class PortfolioPackageDetailPageComponent {
     const selectedItems = this.selectedRequestItems();
 
     if (selectedItems.length) {
-      lines.push('', 'Servicios seleccionados:');
+      lines.push('', 'Elementos seleccionados del paquete:');
       selectedItems.forEach((item) => lines.push(`- ${item}`));
     }
 

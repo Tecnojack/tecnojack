@@ -11,19 +11,28 @@
                 <p class="brand-linktree__lead text-body text-muted">
                     Un acceso directo a lo importante: bodas, videos, corporativos, servicios, clientes e invitaciones.
                 </p>
-            </div>
 
-            <div class="brand-linktree__facts" aria-label="Resumen del sitio">
-                <article class="brand-fact" *ngFor="let item of heroFacts">
-                    <span class="brand-fact__label">{{ item.label }}</span>
-                    <strong class="brand-fact__value">{{ item.value }}</strong>
-                </article>
+                <div class="brand-linktree__actions" aria-label="Acciones principales">
+                    <a class="brand-linktree__action brand-linktree__action--primary" [href]="primaryWhatsappHref" target="_blank" rel="noopener">
+                        Cotizar por WhatsApp
+                    </a>
+                    <a class="brand-linktree__action brand-linktree__action--secondary" routerLink="/portfolio">
+                        Ver portafolio completo
+                    </a>
+                </div>
+
+                <div class="brand-linktree__facts" aria-label="Resumen del sitio">
+                    <article class="brand-fact" *ngFor="let item of heroFacts">
+                        <span class="brand-fact__label">{{ item.label }}</span>
+                        <strong class="brand-fact__value">{{ item.value }}</strong>
+                    </article>
+                </div>
             </div>
 
             <section class="brand-linktree__group" aria-labelledby="brand-services-title">
                 <div class="brand-linktree__group-head">
                     <p>Servicios</p>
-                    <h2 class="heading-md" id="brand-services-title">Explora por categoría</h2>
+                    <h2 class="heading-md" id="brand-services-title">Elige una ruta</h2>
                 </div>
 
                 <div class="brand-linktree__list">
@@ -60,7 +69,7 @@
                 </div>
             </section>
 
-            <section class="brand-linktree__group" aria-labelledby="brand-links-title">
+            <section class="brand-linktree__group brand-linktree__group--secondary" aria-labelledby="brand-links-title">
                 <div class="brand-linktree__group-head">
                     <p>Atajos</p>
                     <h2 class="heading-md" id="brand-links-title">Contacto y accesos rápidos</h2>

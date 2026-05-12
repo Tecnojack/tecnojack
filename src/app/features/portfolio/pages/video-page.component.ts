@@ -197,10 +197,9 @@ export class VideoPageComponent implements OnInit {
         'Planeación básica de escenas',
       ],
       deliverables: [
-        'Video musical hasta 4 minutos',
-        'Resolución 4K',
-        'Edición básica',
-        'Entrega digital',
+        '1 video musical final de hasta 4 minutos en 4K',
+        '1 archivo final en formato horizontal',
+        'Entrega final por Google Drive',
       ],
       additionalServices: videoAdditionalServices,
     },
@@ -224,13 +223,12 @@ export class VideoPageComponent implements OnInit {
         'Definición de estilo visual y ritmo del video',
       ],
       deliverables: [
-        'Video musical hasta 6 minutos',
-        'Edición avanzada',
-        'Colorización profesional',
-        '2 a 3 reels para redes',
-        'Portada para Spotify',
-        'Miniatura para YouTube',
-        'Formatos vertical y horizontal',
+        '1 video musical final de hasta 6 minutos en 4K',
+        '2 a 3 reels verticales para redes',
+        '1 portada para Spotify',
+        '1 miniatura para YouTube',
+        'Archivos finales en formato horizontal y vertical',
+        'Entrega final por Google Drive',
       ],
       additionalServices: videoAdditionalServices,
     },
@@ -257,10 +255,9 @@ export class VideoPageComponent implements OnInit {
         'Definición de estilo visual y ritmo del video',
       ],
       deliverables: [
-        'Video hasta 7 minutos',
-        'Edición cinematográfica',
-        'Color grading avanzado',
-        'Concepto visual definido',
+        '1 video final de hasta 7 minutos en 4K',
+        '1 archivo final en formato horizontal',
+        'Entrega final por Google Drive',
       ],
       additionalServices: videoAdditionalServices,
     },
@@ -281,7 +278,11 @@ export class VideoPageComponent implements OnInit {
         'Acompañamiento en elección de locación',
         'Definición de estilo visual y ritmo del video',
       ],
-      deliverables: ['Definidos según propuesta'],
+      deliverables: [
+        '1 video final con duración acordada en la cotización',
+        'Archivos finales en la resolución y formato definidos en la propuesta',
+        'Entrega final por Google Drive',
+      ],
       additionalServices: videoAdditionalServices,
     },
     {
@@ -298,10 +299,10 @@ export class VideoPageComponent implements OnInit {
         'Asesoría creativa previa a la grabación',
       ],
       deliverables: [
-        'Cortometraje o pieza narrativa',
-        'Duración variable',
-        'Edición cinematográfica',
-        'Adaptación según proyecto',
+        '1 cortometraje o pieza narrativa final',
+        'Duración definida en la propuesta escrita',
+        'Archivo final en resolución acordada para entrega',
+        'Entrega final por Google Drive',
       ],
       additionalServices: [
         {
@@ -489,10 +490,7 @@ export class VideoPageComponent implements OnInit {
   }
 
   packageHighlights(pkg: VideoServicePackage): string[] {
-    const deliverables = pkg.deliverables ?? [];
-    const features = pkg.features ?? [];
-    const combined = [...deliverables, ...features].filter(Boolean);
-    return combined.slice(0, 3);
+    return (pkg.deliverables ?? []).filter(Boolean).slice(0, 3);
   }
 
   get navItems() {

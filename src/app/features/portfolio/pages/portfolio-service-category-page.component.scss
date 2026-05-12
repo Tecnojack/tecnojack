@@ -103,13 +103,31 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 10px;
     padding: 12px 14px;
 }
 
 .story-accordion__summary::-webkit-details-marker {
     display: none;
+}
+
+.story-accordion__summary::after {
+    content: '';
+    width: 0.68rem;
+    height: 0.68rem;
+    margin-left: 2px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.72;
+    flex: 0 0 auto;
+    transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.story-accordion[open] .story-accordion__summary::after {
+    transform: rotate(-135deg);
+    opacity: 1;
 }
 
 .story-accordion__summary-main {
@@ -119,6 +137,7 @@
 }
 
 .story-accordion__badge {
+    margin-left: auto;
     padding: 4px 8px;
     border-radius: 999px;
     background: var(--portfolio-accent);

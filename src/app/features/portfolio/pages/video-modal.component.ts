@@ -206,9 +206,9 @@ export class VideoModalComponent implements OnChanges {
 
     return [
       {
-        title: 'Servicios del paquete',
+        title: 'Elementos del paquete',
         description:
-          'Características y entregables que componen el servicio de video.',
+          'Cobertura y entregables que componen el paquete de video.',
         options,
       },
     ];
@@ -331,7 +331,7 @@ export class VideoModalComponent implements OnChanges {
 
     const services = this.requestSummaryServices();
     if (services.length) {
-      lines.push('', 'Servicios seleccionados:');
+      lines.push('', 'Elementos seleccionados del paquete:');
       services.forEach((item) => lines.push(`- ${item}`));
     }
 

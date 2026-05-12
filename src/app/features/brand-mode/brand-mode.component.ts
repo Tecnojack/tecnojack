@@ -35,14 +35,14 @@ export class BrandModeComponent implements OnInit {
   }
 
   readonly heroFacts = [
-    { label: 'Rutas activas', value: '6 secciones' },
+    { label: 'Accesos clave', value: '7 rutas' },
     { label: 'Cobertura', value: 'Bodas, marcas y artistas' },
     { label: 'Canal directo', value: 'WhatsApp' },
     { label: 'Entrega', value: 'Foto, video y digital' }
   ];
 
   readonly primaryWhatsappHref = this.waLink(
-    'Hola TECNOJACK, quiero cotizar un proyecto audiovisual o digital.'
+    'Hola TECNOJACK, quiero cotizar un proyecto audiovisual o digital y necesito orientación para elegir la mejor opción.'
   );
   readonly brandLogoHorizontalWhite = 'assets/LogoHW.png';
   readonly brandLogoSquareWhite = 'assets/LogoB.png';
@@ -64,8 +64,8 @@ export class BrandModeComponent implements OnInit {
     },
     {
       eyebrow: 'Servicios',
-      title: 'Fotografía / estudio',
-      description: 'Sesiones, retratos y fotografía de estudio.',
+      title: 'Fotografía y estudio',
+      description: 'Sesiones, retratos y fotografía de estudio para perfil, negocio o recuerdo personal.',
       href: '/otros',
       icon: 'assets/images/icons/cloud.svg'
     },
@@ -111,7 +111,7 @@ export class BrandModeComponent implements OnInit {
       eyebrow: 'Contacto',
       title: 'Cotiza por WhatsApp',
       description: 'Cuéntame qué necesitas y te envío propuesta.',
-      href: this.waLink('Hola TECNOJACK, quiero cotizar un servicio. ¿Me ayudas por favor?'),
+      href: this.waLink('Hola TECNOJACK, quiero cotizar un servicio. ¿Me ayudas a elegir la opción más adecuada?'),
       icon: 'assets/images/icons/whatsapp.svg',
       cta: 'Escribir ahora',
       external: true
@@ -169,7 +169,7 @@ export class BrandModeComponent implements OnInit {
     this.meta.updateTag({
       name: 'description',
       content:
-        'Página principal de TECNOJACK con accesos directos al portafolio, servicios audiovisuales, corporativos, clientes y contacto.'
+        'Página de acceso rápido de TECNOJACK con enlaces directos al portafolio, servicios, clientes y canales de contacto.'
     });
   }
 

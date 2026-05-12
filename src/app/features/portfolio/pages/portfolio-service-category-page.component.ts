@@ -86,9 +86,12 @@ type HeroSocialLink = {
 };
 
 const deliverablePattern =
-  /(foto|fotos|video|reel|tr[aá]iler|trailer|pel[ií]cula|book|fotobook|impresa|impresas|digital|raw|jpg|retablo|entrega|archivos|descarga|almacenamiento)/i;
+  /(fotograf[ií]as? editadas|video|reel|tr[aá]iler|trailer|pel[ií]cula|book|fotobook|fotolibro|[aá]lbum|album|impresa|impresas|ampliaci[oó]n|cuadro|galer[ií]a|google drive|drive|raw|jpg|entrega final|archivo final|archivos finales|descarga|almacenamiento)/i;
 const extraPattern =
   /(dron|asistente|equipo|humo|burbujas|entrevista|efectos|cambio extra|vestuario|sesi[oó]n previa|sesi[oó]n de preboda|sesi[oó]n de pareja)/i;
+const deliverableSectionTitlePattern = /entregable/i;
+const coverageSectionTitlePattern = /momento|cobertura/i;
+const extrasSectionTitlePattern = /extra/i;
 
 @Component({
   selector: 'tj-portfolio-service-category-page',
@@ -804,7 +807,7 @@ export class PortfolioServiceCategoryPageComponent {
 
     const services = this.requestSummaryServices();
     if (services.length) {
-      lines.push('', 'Servicios elegidos:');
+      lines.push('', 'Elementos elegidos del paquete:');
       services.forEach((item) => lines.push(`- ${item}`));
     }
 
@@ -1315,23 +1318,48 @@ export class PortfolioServiceCategoryPageComponent {
   private buildExperienceSections(
     detail: PortfolioPackageDetail,
   ): ExperienceSection[] {
-    const coverage = detail.sections
-      .filter((section) => /momento|cobertura/i.test(section.title))
-      .flatMap((section) => section.items);
+    const coverageSections = detail.sections.filter((section) =>
+      coverageSectionTitlePattern.test(section.title),
+    );
+    const deliverableSections = detail.sections.filter((section) =>
+      deliverableSectionTitlePattern.test(section.title),
+    );
+    const extraSections = detail.sections.filter((section) =>
+      extrasSectionTitlePattern.test(section.title),
+    );
+    const neutralSections = detail.sections.filter(
+      (section) =>
+        !coverageSectionTitlePattern.test(section.title) &&
+        !deliverableSectionTitlePattern.test(section.title) &&
+        !extrasSectionTitlePattern.test(section.title),
+    );
 
-    const sourceItems = detail.sections
-      .filter((section) => !/momento|cobertura/i.test(section.title))
-      .flatMap((section) => section.items);
+    const coverage = coverageSections.flatMap((section) => section.items);
+    const explicitDeliverables = deliverableSections.flatMap(
+      (section) => section.items,
+    );
+    const explicitExtras = extraSections.flatMap((section) => section.items);
 
-    const deliverables = sourceItems.filter((item) =>
-      deliverablePattern.test(item),
+    const neutralItems = neutralSections.flatMap((section) => section.items);
+    const fallbackDeliverables = explicitDeliverables.length
+      ? []
+      : neutralItems.filter((item) => deliverablePattern.test(item));
+    const fallbackExtras = explicitExtras.length
+      ? []
+      : neutralItems.filter(
+          (item) =>
+            !deliverablePattern.test(item) && extraPattern.test(item),
+        );
+    const fallbackIncludes = neutralItems.filter(
+      (item) =>
+        !fallbackDeliverables.includes(item) && !fallbackExtras.includes(item),
     );
-    const extras = sourceItems.filter(
-      (item) => !deliverablePattern.test(item) && extraPattern.test(item),
-    );
-    const includes = sourceItems.filter(
-      (item) => !deliverablePattern.test(item) && !extraPattern.test(item),
-    );
+
+    const deliverables = explicitDeliverables.length
+      ? explicitDeliverables
+      : fallbackDeliverables;
+    const extras = explicitExtras.length ? explicitExtras : fallbackExtras;
+    const includes = fallbackIncludes;
 
     return [
       { title: 'Qué incluye', items: includes },
