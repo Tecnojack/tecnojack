@@ -1560,12 +1560,12 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Duración de 2 horas',
       'Dirección básica de poses',
       'Sesión en exterior',
-      '20 fotografías editadas',
+      '30 fotografías editadas',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 mes'
     ],
     features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['20 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    deliverables: ['30 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'preboda-completa',
@@ -1573,25 +1573,25 @@ export const preweddingPlans: PreweddingPlan[] = [
     lead:
       'Sesión más elaborada que permite explorar diferentes escenarios y lograr una narrativa más completa de la pareja.',
     image: 'assets/images/galery/M&D-32.jpg',
-    price: '550.000',
+    price: '450.000',
     items: [
       '1 a 2 locaciones',
       'Duración de 3 horas',
       'Dirección creativa',
       'Posibilidad de cambio de outfit',
-      '40 fotografías editadas',
+      '50 fotografías editadas',
       'Entrega digital en alta calidad',
       'Galería online disponible por 3 meses'
     ],
     features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['40 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    deliverables: ['50 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'preboda-premium',
     name: 'Premium – Experiencia preboda cinematográfica',
     lead: 'Experiencia completa que combina fotografía y video para crear contenido emocional antes de la boda.',
     image: 'assets/images/fotos/M&D-31.jpg',
-    price: '850.000',
+    price: '700.000',
     featured: true,
     items: [
       '2 o más locaciones',
@@ -1599,7 +1599,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Dirección creativa avanzada',
       'Planeación previa de concepto visual',
       'Posible desplazamiento',
-      '60 fotografías editadas',
+      '80 fotografías editadas',
       'Video tipo reel Save the Date',
       'Entrega digital en alta resolución',
       'Galería online disponible por 6 meses'
@@ -1612,7 +1612,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Posible desplazamiento'
     ],
     deliverables: [
-      '60 fotografías editadas',
+      '80 fotografías editadas',
       'Video tipo reel Save the Date',
       'Galería digital privada por 6 meses',
       'Entrega final en alta resolución por Google Drive'
@@ -1635,7 +1635,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     lead:
       'Más tiempo, más variedad visual y una entrega pensada para parejas que quieren una sesión más amplia sin ir al extremo premium.',
     image: 'assets/images/galery/M&D-32.jpg',
-    price: '400.000',
+    price: '300.000',
     items: ['50 fotos editadas', '2 vestuarios', '2 - 3 horas', '1 foto impresa 60CM'],
     features: ['2 vestuarios', 'Duración de 2 a 3 horas'],
     deliverables: ['50 fotografías editadas', '1 fotografía impresa de 60 cm', 'Entrega final en alta resolución por Google Drive']
@@ -1657,11 +1657,11 @@ export const preweddingPlans: PreweddingPlan[] = [
     lead:
       'La sesión preboda más potente: dirección audiovisual, look romántico premium y una película corta para contar la historia con más intención.',
     image: 'assets/images/fotos/M&D-31.jpg',
-    price: '700.000',
+    price: '550.000',
     featured: true,
-    items: ['70 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos'],
+    items: ['80 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos'],
     features: ['3 o más vestuarios', 'Duración de 4 horas'],
-    deliverables: ['70 fotografías editadas', 'Fotografía impresa', 'Reel', 'Película de hasta 3 minutos', 'Entrega final en alta resolución por Google Drive']
+    deliverables: ['80 fotografías editadas', 'Fotografía impresa', 'Reel', 'Película de hasta 3 minutos', 'Entrega final en alta resolución por Google Drive']
   }
 ];
 
