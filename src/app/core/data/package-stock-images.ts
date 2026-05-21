@@ -138,6 +138,24 @@ export const PACKAGE_STOCK_IMAGES: PackageStockImage[] = [
     keywords: ['content batch', 'creative workflow', 'production day']
   },
   {
+    path: 'servicios/otros/invitaciones/invitacion-web-basica',
+    imageUrl:
+      'assets/images/placeholders/invitation-envelope-basic.svg',
+    keywords: ['digital invitation', 'event stationery', 'invite design']
+  },
+  {
+    path: 'servicios/otros/invitaciones/invitacion-web-completa',
+    imageUrl:
+      'assets/images/placeholders/invitation-envelope-complete.svg',
+    keywords: ['event invitation page', 'party invite', 'stationery layout']
+  },
+  {
+    path: 'servicios/otros/invitaciones/invitacion-web-premium',
+    imageUrl:
+      'assets/images/placeholders/invitation-envelope-premium.svg',
+    keywords: ['premium invitation', 'event experience', 'luxury stationery']
+  },
+  {
     path: 'servicios/otros/produccion/prod-direccion-creativa',
     imageUrl:
       'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80',

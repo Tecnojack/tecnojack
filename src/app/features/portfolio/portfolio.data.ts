@@ -411,6 +411,33 @@ function buildWeddingPhotoBaseQuoteOptions(slug: string): PortfolioBaseQuoteOpti
   }
 }
 
+const invitationWebUpsells: Array<{ label: string; priceLabel: string; priceAmountCop: number }> = [
+  {
+    label: 'Invitación web básica (1-2 fotos)||Página-invitación alojada por TECNOJACK, enfocada en textos, diseño dinámico y presentación elegante',
+    priceLabel: '150.000 COP',
+    priceAmountCop: 150000
+  },
+  {
+    label: 'Invitación web completa (hasta 10 fotos)||Incluye imágenes en secciones específicas, mini galería y lista personalizada de invitados',
+    priceLabel: '220.000 COP',
+    priceAmountCop: 220000
+  },
+  {
+    label: 'Invitación web premium (hasta 20 fotos)||Galería amplia, links por invitado, cupos por invitación y personalización visual por tipo de invitado',
+    priceLabel: '350.000 COP',
+    priceAmountCop: 350000
+  }
+];
+
+function buildInvitationWebRequestOptionGroup(prefix: string, eventLabel: string): PortfolioRequestOptionGroup {
+  return {
+    title: 'Invitaciones web para tu evento',
+    description: `Agrega una invitación digital alojada por TECNOJACK para presentar tu ${eventLabel} con una experiencia más atractiva y compartible.`,
+    selectable: true,
+    options: buildPricedRequestOptions(`${prefix}-web-invite`, invitationWebUpsells, false)
+  };
+}
+
 export const portfolioNavItems: PortfolioNavItem[] = [
   { label: 'INICIO', href: '/portfolio' },
   { label: 'BODAS', href: '/portfolio/bodas' },
@@ -1741,7 +1768,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           ],
           false
         )
-      }
+      },
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} de boda.`)
@@ -1833,7 +1861,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           ],
           false
         )
-      }
+      },
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} de boda.`)
@@ -1859,7 +1888,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [],
+    requestOptionGroups: [buildInvitationWebRequestOptionGroup(plan.slug, 'boda')],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de bodas).`)
   })),
@@ -1882,7 +1911,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [],
+    requestOptionGroups: [buildInvitationWebRequestOptionGroup(plan.slug, 'boda')],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (sesión postboda).`)
   })),
@@ -1912,7 +1941,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
         description: 'Suma extras para personalizar la entrega final.',
         selectable: true,
         options: buildPricedRequestOptions(`${plan.slug}-addon`, quinceAdditionalUpsells, false)
-      }
+      },
+      buildInvitationWebRequestOptionGroup(plan.slug, 'quince')
     ],
     notes: quincePackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (fotografía de quince).`)
@@ -1943,7 +1973,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
         description: 'Suma extras para personalizar la entrega final.',
         selectable: true,
         options: buildPricedRequestOptions(`${plan.slug}-addon`, quinceAdditionalUpsells, false)
-      }
+      },
+      buildInvitationWebRequestOptionGroup(plan.slug, 'quince')
     ],
     notes: quincePackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (cobertura mixta de quince).`)
@@ -1974,7 +2005,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
         description: 'Suma extras para personalizar la entrega final.',
         selectable: true,
         options: buildPricedRequestOptions(`${plan.slug}-addon`, quinceAdditionalUpsells, false)
-      }
+      },
+      buildInvitationWebRequestOptionGroup(plan.slug, 'quince')
     ],
     notes: quincePackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de quince).`)

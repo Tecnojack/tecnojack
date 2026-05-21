@@ -19,6 +19,7 @@
     --portfolio-button-padding-x: 18px;
     --portfolio-button-radius: 999px;
     --portfolio-header-z: 40;
+    --portfolio-overlay-z: 1200;
 
     position: relative;
     min-height: 100vh;
@@ -62,7 +63,6 @@
     position: relative;
 }
 
-.portfolio-main,
 .portfolio-footer {
     z-index: 1;
 }

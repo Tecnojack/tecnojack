@@ -2,6 +2,7 @@ import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import {
   buildPortfolioPackageHref,
   groupGraduationPackage,
@@ -11,7 +12,7 @@ import {
 @Component({
   selector: 'tj-group-graduation-packages-section',
   standalone: true,
-  imports: [NgFor, RevealOnScrollDirective],
+  imports: [NgFor, RevealOnScrollDirective, FallbackImageDirective],
   templateUrl: './group-graduation-packages-section.component.html',
   styleUrl: './group-graduation-packages-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

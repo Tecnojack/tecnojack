@@ -41,12 +41,10 @@
                 <div class="service-package-modal__intro">
                     <div class="service-package-modal__visuals">
                         <article class="service-package-modal__visual">
-                            <img
-                                tjFallbackImage
+                            <tj-lazy-img
                                 [src]="(packageHeroImage$(pkg) | async) ?? defaultCoverImage"
                                 [alt]="pkg.name"
-                                loading="lazy"
-                                decoding="async" />
+                                aspectRatio="16 / 10"></tj-lazy-img>
                             <div class="service-package-modal__visual-editor">
                                 <strong class="service-package-modal__price">
                                     {{ packagePriceLabel() }}

@@ -23,7 +23,7 @@
         </article>
 
         <div class="group-package-visual reveal reveal--right" tjRevealOnScroll>
-            <img src="assets/images/galery/M&D-15.jpg" alt="Cobertura visual para grados grupales" loading="lazy" decoding="async" />
+            <img tjFallbackImage src="assets/images/galery/M&D-15.jpg" alt="Cobertura visual para grados grupales" loading="lazy" decoding="async" />
         </div>
     </div>
 
@@ -35,7 +35,7 @@
         <div class="group-shots-grid">
             <article class="group-shot-card" *ngFor="let shot of suggestedShots">
                 <div class="group-shot-card__media">
-                    <img [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
+                    <img tjFallbackImage [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
                 </div>
                 <div class="group-shot-card__body">
                     <strong class="heading-md">{{ shot.title }}</strong>

@@ -12,7 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 
-import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
 import { ServiceRequestService } from '../../../services/service-request.service';
@@ -31,7 +31,7 @@ export interface SimpleServiceInquiryForm {
 @Component({
   selector: 'tj-simple-service-modal',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, FormsModule, FallbackImageDirective, TjImageFallbackPipe],
+  imports: [AsyncPipe, NgIf, NgFor, FormsModule, LazyImgComponent, TjImageFallbackPipe],
   templateUrl: './simple-service-modal.component.html',
   styleUrl: './simple-service-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

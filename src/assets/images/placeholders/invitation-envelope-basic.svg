@@ -1,0 +1,30 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="48" fill="#F5EBDD"/>
+  <rect x="70" y="70" width="1060" height="660" rx="36" fill="url(#bgGlow)" opacity="0.9"/>
+  <circle cx="1010" cy="168" r="112" fill="#E6D2B8" opacity="0.55"/>
+  <circle cx="214" cy="644" r="144" fill="#DAB48E" opacity="0.36"/>
+  <rect x="335" y="148" width="530" height="392" rx="28" fill="#FFF9F1"/>
+  <rect x="372" y="196" width="456" height="294" rx="20" fill="#FBF2E8" stroke="#D2B496" stroke-width="4"/>
+  <text x="600" y="262" text-anchor="middle" fill="#9C6A44" font-family="Georgia, serif" font-size="42">INVITACION</text>
+  <text x="600" y="320" text-anchor="middle" fill="#6B4A34" font-family="Georgia, serif" font-size="58">Tu Evento</text>
+  <rect x="468" y="354" width="264" height="3" rx="1.5" fill="#D7B596"/>
+  <rect x="440" y="390" width="320" height="18" rx="9" fill="#E9D6C2"/>
+  <rect x="485" y="424" width="230" height="18" rx="9" fill="#EFE0CF"/>
+  <path d="M252 574C252 549.699 271.699 530 296 530H904C928.301 530 948 549.699 948 574V612C948 636.301 928.301 656 904 656H296C271.699 656 252 636.301 252 612V574Z" fill="#C68B59"/>
+  <path d="M252 574C252 549.699 271.699 530 296 530H904C928.301 530 948 549.699 948 574V612C948 636.301 928.301 656 904 656H296C271.699 656 252 636.301 252 612V574Z" fill="url(#envBasic)"/>
+  <path d="M252 578L600 388L948 578" stroke="#EED6BD" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M252 610L474 458" stroke="#EED6BD" stroke-width="16" stroke-linecap="round"/>
+  <path d="M948 610L726 458" stroke="#EED6BD" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="600" cy="574" r="28" fill="#FFF2E2"/>
+  <path d="M586 574L598 586L616 562" stroke="#C68B59" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="bgGlow" x1="120" y1="100" x2="1080" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8EE"/>
+      <stop offset="1" stop-color="#F0DDC7"/>
+    </linearGradient>
+    <linearGradient id="envBasic" x1="252" y1="530" x2="948" y2="656" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D79F6F"/>
+      <stop offset="1" stop-color="#B77642"/>
+    </linearGradient>
+  </defs>
+</svg>

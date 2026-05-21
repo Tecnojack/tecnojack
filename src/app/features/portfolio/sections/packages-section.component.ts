@@ -2,6 +2,7 @@ import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import {
   buildPortfolioWhatsappHref,
   portfolioAdditionalServices,
@@ -13,7 +14,7 @@ import {
 @Component({
   selector: 'tj-packages-section',
   standalone: true,
-  imports: [NgFor, RevealOnScrollDirective],
+  imports: [NgFor, RevealOnScrollDirective, FallbackImageDirective],
   templateUrl: './packages-section.component.html',
   styleUrl: './packages-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -219,6 +219,79 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     image: 'assets/images/galery/M&D-21.jpg'
   },
 
+  // ── INVITACIONES WEB ─────────────────────────────────────────
+  {
+    id: 'invitacion-web-basica',
+    category: 'invitaciones',
+    name: 'Invitación web básica',
+    shortDescription:
+      'Una invitación digital elegante, ligera y pensada para comunicar lo importante con muy buena presencia.',
+    description:
+      'Ideal para parejas o celebraciones que quieren una página-invitación atractiva, clara y bien presentada, alojada dentro del ecosistema TECNOJACK. Se enfoca en narrativa visual, textos importantes y una experiencia limpia para compartir por WhatsApp.',
+    basePrice: 150000,
+    priceLabel: 'Desde $150.000 COP',
+    includes: [
+      'Página-invitación digital alojada por TECNOJACK',
+      'Diseño dinámico y atractivo centrado en textos y presentación visual',
+      'Integración de 1 a 2 fotografías en puntos clave de la página',
+      'Secciones base: portada, fecha, lugar, horario y llamada a la acción',
+      'Botones directos para compartir, ubicar o contactar según necesidad',
+      'Ajustes finales básicos antes de publicar'
+    ],
+    notes: [
+      'Pensada para quien prioriza una página bonita, clara y rápida de lanzar.'
+    ],
+    image: 'assets/images/placeholders/invitation-envelope-basic.svg'
+  },
+  {
+    id: 'invitacion-web-completa',
+    category: 'invitaciones',
+    name: 'Invitación web completa',
+    shortDescription:
+      'Más contenido visual, mejor narrativa y una experiencia más personalizada para tus invitados.',
+    description:
+      'Una invitación digital más robusta para eventos que quieren lucirse mejor online. Combina diseño personalizado, imágenes ubicadas estratégicamente y una mini galería que refuerza la historia del evento, además de contemplar lista personalizada de invitados.',
+    basePrice: 220000,
+    priceLabel: 'Desde $220.000 COP',
+    includes: [
+      'Página-invitación digital completa alojada por TECNOJACK',
+      'Diseño visual personalizado con mejor estructura narrativa',
+      'Hasta 10 imágenes integradas en secciones específicas de la página',
+      'Mini galería visual para destacar momentos, sesión o concepto del evento',
+      'Links personalizados para lista de invitados o grupos específicos',
+      'Secciones extendidas para historia, dress code, ubicación y detalles útiles',
+      'Ajustes finales antes de publicación'
+    ],
+    notes: [
+      'Ideal si quieres una invitación más visual y mejor organizada para compartir con familia e invitados.'
+    ],
+    image: 'assets/images/placeholders/invitation-envelope-complete.svg'
+  },
+  {
+    id: 'invitacion-web-premium',
+    category: 'invitaciones',
+    name: 'Invitación web premium',
+    shortDescription:
+      'La versión más completa: experiencia segmentada, altamente personalizada y lista para invitados diferentes.',
+    description:
+      'Pensada para eventos que quieren llevar la invitación digital a otro nivel. Incluye galería más amplia, lógica de acceso personalizada y una capa visual segmentada por tipo de invitado, grupo o perfil, para hacer la experiencia mucho más exclusiva.',
+    basePrice: 350000,
+    priceLabel: 'Desde $350.000 COP',
+    includes: [
+      'Página-invitación premium alojada por TECNOJACK',
+      'Hasta 20 imágenes distribuidas en la página y galería fotográfica completa',
+      'Links personalizados para lista de invitados o grupos específicos',
+      'Configuración de cantidad de personas por invitación',
+      'Colores y textos personalizados por tipo de invitado o grupo familiar (padres, hermanos, familia, etc.)',
+      'Experiencia visual más exclusiva y segmentada según perfil del invitado',
+      'Ajustes finales premium antes de publicación'
+    ],
+    notes: [
+      'Recomendada para bodas o eventos donde la invitación también debe sentirse como una experiencia.'
+    ],
+    image: 'assets/images/placeholders/invitation-envelope-premium.svg'
+  },
+
   // ── PRODUCCIÓN ────────────────────────────────────────────────
   {
     id: 'prod-direccion-creativa',

@@ -112,8 +112,12 @@
         </p>
       </section>
       <section class="ssm__info-col">
-        <div class="ssm__info-image" *ngIf="coverImage$ | async as coverUrl">
-          <img tjFallbackImage [src]="coverUrl | tjImageFallback" [alt]="service.name" loading="lazy" decoding="async" />
+        <div class="ssm__info-image">
+          <tj-lazy-img
+            [src]="(coverImage$ | async | tjImageFallback) ?? ''"
+            [alt]="service.name"
+            aspectRatio="16 / 9"
+          ></tj-lazy-img>
         </div>
 
         <p class="ssm__info-desc text-body text-muted">{{ service.description }}</p>

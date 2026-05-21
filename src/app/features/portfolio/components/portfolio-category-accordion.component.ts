@@ -18,7 +18,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
-import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
 import { PortfolioPackageDetail } from '../portfolio.data';
@@ -41,7 +41,7 @@ export type PortfolioPackageCardViewModel = {
     NgIf,
     NgFor,
     RevealOnScrollDirective,
-    FallbackImageDirective,
+    LazyImgComponent,
     TjImageFallbackPipe,
   ],
   templateUrl: './portfolio-category-accordion.component.html',

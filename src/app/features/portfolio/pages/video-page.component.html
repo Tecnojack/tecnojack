@@ -63,9 +63,10 @@
                         <span class="service-package-card__tag" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
                         <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="pkg.isBasePrice">Desde</span>
                     </div>
-                    <ng-container *ngIf="videoPackageCover$(pkg) | async as coverUrl">
-                        <img tjFallbackImage [src]="coverUrl" [alt]="pkg.name" loading="lazy" decoding="async" />
-                    </ng-container>
+                    <tj-lazy-img
+                        [src]="(videoPackageCover$(pkg) | async) ?? ''"
+                        [alt]="pkg.name"
+                        aspectRatio="16 / 11"></tj-lazy-img>
                 </div>
 
                 <div class="service-package-card__body">
