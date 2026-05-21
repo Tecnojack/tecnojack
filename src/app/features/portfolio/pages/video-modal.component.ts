@@ -15,7 +15,7 @@ import {
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable, map, shareReplay, startWith } from 'rxjs';
 
-import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { PortfolioContentService } from '../services/portfolio-content.service';
@@ -71,7 +71,7 @@ type VideoAdditionalRequestOptionGroup = {
 @Component({
   selector: 'tj-video-modal',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, FallbackImageDirective],
+  imports: [AsyncPipe, NgIf, NgFor, LazyImgComponent],
   templateUrl: './video-modal.component.html',
   styleUrl: './video-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

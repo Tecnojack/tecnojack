@@ -34,7 +34,7 @@
         <div class="shots-grid">
             <article class="shot-card" *ngFor="let shot of suggestedShots">
                 <div class="shot-card__media">
-                    <img [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
+                    <img tjFallbackImage [src]="shot.image" [alt]="shot.title" loading="lazy" decoding="async" />
                 </div>
                 <div class="shot-card__body">
                     <strong class="heading-md">{{ shot.title }}</strong>

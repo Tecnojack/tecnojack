@@ -4,11 +4,12 @@ import { ClientPublicService } from '../services/client-public.service';
 import { Observable } from 'rxjs';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 
 @Component({
   selector: 'app-clients-gallery',
   standalone: true,
-  imports: [CommonModule, LazyImgComponent],
+  imports: [CommonModule, LazyImgComponent, FallbackImageDirective],
   template: `
     <div class="gallery">
       <h2 *ngIf="title" class="gallery__title">{{ title }}</h2>
@@ -48,6 +49,7 @@ import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
         <div class="lightbox__main">
           <img
             *ngIf="(images$ | async) as images"
+            tjFallbackImage
             [src]="images[selectedImageIndex]"
             alt="Imagen"
             class="lightbox__image" />

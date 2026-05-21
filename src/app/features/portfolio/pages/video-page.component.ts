@@ -13,7 +13,7 @@ import { DOCUMENT } from '@angular/common';
 import { Observable, map, shareReplay, startWith } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
-import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
+import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import {
   MEDIA_PUBLIC_FALLBACK_IMAGE,
   MediaPublicService,
@@ -97,7 +97,7 @@ const videoAdditionalServices: VideoServicePackage['additionalServices'] = [
     PortfolioShellComponent,
     VideoAccordionComponent,
     VideoModalComponent,
-    FallbackImageDirective,
+    LazyImgComponent,
     RevealOnScrollDirective,
   ],
   templateUrl: './video-page.component.html',

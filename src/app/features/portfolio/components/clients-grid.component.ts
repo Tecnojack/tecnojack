@@ -6,11 +6,12 @@ import { ClientPublicService } from '../services/client-public.service';
 import { getClientCover } from '../../../core/utils/storage-path.util';
 import { Observable } from 'rxjs';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 
 @Component({
   selector: 'app-clients-grid',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FallbackImageDirective],
   template: `
     <div class="clients-grid">
       <div *ngIf="(clients$ | async) as clients">
@@ -25,7 +26,7 @@ import { optimizeImage } from '../../../core/utils/image-optimizer.util';
             class="client-item">
             <div class="client-item__image">
               <img
-                src="assets/images/placeholder.jpg"
+                tjFallbackImage
                 [src]="optimizeImage(getCover(client.coverUrl), 400)"
                 [alt]="client.name"
                 loading="lazy"

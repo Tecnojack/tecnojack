@@ -2,6 +2,7 @@ export type ServiceCategory =
   | 'fotografia'
   | 'video'
   | 'contenido'
+  | 'invitaciones'
   | 'produccion'
   | 'estudio'
   | 'momentos'
@@ -13,6 +14,7 @@ export const SERVICE_CATEGORY_LABELS: Record<ServiceCategory, string> = {
   fotografia: 'Fotografía',
   video: 'Video',
   contenido: 'Contenido',
+  invitaciones: 'Invitaciones Web',
   produccion: 'Producción',
   estudio: 'Estudio',
   momentos: 'Momentos',
@@ -25,6 +27,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
   'fotografia',
   'video',
   'contenido',
+  'invitaciones',
   'produccion',
   'estudio',
   'momentos',

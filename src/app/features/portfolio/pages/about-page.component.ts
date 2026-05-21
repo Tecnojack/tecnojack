@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { Meta, Title } from '@angular/platform-browser';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import { ContactSectionComponent } from '../sections/contact-section.component';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
@@ -23,7 +24,7 @@ type ValueProp = { title: string; description: string };
 @Component({
   selector: 'tj-about-page',
   standalone: true,
-  imports: [NgFor, NgIf, PortfolioShellComponent, ContactSectionComponent, RevealOnScrollDirective],
+  imports: [NgFor, NgIf, PortfolioShellComponent, ContactSectionComponent, RevealOnScrollDirective, FallbackImageDirective],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

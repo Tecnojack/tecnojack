@@ -76,14 +76,10 @@
                             [class.reveal--left]="(index + groupIndex) % 2 === 0"
                             [class.reveal--right]="(index + groupIndex) % 2 !== 0">
                             <div class="service-package-card__media">
-                                <ng-container *ngIf="coverByDetail(item.detail) | async as coverUrl">
-                                    <img
-                                        tjFallbackImage
-                                        [src]="coverUrl | tjImageFallback"
-                                        [alt]="item.detail.title"
-                                        loading="lazy"
-                                        decoding="async" />
-                                </ng-container>
+                                <tj-lazy-img
+                                    [src]="(coverByDetail(item.detail) | async | tjImageFallback) ?? ''"
+                                    [alt]="item.detail.title"
+                                    aspectRatio="16 / 11"></tj-lazy-img>
                                 <div class="service-package-card__media-badges">
                                     <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
                                     <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
@@ -546,7 +542,7 @@
 
             <div class="story-gallery-modal__viewer" *ngIf="currentStoryImage() as image">
                 <button class="story-gallery-modal__nav story-gallery-modal__nav--prev" type="button" (click)="showPreviousStoryImage()" aria-label="Imagen anterior">‹</button>
-                <img tjFallbackImage src="assets/images/placeholder.jpg" [src]="image.src" [alt]="image.alt" />
+                <img tjFallbackImage [src]="image.src" [alt]="image.alt" />
                 <button class="story-gallery-modal__nav story-gallery-modal__nav--next" type="button" (click)="showNextStoryImage()" aria-label="Imagen siguiente">›</button>
             </div>
 

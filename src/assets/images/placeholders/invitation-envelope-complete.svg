@@ -1,0 +1,31 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="48" fill="#EEF2F4"/>
+  <rect x="72" y="72" width="1056" height="656" rx="38" fill="url(#shell)"/>
+  <circle cx="934" cy="186" r="126" fill="#A7CDD1" opacity="0.35"/>
+  <circle cx="270" cy="628" r="138" fill="#D7C4B1" opacity="0.42"/>
+  <rect x="316" y="132" width="568" height="420" rx="30" fill="#FFFFFF"/>
+  <rect x="358" y="184" width="484" height="316" rx="22" fill="#F8FBFC" stroke="#A6BCC1" stroke-width="4"/>
+  <text x="600" y="254" text-anchor="middle" fill="#447079" font-family="Georgia, serif" font-size="38">INVITACION WEB</text>
+  <text x="600" y="312" text-anchor="middle" fill="#1E3D44" font-family="Georgia, serif" font-size="60">Confirmacion</text>
+  <rect x="448" y="350" width="304" height="46" rx="23" fill="#DDECF0"/>
+  <text x="600" y="381" text-anchor="middle" fill="#3C6470" font-family="Arial, sans-serif" font-size="24">RSVP + UBICACION</text>
+  <rect x="408" y="420" width="384" height="16" rx="8" fill="#E8EFF2"/>
+  <rect x="454" y="452" width="292" height="16" rx="8" fill="#EDF4F6"/>
+  <path d="M230 566C230 538.386 252.386 516 280 516H920C947.614 516 970 538.386 970 566V626C970 653.614 947.614 676 920 676H280C252.386 676 230 653.614 230 626V566Z" fill="url(#envComplete)"/>
+  <path d="M230 572L600 362L970 572" stroke="#EAF3F4" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M230 622L470 454" stroke="#EAF3F4" stroke-width="16" stroke-linecap="round"/>
+  <path d="M970 622L730 454" stroke="#EAF3F4" stroke-width="16" stroke-linecap="round"/>
+  <rect x="532" y="544" width="136" height="64" rx="18" fill="#F8FBFC" opacity="0.95"/>
+  <circle cx="600" cy="576" r="18" fill="#A5CDD1"/>
+  <path d="M590 576L598 584L611 570" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="shell" x1="120" y1="112" x2="1090" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E2E9EC"/>
+    </linearGradient>
+    <linearGradient id="envComplete" x1="230" y1="516" x2="970" y2="676" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F9AA2"/>
+      <stop offset="1" stop-color="#426B72"/>
+    </linearGradient>
+  </defs>
+</svg>
