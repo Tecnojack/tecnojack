@@ -396,12 +396,12 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   readonly heroNarrative = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompananos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+      return 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
     }
 
     return this.isPluralContext(invited)
-      ? 'Con mucha alegria queremos invitarles a celebrar con nosotros el dia mas especial de nuestras vidas. Acompanenos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.'
-      : 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompananos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+      ? 'Con mucha alegria queremos invitarles a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñenos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.'
+      : 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
   });
 
   readonly dateCardText = computed(() => {
@@ -531,7 +531,7 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   readonly rsvpSupportText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'Si tienes dudas sobre llegada o acompanantes, escribenos por WhatsApp y te ayudamos.';
+      return 'Si tienes dudas sobre llegada o acompañantes, escribenos por WhatsApp y te ayudamos.';
     }
 
     return this.isPluralContext(invited)
@@ -551,7 +551,7 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
     const invited = this.selectedGuest();
     const intro = invited ? `${this.personalGreeting(invited)},` : 'Hola invitado especial,';
     const confirm = invited ? this.confirmAction(invited).toLowerCase() : 'confirma';
-    const accompany = invited && this.isPluralContext(invited) ? 'acompanarles' : 'acompanarte';
+    const accompany = invited && this.isPluralContext(invited) ? 'acompañarles' : 'acompañarte';
     return `${intro} ${confirm} por WhatsApp al 3128801240 antes del 15 de julio de 2026. Estaremos felices de ${accompany} en todo lo que necesiten.`;
   });
 
