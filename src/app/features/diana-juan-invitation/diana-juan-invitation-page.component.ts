@@ -394,7 +394,14 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   });
 
   readonly heroNarrative = computed(() => {
-    return 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompananos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+    const invited = this.selectedGuest();
+    if (!invited) {
+      return 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompananos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+    }
+
+    return this.isPluralContext(invited)
+      ? 'Con mucha alegria queremos invitarles a celebrar con nosotros el dia mas especial de nuestras vidas. Acompanenos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.'
+      : 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompananos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
   });
 
   readonly dateCardText = computed(() => {
@@ -405,9 +412,15 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
     return `06 de septiembre de 2026. ${suffix}`;
   });
 
-  readonly datePrimaryText = computed(() => '06 de Septiembre 2026');
+  readonly datePrimaryText = computed(() => '06 de Septiembre 2026 - 3:00 PM');
 
-  readonly dateSecondaryText = computed(() => 'Un dia preparado con amor para celebrarlo contigo.');
+  readonly dateSecondaryText = computed(() => {
+    const invited = this.selectedGuest();
+    if (!invited) return 'Un dia preparado con amor para celebrarlo contigo.';
+    return this.isPluralContext(invited)
+      ? 'Un dia preparado con amor para celebrarlo con ustedes.'
+      : 'Un dia preparado con amor para celebrarlo contigo.';
+  });
 
   readonly locationCardText = computed(() => {
     const invited = this.selectedGuest();
@@ -418,7 +431,13 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
 
   readonly locationPrimaryText = computed(() => 'La Hoguera, Llano Grande');
 
-  readonly locationSecondaryText = computed(() => 'Puedes buscarlo en Waze para evitar contratiempos.');
+  readonly locationSecondaryText = computed(() => {
+    const invited = this.selectedGuest();
+    if (!invited) return 'Puedes abrir el GPS para llegar sin contratiempos.';
+    return this.isPluralContext(invited)
+      ? 'Pueden abrir el GPS para llegar sin contratiempos.'
+      : 'Puedes abrir el GPS para llegar sin contratiempos.';
+  });
 
   readonly locationGpsHref = computed(() => {
     const destination = 'La Hoguera, Llano Grande, Rionegro, Antioquia, Colombia';
@@ -427,9 +446,9 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
 
   readonly calendarEventHref = computed(() => {
     const title = 'Boda Marcela y Sebastian';
-    const details = 'Nos vemos en nuestra boda.';
+    const details = 'Ceremonia a las 3:00 PM. Nos vemos en nuestra boda.';
     const location = 'La Hoguera, Llano Grande, Rionegro, Antioquia';
-    const start = '20260906T160000';
+    const start = '20260906T150000';
     const end = '20260906T220000';
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
   });
