@@ -14,7 +14,9 @@
     "firebase:seed:weddings:dry-run": "tsx --tsconfig tsconfig.scripts.json scripts/firebase-seed-weddings.ts --dry-run",
     "firebase:seed:weddings:reset": "tsx --tsconfig tsconfig.scripts.json scripts/firebase-seed-weddings.ts --reset",
     "firebase:seed:clients": "tsx --tsconfig tsconfig.scripts.json scripts/firebase-seed-clients.ts",
-    "firebase:seed:clients:dry-run": "tsx --tsconfig tsconfig.scripts.json scripts/firebase-seed-clients.ts --dry-run"
+    "firebase:seed:clients:dry-run": "tsx --tsconfig tsconfig.scripts.json scripts/firebase-seed-clients.ts --dry-run",
+    "images:optimize": "tsx --tsconfig tsconfig.scripts.json scripts/optimize-local-images.ts",
+    "images:optimize:dry-run": "npm run images:optimize -- --dry-run"
   },
   "private": true,
   "dependencies": {
@@ -55,6 +57,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typescript": "~5.4.2"
   }

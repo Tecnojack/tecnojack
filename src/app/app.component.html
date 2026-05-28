@@ -1,7 +1,7 @@
 <tj-travel-background *ngIf="showTravelShell" />
 
 <button
-    *ngIf="showTravelShell"
+    *ngIf="showAudioToggle"
     type="button"
     class="btn secondary app-audio-toggle"
     (click)="audio.toggle()"
@@ -15,6 +15,6 @@
 </button>
 
 <div class="app-shell">
-    <h1 class="app-title">{{ appTitle }}</h1>
+    <h1 class="app-title" *ngIf="showAppTitle">{{ appTitle }}</h1>
     <router-outlet />
 </div>
