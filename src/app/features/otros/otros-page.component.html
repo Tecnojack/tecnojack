@@ -66,11 +66,10 @@
       </a>
     </div>
   </section>
-
-  <tj-simple-service-modal
-    *ngIf="selectedService() !== null"
-    [service]="selectedService()"
-    (closeModal)="closeService()"
-  ></tj-simple-service-modal>
-
 </tj-portfolio-shell>
+
+<tj-simple-service-modal
+  *ngIf="selectedService() !== null"
+  [service]="selectedService()"
+  (closeModal)="closeService()"
+></tj-simple-service-modal>
