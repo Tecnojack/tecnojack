@@ -169,6 +169,30 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'wedding/marcela-sebastian/:guest/:count',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
+			)
+	},
+	{
+		path: 'wedding/marcela-sebastian/:guest',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitacion-diana-juan',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
+			)
+	},
+	{
 		path: ':wedding/:guest/:count',
 		data: { audio: true },
 		loadComponent: () =>
