@@ -606,10 +606,10 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
       isPlural
         ? 'y queremos confirmar nuestra asistencia a su boda.'
         : 'y quiero confirmar mi asistencia a su boda.',
-      'Muchas gracias por la invitacion.',
+      'Muchas gracias por la invitación.',
       isPlural
-        ? 'Estamos encantados de poder acompanarles.'
-        : 'Estoy encantado de poder acompanarles.'
+        ? 'Estamos encantados de poder acompañarles.'
+        : 'Estoy encantado de poder acompañarles.'
     ].filter(Boolean).join('\n');
 
     return `https://wa.me/573128801240?text=${encodeURIComponent(message)}`;
