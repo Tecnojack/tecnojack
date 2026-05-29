@@ -25,14 +25,14 @@ interface GalleryImageItem {
 
 const COMPANION_FIRST_NAME_BY_SLUG: Record<string, string> = {
   'roberto-grajales': 'Noralba Diaz',
-  'angee-camila-garcia-santa': 'Isabela Garcia',
+  'angee-camila-garcia-santa': 'Isabela García',
   'maria-angela-grajales': 'Rosa Grajales',
-  'ana-milena-grajales': 'Victor Merchan',
+  'ana-milena-grajales': 'Víctor Merchán',
   'bibiana-lujan': 'Diego Morales',
   'angelica-montoya': 'Danilo Arenas',
   'anny-arias': 'Hernan Jurado',
   'alejandra-gallego': 'Paola Gallego',
-  'luz-nelly-lopez': 'Mauricio Barcenas',
+  'luz-nelly-lopez': 'Mauricio Bárcenas',
   'melba-lopez': 'Reinaldo Blanco',
   'marcel-ribero': 'Laura Correa',
   'david-hernandez': 'Lizeth Pinilla',
@@ -48,7 +48,22 @@ const COMPANION_FIRST_NAME_BY_SLUG: Record<string, string> = {
 };
 
 const INVITATION_MEMBER_NAMES_BY_SLUG: Record<string, string[]> = {
-  'nicolas-barcenas': ['Nicolas Barcenas', 'Cecilia Cortes', 'Alfonso Barcenas']
+  'nicolas-barcenas': ['Nicolás Bárcenas', 'Cecilia Cortés', 'Alfonso Bárcenas']
+};
+
+const DISPLAY_NAME_BY_SLUG: Record<string, string> = {
+  'luz-nelly-lopez': 'Nelly López',
+  'mauricio-barcenas': 'Mauricio Bárcenas',
+  'nicolas-barcenas': 'Nicolás Bárcenas',
+  'cecilia-cortes': 'Cecilia Cortés',
+  'alfonso-barcenas': 'Alfonso Bárcenas',
+  'maria-angela-grajales': 'María Ángela Grajales',
+  'ana-milena-grajales': 'Ana Milena Grajales',
+  'victor-merchan': 'Víctor Merchán',
+  'angee-camila-garcia-santa': 'Angee Camila García',
+  'isabela-garcia': 'Isabela García',
+  'esposos-iucumi': 'Esposos Lucumí',
+  'esposos-lucumi': 'Esposos Lucumí'
 };
 
 const RAW_GUESTS: Array<Omit<GuestProfile, 'slug'>> = [
@@ -155,6 +170,8 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
     { key: 'img-4710', alt: 'Diana y Juan en retrato íntimo', src: '/assets/images/diana-juan/IMG_4710.jpg' },
     { key: 'img-4745', alt: 'Diana y Juan en encuadre floral', src: '/assets/images/diana-juan/IMG_4745.jpg' }
   ];
+  readonly galleryLeadImage = this.galleryItems[0] ?? null;
+  readonly galleryGridItems = this.galleryItems.slice(1);
   readonly featuredGalleryIndex = signal(0);
   readonly featuredGalleryImage = computed<GalleryImageItem>(() => {
     return this.galleryItems[this.featuredGalleryIndex()] ?? this.galleryItems[0];
@@ -396,19 +413,19 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   readonly heroNarrative = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+      return 'Con mucha alegría queremos invitarte a celebrar con nosotros el día más especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
     }
 
     return this.isPluralContext(invited)
-      ? 'Con mucha alegria queremos invitarles a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñenos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.'
-      : 'Con mucha alegria queremos invitarte a celebrar con nosotros el dia mas especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
+      ? 'Con mucha alegría queremos invitarles a celebrar con nosotros el día más especial de nuestras vidas. Acompáñenos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.'
+      : 'Con mucha alegría queremos invitarte a celebrar con nosotros el día más especial de nuestras vidas. Acompáñanos a unir nuestras almas y a compartir este momento lleno de amor, risas y nuevas historias.';
   });
 
   readonly dateCardText = computed(() => {
     const invited = this.selectedGuest();
     const suffix = invited
       ? `${this.waitForYouText(invited)} con mucho amor, ${this.guestMention(invited)}.`
-      : 'Un dia preparado con amor para celebrarlo contigo.';
+      : 'Un día preparado con amor para celebrarlo contigo.';
     return `06 de septiembre de 2026. ${suffix}`;
   });
 
@@ -416,10 +433,10 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
 
   readonly dateSecondaryText = computed(() => {
     const invited = this.selectedGuest();
-    if (!invited) return 'Un dia preparado con amor para celebrarlo contigo.';
+    if (!invited) return 'Un día preparado con amor para celebrarlo contigo.';
     return this.isPluralContext(invited)
-      ? 'Un dia preparado con amor para celebrarlo con ustedes.'
-      : 'Un dia preparado con amor para celebrarlo contigo.';
+      ? 'Un día preparado con amor para celebrarlo con ustedes.'
+      : 'Un día preparado con amor para celebrarlo contigo.';
   });
 
   readonly locationCardText = computed(() => {
@@ -455,60 +472,60 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
 
   readonly dressCardText = computed(() => {
     const invited = this.selectedGuest();
-    const pronoun = invited && this.isPluralContext(invited) ? 'Queremos que se sientan comodos' : 'Queremos que te sientas comodo';
-    return `${pronoun} para disfrutar nuestra celebracion al aire libre. Nos reservamos los colores blanco y beige.`;
+    const pronoun = invited && this.isPluralContext(invited) ? 'Queremos que se sientan cómodos' : 'Queremos que te sientas cómodo';
+    return `${pronoun} para disfrutar nuestra celebración al aire libre. Nos reservamos los colores blanco y beige.`;
   });
 
   readonly ceremonyText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return '3:00pm, la ceremonia iniciara super puntual. Es el momento mas importante para nosotros y tu cumples un papel muy especial en esta historia.';
+      return '3:00 pm, la ceremonia iniciará súper puntual. Es el momento más importante para nosotros y tú cumples un papel muy especial en esta historia.';
     }
 
     if (this.isPluralContext(invited)) {
-      return '3:00pm, la ceremonia iniciara super puntual. Es el momento mas importante para nosotros y ustedes cumplen un papel muy especial en esta historia.';
+      return '3:00 pm, la ceremonia iniciará súper puntual. Es el momento más importante para nosotros y ustedes cumplen un papel muy especial en esta historia.';
     }
 
     const role = this.relationInSentence(invited);
-    return `3:00pm, la ceremonia iniciara super puntual. Es el momento mas importante para nosotros y tu, ${role}, cumples un papel muy especial en esta historia.`;
+    return `3:00 pm, la ceremonia iniciará súper puntual. Es el momento más importante para nosotros y tú, ${role}, cumples un papel muy especial en esta historia.`;
   });
 
   readonly travelAdviceText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'Si vienes desde Medellin, te recomendamos salir con tiempo para llegar con calma y disfrutar la bienvenida desde el primer momento.';
+      return 'Si vienes desde Medellín, te recomendamos salir con tiempo para llegar con calma y disfrutar la bienvenida desde el primer momento.';
     }
 
-    return `Si ${this.comeVerb(invited)} desde Medellin, ${this.leaveOnTimeText(invited)} para llegar con calma y disfrutar cada detalle desde el inicio.`;
+    return `Si ${this.comeVerb(invited)} desde Medellín, ${this.leaveOnTimeText(invited)} para llegar con calma y disfrutar cada detalle desde el inicio.`;
   });
 
   readonly planArrivalText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'La ceremonia y la recepcion seran en el mismo lugar: La Hoguera, Llano Grande.';
+      return 'La ceremonia y la recepción serán en el mismo lugar: La Hoguera, Llano Grande.';
     }
 
     return this.isPluralContext(invited)
-      ? 'Ceremonia y recepcion seran en el mismo lugar, para que se acomoden con tranquilidad al llegar.'
-      : 'Ceremonia y recepcion seran en el mismo lugar, para que te acomodes con tranquilidad al llegar.';
+      ? 'Ceremonia y recepción serán en el mismo lugar, para que se acomoden con tranquilidad al llegar.'
+      : 'Ceremonia y recepción serán en el mismo lugar, para que te acomodes con tranquilidad al llegar.';
   });
 
   readonly planTimingText = computed(() => {
     const invited = this.selectedGuest();
     return invited && this.isPluralContext(invited)
-      ? 'Les sugerimos llegar 20 minutos antes de las 3:00pm para recibirles y comenzar puntuales.'
-      : 'Te sugerimos llegar 20 minutos antes de las 3:00pm para recibirte y comenzar puntuales.';
+        ? 'Les sugerimos llegar 20 minutos antes de las 3:00 pm para recibirles y comenzar puntuales.'
+        : 'Te sugerimos llegar 20 minutos antes de las 3:00 pm para recibirte y comenzar puntuales.';
   });
 
   readonly planConfirmationHintText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'Si necesitan apoyo con la llegada, escribannos por WhatsApp y con gusto les ayudamos.';
+      return 'Si necesitan apoyo con la llegada, escríbannos por WhatsApp y con gusto les ayudamos.';
     }
 
     return this.isPluralContext(invited)
-      ? 'Si necesitan apoyo con la llegada o parqueo, escribannos por WhatsApp y les ayudamos.'
-      : 'Si necesitas apoyo con la llegada o parqueo, escribenos por WhatsApp y te ayudamos.';
+      ? 'Si necesitan apoyo con la llegada o parqueo, escríbannos por WhatsApp y les ayudamos.'
+      : 'Si necesitas apoyo con la llegada o parqueo, escríbenos por WhatsApp y te ayudamos.';
   });
 
   readonly locationLogisticsText = computed(() => {
@@ -569,14 +586,14 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   readonly footerLocationText = computed(() => {
     const invited = this.selectedGuest();
     if (!invited) {
-      return 'La Hoguera, Llano Grande. Si vienes desde Medellin, te recomendamos salir con tiempo.';
+      return 'La Hoguera, Llano Grande. Si vienes desde Medellín, te recomendamos salir con tiempo.';
     }
 
     if (this.isPluralContext(invited)) {
-      return 'La Hoguera, Llano Grande. Si vienen desde Medellin, les recomendamos salir con tiempo.';
+      return 'La Hoguera, Llano Grande. Si vienen desde Medellín, les recomendamos salir con tiempo.';
     }
 
-    return 'La Hoguera, Llano Grande. Si vienes desde Medellin, te recomendamos salir con tiempo.';
+    return 'La Hoguera, Llano Grande. Si vienes desde Medellín, te recomendamos salir con tiempo.';
   });
 
   readonly rsvpHref = computed(() => {
@@ -625,6 +642,31 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
       .filter(Boolean)
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(' ');
+  }
+
+  private displayNameFromRaw(value: string): string {
+    const key = this.slugify(value);
+    return DISPLAY_NAME_BY_SLUG[key] ?? String(value ?? '').trim();
+  }
+
+  private joinDisplayNames(names: string[]): string {
+    const formatted = names.map((name) => this.displayNameFromRaw(name)).filter(Boolean);
+    if (!formatted.length) return '';
+    if (formatted.length === 1) return formatted[0];
+    if (formatted.length === 2) {
+      const [first, second] = formatted;
+      return `${first} y ${second}`;
+    }
+
+    const last = formatted[formatted.length - 1];
+    return `${formatted.slice(0, -1).join(', ')} y ${last}`;
+  }
+
+  private joinCoupleNames(left: string, right: string): string {
+    const first = this.displayNameFromRaw(left);
+    const second = this.displayNameFromRaw(right);
+    const separator = /^i|^hi/.test(this.normalizeText(second)) ? 'e' : 'y';
+    return `${first} ${separator} ${second}`;
   }
 
   private inferGroup(relation: string, explicit: string | null): GuestGroup {
@@ -737,19 +779,19 @@ export class DianaJuanInvitationPageComponent implements AfterViewInit {
   private displayGuestName(guest: GuestProfile): string {
     const groupedNames = this.groupedInvitationNames(guest);
     if (groupedNames) {
-      return groupedNames.map((name) => this.firstName(name)).filter(Boolean).join(', ');
+      return this.joinDisplayNames(groupedNames);
     }
 
     const companion = this.knownCompanionFirstName(guest);
     if (companion && this.normalizeText(companion) !== 'familia') {
-      return `${this.shortInvitationName(guest.name)} y ${companion}`;
+      return this.joinCoupleNames(guest.name, companion);
     }
 
     if (this.isPluralContext(guest)) {
-      return guest.name;
+      return this.displayNameFromRaw(guest.name);
     }
 
-    return guest.name;
+    return this.displayNameFromRaw(guest.name);
   }
 
   private companionFirstName(guest: GuestProfile): string {

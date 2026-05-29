@@ -178,29 +178,34 @@
     <section class="cw-gallery" id="galeria">
         <h2>Nuestros momentos</h2>
         <p class="cw-gallery__intro">Una selección de recuerdos que cuentan nuestra historia.</p>
-        <div class="cw-gallery__viewer">
-            <div class="cw-gallery__lead-shell" aria-label="Carrusel principal de la galería">
-                <button
-                    type="button"
-                    class="cw-gallery__lead cw-love__media-btn"
-                    *ngFor="let image of galleryItems; let index = index"
-                    [class.is-active]="featuredGalleryIndex() === index"
-                    [style.background-image]="'url(' + image.src + ')'"
-                    (click)="openGalleryImage(image.key)"
-                    [attr.aria-hidden]="featuredGalleryIndex() === index ? null : 'true'"
-                    [attr.tabindex]="featuredGalleryIndex() === index ? 0 : -1"
-                    [attr.aria-label]="'Abrir foto destacada ' + (index + 1) + ' de la galería'"></button>
-            </div>
-            <div class="cw-gallery__thumbs">
-                <button
-                    type="button"
-                    class="cw-gallery__thumb cw-love__media-btn"
-                    *ngFor="let image of galleryItems; let index = index"
-                    [class.is-current]="featuredGalleryImage().key === image.key"
-                    [style.background-image]="'url(' + image.src + ')'"
-                    (click)="openGalleryImage(image.key)"
-                    [attr.aria-label]="'Abrir foto ' + (index + 1) + ' de la galería'"></button>
-            </div>
+        <button
+            *ngIf="galleryLeadImage as leadImage"
+            type="button"
+            class="cw-gallery__lead cw-love__media-btn"
+            (click)="openGalleryImage(leadImage.key)"
+            [attr.aria-label]="'Abrir foto principal de la galería'">
+            <img
+                class="cw-gallery__lead-image"
+                [src]="leadImage.src"
+                [alt]="leadImage.alt"
+                loading="lazy"
+                decoding="async">
+        </button>
+        <div class="cw-gallery__masonry" aria-label="Galería de recuerdos">
+            <button
+                type="button"
+                class="cw-gallery__masonry-item cw-love__media-btn"
+                *ngFor="let image of galleryGridItems; let index = index"
+                [class.is-current]="featuredGalleryImage().key === image.key"
+                (click)="openGalleryImage(image.key)"
+                [attr.aria-label]="'Abrir foto ' + (index + 1) + ' de la galería'">
+                <img
+                    class="cw-gallery__masonry-image"
+                    [src]="image.src"
+                    [alt]="image.alt"
+                    loading="lazy"
+                    decoding="async">
+            </button>
         </div>
     </section>
 
