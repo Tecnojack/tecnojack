@@ -24,6 +24,7 @@ import { ContactSectionComponent } from '../sections/contact-section.component';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { ServiceRequestService } from '../../../services/service-request.service';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 const copFormatter = new Intl.NumberFormat('es-CO');
 type RequestMode = 'base' | 'custom';
@@ -42,6 +43,7 @@ type RequestMode = 'base' | 'custom';
     FallbackImageDirective,
     LazyImgComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-package-detail-page.component.html',
   styleUrl: './portfolio-package-detail-page.component.scss',
@@ -64,6 +66,7 @@ export class PortfolioPackageDetailPageComponent {
     PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
   );
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly customerName = signal('');
   readonly customerPhone = signal('');
   readonly eventDate = signal('');
@@ -268,6 +271,14 @@ export class PortfolioPackageDetailPageComponent {
       lines.push(`Total estimado: ${this.formatCop(total)}`);
     }
 
+    lines.push(
+      '',
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+    );
+    if (this.isDestinationService()) {
+      lines.push('Entiendo que transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
+    }
+
     if (this.customerNotes().trim()) {
       lines.push('', `Notas: ${this.customerNotes().trim()}`);
     }
@@ -315,6 +326,7 @@ export class PortfolioPackageDetailPageComponent {
       this.guestCount.set('');
       this.customerNotes.set('');
       this.hasAcceptedTerms.set(false);
+      this.isDestinationService.set(false);
       this.isRequestModalOpen.set(false);
       this.visibleVisualImages.set(
         PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
@@ -381,6 +393,7 @@ export class PortfolioPackageDetailPageComponent {
 
   openRequestModal(): void {
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
     this.isRequestModalOpen.set(true);
   }
@@ -388,6 +401,7 @@ export class PortfolioPackageDetailPageComponent {
   closeRequestModal(): void {
     this.isRequestModalOpen.set(false);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
   }
 

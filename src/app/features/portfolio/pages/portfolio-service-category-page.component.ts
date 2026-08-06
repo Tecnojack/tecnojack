@@ -37,6 +37,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ClientPublicService } from '../services/client-public.service';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 type ServiceModalStep = 'detail' | 'request';
 type RequestMode = 'base' | 'custom';
@@ -106,6 +107,7 @@ const extrasSectionTitlePattern = /extra/i;
     LazyImgComponent,
     PortfolioCategoryAccordionComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-service-category-page.component.html',
   styleUrl: './portfolio-service-category-page.component.scss',
@@ -207,6 +209,7 @@ export class PortfolioServiceCategoryPageComponent {
   readonly guestCount = signal('');
   readonly customerNotes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly activeStoryIndex = signal<number | null>(null);
   readonly activeStoryImageIndex = signal(0);
   readonly isMobileStories = signal(false);
@@ -827,6 +830,15 @@ export class PortfolioServiceCategoryPageComponent {
       lines.push('', `Total estimado: ${totalLabel}`);
     }
 
+    lines.push(
+      '',
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+    );
+
+    if (this.isDestinationService()) {
+      lines.push('Entiendo que transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
+    }
+
     if (this.customerNotes().trim()) {
       lines.push('', `Notas: ${this.customerNotes().trim()}`);
     }
@@ -1012,6 +1024,7 @@ export class PortfolioServiceCategoryPageComponent {
   startRequest(mode: RequestMode): void {
     this.requestMode.set(mode);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.modalStep.set('request');
   }
 
@@ -1294,6 +1307,7 @@ export class PortfolioServiceCategoryPageComponent {
     this.guestCount.set('');
     this.customerNotes.set('');
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
   }
 
   private buildCardHighlights(detail: PortfolioPackageDetail): string[] {

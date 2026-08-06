@@ -21,6 +21,7 @@ import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-sc
 import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 import { PortfolioPackageDetail } from '../portfolio.data';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 
@@ -43,6 +44,7 @@ export type PortfolioPackageCardViewModel = {
     RevealOnScrollDirective,
     LazyImgComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-category-accordion.component.html',
   styleUrl: './portfolio-category-accordion.component.scss',

@@ -497,6 +497,13 @@
                             <strong>{{ requestTotalLabel() }}</strong>
                         </div>
 
+                        <tj-destination-service
+                            variant="selection"
+                            [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
+                            [selected]="isDestinationService()"
+                            (selectedChange)="isDestinationService.set($event)">
+                        </tj-destination-service>
+
                         <label class="service-package-request__option service-package-request__terms">
                             <input
                                 type="checkbox"

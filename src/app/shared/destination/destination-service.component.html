@@ -1,0 +1,74 @@
+<aside class="destination-notice" *ngIf="variant === 'notice'; else selectionTemplate">
+  <div class="destination-notice__copy">
+    <strong>¿Tu historia sucede fuera de Medellín?</strong>
+    <p>Este servicio también está disponible en modalidad Destination para otras ciudades, países o locaciones especiales. El transporte, local o de viaje, se cotiza aparte.</p>
+  </div>
+  <button type="button" class="destination-notice__info" (click)="openInfo()">Descubrir Destination</button>
+</aside>
+
+<ng-template #selectionTemplate>
+  <div class="destination-selection">
+    <label class="destination-selection__check">
+      <input type="checkbox" [checked]="selected" (change)="updateSelection($any($event.target).checked)" />
+      <span>Mi servicio requiere modalidad Destination</span>
+    </label>
+    <button type="button" class="destination-selection__info" (click)="openInfo()" aria-label="Ver información del servicio Destination">
+      ¿En qué consiste?
+    </button>
+    <p>Márcala si el servicio será fuera del Área Metropolitana de Medellín o en una locación especial que requiera logística de viaje.</p>
+  </div>
+</ng-template>
+
+<div class="destination-modal" *ngIf="isInfoOpen()">
+  <button class="destination-modal__backdrop" type="button" (click)="closeInfo()" aria-label="Cerrar información Destination"></button>
+  <section class="destination-modal__panel" role="dialog" aria-modal="true" aria-labelledby="destination-modal-title">
+    <div class="destination-modal__head">
+      <div>
+        <span>TECNOJACK · Historias sin fronteras</span>
+        <h2 id="destination-modal-title">Destination: llevamos la producción hasta tu historia</h2>
+      </div>
+      <button type="button" (click)="closeInfo()" aria-label="Cerrar modal">Cerrar</button>
+    </div>
+
+    <p class="destination-modal__lead">
+      Si tu historia, evento, producción o servicio sucede fuera del Área Metropolitana de Medellín, en otra ciudad, otro país o en una locación especial, coordinamos el viaje y el equipo necesario para acompañarte hasta allí.
+    </p>
+
+    <div class="destination-modal__crew">
+      <span>Equipo estimado para esta experiencia</span>
+      <strong>{{ recommendedCrew }}</strong>
+      <p>La cantidad final de personas se confirma según el paquete, la cobertura y los entregables contratados.</p>
+    </div>
+
+    <div class="destination-modal__grid">
+      <article>
+        <strong>Destination individual</strong>
+        <p>Un profesional viaja cuando la cobertura puede realizarse de manera individual.</p>
+      </article>
+      <article>
+        <strong>Destination con equipo reducido</strong>
+        <p>Viajan dos o tres personas cuando se requiere combinar funciones, ampliar cobertura o contar con asistencia.</p>
+      </article>
+      <article>
+        <strong>Destination completo · 4 personas</strong>
+        <p>Productor/director, fotógrafo, videógrafo y asistente viajan para realizar coberturas integrales.</p>
+      </article>
+    </div>
+
+    <div class="destination-modal__costs">
+      <h3>Logística Destination asumida por el cliente</h3>
+      <ul>
+        <li>Transporte local, terrestre o aéreo para cada integrante requerido.</li>
+        <li>Equipaje y transporte seguro de equipos audiovisuales.</li>
+        <li>Traslados internos, combustible, peajes y parqueaderos.</li>
+        <li>Hospedaje y alimentación cuando la operación lo requiera.</li>
+        <li>Visas, permisos, seguros, impuestos o requisitos especiales del destino.</li>
+        <li>Noches o trayectos adicionales necesarios por itinerario y horarios del evento.</li>
+      </ul>
+    </div>
+
+    <p class="destination-modal__foot">
+      Los precios publicados no incluyen transporte. Dentro del Área Metropolitana, el desplazamiento ordinario también se cotiza aparte y es asumido por el cliente, pero no se considera modalidad Destination. Para viajes y locaciones especiales, la logística completa se presenta para aprobación antes de confirmar la producción. Marcar Destination no modifica automáticamente el total mostrado en la web.
+    </p>
+  </section>
+</div>

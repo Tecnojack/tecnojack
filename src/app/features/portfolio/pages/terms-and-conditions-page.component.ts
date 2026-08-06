@@ -27,7 +27,7 @@ export class TermsAndConditionsPageComponent {
   readonly heroDescription =
     'Conoce las condiciones bajo las cuales prestamos nuestros servicios audiovisuales. Este documento establece los lineamientos, responsabilidades y acuerdos aplicables a todos nuestros clientes.';
 
-  readonly lastUpdatedText = '21 de abril de 2026';
+  readonly lastUpdatedText = '6 de agosto de 2026';
 
   /**
    * IMPORTANTE:
@@ -97,14 +97,23 @@ Esto incluye, pero no se limita a:
 Estas deberán ser aprobadas por el cliente durante el evento o previamente.`
     },
     {
-      title: '8. Viáticos y Desplazamientos',
-      content: `Para eventos fuera de Medellín:
+      title: '8. Transporte, Viáticos y Servicio Destination',
+      content: `Los precios publicados no incluyen transporte. Todo desplazamiento requerido para prestar el servicio, incluso dentro del Área Metropolitana de Medellín, se cotiza por separado y es asumido por el cliente.
 
-El cliente deberá cubrir:
+La modalidad **Destination** aplica cuando el servicio se realiza fuera del Área Metropolitana de Medellín, en otra ciudad, otro país o en una locación especial que requiera logística de viaje. Todos los servicios pueden solicitarse bajo esta modalidad. La cantidad de integrantes se define según el paquete y puede corresponder a cobertura individual, equipo reducido o equipo completo de cuatro personas: productor/director, fotógrafo, videógrafo y asistente.
 
-* Transporte
+Cuando apliquen, el cliente deberá cubrir para cada integrante requerido:
+
+* Transporte local, terrestre o aéreo
+* Equipaje y transporte de equipos
+* Combustible, peajes y parqueaderos
+* Traslados internos en el destino
 * Alimentación
-* Alojamiento (si aplica)`
+* Alojamiento
+* Visas, permisos, seguros, impuestos o requisitos especiales
+* Noches y trayectos adicionales necesarios por itinerario u horarios
+
+Los costos logísticos serán presentados para aprobación antes de confirmar el viaje. Seleccionar la modalidad Destination no incorpora automáticamente estos valores al total estimado del paquete.`
     },
     {
       title: '9. Condiciones del Evento',

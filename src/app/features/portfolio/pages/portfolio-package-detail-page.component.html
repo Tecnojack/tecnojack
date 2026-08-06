@@ -323,6 +323,12 @@
                     </div>
 
                     <div class="package-request-modal__actions">
+                        <tj-destination-service
+                            variant="selection"
+                            [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
+                            [selected]="isDestinationService()"
+                            (selectedChange)="isDestinationService.set($event)">
+                        </tj-destination-service>
                         <label class="package-request-terms">
                             <input
                                 class="package-request-terms__checkbox"

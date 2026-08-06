@@ -191,6 +191,14 @@
                             <textarea [value]="notes()" (input)="notes.set(($any($event.target).value ?? '').toString())" placeholder="Horario, lugar, tipo de ceremonia, etc."></textarea>
                         </label>
 
+                        <tj-destination-service
+                            class="service-package-request__field--full"
+                            variant="selection"
+                            serviceContext="Grados institucionales · Ceremonia"
+                            [selected]="isDestinationService()"
+                            (selectedChange)="isDestinationService.set($event)">
+                        </tj-destination-service>
+
                         <label class="service-package-request__option service-package-request__terms service-package-request__field--full">
                             <input type="checkbox" [checked]="hasAcceptedTerms()" (change)="hasAcceptedTerms.set($any($event.target).checked)" />
                             <span>
