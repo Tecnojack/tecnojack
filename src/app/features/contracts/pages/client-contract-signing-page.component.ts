@@ -110,11 +110,11 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: SELECCIÓN DE PÁGINA, SERVICIO Y ADICIONALES DINÁMICOS DEL PAQUETE -->
+            <!-- PASO 1: SELECCIÓN DE PÁGINA, SERVICIO Y ADICIONALES SIMPLIFICADOS -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
               <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
               <h2>Selecciona tu Página de Servicio, Paquete y Adicionales</h2>
-              <p class="tj-step-lead">Elige primero la página del servicio, selecciona el paquete principal y agrega los servicios adicionales disponibles para este servicio.</p>
+              <p class="tj-step-lead">Elige primero la página del servicio, selecciona el paquete principal y agrega los servicios adicionales que desees.</p>
 
               <div class="tj-form-grid">
                 <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
@@ -155,26 +155,30 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
               </div>
 
-              <!-- SERVICIOS ADICIONALES OPCIONALES DEL PAQUETE SELECCIONADO -->
+              <!-- SERVICIOS ADICIONALES SIMPLIFICADOS: NOMBRE, PRECIO, BOTÓN DE AGREGAR -->
               <div class="tj-addons-section" *ngIf="currentPackageAddons().length">
-                <h3>Servicios Adicionales Disponibles para este Paquete</h3>
-                <p class="tj-text-muted">Selecciona los complementos opcionales que deseas añadir al servicio:</p>
+                <h3>Servicios Adicionales Disponibles</h3>
 
-                <div class="tj-addons-grid">
-                  <label
+                <div class="tj-addons-simple-list">
+                  <div
                     *ngFor="let addon of currentPackageAddons()"
-                    class="tj-addon-card"
-                    [class.selected]="isAddonSelected(addon.id)">
-                    <input
-                      type="checkbox"
-                      [checked]="isAddonSelected(addon.id)"
-                      (change)="toggleAddon(addon)" />
-                    <div class="tj-addon-info">
+                    class="tj-addon-simple-item"
+                    [class.added]="isAddonSelected(addon.id)">
+                    <div class="tj-addon-simple-info">
                       <strong>{{ addon.name }}</strong>
-                      <p *ngIf="addon.description">{{ addon.description }}</p>
                     </div>
-                    <span class="tj-addon-price" *ngIf="addon.priceAmountCop > 0">+ {{ formatCop(addon.priceAmountCop) }}</span>
-                  </label>
+
+                    <div class="tj-addon-simple-action">
+                      <span class="tj-addon-price" *ngIf="addon.priceAmountCop > 0">{{ formatCop(addon.priceAmountCop) }}</span>
+                      <button
+                        type="button"
+                        class="tj-btn-addon-toggle"
+                        [class.added]="isAddonSelected(addon.id)"
+                        (click)="toggleAddon(addon)">
+                        {{ isAddonSelected(addon.id) ? '✓ Agregado' : '+ Agregar' }}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -582,20 +586,26 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-details-list h3 { margin: 0 0 8px; font-size: 1rem; color: var(--portfolio-accent, #ffb800); }
     .tj-details-list ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: #cbd5e1; font-size: 0.92rem; }
     
-    /* ADICIONALES ESTILOS */
+    /* ADICIONALES SIMPLIFICADOS ESTILOS */
     .tj-addons-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, rgba(255,255,255,0.1)); }
-    .tj-addons-section h3 { margin: 0 0 4px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
-    .tj-addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
-    .tj-addon-card {
-      display: flex; align-items: flex-start; gap: 12px; padding: 14px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); cursor: pointer; transition: all 200ms ease;
+    .tj-addons-section h3 { margin: 0 0 12px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
+    .tj-addons-simple-list { display: grid; gap: 10px; }
+    .tj-addon-simple-item {
+      display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03);
+      transition: all 200ms ease; flex-wrap: wrap; gap: 12px;
     }
-    .tj-addon-card:hover { border-color: rgba(0,151,178,0.4); background: rgba(0,151,178,0.05); }
-    .tj-addon-card.selected { border-color: var(--portfolio-brand, #0097b2); background: rgba(0,151,178,0.12); }
-    .tj-addon-info { flex: 1; }
-    .tj-addon-info strong { display: block; font-size: 0.88rem; color: #fff; }
-    .tj-addon-info p { margin: 2px 0 0; font-size: 0.78rem; color: #94a3b8; line-height: 1.35; }
-    .tj-addon-price { font-size: 0.85rem; font-weight: 700; color: var(--portfolio-accent, #ffb800); white-space: nowrap; }
+    .tj-addon-simple-item.added { border-color: var(--portfolio-brand, #0097b2); background: rgba(0,151,178,0.1); }
+    .tj-addon-simple-info strong { font-size: 0.92rem; color: #fff; }
+    .tj-addon-simple-action { display: flex; align-items: center; gap: 14px; }
+    .tj-addon-price { font-size: 0.9rem; font-weight: 700; color: var(--portfolio-accent, #ffb800); white-space: nowrap; }
+    .tj-btn-addon-toggle {
+      padding: 6px 16px; border-radius: 8px; border: 1px solid var(--portfolio-brand, #0097b2);
+      background: transparent; color: #fff; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      transition: all 200ms ease;
+    }
+    .tj-btn-addon-toggle:hover { background: rgba(0,151,178,0.2); }
+    .tj-btn-addon-toggle.added { background: var(--portfolio-brand, #0097b2); color: #fff; }
 
     /* SELECCIÓN DE ANTICIPO ESTILOS */
     .tj-advance-selector-box { margin-bottom: 20px; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
