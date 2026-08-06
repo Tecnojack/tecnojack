@@ -307,10 +307,88 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     },
   ];
 
-  // 3, 4, 5, 6. OTRAS PÁGINAS (GRADOS, VIDEOS, CORPORATIVOS, OTROS)
+  // 3. VIDEOS (5 Paquetes Oficiales de la Sección Videos)
+  const videoGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: 'Videos Musicales y Producción',
+      packages: [
+        {
+          id: 'videos-esencial',
+          slug: 'video-esencial',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Esencial',
+          packageName: 'Videos Musicales · Video Esencial',
+          priceAmountCop: 400000,
+          lead: 'Producción directa, limpia y profesional para artistas.',
+          features: ['Grabación en locación natural', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto'],
+          deliverables: ['1 video musical final de hasta 4 minutos en 4K', '1 archivo final horizontal', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-pro',
+          slug: 'video-pro',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Pro',
+          packageName: 'Videos Musicales · Video Pro',
+          priceAmountCop: 560000,
+          lead: 'Producción con mayor impacto visual e iluminación mejorada.',
+          features: ['Incluye todo lo del paquete Esencial', 'Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Producción de hasta 6 horas'],
+          deliverables: ['1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-cinematico',
+          slug: 'video-cinematico',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Cinemático',
+          packageName: 'Videos Musicales · Video Cinemático',
+          priceAmountCop: 850000,
+          lead: 'Producción narrativa con enfoque cinematográfico.',
+          features: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada'],
+          deliverables: ['1 video final de hasta 7 minutos en 4K', '1 archivo final horizontal', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-personalizado',
+          slug: 'video-personalizado',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Personalizado',
+          packageName: 'Videos Musicales · Video Personalizado',
+          priceAmountCop: 250000,
+          lead: 'Producción adaptada a las necesidades del cliente.',
+          features: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios'],
+          deliverables: ['1 video final con duración acordada en la propuesta', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+      ],
+    },
+    {
+      accordionTitle: 'Cortometrajes y Narrativa',
+      packages: [
+        {
+          id: 'videos-cortometraje',
+          slug: 'video-cortometraje',
+          category: 'videos',
+          accordionTitle: 'Cortometrajes y Narrativa',
+          title: 'Video Cortometraje',
+          packageName: 'Cortometraje · Video Cortometraje',
+          priceAmountCop: 300000,
+          lead: 'Producción narrativa para cortometrajes o proyectos creativos.',
+          features: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada'],
+          deliverables: ['1 cortometraje o pieza narrativa final', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+      ],
+    },
+  ];
+
+  // 4, 5, 6. OTRAS PÁGINAS (GRADOS, CORPORATIVOS, OTROS)
   const otherPagesMap: Record<string, Record<string, CatalogPackageItem[]>> = {
     grados: {},
-    videos: {},
     corporativos: {},
     otros: {},
   };
@@ -319,11 +397,14 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     let targetPage = 'otros';
     const catStr = (detail.category as string) || '';
     if (catStr === 'grados') targetPage = 'grados';
-    else if (catStr === 'video' || catStr === 'videos') targetPage = 'videos';
     else if (catStr === 'corporativos') targetPage = 'corporativos';
+    else if (catStr === 'bodas' || catStr === 'quinces') continue; // Ya procesados individualmente
     else targetPage = 'otros';
 
-    const accordionTitle = detail.categoryLabel || detail.title;
+    // Usar packageTypeLabel si existe para clasificar exactamente por acordeón (e.g. Video Institucional, Contenido para Redes, Eventos Corporativos, Marca Personal)
+    const rawAccordion = detail.packageTypeLabel || detail.categoryLabel || detail.title;
+    const accordionTitle = rawAccordion.toUpperCase();
+
     if (!otherPagesMap[targetPage][accordionTitle]) {
       otherPagesMap[targetPage][accordionTitle] = [];
     }
@@ -374,7 +455,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     {
       id: 'videos',
       label: '🎥 VIDEOS',
-      subServiceGroups: buildSubGroups('videos'),
+      subServiceGroups: videoGroups,
     },
     {
       id: 'corporativos',

@@ -589,7 +589,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     /* ADICIONALES SIMPLIFICADOS ESTILOS */
     .tj-addons-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, rgba(255,255,255,0.1)); }
     .tj-addons-section h3 { margin: 0 0 12px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
-    .tj-addons-simple-list { display: grid; gap: 10px; }
+    .tj-addons-simple-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
     .tj-addon-simple-item {
       display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;
       border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03);
