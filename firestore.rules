@@ -95,6 +95,19 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ── Sistema de Contratación Digital ──
+    match /contracts/{contractId} {
+      allow read: if isSignedIn() || resource.data.token != null;
+      allow create, update: if isSignedIn();
+      allow delete: if false;
+    }
+
+    match /contractTemplates/{templateId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if false;
+    }
+
     // Bloquear todo lo que no está explícitamente listado.
     match /{document=**} {
       allow read, write: if false;

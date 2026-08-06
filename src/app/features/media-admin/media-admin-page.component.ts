@@ -48,6 +48,9 @@ import { ClientService } from '../../core/models/client.model';
             <button class="btn btn--icon" (click)="goToRequests()" title="Solicitudes de servicio">
               📋
             </button>
+            <button class="btn btn--icon" (click)="goToContracts()" title="Contratos Digitales">
+              📜
+            </button>
           </div>
         </div>
 
@@ -921,6 +924,10 @@ export class MediaAdminPageComponent {
 
   goToRequests(): void {
     this.router.navigate(['/media-admin/solicitudes']);
+  }
+
+  goToContracts(): void {
+    this.router.navigate(['/media-admin/contratos']);
   }
 
   goToPath(path: string | undefined): void {

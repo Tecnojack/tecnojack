@@ -126,6 +126,20 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'contratar',
+		loadComponent: () =>
+			import('./features/contracts/pages/client-contract-signing-page.component').then(
+				(m) => m.ClientContractSigningPageComponent
+			)
+	},
+	{
+		path: 'contratar/:token',
+		loadComponent: () =>
+			import('./features/contracts/pages/client-contract-signing-page.component').then(
+				(m) => m.ClientContractSigningPageComponent
+			)
+	},
+	{
 		path: 'terminos-y-condiciones',
 		loadComponent: () =>
 			import('./features/portfolio/pages/terms-and-conditions-page.component').then(
