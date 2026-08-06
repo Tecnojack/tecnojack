@@ -1,11 +1,24 @@
-import { portfolioPackageDetails, PortfolioPackageDetail } from '../../portfolio/portfolio.data';
+import {
+  weddingMainPlans,
+  weddingPhotoOnlyPlans,
+  weddingVideoOnlyPlans,
+  weddingCivilPlans,
+  weddingProposalPlans,
+  preweddingPlans,
+  weddingPostweddingPlans,
+  quinceMainPlans,
+  quinceVideoPlans,
+  quinceHybridPlans,
+  portfolioPackageDetails,
+  PortfolioPackageDetail,
+} from '../../portfolio/portfolio.data';
 
 export interface CatalogPackageItem {
   id: string;
   slug: string;
   category: string; // 'bodas' | 'quinces' | 'grados' | 'videos' | 'corporativos' | 'otros'
-  accordionTitle: string; // Título exacto del acordeón en la web
-  title: string; // Nombre exacto del paquete tal cual aparece en la card del acordeón
+  accordionTitle: string; // Título del acordeón
+  title: string; // Nombre exacto del paquete en la card
   packageName: string;
   priceAmountCop: number;
   lead: string;
@@ -24,120 +37,208 @@ export interface CatalogPageConfig {
   subServiceGroups: CatalogAccordionGroup[];
 }
 
-function extractFeatures(detail: PortfolioPackageDetail): string[] {
-  const featSec = detail.sections.find((s: { title: string; items: string[] }) =>
-    /cobertura|incluido|características|incluye/i.test(s.title)
-  ) || detail.sections[0];
-  return featSec ? featSec.items : [];
-}
-
-function extractDeliverables(detail: PortfolioPackageDetail): string[] {
-  const delSec = detail.sections.find((s: { title: string; items: string[] }) =>
-    /entregables|entrega/i.test(s.title)
-  ) || detail.sections[1];
-  return delSec ? delSec.items : [];
-}
-
-function extractPriceCop(detail: PortfolioPackageDetail): number {
-  if (detail.baseQuoteOptions && detail.baseQuoteOptions.length > 0) {
-    const opt = detail.baseQuoteOptions[0];
-    if (opt.amountCop && opt.amountCop > 0) {
-      return opt.amountCop;
-    }
+function parsePriceCop(priceStr?: string | string[], fallbackAmount?: number): number {
+  if (fallbackAmount && fallbackAmount > 0) {
+    return fallbackAmount;
   }
-
-  if (detail.priceLines && detail.priceLines.length > 0) {
-    const raw = detail.priceLines.join(' ');
-    const cleaned = raw.replace(/[^\d]/g, '');
-    const val = parseInt(cleaned, 10);
-    if (!isNaN(val) && val > 0) {
-      return val;
-    }
-  }
-
-  return 1500000;
-}
-
-function resolveAccordionTitle(detail: PortfolioPackageDetail): { pageId: string; accordionTitle: string } {
-  const category = detail.category;
-  const pkgType = (detail.packageTypeLabel || '').toLowerCase();
-  const slug = (detail.slug || '').toLowerCase();
-  const title = (detail.title || '').toLowerCase();
-
-  // 1. BODAS
-  if (category === 'bodas') {
-    if (slug.includes('civil') || title.includes('civil')) {
-      return { pageId: 'bodas', accordionTitle: 'Boda civil' };
-    }
-    if (slug.includes('peticion') || slug.includes('propuesta') || title.includes('petición') || title.includes('propuesta')) {
-      return { pageId: 'bodas', accordionTitle: 'Petición de mano' };
-    }
-    if (pkgType.includes('solo foto') || slug.includes('solo-foto')) {
-      return { pageId: 'bodas', accordionTitle: 'Fotografía de bodas (Solo foto)' };
-    }
-    if (pkgType.includes('video') || slug.includes('video-only') || slug.includes('video')) {
-      return { pageId: 'bodas', accordionTitle: 'Video de bodas (Solo video)' };
-    }
-    return { pageId: 'bodas', accordionTitle: 'Boda híbrida (Foto + video)' };
-  }
-
-  // 2. QUINCES
-  if (category === 'quinces') {
-    if (pkgType.includes('solo foto') || slug.includes('solo-foto')) {
-      return { pageId: 'quinces', accordionTitle: 'Fotografía de quince' };
-    }
-    if (pkgType.includes('video') || slug.includes('video')) {
-      return { pageId: 'quinces', accordionTitle: 'Video de quince' };
-    }
-    return { pageId: 'quinces', accordionTitle: 'Cobertura mixta (foto + video)' };
-  }
-
-  // 3. GRADOS
-  if (category === 'grados') {
-    if (slug.includes('instituc') || title.includes('instituc') || slug.includes('colegio')) {
-      return { pageId: 'grados', accordionTitle: 'Grados institucionales / Promoción' };
-    }
-    return { pageId: 'grados', accordionTitle: 'Fotografía de grado (Estudiantes / Individual)' };
-  }
-
-  // 4. PREBODA (organizado dentro de la sección de Bodas)
-  if (category === 'preboda') {
-    if (slug.includes('postboda') || title.includes('postboda') || title.includes('trash')) {
-      return { pageId: 'bodas', accordionTitle: 'Sesión postboda' };
-    }
-    return { pageId: 'bodas', accordionTitle: 'Sesión de preboda' };
-  }
-
-  // 5. CORPORATIVOS / VIDEOS / OTROS
-  if (category === 'corporativos') {
-    if (slug.includes('redes') || title.includes('redes') || title.includes('reels')) {
-      return { pageId: 'corporativos', accordionTitle: 'Contenido para redes' };
-    }
-    if (slug.includes('evento') || title.includes('evento') || title.includes('fiesta')) {
-      return { pageId: 'otros', accordionTitle: 'Eventos corporativos & Coberturas especiales' };
-    }
-    if (slug.includes('marca') || title.includes('marca') || title.includes('personal')) {
-      return { pageId: 'corporativos', accordionTitle: 'Marca personal' };
-    }
-    return { pageId: 'videos', accordionTitle: 'Video institucional & publicidad' };
-  }
-
-  return { pageId: 'otros', accordionTitle: 'Otros servicios' };
+  if (!priceStr) return 1500000;
+  const raw = Array.isArray(priceStr) ? priceStr.join(' ') : priceStr;
+  const cleaned = raw.replace(/[^\d]/g, '');
+  const val = parseInt(cleaned, 10);
+  return !isNaN(val) && val > 0 ? val : 1500000;
 }
 
 export function buildCatalogPages(): CatalogPageConfig[] {
-  const pagesList: { id: string; label: string }[] = [
-    { id: 'bodas', label: '💍 BODAS' },
-    { id: 'quinces', label: '👑 QUINCES' },
-    { id: 'grados', label: '🎓 GRADOS' },
-    { id: 'videos', label: '🎥 VIDEOS' },
-    { id: 'corporativos', label: '🏢 CORPORATIVOS' },
-    { id: 'otros', label: '⭐ OTROS' },
+  // 1. BODAS (7 Acordeones Oficiales)
+  const bodasGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: 'Boda Híbrida (Foto + Video)',
+      packages: weddingMainPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-main-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Boda Híbrida (Foto + Video)',
+          title: plan.name,
+          packageName: `Boda Híbrida · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Fotografía de Bodas',
+      packages: weddingPhotoOnlyPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-photo-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Fotografía de Bodas',
+          title: plan.name,
+          packageName: `Fotografía de Bodas · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Video de Bodas',
+      packages: weddingVideoOnlyPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `bodas-video-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Video de Bodas',
+          title: plan.name,
+          packageName: `Video de Bodas · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Boda Civil',
+      packages: weddingCivilPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `bodas-civil-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Boda Civil',
+          title: plan.name,
+          packageName: `Boda Civil · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Petición de Mano',
+      packages: weddingProposalPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `bodas-peticion-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Petición de Mano',
+          title: plan.name,
+          packageName: `Petición de Mano · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Sesión de Preboda',
+      packages: preweddingPlans.map((plan) => {
+        const price = parsePriceCop(plan.price);
+        return {
+          id: `bodas-preboda-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Sesión de Preboda',
+          title: plan.name,
+          packageName: `Sesión de Preboda · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Sesión Postboda',
+      packages: weddingPostweddingPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `bodas-postboda-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Sesión Postboda',
+          title: plan.name,
+          packageName: `Sesión Postboda · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
   ];
 
-  const pagesMap: Record<string, Record<string, CatalogPackageItem[]>> = {
-    bodas: {},
-    quinces: {},
+  // 2. QUINCES (3 Acordeones Oficiales)
+  const quincesGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: '15 Años Híbridos (Foto + Video)',
+      packages: quinceHybridPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `quinces-hybrid-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: '15 Años Híbridos (Foto + Video)',
+          title: plan.name,
+          packageName: `15 Años Híbridos · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: '15 Años Solo Fotografía',
+      packages: quinceMainPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `quinces-photo-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: '15 Años Solo Fotografía',
+          title: plan.name,
+          packageName: `15 Años Solo Fotografía · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: '15 Años Solo Video',
+      packages: quinceVideoPlans.map((plan) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `quinces-video-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: '15 Años Solo Video',
+          title: plan.name,
+          packageName: `15 Años Solo Video · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+  ];
+
+  // 3. GRADOS, VIDEOS, CORPORATIVOS, OTROS (leídos dinámicamente de portfolioPackageDetails)
+  const otherPagesMap: Record<string, Record<string, CatalogPackageItem[]>> = {
     grados: {},
     videos: {},
     corporativos: {},
@@ -145,50 +246,96 @@ export function buildCatalogPages(): CatalogPageConfig[] {
   };
 
   for (const detail of portfolioPackageDetails) {
-    const { pageId, accordionTitle } = resolveAccordionTitle(detail);
-
-    if (!pagesMap[pageId]) {
-      pagesMap[pageId] = {};
+    if (detail.category === 'bodas' || detail.category === 'quinces' || detail.category === 'preboda') {
+      continue; // Ya cubiertos explícitamente arriba
     }
 
-    if (!pagesMap[pageId][accordionTitle]) {
-      pagesMap[pageId][accordionTitle] = [];
+    let targetPage = 'corporativos';
+    let accordionTitle = detail.packageTypeLabel || 'Servicios Generales';
+
+    if (detail.category === 'grados') {
+      targetPage = 'grados';
+      accordionTitle = detail.slug.includes('instituc')
+        ? 'Grados Institucionales / Promoción'
+        : 'Fotografía de Grado Individual';
+    } else if (detail.category === 'corporativos') {
+      if (detail.slug.includes('redes')) {
+        targetPage = 'corporativos';
+        accordionTitle = 'Contenido para Redes Sociales';
+      } else if (detail.slug.includes('evento')) {
+        targetPage = 'otros';
+        accordionTitle = 'Eventos Corporativos & Coberturas Especiales';
+      } else if (detail.slug.includes('marca')) {
+        targetPage = 'corporativos';
+        accordionTitle = 'Fotografía de Marca Personal';
+      } else {
+        targetPage = 'videos';
+        accordionTitle = 'Video Institucional & Publicitario';
+      }
     }
 
-    const price = extractPriceCop(detail);
-    const features = extractFeatures(detail);
-    const deliverables = extractDeliverables(detail);
+    if (!otherPagesMap[targetPage][accordionTitle]) {
+      otherPagesMap[targetPage][accordionTitle] = [];
+    }
 
-    // Nombre exacto del paquete sin prefijos sintéticos
-    const cleanTitle = detail.title;
+    const price = parsePriceCop(detail.priceLines, detail.baseQuoteOptions?.[0]?.amountCop);
+    const featSec = detail.sections.find((s) => /cobertura|incluido|características|incluye/i.test(s.title)) || detail.sections[0];
+    const delSec = detail.sections.find((s) => /entregables|entrega/i.test(s.title)) || detail.sections[1];
 
-    pagesMap[pageId][accordionTitle].push({
-      id: `${pageId}-${detail.slug}`,
+    otherPagesMap[targetPage][accordionTitle].push({
+      id: `${targetPage}-${detail.slug}`,
       slug: detail.slug,
-      category: pageId,
+      category: targetPage,
       accordionTitle,
-      title: cleanTitle,
-      packageName: `${accordionTitle} · ${cleanTitle}`,
+      title: detail.title,
+      packageName: `${accordionTitle} · ${detail.title}`,
       priceAmountCop: price,
       lead: detail.lead || '',
-      features,
-      deliverables,
+      features: featSec ? featSec.items : [],
+      deliverables: delSec ? delSec.items : [],
     });
   }
 
-  return pagesList.map((p) => {
-    const groupsObj = pagesMap[p.id] || {};
-    const subServiceGroups: CatalogAccordionGroup[] = Object.keys(groupsObj).map((accordionTitle) => ({
+  const buildSubGroups = (pageId: string): CatalogAccordionGroup[] => {
+    const obj = otherPagesMap[pageId] || {};
+    return Object.keys(obj).map((accordionTitle) => ({
       accordionTitle,
-      packages: groupsObj[accordionTitle],
+      packages: obj[accordionTitle],
     }));
+  };
 
-    return {
-      id: p.id,
-      label: p.label,
-      subServiceGroups,
-    };
-  });
+  return [
+    {
+      id: 'bodas',
+      label: '💍 BODAS',
+      subServiceGroups: bodasGroups,
+    },
+    {
+      id: 'quinces',
+      label: '👑 QUINCES',
+      subServiceGroups: quincesGroups,
+    },
+    {
+      id: 'grados',
+      label: '🎓 GRADOS',
+      subServiceGroups: buildSubGroups('grados'),
+    },
+    {
+      id: 'videos',
+      label: '🎥 VIDEOS',
+      subServiceGroups: buildSubGroups('videos'),
+    },
+    {
+      id: 'corporativos',
+      label: '🏢 CORPORATIVOS',
+      subServiceGroups: buildSubGroups('corporativos'),
+    },
+    {
+      id: 'otros',
+      label: '⭐ OTROS',
+      subServiceGroups: buildSubGroups('otros'),
+    },
+  ];
 }
 
 export const CATALOG_PAGES = buildCatalogPages();
