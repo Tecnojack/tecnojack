@@ -162,11 +162,13 @@ export async function generateClientContractPdf(
   let page1 = createPage();
   let y = pageHeight - margin - 20;
 
-  // Título principal
-  page1.drawText(safeText('CONTRATO DE PRESTACION DE SERVICIOS AUDIOVISUALES'), {
+  // TÍTULO OFICIAL COMPLETO CON PAQUETE Y CC CLIENTE
+  const contractFullTitle = `CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK - ${vm.service.packageName} - CC ${vm.client.documentNumber}`;
+
+  page1.drawText(safeText(contractFullTitle), {
     x: margin,
     y,
-    size: 14,
+    size: 11,
     font: fontBold,
     color: COLOR_TEAL_DARK,
   });
@@ -784,12 +786,17 @@ export async function generateClientContractPdf(
 
 /**
  * Dispara la descarga inmediata del archivo PDF en el navegador del cliente.
+ * Formato del archivo: CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK_[NombrePaquete]_[CCCliente].pdf
  */
 export async function downloadContractPdfFile(c: ContractDocument): Promise<string> {
   const result = await generateClientContractPdf(c, false);
+  const pkgClean = (c.service.packageName || 'SERVICIO').replace(/[^a-zA-Z0-9]/g, '_');
+  const docClean = (c.client.documentNumber || '0000').replace(/[^a-zA-Z0-9]/g, '');
+  const fileName = `CONTRATO_DE_SERVICIOS_AUDIOVISUALES_TECNOJACK_${pkgClean}_CC_${docClean}.pdf`;
+
   const link = document.createElement('a');
   link.href = result.downloadUrl;
-  link.download = `Contrato_TECNOJACK_${c.contractNumber}.pdf`;
+  link.download = fileName;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -805,7 +812,10 @@ export function buildFullWhatsappContractMessage(c: ContractDocument): string {
   const featuresList = (c.service.features || []).map((f) => `  ✓ ${f}`).join('\n');
   const deliverablesList = (c.service.deliverables || []).map((d) => `  📦 ${d}`).join('\n');
 
-  return `📜 *CONTRATO OFICIAL TECNOJACK N° ${c.contractNumber}*
+  return `📜 *CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK*
+*Paquete:* ${c.service.packageName}
+*CC Cliente:* ${c.client.documentNumber}
+*N° Registro:* ${c.contractNumber}
 
 👤 *DATOS DEL CONTRATANTE:*
 • Nombre: ${c.client.fullName || 'N/A'}
