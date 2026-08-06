@@ -1244,39 +1244,48 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
 export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
   {
     slug: 'postboda-esencial',
-    name: 'Esencial – Recuerdo natural después del gran día',
-    priceLines: ['350.000 COP'],
-    amountCop: 350000,
+    name: 'Postboda Esencial',
+    priceLines: ['400.000 COP'],
+    amountCop: 400000,
     lead: 'Sesión sencilla y emotiva para capturar momentos naturales como recién casados sin el estrés del evento.',
     image: 'assets/images/galery/M&D-15.jpg',
-    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['50 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    features: ['1 fotógrafo', '1 locación', 'Duración de 2 horas', '1 vestuario', 'Dirección de pareja', 'Sesión en exterior'],
+    deliverables: ['Hasta 50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'postboda-completa',
-    name: 'Completa – Una historia después del sí',
+    name: 'Postboda Completa',
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     lead: 'Sesión más elaborada que permite explorar diferentes escenarios y lograr fotografías más cuidadas y expresivas.',
     image: 'assets/images/galery/M&D-21.jpg',
-    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['80 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
+    deliverables: ['Hasta 80 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'postboda-premium',
-    name: 'Premium – Experiencia artística postboda',
-    priceLines: ["1'200.000 COP"],
-    amountCop: 1200000,
+    name: 'Postboda Editorial',
+    priceLines: ['950.000 COP'],
+    amountCop: 950000,
     lead: 'Sesión diseñada para crear imágenes impactantes con estética editorial en locaciones especiales.',
     image: 'assets/images/galery/M&D-22.jpg',
     features: [
-      '2 o más locaciones',
-      'Duración de 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento'
+      '1 fotógrafo y 1 asistente',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión breve de planeación',
+      'Concepto visual',
+      'Dirección editorial avanzada',
+      'Apoyo de iluminación y logística durante la sesión'
     ],
-    deliverables: ['120 fotografías editadas', 'Galería digital privada por 6 meses', 'Entrega final en alta resolución por Google Drive', '5 fotografías impresas']
+    deliverables: [
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ]
   }
 ];
 
@@ -1564,12 +1573,12 @@ export const preweddingPlans: PreweddingPlan[] = [
       '1 vestuario',
       'Dirección de pareja',
       'Sesión en exterior',
-      '50 fotografías finales, seleccionadas y editadas',
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 mes'
     ],
     features: ['1 fotógrafo', '1 locación', 'Duración de 2 horas', '1 vestuario', 'Dirección de pareja', 'Sesión en exterior'],
-    deliverables: ['50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    deliverables: ['Hasta 50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'preboda-completa',
@@ -1584,13 +1593,13 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Duración de 3 horas',
       'Hasta 2 vestuarios',
       'Dirección creativa',
-      '70 fotografías finales, seleccionadas y editadas',
+      'Hasta 70 fotografías finales, seleccionadas y editadas',
       '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta calidad',
       'Galería online disponible por 3 meses'
     ],
     features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
-    deliverables: ['70 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    deliverables: ['Hasta 70 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'preboda-editorial',
@@ -1606,7 +1615,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Hasta 3 vestuarios',
       'Planeación visual',
       'Dirección creativa editorial',
-      '80 fotografías finales, seleccionadas y editadas',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
       'Reel vertical de 30 a 45 segundos',
       '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta resolución',
@@ -1621,7 +1630,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Dirección creativa editorial'
     ],
     deliverables: [
-      '80 fotografías finales, seleccionadas y editadas',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
       'Reel vertical de 30 a 45 segundos',
       '1 cuadro fotográfico de 60 x 40 cm',
       'Galería digital privada por 6 meses',
@@ -1643,7 +1652,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Reunión de planeación',
       'Concepto visual y narrativa',
       'Dirección creativa avanzada',
-      '100 fotografías finales, seleccionadas y editadas',
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
       'Reel vertical de 45 a 60 segundos',
       'Película preboda de 2 a 3 minutos',
       '1 cuadro fotográfico de 60 x 40 cm',
@@ -1659,7 +1668,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Dirección creativa avanzada'
     ],
     deliverables: [
-      '100 fotografías finales, seleccionadas y editadas',
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
       'Reel vertical de 45 a 60 segundos',
       'Película preboda de 2 a 3 minutos',
       '1 cuadro fotográfico de 60 x 40 cm',

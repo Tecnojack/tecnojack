@@ -2,6 +2,7 @@ import {
   getPortfolioPackageDetail,
   getPortfolioPackageDetailsByCategory,
   preweddingPlans,
+  weddingPostweddingPlans,
 } from './portfolio.data';
 
 describe('prewedding package catalog', () => {
@@ -15,11 +16,11 @@ describe('prewedding package catalog', () => {
     expect(getPortfolioPackageDetailsByCategory('preboda').length).toBe(4);
   });
 
-  it('keeps at least two hours and 50 final edited photographs in every package', () => {
+  it('keeps two hours and a 50-photo scope or higher in every package', () => {
     for (const plan of preweddingPlans) {
       const allText = [...plan.items, ...plan.features, ...plan.deliverables].join(' ');
       const durationMatch = allText.match(/Duraci.n de (\d+) horas/i);
-      const photoMatch = allText.match(/(\d+) fotograf.as finales, seleccionadas y editadas/i);
+      const photoMatch = allText.match(/Hasta (\d+) fotograf.as finales, seleccionadas y editadas/i);
 
       expect(durationMatch).withContext(plan.name).not.toBeNull();
       expect(Number(durationMatch?.[1])).withContext(plan.name).toBeGreaterThanOrEqual(2);
@@ -55,5 +56,24 @@ describe('prewedding package catalog', () => {
         linked?.baseQuoteOptions[0]?.amountCop,
       );
     }
+  });
+});
+
+describe('postwedding package catalog', () => {
+  it('uses the approved direct names and increasing photo scopes', () => {
+    expect(weddingPostweddingPlans.map((plan) => plan.name)).toEqual([
+      'Postboda Esencial',
+      'Postboda Completa',
+      'Postboda Editorial',
+    ]);
+    expect(weddingPostweddingPlans.map((plan) => plan.deliverables[0])).toEqual([
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+    ]);
+  });
+
+  it('includes an assistant in the top postwedding package', () => {
+    expect(weddingPostweddingPlans[2]?.features).toContain('1 fotógrafo y 1 asistente');
   });
 });
