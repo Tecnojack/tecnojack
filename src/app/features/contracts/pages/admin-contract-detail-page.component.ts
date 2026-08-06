@@ -1,5 +1,5 @@
 import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { ContractAdminService } from '../services/contract-admin.service';
