@@ -7,8 +7,9 @@ import { ContractAdminService } from '../services/contract-admin.service';
 import { ContractClientInfo, ContractServiceInfo } from '../models/contract.model';
 import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financial.util';
 import {
-  CONTRACT_CATALOG_CATEGORIES,
-  CatalogPackageOption,
+  CATALOG_PAGES,
+  CatalogPackageItem,
+  CatalogSubServiceGroup,
 } from '../utils/contract-packages-catalog.util';
 
 @Component({
@@ -65,32 +66,34 @@ import {
           </div>
         </section>
 
-        <!-- 2. SELECCIÓN DE CATEGORÍA Y PAQUETE -->
+        <!-- 2. SELECCIÓN DE PÁGINA Y SERVICIO CLASIFICADO POR OPTGROUPS -->
         <section class="tj-form-section">
-          <h2>2. Selección de Servicio por Categoría</h2>
+          <h2>2. Selección de Servicio por Página y Formato</h2>
 
           <div class="tj-form-grid">
-            <label class="tj-field">
-              <span>Tipo de Servicio (Categoría) *</span>
+            <label class="tj-field tj-field--full">
+              <span>Página de Servicio TECNOJACK *</span>
               <select
-                [ngModel]="selectedCategoryId()"
-                (ngModelChange)="onCategorySelected($event)"
-                name="selectedCategoryId">
-                <option *ngFor="let cat of catalogCategories" [value]="cat.id">
-                  {{ cat.label }}
+                [ngModel]="selectedPageId()"
+                (ngModelChange)="onPageSelected($event)"
+                name="selectedPageId">
+                <option *ngFor="let page of catalogPages" [value]="page.id">
+                  {{ page.label }}
                 </option>
               </select>
             </label>
 
-            <label class="tj-field">
-              <span>Paquete o Servicio Exacto *</span>
+            <label class="tj-field tj-field--full">
+              <span>Servicio / Paquete Exacto (Agrupado por Sub-Servicio) *</span>
               <select
                 [ngModel]="selectedPackageId()"
                 (ngModelChange)="onPackageSelected($event)"
                 name="selectedPackageId">
-                <option *ngFor="let pkg of availablePackages()" [value]="pkg.id">
-                  {{ pkg.packageName }} — {{ formatCop(pkg.priceAmountCop) }}
-                </option>
+                <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📌 ' + group.groupName">
+                  <option *ngFor="let pkg of group.packages" [value]="pkg.id">
+                    {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
+                  </option>
+                </optgroup>
               </select>
             </label>
 
@@ -281,6 +284,8 @@ import {
       color: #fff;
       font-size: 0.95rem;
     }
+    optgroup { background: #0c1822; color: var(--portfolio-accent, #ffb800); font-weight: 700; }
+    option { background: #112233; color: #ffffff; font-weight: 400; }
     .tj-advance-selector {
       display: grid;
       gap: 8px;
@@ -371,9 +376,9 @@ export class AdminContractFormPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  readonly catalogCategories = CONTRACT_CATALOG_CATEGORIES;
-  readonly selectedCategoryId = signal<string>('bodas');
-  readonly selectedPackageId = signal<string>('boda-esencial');
+  readonly catalogPages = CATALOG_PAGES;
+  readonly selectedPageId = signal<string>('bodas');
+  readonly selectedPackageId = signal<string>('');
 
   readonly isEditMode = signal(false);
   readonly isSubmitting = signal(false);
@@ -421,35 +426,47 @@ export class AdminContractFormPageComponent implements OnInit {
       this.isEditMode.set(true);
       this.loadExistingContract(this.contractId);
     } else {
-      this.onPackageSelected('boda-esencial');
+      const groups = this.currentSubServiceGroups();
+      if (groups.length > 0 && groups[0].packages.length > 0) {
+        this.onPackageSelected(groups[0].packages[0].id);
+      }
     }
   }
 
-  availablePackages(): CatalogPackageOption[] {
-    const catId = this.selectedCategoryId();
-    const cat = this.catalogCategories.find((c) => c.id === catId);
-    return cat ? cat.packages : [];
+  currentSubServiceGroups(): CatalogSubServiceGroup[] {
+    const pageId = this.selectedPageId();
+    const page = this.catalogPages.find((p) => p.id === pageId);
+    return page ? page.subServiceGroups : [];
   }
 
-  onCategorySelected(catId: string): void {
-    this.selectedCategoryId.set(catId);
-    const pkgs = this.availablePackages();
-    if (pkgs.length > 0) {
-      this.onPackageSelected(pkgs[0].id);
+  onPageSelected(pageId: string): void {
+    this.selectedPageId.set(pageId);
+    const groups = this.currentSubServiceGroups();
+    if (groups.length > 0 && groups[0].packages.length > 0) {
+      this.onPackageSelected(groups[0].packages[0].id);
     }
   }
 
   onPackageSelected(pkgId: string): void {
     this.selectedPackageId.set(pkgId);
-    const pkgs = this.availablePackages();
-    const pkg = pkgs.find((p) => p.id === pkgId);
-    if (!pkg) return;
+    const groups = this.currentSubServiceGroups();
 
-    this.service.category = pkg.category;
-    this.service.packageName = pkg.packageName;
-    this.featuresText = pkg.features.join('\n');
-    this.deliverablesText = pkg.deliverables.join('\n');
-    this.baseAmount = pkg.priceAmountCop;
+    let foundPkg: CatalogPackageItem | undefined;
+    for (const g of groups) {
+      const match = g.packages.find((p) => p.id === pkgId);
+      if (match) {
+        foundPkg = match;
+        break;
+      }
+    }
+
+    if (!foundPkg) return;
+
+    this.service.category = foundPkg.category;
+    this.service.packageName = foundPkg.packageName;
+    this.featuresText = foundPkg.features.join('\n');
+    this.deliverablesText = foundPkg.deliverables.join('\n');
+    this.baseAmount = foundPkg.priceAmountCop;
     this.recalculate();
   }
 
@@ -505,7 +522,7 @@ export class AdminContractFormPageComponent implements OnInit {
     }
 
     if (!this.service.packageName.trim()) {
-      alert('Por favor ingresa o selecciona el nombre del paquete o servicio.');
+      alert('Por favor selecciona el paquete o servicio.');
       return;
     }
 

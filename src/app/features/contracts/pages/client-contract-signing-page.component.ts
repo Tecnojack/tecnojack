@@ -20,9 +20,10 @@ import {
   CURRENT_TERMS_VERSION,
 } from '../utils/contract-template-builder.util';
 import {
-  CONTRACT_CATALOG_CATEGORIES,
-  CatalogCategory,
-  CatalogPackageOption,
+  CATALOG_PAGES,
+  CatalogPageConfig,
+  CatalogPackageItem,
+  CatalogSubServiceGroup,
 } from '../utils/contract-packages-catalog.util';
 import { SignaturePadComponent, SignatureOutput } from '../components/signature-pad.component';
 import { PdfViewerModalComponent } from '../components/pdf-viewer-modal.component';
@@ -53,7 +54,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
       <main class="tj-contract-client-page">
         <!-- ESTADO CARGANDO / ERROR -->
         <div *ngIf="isLoading()" class="tj-state-card">
-          <p>Cargando plantilla de contratación digital...</p>
+          <p>Cargando catálogo oficial de contratación digital...</p>
         </div>
 
         <div *ngIf="errorMessage()" class="tj-state-card tj-state-card--error">
@@ -98,34 +99,36 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: SELECCIÓN DE CATEGORÍA Y PAQUETE -->
+            <!-- PASO 1: SELECCIÓN DE PÁGINA Y SERVICIO/PAQUETE CLASIFICADO -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
               <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
-              <h2>Selecciona la Categoría y el Paquete Contratado</h2>
-              <p class="tj-step-lead">Elige primero la categoría de tu evento y luego selecciona el servicio exacto negociado con TECNOJACK.</p>
+              <h2>Selecciona tu Página de Servicio y Paquete Contratado</h2>
+              <p class="tj-step-lead">Selecciona la línea de servicio y el paquete exacto clasificado por formato.</p>
 
               <div class="tj-form-grid">
-                <!-- CASILLA 1: TIPO DE SERVICIO / CATEGORÍA -->
+                <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
                 <label class="tj-field tj-field--full">
-                  <span>1. Tipo de Servicio (Categoría) *</span>
+                  <span>1. Tipo de Servicio (Página de Servicio TECNOJACK) *</span>
                   <select
-                    [ngModel]="selectedCategoryId()"
-                    (ngModelChange)="onCategorySelected($event)">
-                    <option *ngFor="let cat of catalogCategories" [value]="cat.id">
-                      {{ cat.label }}
+                    [ngModel]="selectedPageId()"
+                    (ngModelChange)="onPageSelected($event)">
+                    <option *ngFor="let page of catalogPages" [value]="page.id">
+                      {{ page.label }}
                     </option>
                   </select>
                 </label>
 
-                <!-- CASILLA 2: LISTA DEL SERVICIO EXACTO ELEGIDO -->
+                <!-- CASILLA 2: LISTA DE SERVICIOS AGRUPADOS POR SUB-SERVICIO -->
                 <label class="tj-field tj-field--full">
-                  <span>2. Servicio Exacto Seleccionado *</span>
+                  <span>2. Servicio / Paquete Exacto (Clasificado por Sub-Servicio) *</span>
                   <select
                     [ngModel]="selectedPackageId()"
                     (ngModelChange)="onPackageSelected($event)">
-                    <option *ngFor="let pkg of availablePackages()" [value]="pkg.id">
-                      {{ pkg.packageName }} — {{ formatCop(pkg.priceAmountCop) }}
-                    </option>
+                    <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📌 ' + group.groupName">
+                      <option *ngFor="let pkg of group.packages" [value]="pkg.id">
+                        {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
+                      </option>
+                    </optgroup>
                   </select>
                 </label>
 
@@ -141,7 +144,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
               </div>
 
-              <!-- DESCRIPCIÓN Y COBERTURA CARGADAS AUTOMÁTICAMENTE -->
+              <!-- DETALLES DE COBERTURA Y ENTREGABLES PRECARGADOS -->
               <div class="tj-details-list" *ngIf="c.service.features.length">
                 <h3>Cobertura y Características del Servicio</h3>
                 <ul>
@@ -477,6 +480,8 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-field--full { grid-column: 1 / -1; }
     .tj-field span { font-size: 0.82rem; color: #94a3b8; }
     .tj-field input, .tj-field select { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line, rgba(255,255,255,0.2)); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.95rem; }
+    optgroup { background: #0c1822; color: var(--portfolio-accent, #ffb800); font-weight: 700; }
+    option { background: #112233; color: #ffffff; font-weight: 400; }
     .tj-financial-box { padding: 20px; border-radius: 16px; border: 1px solid rgba(0,151,178,0.3); background: rgba(0,151,178,0.08); display: grid; gap: 10px; }
     .tj-fin-row { display: flex; justify-content: space-between; font-size: 0.95rem; }
     .tj-fin-total { padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 1.1rem; }
@@ -507,7 +512,7 @@ export class ClientContractSigningPageComponent implements OnInit {
   private readonly contractClient = inject(ContractClientService);
   private readonly content = inject(PortfolioContentService);
 
-  readonly catalogCategories = CONTRACT_CATALOG_CATEGORIES;
+  readonly catalogPages = CATALOG_PAGES;
 
   readonly contract = signal<ContractDocument | null>(null);
   readonly isLoading = signal(true);
@@ -519,8 +524,8 @@ export class ClientContractSigningPageComponent implements OnInit {
   readonly isGenericMode = signal(false);
   readonly downloadUrl = signal<string | undefined>(undefined);
 
-  readonly selectedCategoryId = signal<string>('bodas');
-  readonly selectedPackageId = signal<string>('boda-esencial');
+  readonly selectedPageId = signal<string>('bodas');
+  readonly selectedPackageId = signal<string>('');
 
   clientForm: ContractClientInfo = {
     fullName: '',
@@ -552,40 +557,49 @@ export class ClientContractSigningPageComponent implements OnInit {
     }
   }
 
-  availablePackages(): CatalogPackageOption[] {
-    const catId = this.selectedCategoryId();
-    const cat = this.catalogCategories.find((c) => c.id === catId);
-    return cat ? cat.packages : [];
+  currentSubServiceGroups(): CatalogSubServiceGroup[] {
+    const pageId = this.selectedPageId();
+    const page = this.catalogPages.find((p) => p.id === pageId);
+    return page ? page.subServiceGroups : [];
   }
 
-  onCategorySelected(catId: string): void {
-    this.selectedCategoryId.set(catId);
-    const pkgs = this.availablePackages();
-    if (pkgs.length > 0) {
-      this.onPackageSelected(pkgs[0].id);
+  onPageSelected(pageId: string): void {
+    this.selectedPageId.set(pageId);
+    const groups = this.currentSubServiceGroups();
+    if (groups.length > 0 && groups[0].packages.length > 0) {
+      this.onPackageSelected(groups[0].packages[0].id);
     }
   }
 
   onPackageSelected(pkgId: string): void {
     this.selectedPackageId.set(pkgId);
-    const pkgs = this.availablePackages();
-    const pkg = pkgs.find((p) => p.id === pkgId);
-    if (!pkg) return;
+    const groups = this.currentSubServiceGroups();
+
+    let foundPkg: CatalogPackageItem | undefined;
+    for (const g of groups) {
+      const match = g.packages.find((p) => p.id === pkgId);
+      if (match) {
+        foundPkg = match;
+        break;
+      }
+    }
+
+    if (!foundPkg) return;
 
     const c = this.contract();
     if (!c) return;
 
-    const total = pkg.priceAmountCop;
+    const total = foundPkg.priceAmountCop;
     const paid = Math.round(total * 0.4);
     const remaining = total - paid;
 
     const service: ContractServiceInfo = {
       ...c.service,
-      category: pkg.category,
-      packageName: pkg.packageName,
-      description: pkg.description,
-      features: [...pkg.features],
-      deliverables: [...pkg.deliverables],
+      category: foundPkg.category,
+      packageName: foundPkg.packageName,
+      description: foundPkg.lead,
+      features: [...foundPkg.features],
+      deliverables: [...foundPkg.deliverables],
     };
 
     const payment: ContractPaymentInfo = {
@@ -612,7 +626,11 @@ export class ClientContractSigningPageComponent implements OnInit {
     const generic = this.buildGenericContractDoc();
     this.contract.set(generic);
     this.isLoading.set(false);
-    this.onPackageSelected('boda-esencial');
+
+    const groups = this.currentSubServiceGroups();
+    if (groups.length > 0 && groups[0].packages.length > 0) {
+      this.onPackageSelected(groups[0].packages[0].id);
+    }
   }
 
   async loadContract(token: string): Promise<void> {
@@ -814,13 +832,11 @@ export class ClientContractSigningPageComponent implements OnInit {
       features: [
         'Cobertura de hasta 6 horas continuas de evento',
         '1 Fotógrafo principal + 1 Videógrafo dedicado',
-        'Dirección estética de momentos destacados (preparativos, ceremonia, brindis)',
-        'Equipos de cámara full frame y lentes luminosos para baja luz',
+        'Dirección estética de momentos destacados',
       ],
       deliverables: [
-        'Galería digital privada con 350+ fotografías editadas en alta resolución',
-        'Video Highlight / Teaser de 3 a 5 minutos en HD/4K',
-        'Derechos de uso personal y descarga digital sin marcas de agua',
+        'Galería digital privada con fotografías editadas en alta resolución',
+        'Video Highlight / Teaser en HD/4K',
       ],
       additionalServices: [],
     };
