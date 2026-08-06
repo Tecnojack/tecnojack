@@ -155,7 +155,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
               </div>
 
-              <!-- SERVICIOS ADICIONALES SIMPLIFICADOS: NOMBRE, PRECIO, BOTÓN DE AGREGAR -->
+              <!-- SERVICIOS ADICIONALES SIMPLIFICADOS (2 EN LÍNEA) -->
               <div class="tj-addons-section" *ngIf="currentPackageAddons().length">
                 <h3>Servicios Adicionales Disponibles</h3>
 
@@ -228,7 +228,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
 
                 <label class="tj-field">
-                  <span>Número de documento *</span>
+                  <span>Número de documento (Cédula/ID) *</span>
                   <input type="text" [(ngModel)]="clientForm.documentNumber" (input)="updateContractSnapshot()" placeholder="Número de documento" />
                 </label>
 
@@ -405,28 +405,38 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               </div>
             </section>
 
-            <!-- PASO 5: POLÍTICAS Y AUTORIZACIONES INDEPENDIENTES -->
+            <!-- PASO 5: POLÍTICAS Y AUTORIZACIONES CON HIPERVÍNCULOS EXPLÍCITOS -->
             <section *ngIf="currentStep() === 5" class="tj-step-panel">
               <span class="tj-step-tag">Paso 5 de 8 · Políticas y Autorizaciones</span>
               <h2>Aceptaciones Legales Independientes</h2>
-              <p class="tj-step-lead">Marca cada casilla requerida para otorgar tu consentimiento explícito.</p>
+              <p class="tj-step-lead">Marca cada casilla requerida para otorgar tu consentimiento explícito. Puedes hacer clic en los enlaces para leer el documento completo.</p>
 
               <div class="tj-acceptances-list">
-                <!-- 1. Términos -->
+                <!-- 1. Términos con Hipervínculo -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.termsAccepted" />
                   <div>
                     <strong>1. Términos y Condiciones *</strong>
-                    <p>Declaro que he leído y acepto los Términos y Condiciones de TECNOJACK publicados en https://tecnojack.co/terminos-y-condiciones.</p>
+                    <p>
+                      Declaro que he leído y acepto los
+                      <a href="https://tecnojack.co/terminos-y-condiciones" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
+                        Términos y Condiciones Generales de TECNOJACK ↗
+                      </a>.
+                    </p>
                   </div>
                 </label>
 
-                <!-- 2. Tratamiento de Datos -->
+                <!-- 2. Tratamiento de Datos con Hipervínculo -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.privacyAccepted" />
                   <div>
-                    <strong>2. Tratamiento de Datos Personales *</strong>
-                    <p>Autorizo a TECNOJACK para recolectar, almacenar y tratar mis datos personales suministrados para la gestión del contrato.</p>
+                    <strong>2. Tratamiento de Datos Personales (Habeas Data) *</strong>
+                    <p>
+                      Autorizo a TECNOJACK para recolectar y tratar mis datos personales suministrados conforme a la
+                      <a href="https://tecnojack.co/politica-de-privacidad" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
+                        Política de Privacidad y Tratamiento de Datos ↗
+                      </a>.
+                    </p>
                   </div>
                 </label>
 
@@ -439,12 +449,17 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   </div>
                 </label>
 
-                <!-- 4. Consentimiento Firma -->
+                <!-- 4. Consentimiento Firma con Hipervínculo -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.electronicSignatureAccepted" />
                   <div>
-                    <strong>4. Firma Electrónica *</strong>
-                    <p>Acepto utilizar este mecanismo de firma electrónica para manifestar mi consentimiento libre e inequívoco sobre el contrato.</p>
+                    <strong>4. Firma Electrónica y Validez Legal *</strong>
+                    <p>
+                      Acepto utilizar este mecanismo de firma electrónica de acuerdo a las
+                      <a href="https://tecnojack.co/terminos-y-condiciones#firma-electronica" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
+                        Condiciones de Validez y Firma Digital ↗
+                      </a>.
+                    </p>
                   </div>
                 </label>
 
@@ -586,7 +601,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-details-list h3 { margin: 0 0 8px; font-size: 1rem; color: var(--portfolio-accent, #ffb800); }
     .tj-details-list ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: #cbd5e1; font-size: 0.92rem; }
     
-    /* ADICIONALES SIMPLIFICADOS ESTILOS */
+    /* ADICIONALES SIMPLIFICADOS ESTILOS (2 EN LÍNEA) */
     .tj-addons-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, rgba(255,255,255,0.1)); }
     .tj-addons-section h3 { margin: 0 0 12px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
     .tj-addons-simple-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
@@ -642,6 +657,8 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-accept-card { display: flex; gap: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line, rgba(255,255,255,0.12)); background: rgba(255,255,255,0.03); cursor: pointer; }
     .tj-accept-card--image { display: grid; gap: 10px; cursor: default; }
     .tj-accept-card p { margin: 4px 0 0; font-size: 0.86rem; color: #94a3b8; line-height: 1.45; }
+    .tj-accept-link { color: var(--portfolio-brand, #0097b2); text-decoration: underline; font-weight: 600; transition: color 150ms ease; }
+    .tj-accept-link:hover { color: var(--portfolio-accent, #ffb800); }
     .tj-radio-stack { display: grid; gap: 10px; margin-top: 6px; }
     .tj-radio-stack label { display: flex; gap: 10px; cursor: pointer; font-size: 0.88rem; color: #cbd5e1; }
     .tj-wizard-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 16px; flex-wrap: wrap; }
@@ -946,8 +963,13 @@ export class ClientContractSigningPageComponent implements OnInit {
       ...this.clientForm,
     };
 
+    const docNumClean = (this.clientForm.documentNumber || '').trim();
+    const contractNumber = docNumClean
+      ? `TJ-${new Date().getFullYear()}-${docNumClean}`
+      : c.contractNumber;
+
     const contractText = buildContractText({
-      contractNumber: c.contractNumber,
+      contractNumber,
       client: updatedClient,
       service: c.service,
       payment: c.payment,
@@ -955,6 +977,7 @@ export class ClientContractSigningPageComponent implements OnInit {
 
     this.contract.set({
       ...c,
+      contractNumber,
       client: updatedClient,
       snapshot: {
         ...c.snapshot,
@@ -1158,7 +1181,7 @@ export class ClientContractSigningPageComponent implements OnInit {
       confirmedAt: now,
     };
 
-    const contractNumber = `TJ-${new Date().getFullYear()}-GENERICO`;
+    const contractNumber = `TJ-${new Date().getFullYear()}-DIGITAL`;
 
     const contractText = buildContractText({
       contractNumber,

@@ -52,7 +52,7 @@ function sanitizeWinAnsi(text: string): string {
 }
 
 /**
- * Genera el PDF contractual definitivo o de vista previa siguiendo la especificación visual premium de 4 páginas.
+ * Genera el PDF contractual definitivo o de vista previa siguiendo la especificación visual premium.
  */
 export async function generateClientContractPdf(
   contractOrVm: ContractDocument | ContractPdfViewModel,
@@ -561,12 +561,12 @@ export async function generateClientContractPdf(
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PÁGINA FINAL: ANEXOS Y EVIDENCIA DIGITAL
+  // PÁGINA FINAL: ANEXOS Y EVIDENCIA DE FIRMA
   // ═══════════════════════════════════════════════════════════════════════════
   let pageFinal = createPage();
   y = pageHeight - margin - 20;
 
-  pageFinal.drawText(safeText('ANEXOS Y EVIDENCIA DIGITAL'), {
+  pageFinal.drawText(safeText('ANEXOS Y EVIDENCIA DE FIRMA'), {
     x: margin,
     y,
     size: 13,
@@ -575,7 +575,7 @@ export async function generateClientContractPdf(
   });
 
   y -= 14;
-  pageFinal.drawText(safeText('Desglose financiero definitivo, firma electronica e integridad del documento.'), {
+  pageFinal.drawText(safeText('Desglose financiero definitivo y firma electronica de conformidad.'), {
     x: margin,
     y,
     size: 8.5,
@@ -641,9 +641,9 @@ export async function generateClientContractPdf(
     ry -= 14;
   });
 
-  y -= 125;
+  y -= 135;
 
-  // B. FIRMA ELECTRÓNICA DE AUDITORÍA (3 Columnas)
+  // B. REGISTRO Y EVIDENCIA DE FIRMA ELECTRÓNICA
   pageFinal.drawText(safeText('B. REGISTRO Y EVIDENCIA DE FIRMA ELECTRONICA'), {
     x: margin,
     y,
@@ -656,9 +656,9 @@ export async function generateClientContractPdf(
 
   pageFinal.drawRectangle({
     x: margin,
-    y: y - 95,
+    y: y - 105,
     width: contentWidth,
-    height: 95,
+    height: 105,
     color: COLOR_SURFACE,
     borderColor: COLOR_BORDER,
     borderWidth: 1,
@@ -676,87 +676,37 @@ export async function generateClientContractPdf(
 
       pageFinal.drawImage(pngImage, {
         x: margin + 8,
-        y: y - 85,
-        width: 120,
-        height: 55,
+        y: y - 90,
+        width: 130,
+        height: 60,
       });
     } catch (e) {
       pageFinal.drawText(safeText('[FIRMA ELECTRONICA REGISTRADA]'), {
         x: margin + 10,
-        y: y - 50,
+        y: y - 55,
         size: 8,
         font: fontBold,
         color: COLOR_TEAL_DARK,
       });
     }
   } else {
-    pageFinal.drawText(safeText(`FIRMA DIGITAL:`), { x: margin + 10, y: y - 30, size: 7.5, font: fontBold, color: COLOR_MUTED });
-    pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: margin + 10, y: y - 48, size: 9, font: fontBold, color: COLOR_TEAL_DARK });
+    pageFinal.drawText(safeText(`FIRMA DIGITAL:`), { x: margin + 10, y: y - 35, size: 7.5, font: fontBold, color: COLOR_MUTED });
+    pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: margin + 10, y: y - 55, size: 9, font: fontBold, color: COLOR_TEAL_DARK });
   }
 
   // Columna 2: Datos Firmante
   const col2X = margin + sigColW + 10;
-  pageFinal.drawText(safeText(`Firmado por:`), { x: col2X, y: y - 18, size: 7.5, font: fontBold, color: COLOR_MUTED });
-  pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: col2X, y: y - 30, size: 8, font: fontBold, color: COLOR_INK });
-  pageFinal.drawText(safeText(`Documento: ${sig?.signerDocument || vm.client.documentNumber}`), { x: col2X, y: y - 44, size: 7.5, font: fontRegular, color: COLOR_MUTED });
-  pageFinal.drawText(safeText(`Metodo: ${sig?.method || 'Firma electronica trazable'}`), { x: col2X, y: y - 58, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`Firmado por:`), { x: col2X, y: y - 20, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: col2X, y: y - 34, size: 8, font: fontBold, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Documento: ${sig?.signerDocument || vm.client.documentNumber}`), { x: col2X, y: y - 50, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`Metodo: ${sig?.method || 'Firma electronica trazable'}`), { x: col2X, y: y - 66, size: 7.5, font: fontRegular, color: COLOR_MUTED });
 
   // Columna 3: Timestamp y Estado
   const col3X = margin + sigColW * 2 + 10;
-  pageFinal.drawText(safeText(`Fecha y hora:`), { x: col3X, y: y - 18, size: 7.5, font: fontBold, color: COLOR_MUTED });
-  pageFinal.drawText(safeText(sig?.signedAt || vm.signedAt || 'Pendiente'), { x: col3X, y: y - 30, size: 7.5, font: fontRegular, color: COLOR_INK });
-  pageFinal.drawText(safeText(`Estado: ${vm.status}`), { x: col3X, y: y - 44, size: 7.5, font: fontBold, color: COLOR_SUCCESS });
-  pageFinal.drawText(safeText(`Contrato N: ${vm.contractNumber}`), { x: col3X, y: y - 58, size: 7.5, font: fontRegular, color: COLOR_MUTED });
-
-  y -= 110;
-
-  // C. INTEGRIDAD Y AUDITORÍA SHA-256
-  pageFinal.drawText(safeText('C. COMPROBANTE DE INTEGRIDAD Y TRAZABILIDAD'), {
-    x: margin,
-    y,
-    size: 9,
-    font: fontBold,
-    color: COLOR_TEAL_DARK,
-  });
-
-  y -= 12;
-
-  pageFinal.drawRectangle({
-    x: margin,
-    y: y - 60,
-    width: contentWidth,
-    height: 60,
-    color: COLOR_SURFACE,
-    borderColor: COLOR_BORDER,
-    borderWidth: 1,
-  });
-
-  // Generar Hash SHA-256 real sobre el PDF o usar el de la entidad
-  const integritySha = vm.integrity?.sha256 || `SHA256-TECNOJACK-CONTRACT-VERIFIED-${vm.contractNumber}`;
-
-  pageFinal.drawText(safeText(`Hash SHA-256: ${integritySha}`), {
-    x: margin + 10,
-    y: y - 16,
-    size: 7,
-    font: fontRegular,
-    color: COLOR_MUTED,
-  });
-
-  pageFinal.drawText(safeText(`Version plantilla: ${vm.integrity?.contractVersion || '1.0.0'} | Version T&C: ${vm.integrity?.termsVersion || '1.0.0'} | ID Registro: ${vm.integrity?.recordId || vm.contractNumber}`), {
-    x: margin + 10,
-    y: y - 30,
-    size: 7,
-    font: fontRegular,
-    color: COLOR_MUTED,
-  });
-
-  pageFinal.drawText(safeText('Documento firmado electronicamente. Este PDF representa el snapshot contractual definitivo. Cualquier cambio posterior debe realizarse mediante adenda o un nuevo contrato.'), {
-    x: margin + 10,
-    y: y - 46,
-    size: 6.8,
-    font: fontOblique,
-    color: COLOR_MUTED,
-  });
+  pageFinal.drawText(safeText(`Fecha y hora:`), { x: col3X, y: y - 20, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(sig?.signedAt || vm.signedAt || 'Pendiente'), { x: col3X, y: y - 34, size: 7.5, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Estado: ${vm.status}`), { x: col3X, y: y - 50, size: 7.5, font: fontBold, color: COLOR_SUCCESS });
+  pageFinal.drawText(safeText(`Contrato N: ${vm.contractNumber}`), { x: col3X, y: y - 66, size: 7.5, font: fontRegular, color: COLOR_MUTED });
 
   // Aplicar encabezado y pie en todas las páginas generadas
   applyHeaderAndFooter();
@@ -766,8 +716,7 @@ export async function generateClientContractPdf(
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const downloadUrl = URL.createObjectURL(blob);
 
-  // Calcular SHA-256 Digest real sobre los bytes finales
-  let sha256Hex = integritySha;
+  let sha256Hex = `SHA256-TECNOJACK-${vm.contractNumber}`;
   try {
     if (typeof crypto !== 'undefined' && crypto.subtle) {
       const hashBuffer = await crypto.subtle.digest('SHA-256', pdfBytes);
