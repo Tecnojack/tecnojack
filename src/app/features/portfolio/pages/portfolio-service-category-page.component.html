@@ -52,7 +52,7 @@
                 [lead]="section.lead ?? ''"
                 [packages]="section.cards"
                 [initiallyOpen]="index === 0"
-                (openPackage)="openPackageModal($event)">
+                (openPackage)="openPackageDetails($event)">
             </tj-portfolio-category-accordion>
         </div>
 
@@ -108,7 +108,7 @@
                                     <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
                                 </ul>
 
-                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageModal(item.detail.slug)">
+                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug)">
                                     Ver detalle
                                 </button>
                             </div>
@@ -428,7 +428,7 @@
                         <div class="service-package-request__builder">
                             <section class="service-package-request__group" *ngFor="let group of simpleAdditionalGroups()">
                                 <div class="service-package-request__group-head">
-                                    <p>Servicios adicionales</p>
+                                    <p>Opciones disponibles</p>
                                     <span>{{ group.description || 'Elige los adicionales que quieres incluir en tu solicitud.' }}</span>
                                 </div>
 
@@ -460,7 +460,7 @@
                     </details>
 
                     <details class="service-package-request__accordion" *ngIf="relatedPackageGroups().length">
-                        <summary class="service-package-request__accordion-summary">Experiencias relacionadas</summary>
+                        <summary class="service-package-request__accordion-summary">Otros servicios para tu historia</summary>
                         <div class="service-package-request__builder">
                             <section class="service-package-request__group" *ngFor="let group of relatedPackageGroups()">
                                 <div class="service-package-request__group-head">
@@ -478,7 +478,7 @@
                                                 [href]="linkedHref"
                                                 target="_blank"
                                                 rel="noopener">
-                                                Ver paquete y entregables
+                                                Consultar detalles del paquete
                                             </a>
                                         </div>
 

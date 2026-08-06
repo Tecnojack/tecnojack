@@ -1172,6 +1172,19 @@ export type WeddingCivilPlan = {
   featured?: boolean;
 };
 
+export type WeddingProposalPlan = {
+  slug: string;
+  name: string;
+  priceLines: string[];
+  amountCop: number;
+  lead: string;
+  image: string;
+  features: string[];
+  deliverables: string[];
+  coverage: string[];
+  featured?: boolean;
+};
+
 export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
   {
     slug: 'video-bodas-elemental',
@@ -1261,7 +1274,7 @@ export const weddingCivilPlans: WeddingCivilPlan[] = [
     priceLines: ['550.000 COP'],
     amountCop: 550000,
     lead: 'Una cobertura cercana y precisa para conservar los momentos esenciales de tu ceremonia civil.',
-    image: 'assets/images/galery/M&D-16.jpg',
+    image: 'assets/images/stock/boda-civil/civil-esencial.jpg',
     features: ['1 fotógrafo', 'Duración de 2 horas', 'Dirección de pareja y fotografías familiares'],
     deliverables: [
       'Hasta 50 fotografías finales, seleccionadas y editadas',
@@ -1276,7 +1289,7 @@ export const weddingCivilPlans: WeddingCivilPlan[] = [
     priceLines: ['850.000 COP'],
     amountCop: 850000,
     lead: 'Una narrativa más completa que acompaña la llegada, la ceremonia y una celebración breve.',
-    image: 'assets/images/galery/M&D-29.jpg',
+    image: 'assets/images/stock/boda-civil/civil-completa.jpg',
     features: ['1 fotógrafo', 'Duración de 3 horas', 'Dirección creativa de pareja y grupos'],
     deliverables: [
       'Hasta 100 fotografías finales, seleccionadas y editadas',
@@ -1294,7 +1307,7 @@ export const weddingCivilPlans: WeddingCivilPlan[] = [
     priceLines: ["1'350.000 COP"],
     amountCop: 1350000,
     lead: 'Fotografía y video coordinados para contar la ceremonia civil con una mirada más completa.',
-    image: 'assets/images/galery/M&D-30.jpg',
+    image: 'assets/images/stock/boda-civil/civil-hibrida.jpg',
     features: ['1 fotógrafo y 1 videógrafo', 'Duración de 4 horas', 'Reunión breve de planeación', 'Dirección audiovisual'],
     deliverables: [
       'Hasta 120 fotografías finales, seleccionadas y editadas',
@@ -1304,6 +1317,59 @@ export const weddingCivilPlans: WeddingCivilPlan[] = [
       'Entrega final en alta resolución por Google Drive'
     ],
     coverage: ['Llegada o preparación breve', 'Ceremonia civil', 'Firma de documentos y anillos', 'Familiares e invitados', 'Sesión de pareja', 'Brindis o recepción']
+  }
+];
+
+export const weddingProposalPlans: WeddingProposalPlan[] = [
+  {
+    slug: 'peticion-esencial',
+    name: 'Petición Esencial',
+    priceLines: ['450.000 COP'],
+    amountCop: 450000,
+    lead: 'Capturamos la sorpresa con discreción y cerramos la experiencia con una sesión breve de pareja.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-esencial.jpg',
+    features: ['1 fotógrafo', 'Duración de 2 horas', 'Reunión breve de planeación', 'Coordinación de ubicación y momento clave'],
+    deliverables: [
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Galería digital privada por 1 mes',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada discreta', 'Momento de la petición', 'Reacciones', 'Sesión breve de pareja']
+  },
+  {
+    slug: 'peticion-completa',
+    name: 'Petición Completa',
+    priceLines: ['750.000 COP'],
+    amountCop: 750000,
+    lead: 'Una cobertura más cuidada para documentar la preparación, la sorpresa y la celebración posterior.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-completa.jpg',
+    features: ['1 fotógrafo y 1 asistente', 'Duración de 3 horas', 'Reunión de planeación', 'Apoyo de iluminación y coordinación discreta'],
+    deliverables: [
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 3 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Preparación del momento', 'Llegada discreta', 'Petición y reacciones', 'Sesión dirigida de pareja', 'Brindis o celebración breve'],
+    featured: true
+  },
+  {
+    slug: 'peticion-hibrida',
+    name: 'Petición Híbrida',
+    priceLines: ["1'150.000 COP"],
+    amountCop: 1150000,
+    lead: 'Fotografía y video coordinados para convertir la sorpresa en una historia audiovisual completa.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-hibrida.jpg',
+    features: ['1 fotógrafo, 1 videógrafo y 1 asistente', 'Duración de 4 horas', 'Planeación audiovisual', 'Coordinación discreta del equipo'],
+    deliverables: [
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Video principal de 2 a 4 minutos',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Preparación y detalles', 'Llegada discreta', 'Petición y reacciones', 'Sesión de pareja', 'Brindis o celebración']
   }
 ];
 
@@ -1763,7 +1829,13 @@ function buildLinkedPackageOption(
   };
 }
 
-function buildWeddingRelatedExperiencesGroup(prefix: string, includeCivil = true): PortfolioRequestOptionGroup {
+function buildWeddingRelatedExperienceGroups(
+  prefix: string,
+  includeCivil = true,
+  includeProposal = true,
+  includeMainWedding = false,
+  includePostwedding = true,
+): PortfolioRequestOptionGroup[] {
   const prebodaOptions = preweddingPlans.map((plan) => {
     const amount = Number((plan.price ?? '').replace(/\D/g, ''));
     return buildLinkedPackageOption(
@@ -1776,16 +1848,18 @@ function buildWeddingRelatedExperiencesGroup(prefix: string, includeCivil = true
     );
   });
 
-  const postbodaOptions = weddingPostweddingPlans.map((plan) =>
-    buildLinkedPackageOption(
-      `${prefix}-related-${plan.slug}`,
-      plan.name,
-      plan.priceLines[0] ?? `${plan.amountCop} COP`,
-      plan.amountCop,
-      'bodas',
-      plan.slug,
-    ),
-  );
+  const postbodaOptions = includePostwedding
+    ? weddingPostweddingPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
 
   const civilOptions = includeCivil
     ? weddingCivilPlans.map((plan) =>
@@ -1800,20 +1874,70 @@ function buildWeddingRelatedExperiencesGroup(prefix: string, includeCivil = true
       )
     : [];
 
-  return {
-    title: 'Experiencias relacionadas',
-    description: 'Añade una experiencia completa conservando su nombre, precio y entregables originales.',
-    selectable: true,
-    options: [...civilOptions, ...prebodaOptions, ...postbodaOptions],
-  };
+  const proposalOptions = includeProposal
+    ? weddingProposalPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
+
+  const mainWeddingOptions = includeMainWedding
+    ? weddingMainPlans.map((plan) => {
+        const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
+        return buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${amount} COP`,
+          amount,
+          'bodas',
+          plan.slug,
+        );
+      })
+    : [];
+
+  return [
+    {
+      title: 'Petición de mano',
+      description: 'Documenta el comienzo de la historia antes de la boda.',
+      selectable: true,
+      options: proposalOptions,
+    },
+    {
+      title: 'Boda civil',
+      description: 'Añade una cobertura independiente para la ceremonia civil.',
+      selectable: true,
+      options: civilOptions,
+    },
+    {
+      title: 'Sesión de preboda',
+      description: 'Crea fotografías de pareja antes del día de la boda.',
+      selectable: true,
+      options: prebodaOptions,
+    },
+    {
+      title: 'Cobertura principal de boda',
+      description: 'Continúa con uno de los paquetes protagonistas de foto y video.',
+      selectable: true,
+      options: mainWeddingOptions,
+    },
+    {
+      title: 'Sesión postboda',
+      description: 'Extiende la historia con una sesión después de la celebración.',
+      selectable: true,
+      options: postbodaOptions,
+    },
+  ].filter((group) => group.options.length > 0);
 }
 
-function buildPreweddingWeddingOptionsGroup(prefix: string): PortfolioRequestOptionGroup {
-  return {
-    title: 'Continúa con la cobertura de boda',
-    description: 'Conecta tu preboda con uno de nuestros paquetes principales de foto y video.',
-    selectable: true,
-    options: [...weddingMainPlans, ...weddingCivilPlans].map((plan) => {
+function buildPreweddingWeddingOptionGroups(prefix: string): PortfolioRequestOptionGroup[] {
+  const buildOptions = (plans: Array<{ slug: string; name: string; priceLines: string[] }>) =>
+    plans.map((plan) => {
       const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
       return buildLinkedPackageOption(
         `${prefix}-related-${plan.slug}`,
@@ -1823,8 +1947,28 @@ function buildPreweddingWeddingOptionsGroup(prefix: string): PortfolioRequestOpt
         'bodas',
         plan.slug,
       );
-    }),
-  };
+    });
+
+  return [
+    {
+      title: 'Cobertura principal de boda',
+      description: 'Continúa con uno de nuestros paquetes protagonistas de foto y video.',
+      selectable: true,
+      options: buildOptions(weddingMainPlans),
+    },
+    {
+      title: 'Boda civil',
+      description: 'Conecta la preboda con una cobertura independiente para la ceremonia civil.',
+      selectable: true,
+      options: buildOptions(weddingCivilPlans),
+    },
+    {
+      title: 'Petición de mano',
+      description: 'Consulta los paquetes disponibles para documentar también la petición.',
+      selectable: true,
+      options: buildOptions(weddingProposalPlans),
+    },
+  ];
 }
 
 export const portfolioPackageDetails: PortfolioPackageDetail[] = [
@@ -1931,7 +2075,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
-      buildWeddingRelatedExperiencesGroup(plan.slug),
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -2025,7 +2169,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
-      buildWeddingRelatedExperiencesGroup(plan.slug),
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -2053,7 +2197,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Entregables', items: plan.deliverables }
     ],
     requestOptionGroups: [
-      buildWeddingRelatedExperiencesGroup(plan.slug),
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda'),
     ],
     notes: weddingPackageNotes,
@@ -2098,7 +2242,52 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
-      buildWeddingRelatedExperiencesGroup(plan.slug, false),
+      ...buildWeddingRelatedExperienceGroups(plan.slug, false),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
+    ],
+    notes: weddingPackageNotes,
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name}.`)
+  })),
+  ...weddingProposalPlans.map((plan, index) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Petición de mano',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: 'Petición de mano',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Petición de mano',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Personaliza el registro audiovisual sin modificar el paquete base.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          [
+            { label: 'Hora adicional||Amplía la preparación, sesión o celebración', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Videógrafo adicional||Suma registro profesional de video al equipo', priceLabel: '350.000 COP', priceAmountCop: 350000 },
+            { label: 'Reel adicional para redes', priceLabel: '140.000 COP', priceAmountCop: 140000 },
+            { label: 'Video extendido||Versión más amplia de la petición y sus reacciones', priceLabel: '220.000 COP', priceAmountCop: 220000 },
+            { label: 'Cuadro fotográfico adicional 60 x 40 cm', priceLabel: '110.000 COP', priceAmountCop: 110000 },
+            { label: 'Edición prioritaria', priceLabel: '150.000 COP', priceAmountCop: 150000 }
+          ],
+          false
+        )
+      },
+      ...buildWeddingRelatedExperienceGroups(plan.slug, true, false, true, false),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -2331,7 +2520,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
-      buildPreweddingWeddingOptionsGroup(plan.slug),
+      ...buildPreweddingWeddingOptionGroups(plan.slug),
     ],
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} de preboda.`)
   }))

@@ -11,6 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { Observable, combineLatest, map, of, shareReplay, startWith, switchMap, catchError } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -114,6 +115,7 @@ const extrasSectionTitlePattern = /extra/i;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioServiceCategoryPageComponent {
+  private readonly router = inject(Router);
   private static readonly INITIAL_VISIBLE_IMAGES = 19;
   private static readonly VISIBLE_IMAGE_STEP = 20;
   private static readonly INITIAL_VISIBLE_STORIES = 20;
@@ -365,6 +367,8 @@ export class PortfolioServiceCategoryPageComponent {
       if (category === 'bodas') {
         const isCivil = (item: PackageCardViewModel) =>
           item.detail.packageTypeLabel === 'Boda civil';
+        const isProposal = (item: PackageCardViewModel) =>
+          item.detail.packageTypeLabel === 'Petición de mano';
         const photoOnly = cards.filter(
           (item) => item.groupKey === 'photo-only' && !isCivil(item),
         );
@@ -376,6 +380,7 @@ export class PortfolioServiceCategoryPageComponent {
             this.isVideoPackage(item) && item.groupKey !== 'photo-video' && !isCivil(item),
         );
         const civil = cards.filter(isCivil);
+        const proposals = cards.filter(isProposal);
         const postwedding = cards.filter(
           (item) => item.detail.packageTypeLabel === 'Sesión postboda',
         );
@@ -388,6 +393,7 @@ export class PortfolioServiceCategoryPageComponent {
           { title: 'Fotografía de bodas', cards: photoOnly },
           { title: 'Video de bodas', cards: videoOnly },
           { title: 'Boda civil', cards: civil },
+          { title: 'Petición de mano', cards: proposals },
           { title: 'Sesión de preboda', cards: prebodaForBodas },
           { title: 'Sesión postboda', cards: postwedding },
         ];
@@ -1150,6 +1156,22 @@ export class PortfolioServiceCategoryPageComponent {
     return this.parseUpsellLabel(label).description;
   }
 
+  openPackageDetails(slug: string): void {
+    const detail =
+      this.content.getPackageDetail(this.categoryState(), slug) ??
+      this.findPackageDetailBySlug(slug);
+    if (!detail) {
+      return;
+    }
+
+    if (detail.category === 'bodas' || detail.category === 'preboda') {
+      void this.router.navigateByUrl(`${detail.categoryHref}/${detail.slug}`);
+      return;
+    }
+
+    this.openPackageModal(slug);
+  }
+
   getLinkedPackageHref(option: PortfolioRequestOption): string | null {
     if (!option.linkedPackageCategory || !option.linkedPackageSlug) {
       return null;
@@ -1428,6 +1450,10 @@ export class PortfolioServiceCategoryPageComponent {
 
     const categoryPrefix = (() => {
       if (detail.category === 'bodas') {
+        if (/petición de mano/i.test(detail.packageTypeLabel)) {
+          return 'Petición';
+        }
+
         if (/boda civil/i.test(detail.packageTypeLabel)) {
           return 'Civil';
         }

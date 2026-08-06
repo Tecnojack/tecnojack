@@ -4,6 +4,7 @@ import {
   preweddingPlans,
   weddingCivilPlans,
   weddingPostweddingPlans,
+  weddingProposalPlans,
 } from './portfolio.data';
 
 describe('prewedding package catalog', () => {
@@ -39,20 +40,20 @@ describe('prewedding package catalog', () => {
 
   it('links related experiences to their canonical package names and prices', () => {
     const hybrid = getPortfolioPackageDetail('bodas', 'esencial-hibrido-foto-video');
-    const related = hybrid?.requestOptionGroups.find(
-      (group) => group.title === 'Experiencias relacionadas',
+    const relatedOptions = hybrid?.requestOptionGroups.flatMap((group) =>
+      group.options.filter((option) => option.linkedPackageSlug),
     );
 
-    expect(related?.options.length).toBe(10);
+    expect(relatedOptions?.length).toBe(13);
 
-    for (const option of related?.options ?? []) {
+    for (const option of relatedOptions ?? []) {
       const linked = getPortfolioPackageDetail(
         option.linkedPackageCategory,
         option.linkedPackageSlug,
       );
 
       expect(linked).withContext(option.id).toBeDefined();
-      expect(option.label).withContext(option.id).toBe(linked?.title);
+      expect(option.label).withContext(option.id).toBe(linked?.title ?? '');
       expect(option.priceAmountCop).withContext(option.id).toBe(
         linked?.baseQuoteOptions[0]?.amountCop,
       );
@@ -91,6 +92,41 @@ describe('civil wedding package catalog', () => {
 
     expect(civilPackages.length).toBe(3);
     expect(weddingCivilPlans[2]?.features).toContain('1 fotógrafo y 1 videógrafo');
+  });
+});
+
+describe('marriage proposal package catalog', () => {
+  it('uses three scaled packages with coherent prices and deliverables', () => {
+    expect(weddingProposalPlans.map((plan) => plan.name)).toEqual([
+      'Petición Esencial',
+      'Petición Completa',
+      'Petición Híbrida',
+    ]);
+    expect(weddingProposalPlans.map((plan) => plan.amountCop)).toEqual([
+      450000,
+      750000,
+      1150000,
+    ]);
+    expect(weddingProposalPlans.map((plan) => plan.deliverables[0])).toEqual([
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+    ]);
+  });
+
+  it('keeps planning in every tier and the production team explicit at the top', () => {
+    for (const plan of weddingProposalPlans) {
+      expect(plan.features.join(' ')).withContext(plan.name).toMatch(/planeación/i);
+    }
+
+    expect(weddingProposalPlans[2]?.features).toContain(
+      '1 fotógrafo, 1 videógrafo y 1 asistente',
+    );
+    expect(
+      getPortfolioPackageDetailsByCategory('bodas').filter(
+        (plan) => plan.packageTypeLabel === 'Petición de mano',
+      ).length,
+    ).toBe(3);
   });
 });
 

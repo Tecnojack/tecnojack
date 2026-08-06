@@ -19,7 +19,7 @@ describe('DestinationServiceComponent', () => {
     component.variant = 'notice';
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Transporte y gastos de viaje no incluidos');
+    expect(fixture.nativeElement.textContent).toContain('El transporte, local o de viaje, se cotiza aparte.');
   });
 
   it('recommends the complete four-person crew for hybrid services', () => {

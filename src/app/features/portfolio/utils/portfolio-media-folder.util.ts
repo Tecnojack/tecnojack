@@ -74,6 +74,11 @@ function resolvePortfolioPackageSegment(
       if (hasAny(tokens, ['completa', 'completo'])) return 'civil-completa';
       return 'civil-esencial';
 
+    case 'peticion-de-mano':
+      if (hasAny(tokens, ['hibrida'])) return 'peticion-hibrida';
+      if (hasAny(tokens, ['completa', 'completo'])) return 'peticion-completa';
+      return 'peticion-esencial';
+
     case 'fotografia-de-quince':
       if (hasAny(tokens, ['premium'])) return 'premium';
       if (hasAny(tokens, ['completa', 'completo'])) return 'completo';
@@ -109,6 +114,10 @@ function resolvePortfolioCategorySegment(
     case 'bodas':
       if (typeLabel === 'boda-civil') {
         return 'boda-civil';
+      }
+
+      if (typeLabel === 'peticion-de-mano') {
+        return 'peticion-de-mano';
       }
 
         if (typeLabel === 'foto-video') {

@@ -1384,6 +1384,12 @@ body.portfolio-request-modal-open {
     gap: 12px;
 }
 
+.portfolio-page .service-package-request__group + .service-package-request__group {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .portfolio-page :where(.service-package-request__mode-grid, .service-package-request__option-grid) {
     display: grid;
     gap: 10px;
@@ -2393,6 +2399,12 @@ h3,
 .portfolio-package-detail .package-request-group {
     display: grid;
     gap: 12px;
+}
+
+.portfolio-package-detail .package-request-group + .package-request-group {
+    margin-top: 4px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .portfolio-package-detail .package-request-group__head {
