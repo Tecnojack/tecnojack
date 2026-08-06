@@ -409,7 +409,7 @@ export class AdminContractFormPageComponent implements OnInit {
   extrasAmount = 0;
   transportAmount = 0;
   discountAmount = 0;
-  selectedOption: 40 | 80 | 100 | 'custom' = 40;
+  selectedOption: 40 | 50 | 80 | 100 | 'custom' | number = 40;
   customPaidAmount = 0;
 
   computedTotalAmount = 0;

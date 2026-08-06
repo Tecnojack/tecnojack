@@ -12,6 +12,7 @@ import {
   ContractPaymentInfo,
   ContractServiceInfo,
   ContractSignatureInfo,
+  ContractServiceAddOn,
 } from '../models/contract.model';
 import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financial.util';
 import {
@@ -24,6 +25,8 @@ import {
   CATALOG_PAGES,
   CatalogPackageItem,
   CatalogAccordionGroup,
+  CATALOG_AVAILABLE_ADDONS,
+  CatalogAddOnItem,
 } from '../utils/contract-packages-catalog.util';
 import {
   generateClientContractPdf,
@@ -107,11 +110,11 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: SELECCIÓN DE PÁGINA Y SERVICIO/PAQUETE CLASIFICADO POR ACORDEÓN -->
+            <!-- PASO 1: SELECCIÓN DE PÁGINA, SERVICIO Y SERVICIOS ADICIONALES -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
               <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
-              <h2>Selecciona tu Página de Servicio y Paquete Contratado</h2>
-              <p class="tj-step-lead">Elige primero la página del servicio y luego selecciona el paquete exacto agrupado por acordeón.</p>
+              <h2>Selecciona tu Página de Servicio, Paquete y Adicionales</h2>
+              <p class="tj-step-lead">Elige primero la página del servicio, selecciona el paquete principal y agrega los servicios adicionales que desees.</p>
 
               <div class="tj-form-grid">
                 <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
@@ -150,6 +153,29 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   <span>Ciudad o locación del evento</span>
                   <input type="text" [(ngModel)]="c.service.location" (input)="updateContractSnapshot()" placeholder="Ej. Medellín, Rionegro..." />
                 </label>
+              </div>
+
+              <!-- SERVICIOS ADICIONALES OPCIONALES DISPONIBLES -->
+              <div class="tj-addons-section">
+                <h3>Servicios Adicionales Disponibles (Opcionales)</h3>
+                <p class="tj-text-muted">Selecciona los complementos que deseas añadir al paquete contratado:</p>
+
+                <div class="tj-addons-grid">
+                  <label
+                    *ngFor="let addon of availableAddons"
+                    class="tj-addon-card"
+                    [class.selected]="isAddonSelected(addon.id)">
+                    <input
+                      type="checkbox"
+                      [checked]="isAddonSelected(addon.id)"
+                      (change)="toggleAddon(addon)" />
+                    <div class="tj-addon-info">
+                      <strong>{{ addon.name }}</strong>
+                      <p>{{ addon.description }}</p>
+                    </div>
+                    <span class="tj-addon-price">+ {{ formatCop(addon.priceAmountCop) }}</span>
+                  </label>
+                </div>
               </div>
 
               <!-- DETALLES DE COBERTURA Y ENTREGABLES PRECARGADOS -->
@@ -231,20 +257,93 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               </div>
             </section>
 
-            <!-- PASO 3: RESUMEN ECONÓMICO -->
+            <!-- PASO 3: RESUMEN ECONÓMICO Y ANTICIPO AJUSTABLE -->
             <section *ngIf="currentStep() === 3" class="tj-step-panel">
               <span class="tj-step-tag">Paso 3 de 8 · Resumen Económico</span>
-              <h2>Condiciones Económicas y Anticipo Recibido</h2>
-              <p class="tj-step-lead">Desglose de valores del paquete seleccionado y monto abonado.</p>
+              <h2>Condiciones Económicas y Selección del Anticipo</h2>
+              <p class="tj-step-lead">Revisa los valores del servicio e ingresa o selecciona el porcentaje/monto del anticipo.</p>
 
+              <!-- SELECTOR DE PORCENTAJE / MONTO DE ANTICIPO -->
+              <div class="tj-advance-selector-box">
+                <span class="tj-field-label">Selecciona el Porcentaje de Anticipo:</span>
+                <div class="tj-pills-row">
+                  <button
+                    type="button"
+                    class="tj-pill-btn"
+                    [class.active]="selectedAdvanceOption === 40"
+                    (click)="selectAdvanceOption(40)">
+                    40% (Recomendado)
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-pill-btn"
+                    [class.active]="selectedAdvanceOption === 50"
+                    (click)="selectAdvanceOption(50)">
+                    50% (Mitad)
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-pill-btn"
+                    [class.active]="selectedAdvanceOption === 80"
+                    (click)="selectAdvanceOption(80)">
+                    80% (Avanzado)
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-pill-btn"
+                    [class.active]="selectedAdvanceOption === 100"
+                    (click)="selectAdvanceOption(100)">
+                    100% (Pago Total)
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-pill-btn"
+                    [class.active]="selectedAdvanceOption === 'custom'"
+                    (click)="selectAdvanceOption('custom')">
+                    ✏️ Valor Personalizado
+                  </button>
+                </div>
+
+                <!-- CAMPO DE ENTRADA CUANDO SE SELECCIONA VALOR PERSONALIZADO -->
+                <div *ngIf="selectedAdvanceOption === 'custom'" class="tj-custom-advance-grid">
+                  <label class="tj-field">
+                    <span>Monto de Anticipo Personalizado (COP)</span>
+                    <input
+                      type="number"
+                      [ngModel]="c.payment.paidAmount"
+                      (ngModelChange)="onCustomAdvanceAmountChange($event)"
+                      placeholder="Ej. 700000" />
+                  </label>
+
+                  <label class="tj-field">
+                    <span>Porcentaje Equivalente (%)</span>
+                    <input
+                      type="number"
+                      [ngModel]="c.payment.paidPercentage"
+                      (ngModelChange)="onCustomAdvancePercentageChange($event)"
+                      placeholder="Ej. 45" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- DESGLOSE FINANCIERO COMPLETO -->
               <div class="tj-financial-box">
                 <div class="tj-fin-row">
                   <span>Valor base del servicio:</span>
                   <strong>{{ formatCop(c.payment.baseAmount, c.payment.currency) }}</strong>
                 </div>
+
+                <!-- SERVICIOS ADICIONALES SELECCIONADOS -->
+                <div *ngIf="c.service.additionalServices.length > 0" class="tj-fin-addons-list">
+                  <div *ngFor="let add of c.service.additionalServices" class="tj-fin-row tj-fin-subrow">
+                    <span>+ {{ add.name }}:</span>
+                    <span>{{ formatCop(add.value, c.payment.currency) }}</span>
+                  </div>
+                </div>
+
                 <div class="tj-fin-row" *ngIf="c.payment.extrasAmount > 0">
-                  <span>Servicios adicionales:</span>
-                  <strong>{{ formatCop(c.payment.extrasAmount, c.payment.currency) }}</strong>
+                  <span>Subtotal adicionales:</span>
+                  <strong>+ {{ formatCop(c.payment.extrasAmount, c.payment.currency) }}</strong>
                 </div>
                 <div class="tj-fin-row" *ngIf="c.payment.transportAmount > 0">
                   <span>Transporte y viáticos:</span>
@@ -260,7 +359,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   <strong>{{ formatCop(c.payment.totalAmount, c.payment.currency) }}</strong>
                 </div>
                 <div class="tj-fin-row tj-fin-advance">
-                  <span>Anticipo recibido (40% recomendado):</span>
+                  <span>Anticipo confirmado a abonar:</span>
                   <strong class="tj-text-accent">{{ formatCop(c.payment.paidAmount, c.payment.currency) }} ({{ c.payment.paidPercentage }}%)</strong>
                 </div>
                 <div class="tj-fin-row tj-fin-remaining">
@@ -410,8 +509,9 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 <p><strong>Cliente:</strong> {{ clientForm.fullName }} ({{ clientForm.documentType }} {{ clientForm.documentNumber }})</p>
                 <p><strong>Correo:</strong> {{ clientForm.email }} | <strong>Teléfono:</strong> {{ clientForm.phone }}</p>
                 <p><strong>Paquete:</strong> {{ c.service.packageName }}</p>
+                <p *ngIf="c.service.additionalServices.length"><strong>Adicionales:</strong> {{ c.service.additionalServices.length }} servicios seleccionados</p>
                 <p><strong>Valor Total:</strong> {{ formatCop(c.payment.totalAmount, c.payment.currency) }}</p>
-                <p><strong>Anticipo Confirmado:</strong> {{ formatCop(c.payment.paidAmount, c.payment.currency) }}</p>
+                <p><strong>Anticipo Confirmado:</strong> {{ formatCop(c.payment.paidAmount, c.payment.currency) }} ({{ c.payment.paidPercentage }}%)</p>
                 <p><strong>Uso de Imagen:</strong> {{ acceptances.imageUseChoice }}</p>
               </div>
 
@@ -425,7 +525,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
           </div>
         </div>
 
-        <!-- MODAL VISTA PREVIA PRELIMINAR (Renders exact same PDF template with Watermark) -->
+        <!-- MODAL VISTA PREVIA PRELIMINAR -->
         <tj-pdf-viewer-modal
           [isOpen]="isPreviewModalOpen()"
           title="Vista Previa del Contrato PDF"
@@ -481,6 +581,34 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-details-list { margin-top: 18px; }
     .tj-details-list h3 { margin: 0 0 8px; font-size: 1rem; color: var(--portfolio-accent, #ffb800); }
     .tj-details-list ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: #cbd5e1; font-size: 0.92rem; }
+    
+    /* ADICIONALES ESTILOS */
+    .tj-addons-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, rgba(255,255,255,0.1)); }
+    .tj-addons-section h3 { margin: 0 0 4px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
+    .tj-addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
+    .tj-addon-card {
+      display: flex; align-items: flex-start; gap: 12px; padding: 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); cursor: pointer; transition: all 200ms ease;
+    }
+    .tj-addon-card:hover { border-color: rgba(0,151,178,0.4); background: rgba(0,151,178,0.05); }
+    .tj-addon-card.selected { border-color: var(--portfolio-brand, #0097b2); background: rgba(0,151,178,0.12); }
+    .tj-addon-info { flex: 1; }
+    .tj-addon-info strong { display: block; font-size: 0.88rem; color: #fff; }
+    .tj-addon-info p { margin: 2px 0 0; font-size: 0.78rem; color: #94a3b8; line-height: 1.35; }
+    .tj-addon-price { font-size: 0.85rem; font-weight: 700; color: var(--portfolio-accent, #ffb800); white-space: nowrap; }
+
+    /* SELECCIÓN DE ANTICIPO ESTILOS */
+    .tj-advance-selector-box { margin-bottom: 20px; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
+    .tj-field-label { display: block; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700; color: #cbd5e1; }
+    .tj-pills-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .tj-pill-btn {
+      padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #fff;
+      font-size: 0.84rem; cursor: pointer; transition: all 200ms ease;
+    }
+    .tj-pill-btn:hover { border-color: var(--portfolio-brand, #0097b2); }
+    .tj-pill-btn.active { border-color: var(--portfolio-brand, #0097b2); background: var(--portfolio-brand, #0097b2); font-weight: 700; }
+    .tj-custom-advance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed rgba(255,255,255,0.15); }
+
     .tj-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
     .tj-field { display: grid; gap: 6px; }
     .tj-field--full { grid-column: 1 / -1; }
@@ -490,6 +618,8 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     option { background: #112233; color: #ffffff; font-weight: 400; }
     .tj-financial-box { padding: 20px; border-radius: 16px; border: 1px solid rgba(0,151,178,0.3); background: rgba(0,151,178,0.08); display: grid; gap: 10px; }
     .tj-fin-row { display: flex; justify-content: space-between; font-size: 0.95rem; }
+    .tj-fin-subrow { font-size: 0.85rem; color: #cbd5e1; padding-left: 12px; }
+    .tj-fin-addons-list { display: grid; gap: 4px; margin: 4px 0; }
     .tj-fin-total { padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 1.1rem; }
     .tj-fin-remaining { font-size: 1.05rem; }
     .tj-text-accent { color: #34d399; }
@@ -520,6 +650,7 @@ export class ClientContractSigningPageComponent implements OnInit {
   private readonly sanitizer = inject(DomSanitizer);
 
   readonly catalogPages = CATALOG_PAGES;
+  readonly availableAddons = CATALOG_AVAILABLE_ADDONS;
 
   readonly contract = signal<ContractDocument | null>(null);
   readonly isLoading = signal(true);
@@ -534,6 +665,8 @@ export class ClientContractSigningPageComponent implements OnInit {
 
   readonly selectedPageId = signal<string>('bodas');
   readonly selectedPackageId = signal<string>('');
+
+  selectedAdvanceOption: 40 | 50 | 80 | 100 | 'custom' = 40;
 
   clientForm: ContractClientInfo = {
     fullName: '',
@@ -597,9 +730,7 @@ export class ClientContractSigningPageComponent implements OnInit {
     const c = this.contract();
     if (!c) return;
 
-    const total = foundPkg.priceAmountCop;
-    const paid = Math.round(total * 0.4);
-    const remaining = total - paid;
+    const baseAmount = foundPkg.priceAmountCop;
 
     const service: ContractServiceInfo = {
       ...c.service,
@@ -610,22 +741,135 @@ export class ClientContractSigningPageComponent implements OnInit {
       deliverables: [...foundPkg.deliverables],
     };
 
-    const payment: ContractPaymentInfo = {
-      ...c.payment,
-      baseAmount: total,
-      totalAmount: total,
-      paidAmount: paid,
-      paidPercentage: 40,
-      remainingAmount: remaining,
-    };
-
     const updated: ContractDocument = {
       ...c,
       service,
-      payment,
+      payment: {
+        ...c.payment,
+        baseAmount,
+      },
     };
 
     this.contract.set(updated);
+    this.recalculateFinancials();
+  }
+
+  isAddonSelected(addonId: string): boolean {
+    const c = this.contract();
+    if (!c || !c.service.additionalServices) return false;
+    return c.service.additionalServices.some((a) => a.id === addonId);
+  }
+
+  toggleAddon(addon: CatalogAddOnItem): void {
+    const c = this.contract();
+    if (!c) return;
+
+    let addons = [...(c.service.additionalServices || [])];
+    const index = addons.findIndex((a) => a.id === addon.id);
+
+    if (index >= 0) {
+      addons.splice(index, 1);
+    } else {
+      addons.push({
+        id: addon.id,
+        name: addon.name,
+        description: addon.description,
+        value: addon.priceAmountCop,
+      });
+    }
+
+    const updated: ContractDocument = {
+      ...c,
+      service: {
+        ...c.service,
+        additionalServices: addons,
+      },
+    };
+
+    this.contract.set(updated);
+    this.recalculateFinancials();
+  }
+
+  selectAdvanceOption(option: 40 | 50 | 80 | 100 | 'custom'): void {
+    this.selectedAdvanceOption = option;
+    this.recalculateFinancials();
+  }
+
+  onCustomAdvanceAmountChange(amount: number): void {
+    const c = this.contract();
+    if (!c) return;
+
+    const validAmount = Math.max(0, Math.min(amount || 0, c.payment.totalAmount));
+    const percentage = c.payment.totalAmount > 0 ? Math.round((validAmount / c.payment.totalAmount) * 100) : 0;
+
+    const payment: ContractPaymentInfo = {
+      ...c.payment,
+      paidAmount: validAmount,
+      paidPercentage: percentage,
+      remainingAmount: c.payment.totalAmount - validAmount,
+      selectedOption: 'custom',
+    };
+
+    this.contract.set({ ...c, payment });
+    this.updateContractSnapshot();
+  }
+
+  onCustomAdvancePercentageChange(pct: number): void {
+    const c = this.contract();
+    if (!c) return;
+
+    const validPct = Math.max(0, Math.min(pct || 0, 100));
+    const amount = Math.round((c.payment.totalAmount * validPct) / 100);
+
+    const payment: ContractPaymentInfo = {
+      ...c.payment,
+      paidAmount: amount,
+      paidPercentage: validPct,
+      remainingAmount: c.payment.totalAmount - amount,
+      selectedOption: 'custom',
+    };
+
+    this.contract.set({ ...c, payment });
+    this.updateContractSnapshot();
+  }
+
+  recalculateFinancials(): void {
+    const c = this.contract();
+    if (!c) return;
+
+    const baseAmount = c.payment.baseAmount || 0;
+    const extrasAmount = (c.service.additionalServices || []).reduce((sum, add) => sum + add.value, 0);
+    const transportAmount = c.payment.transportAmount || 0;
+    const discountAmount = c.payment.discountAmount || 0;
+
+    const totalAmount = Math.max(0, baseAmount + extrasAmount + transportAmount - discountAmount);
+
+    let paidPercentage = c.payment.paidPercentage || 40;
+    if (this.selectedAdvanceOption !== 'custom') {
+      paidPercentage = this.selectedAdvanceOption;
+    }
+
+    const paidAmount = Math.round((totalAmount * paidPercentage) / 100);
+    const remainingAmount = Math.max(0, totalAmount - paidAmount);
+
+    const payment: ContractPaymentInfo = {
+      ...c.payment,
+      baseAmount,
+      extrasAmount,
+      transportAmount,
+      discountAmount,
+      totalAmount,
+      paidAmount,
+      paidPercentage,
+      remainingAmount,
+      selectedOption: this.selectedAdvanceOption,
+    };
+
+    this.contract.set({
+      ...c,
+      payment,
+    });
+
     this.updateContractSnapshot();
   }
 
@@ -667,6 +911,9 @@ export class ClientContractSigningPageComponent implements OnInit {
         city: doc.client.city || '',
         address: doc.client.address || '',
       };
+      if (doc.payment.selectedOption) {
+        this.selectedAdvanceOption = doc.payment.selectedOption as any;
+      }
     } catch (err) {
       console.warn('No se pudo cargar contrato con token. Usando modo genérico...', err);
       this.initGenericContract();
@@ -746,7 +993,6 @@ export class ClientContractSigningPageComponent implements OnInit {
     const c = this.contract();
     if (!c) return;
 
-    // Crear contrato temporal con firma para la vista previa
     const previewDoc: ContractDocument = {
       ...c,
       client: this.clientForm,

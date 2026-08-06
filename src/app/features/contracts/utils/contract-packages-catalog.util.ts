@@ -37,6 +37,52 @@ export interface CatalogPageConfig {
   subServiceGroups: CatalogAccordionGroup[];
 }
 
+export interface CatalogAddOnItem {
+  id: string;
+  name: string;
+  description: string;
+  priceAmountCop: number;
+}
+
+export const CATALOG_AVAILABLE_ADDONS: CatalogAddOnItem[] = [
+  {
+    id: 'addon-dron-4k',
+    name: 'Cobertura Aérea con Dron 4K UHD',
+    description: 'Tomas aéreas cinemáticas de alta resolución durante la ceremonia y exteriores.',
+    priceAmountCop: 350000,
+  },
+  {
+    id: 'addon-fotolibro-lujo',
+    name: 'Álbum Fotolibro Impreso de Lujo (30x30 cm)',
+    description: 'Álbum tapa dura personalizado con 40 páginas en papel fotográfico brillante.',
+    priceAmountCop: 450000,
+  },
+  {
+    id: 'addon-hora-extra',
+    name: 'Hora de Cobertura Adicional (Foto + Video)',
+    description: 'Extensión de jornada de cobertura profesional en vivo por hora adicional.',
+    priceAmountCop: 250000,
+  },
+  {
+    id: 'addon-same-day-edit',
+    name: 'Edición en Vivo Mismo Día (Same Day Edit Reel)',
+    description: 'Reel de 60s editado durante el evento proyectado en la recepción.',
+    priceAmountCop: 400000,
+  },
+  {
+    id: 'addon-segundo-fotografo',
+    name: 'Segundo Fotógrafo Profesional de Apoyo',
+    description: 'Fotógrafo secundario para capturar ángulos simultáneos y reacciones.',
+    priceAmountCop: 300000,
+  },
+  {
+    id: 'addon-sesion-estudio',
+    name: 'Sesión de Retrato en Estudio / Externa Adicional',
+    description: 'Sesión previa o posterior de 2 horas con estilismo básico e iluminación.',
+    priceAmountCop: 350000,
+  },
+];
+
 function parsePriceCop(priceStr?: string | string[], fallbackAmount?: number): number {
   if (fallbackAmount && fallbackAmount > 0) {
     return fallbackAmount;
@@ -53,7 +99,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
   const bodasGroups: CatalogAccordionGroup[] = [
     {
       accordionTitle: 'Boda Híbrida (Foto + Video)',
-      packages: weddingMainPlans.map((plan) => {
+      packages: weddingMainPlans.map((plan: any) => {
         const price = parsePriceCop(plan.priceLines);
         return {
           id: `bodas-main-${plan.slug}`,
@@ -71,7 +117,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     },
     {
       accordionTitle: 'Fotografía de Bodas',
-      packages: weddingPhotoOnlyPlans.map((plan) => {
+      packages: weddingPhotoOnlyPlans.map((plan: any) => {
         const price = parsePriceCop(plan.priceLines);
         return {
           id: `bodas-photo-${plan.slug}`,
@@ -89,7 +135,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     },
     {
       accordionTitle: 'Video de Bodas',
-      packages: weddingVideoOnlyPlans.map((plan) => {
+      packages: weddingVideoOnlyPlans.map((plan: any) => {
         const price = parsePriceCop(plan.priceLines, plan.amountCop);
         return {
           id: `bodas-video-${plan.slug}`,
@@ -100,15 +146,15 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           packageName: `Video de Bodas · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
-          features: plan.features || [],
+          features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
         };
       }),
     },
     {
       accordionTitle: 'Boda Civil',
-      packages: weddingCivilPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+      packages: weddingCivilPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
         return {
           id: `bodas-civil-${plan.slug}`,
           slug: plan.slug,
@@ -118,17 +164,17 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           packageName: `Boda Civil · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
-          features: plan.features || [],
+          features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
         };
       }),
     },
     {
       accordionTitle: 'Petición de Mano',
-      packages: weddingProposalPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+      packages: weddingProposalPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
         return {
-          id: `bodas-peticion-${plan.slug}`,
+          id: `bodas-proposal-${plan.slug}`,
           slug: plan.slug,
           category: 'bodas',
           accordionTitle: 'Petición de Mano',
@@ -136,17 +182,17 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           packageName: `Petición de Mano · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
-          features: plan.features || [],
+          features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
         };
       }),
     },
     {
       accordionTitle: 'Sesión de Preboda',
-      packages: preweddingPlans.map((plan) => {
-        const price = parsePriceCop(plan.price);
+      packages: preweddingPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines || plan.price);
         return {
-          id: `bodas-preboda-${plan.slug}`,
+          id: `bodas-prewedding-${plan.slug}`,
           slug: plan.slug,
           category: 'bodas',
           accordionTitle: 'Sesión de Preboda',
@@ -161,10 +207,10 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     },
     {
       accordionTitle: 'Sesión Postboda',
-      packages: weddingPostweddingPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+      packages: weddingPostweddingPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
         return {
-          id: `bodas-postboda-${plan.slug}`,
+          id: `bodas-postwedding-${plan.slug}`,
           slug: plan.slug,
           category: 'bodas',
           accordionTitle: 'Sesión Postboda',
@@ -172,7 +218,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           packageName: `Sesión Postboda · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
-          features: plan.features || [],
+          features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
         };
       }),
@@ -182,34 +228,16 @@ export function buildCatalogPages(): CatalogPageConfig[] {
   // 2. QUINCES (3 Acordeones Oficiales)
   const quincesGroups: CatalogAccordionGroup[] = [
     {
-      accordionTitle: '15 Años Híbridos (Foto + Video)',
-      packages: quinceHybridPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
-        return {
-          id: `quinces-hybrid-${plan.slug}`,
-          slug: plan.slug,
-          category: 'quinces',
-          accordionTitle: '15 Años Híbridos (Foto + Video)',
-          title: plan.name,
-          packageName: `15 Años Híbridos · ${plan.name}`,
-          priceAmountCop: price,
-          lead: plan.lead || '',
-          features: plan.features || [],
-          deliverables: plan.deliverables || [],
-        };
-      }),
-    },
-    {
-      accordionTitle: '15 Años Solo Fotografía',
-      packages: quinceMainPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+      accordionTitle: 'Fotografía de Quinceañeras',
+      packages: quinceMainPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
         return {
           id: `quinces-photo-${plan.slug}`,
           slug: plan.slug,
           category: 'quinces',
-          accordionTitle: '15 Años Solo Fotografía',
+          accordionTitle: 'Fotografía de Quinceañeras',
           title: plan.name,
-          packageName: `15 Años Solo Fotografía · ${plan.name}`,
+          packageName: `Fotografía Quinces · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
@@ -218,26 +246,44 @@ export function buildCatalogPages(): CatalogPageConfig[] {
       }),
     },
     {
-      accordionTitle: '15 Años Solo Video',
-      packages: quinceVideoPlans.map((plan) => {
-        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+      accordionTitle: 'Video de Quinceañeras',
+      packages: quinceVideoPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
         return {
           id: `quinces-video-${plan.slug}`,
           slug: plan.slug,
           category: 'quinces',
-          accordionTitle: '15 Años Solo Video',
+          accordionTitle: 'Video de Quinceañeras',
           title: plan.name,
-          packageName: `15 Años Solo Video · ${plan.name}`,
+          packageName: `Video Quinces · ${plan.name}`,
           priceAmountCop: price,
           lead: plan.lead || '',
-          features: plan.features || [],
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Quinces Híbrido (Foto + Video)',
+      packages: quinceHybridPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `quinces-hybrid-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: 'Quinces Híbrido (Foto + Video)',
+          title: plan.name,
+          packageName: `Quinces Híbrido · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
         };
       }),
     },
   ];
 
-  // 3. GRADOS, VIDEOS, CORPORATIVOS, OTROS (leídos dinámicamente de portfolioPackageDetails)
+  // 3, 4, 5, 6. OTRAS PÁGINAS (GRADOS, VIDEOS, CORPORATIVOS, OTROS)
   const otherPagesMap: Record<string, Record<string, CatalogPackageItem[]>> = {
     grados: {},
     videos: {},
@@ -246,34 +292,14 @@ export function buildCatalogPages(): CatalogPageConfig[] {
   };
 
   for (const detail of portfolioPackageDetails) {
-    if (detail.category === 'bodas' || detail.category === 'quinces' || detail.category === 'preboda') {
-      continue; // Ya cubiertos explícitamente arriba
-    }
+    let targetPage = 'otros';
+    const catStr = (detail.category as string) || '';
+    if (catStr === 'grados') targetPage = 'grados';
+    else if (catStr === 'video' || catStr === 'videos') targetPage = 'videos';
+    else if (catStr === 'corporativos') targetPage = 'corporativos';
+    else targetPage = 'otros';
 
-    let targetPage = 'corporativos';
-    let accordionTitle = detail.packageTypeLabel || 'Servicios Generales';
-
-    if (detail.category === 'grados') {
-      targetPage = 'grados';
-      accordionTitle = detail.slug.includes('instituc')
-        ? 'Grados Institucionales / Promoción'
-        : 'Fotografía de Grado Individual';
-    } else if (detail.category === 'corporativos') {
-      if (detail.slug.includes('redes')) {
-        targetPage = 'corporativos';
-        accordionTitle = 'Contenido para Redes Sociales';
-      } else if (detail.slug.includes('evento')) {
-        targetPage = 'otros';
-        accordionTitle = 'Eventos Corporativos & Coberturas Especiales';
-      } else if (detail.slug.includes('marca')) {
-        targetPage = 'corporativos';
-        accordionTitle = 'Fotografía de Marca Personal';
-      } else {
-        targetPage = 'videos';
-        accordionTitle = 'Video Institucional & Publicitario';
-      }
-    }
-
+    const accordionTitle = detail.categoryLabel || detail.title;
     if (!otherPagesMap[targetPage][accordionTitle]) {
       otherPagesMap[targetPage][accordionTitle] = [];
     }

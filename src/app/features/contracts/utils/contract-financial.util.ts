@@ -7,7 +7,7 @@ export interface CalculatePaymentInput {
   extrasAmount: number;
   transportAmount: number;
   discountAmount: number;
-  selectedOption: 40 | 80 | 100 | 'custom';
+  selectedOption: 40 | 50 | 80 | 100 | 'custom' | number;
   customPaidAmount?: number;
   currency?: string;
   confirmedBy: string;
@@ -27,10 +27,14 @@ export function calculatePaymentInfo(input: CalculatePaymentInput): ContractPaym
 
   if (input.selectedOption === 40) {
     paidAmount = Math.round((totalAmount * 40) / 100);
+  } else if (input.selectedOption === 50) {
+    paidAmount = Math.round((totalAmount * 50) / 100);
   } else if (input.selectedOption === 80) {
     paidAmount = Math.round((totalAmount * 80) / 100);
   } else if (input.selectedOption === 100) {
     paidAmount = totalAmount;
+  } else if (typeof input.selectedOption === 'number') {
+    paidAmount = Math.round((totalAmount * input.selectedOption) / 100);
   } else {
     paidAmount = Math.min(totalAmount, Math.max(0, input.customPaidAmount || 0));
   }
@@ -39,8 +43,6 @@ export function calculatePaymentInfo(input: CalculatePaymentInput): ContractPaym
     totalAmount > 0 ? Number(((paidAmount / totalAmount) * 100).toFixed(2)) : 0;
 
   const remainingAmount = Math.max(0, totalAmount - paidAmount);
-
-  const now = new Date().toISOString();
 
   return {
     currency: input.currency || 'COP',
@@ -54,28 +56,14 @@ export function calculatePaymentInfo(input: CalculatePaymentInput): ContractPaym
     remainingAmount,
     selectedOption: input.selectedOption,
     confirmedManually: true,
-    confirmedBy: input.confirmedBy || 'admin',
-    confirmedAt: now,
+    confirmedBy: input.confirmedBy || 'sistema',
+    confirmedAt: new Date().toISOString(),
     belowMinimumOverride: !!input.belowMinimumOverride,
-    overrideReason: input.belowMinimumOverride ? input.overrideReason || 'Aprobado por administración' : undefined,
+    overrideReason: input.overrideReason || '',
   };
 }
 
-export function isPaymentValidForSign(payment: ContractPaymentInfo): boolean {
-  if (payment.totalAmount <= 0) {
-    return false;
-  }
-
-  if (payment.belowMinimumOverride && payment.overrideReason?.trim()) {
-    return true;
-  }
-
-  return payment.paidPercentage >= 39.99;
-}
-
 export function formatCurrency(amount: number, currency = 'COP'): string {
-  if (currency === 'COP') {
-    return `$${copFormatter.format(amount)} COP`;
-  }
-  return `${currency} $${copFormatter.format(amount)}`;
+  const formatted = copFormatter.format(amount || 0);
+  return `${currency} $${formatted}`;
 }

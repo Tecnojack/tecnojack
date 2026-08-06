@@ -52,7 +52,7 @@ export interface ContractPaymentInfo {
   paidAmount: number;
   paidPercentage: number;
   remainingAmount: number;
-  selectedOption: 40 | 80 | 100 | 'custom';
+  selectedOption: 40 | 50 | 80 | 100 | 'custom' | number;
   method?: string;
   reference?: string;
   paidAt?: string;
