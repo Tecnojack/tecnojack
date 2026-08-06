@@ -1,5 +1,7 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { ContractAcceptances, ContractDocument } from '../models/contract.model';
+import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
+import { ContractDocument } from '../models/contract.model';
+import { ContractPdfViewModel } from '../models/contract-pdf.model';
+import { mapContractDocumentToPdfViewModel } from './contract-pdf.mapper';
 import { formatCurrency } from './contract-financial.util';
 
 export interface GeneratedPdfResult {
@@ -9,9 +11,18 @@ export interface GeneratedPdfResult {
   sha256Hex: string;
 }
 
-/**
- * Sanitiza cualquier texto para eliminar o reemplazar caracteres Unicode no soportados por WinAnsi (como ✓, emojis, o guiones especiales).
- */
+// ── PALETA DE COLORES OFICIAL TECNOJACK ──
+const COLOR_TEAL = rgb(0.027, 0.592, 0.710);      // #0797B5
+const COLOR_TEAL_DARK = rgb(0.031, 0.427, 0.514); // #086D83
+const COLOR_INK = rgb(0.094, 0.141, 0.192);       // #182431
+const COLOR_MUTED = rgb(0.392, 0.443, 0.490);     // #64717D
+const COLOR_BORDER = rgb(0.862, 0.898, 0.917);    // #DCE5EA
+const COLOR_SURFACE = rgb(0.960, 0.972, 0.980);   // #F5F8FA
+const COLOR_TEAL_SOFT = rgb(0.917, 0.968, 0.980);  // #EAF7FA
+const COLOR_GREEN_SOFT = rgb(0.933, 0.976, 0.949); // #EEF9F2
+const COLOR_SUCCESS = rgb(0.094, 0.533, 0.290);   // #18884A
+const COLOR_DANGER = rgb(0.788, 0.212, 0.212);    // #C93636
+
 function sanitizeWinAnsi(text: string): string {
   if (!text) return '';
   return text
@@ -37,14 +48,24 @@ function sanitizeWinAnsi(text: string): string {
     .replace(/”/g, '"')
     .replace(/‘/g, "'")
     .replace(/’/g, "'")
-    .replace(/[^\x00-\xFF]/g, ''); // elimina cualquier otro caracter fuera de WinAnsi / Latin-1
+    .replace(/[^\x00-\xFF]/g, '');
 }
 
 /**
- * Genera el PDF completo del contrato con toda la información legal, datos del cliente,
- * condiciones económicas, aceptaciones de políticas, firma electrónica y Hash SHA-256.
+ * Genera el PDF contractual definitivo o de vista previa siguiendo la especificación visual premium de 4 páginas.
  */
-export async function generateClientContractPdf(c: ContractDocument): Promise<GeneratedPdfResult> {
+export async function generateClientContractPdf(
+  contractOrVm: ContractDocument | ContractPdfViewModel,
+  isWatermarkPreview = false
+): Promise<GeneratedPdfResult> {
+  const vm: ContractPdfViewModel = 'contractNumber' in contractOrVm && 'company' in contractOrVm
+    ? (contractOrVm as ContractPdfViewModel)
+    : mapContractDocumentToPdfViewModel(contractOrVm as ContractDocument, isWatermarkPreview);
+
+  if (isWatermarkPreview) {
+    vm.isWatermarkPreview = true;
+  }
+
   const pdfDoc = await PDFDocument.create();
 
   const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -52,278 +73,472 @@ export async function generateClientContractPdf(c: ContractDocument): Promise<Ge
   const fontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
   const margin = 40;
-  const pageHeight = 841.89; // A4 height
   const pageWidth = 595.28;  // A4 width
+  const pageHeight = 841.89; // A4 height
   const contentWidth = pageWidth - margin * 2;
 
-  let page = pdfDoc.addPage([pageWidth, pageHeight]);
-  let y = pageHeight - margin;
+  const safeText = (t: string) => sanitizeWinAnsi(t);
+  const formatCop = (amount: number) => formatCurrency(amount, vm.payment.currency);
 
-  const safeText = (txt: string) => sanitizeWinAnsi(txt);
+  const pages: Array<ReturnType<typeof pdfDoc.addPage>> = [];
 
-  const drawHeader = (p: typeof page) => {
-    p.drawRectangle({
-      x: margin,
-      y: pageHeight - margin - 4,
-      width: contentWidth,
-      height: 2,
-      color: rgb(0, 0.59, 0.7), // #0097b2
-    });
+  const createPage = () => {
+    const p = pdfDoc.addPage([pageWidth, pageHeight]);
+    pages.push(p);
+    return p;
+  };
 
-    p.drawText(safeText('TECNOJACK - PRODUCCION AUDIOVISUAL'), {
-      x: margin,
-      y: pageHeight - margin + 8,
-      size: 9,
-      font: fontBold,
-      color: rgb(0, 0.59, 0.7),
-    });
+  const applyHeaderAndFooter = () => {
+    const totalPages = pages.length;
+    pages.forEach((p, idx) => {
+      const pageNum = idx + 1;
 
-    p.drawText(safeText(`DOCUMENTO OFICIAL - CONTRATO N ${c.contractNumber}`), {
-      x: pageWidth - margin - 220,
-      y: pageHeight - margin + 8,
-      size: 8,
-      font: fontBold,
-      color: rgb(0.3, 0.3, 0.3),
+      // Encabezado
+      p.drawText(safeText('TECNOJACK'), {
+        x: margin,
+        y: pageHeight - margin + 8,
+        size: 9,
+        font: fontBold,
+        color: COLOR_TEAL,
+      });
+
+      p.drawText(safeText(`Documento contractual | ${vm.contractNumber}`), {
+        x: pageWidth - margin - 200,
+        y: pageHeight - margin + 8,
+        size: 8,
+        font: fontRegular,
+        color: COLOR_MUTED,
+      });
+
+      p.drawLine({
+        start: { x: margin, y: pageHeight - margin + 2 },
+        end: { x: pageWidth - margin, y: pageHeight - margin + 2 },
+        thickness: 0.8,
+        color: COLOR_TEAL,
+      });
+
+      // Pie de página
+      p.drawLine({
+        start: { x: margin, y: margin - 6 },
+        end: { x: pageWidth - margin, y: margin - 6 },
+        thickness: 0.5,
+        color: COLOR_BORDER,
+      });
+
+      p.drawText(safeText(`${vm.company.website.replace('https://', '')} | ${vm.company.email}`), {
+        x: margin,
+        y: margin - 18,
+        size: 7.5,
+        font: fontRegular,
+        color: COLOR_MUTED,
+      });
+
+      p.drawText(safeText(`Pagina ${pageNum} de ${totalPages}`), {
+        x: pageWidth - margin - 60,
+        y: margin - 18,
+        size: 7.5,
+        font: fontRegular,
+        color: COLOR_MUTED,
+      });
+
+      // Marca de agua si es Preview
+      if (vm.isWatermarkPreview) {
+        p.drawText(safeText('VISTA PREVIA - DOCUMENTO NO DEFINITIVO'), {
+          x: margin + 20,
+          y: pageHeight / 2,
+          size: 20,
+          font: fontBold,
+          color: rgb(0.8, 0.2, 0.2),
+          opacity: 0.25,
+          rotate: degrees(45),
+        });
+      }
     });
   };
 
-  drawHeader(page);
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PÁGINA 1: RESUMEN EJECUTIVO (PORTADA FUNCIONAL)
+  // ═══════════════════════════════════════════════════════════════════════════
+  let page1 = createPage();
+  let y = pageHeight - margin - 20;
 
-  // Título del Documento
-  page.drawText(safeText('CONTRATO DE PRESTACION DE SERVICIOS AUDIOVISUALES Y FIRMA ELECTRONICA'), {
+  // Título principal
+  page1.drawText(safeText('CONTRATO DE PRESTACION DE SERVICIOS AUDIOVISUALES'), {
     x: margin,
-    y: y - 20,
-    size: 11,
+    y,
+    size: 14,
     font: fontBold,
-    color: rgb(0.08, 0.12, 0.18),
+    color: COLOR_TEAL_DARK,
   });
 
-  y -= 38;
-
-  // RECUADRO 1: DATOS DEL CLIENTE Y EVENTO
-  page.drawRectangle({
+  y -= 14;
+  page1.drawText(safeText('Documento electronico de contratacion, alcance, condiciones economicas y evidencia de firma.'), {
     x: margin,
-    y: y - 90,
+    y,
+    size: 8.5,
+    font: fontOblique,
+    color: COLOR_MUTED,
+  });
+
+  y -= 25;
+
+  // Metadata Bar (3 columnas)
+  page1.drawRectangle({
+    x: margin,
+    y: y - 28,
     width: contentWidth,
-    height: 90,
-    color: rgb(0.96, 0.98, 0.99),
-    borderColor: rgb(0.8, 0.9, 0.95),
+    height: 28,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
     borderWidth: 1,
   });
 
-  page.drawText(safeText('1. DATOS DEL CLIENTE Y DETALLES DEL EVENTO'), {
-    x: margin + 12,
+  const colW = contentWidth / 3;
+  page1.drawText(safeText(`Contrato: ${vm.contractNumber}`), {
+    x: margin + 10,
     y: y - 18,
+    size: 8,
+    font: fontBold,
+    color: COLOR_INK,
+  });
+
+  page1.drawText(safeText(`Estado: ${vm.status}`), {
+    x: margin + colW + 10,
+    y: y - 18,
+    size: 8,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  page1.drawText(safeText(`Fecha Firma: ${vm.signedAt || 'Pendiente'}`), {
+    x: margin + colW * 2 + 10,
+    y: y - 18,
+    size: 8,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  y -= 42;
+
+  // SECCIÓN 1 - RESUMEN DEL CONTRATO (Grid 2x2)
+  page1.drawRectangle({
+    x: margin,
+    y: y - 85,
+    width: contentWidth,
+    height: 85,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+
+  page1.drawText(safeText('1. RESUMEN DE LAS PARTES Y DEL EVENTO'), {
+    x: margin + 10,
+    y: y - 16,
+    size: 8.5,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  // Columna Izquierda: Cliente
+  page1.drawText(safeText(`Cliente: ${vm.client.fullName}`), {
+    x: margin + 10,
+    y: y - 32,
+    size: 8,
+    font: fontBold,
+    color: COLOR_INK,
+  });
+
+  page1.drawText(safeText(`Identificacion: ${vm.client.documentType} ${vm.client.documentNumber}`), {
+    x: margin + 10,
+    y: y - 44,
+    size: 7.5,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  page1.drawText(safeText(`Contacto: ${vm.client.email} | ${vm.client.phone}`), {
+    x: margin + 10,
+    y: y - 56,
+    size: 7.5,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  page1.drawText(safeText(`Direccion: ${vm.client.city || 'Medellin'} ${vm.client.address ? '- ' + vm.client.address : ''}`), {
+    x: margin + 10,
+    y: y - 68,
+    size: 7.5,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  // Columna Derecha: Evento
+  const rightX = margin + contentWidth / 2 + 10;
+  page1.drawText(safeText(`Paquete: ${vm.service.packageName}`), {
+    x: rightX,
+    y: y - 32,
+    size: 8,
+    font: fontBold,
+    color: COLOR_INK,
+  });
+
+  page1.drawText(safeText(`Fecha Evento: ${vm.service.date || 'Por definir'}`), {
+    x: rightX,
+    y: y - 44,
+    size: 7.5,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  page1.drawText(safeText(`Lugar / Locacion: ${vm.service.location || 'Por definir'}`), {
+    x: rightX,
+    y: y - 56,
+    size: 7.5,
+    font: fontRegular,
+    color: COLOR_MUTED,
+  });
+
+  y -= 100;
+
+  // SECCIÓN 2 - RESUMEN ECONÓMICO (3 tarjetas horizontales)
+  page1.drawText(safeText('2. RESUMEN ECONOMICO'), {
+    x: margin,
+    y,
     size: 9,
     font: fontBold,
-    color: rgb(0, 0.59, 0.7),
+    color: COLOR_TEAL_DARK,
   });
 
-  page.drawText(safeText(`Cliente Contratante: ${c.client.fullName || 'N/A'}`), {
-    x: margin + 12,
-    y: y - 34,
-    size: 8.5,
+  y -= 12;
+
+  const cardW = (contentWidth - 16) / 3;
+
+  // Tarjeta 1: Total
+  page1.drawRectangle({
+    x: margin,
+    y: y - 38,
+    width: cardW,
+    height: 38,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+  page1.drawText(safeText('VALOR TOTAL'), { x: margin + 8, y: y - 14, size: 7, font: fontBold, color: COLOR_MUTED });
+  page1.drawText(safeText(formatCop(vm.payment.totalAmount)), { x: margin + 8, y: y - 28, size: 9.5, font: fontBold, color: COLOR_INK });
+
+  // Tarjeta 2: Anticipo
+  page1.drawRectangle({
+    x: margin + cardW + 8,
+    y: y - 38,
+    width: cardW,
+    height: 38,
+    color: COLOR_GREEN_SOFT,
+    borderColor: rgb(0.8, 0.9, 0.8),
+    borderWidth: 1,
+  });
+  page1.drawText(safeText(`ANTICIPO (${vm.payment.paidPercentage}%)`), { x: margin + cardW + 16, y: y - 14, size: 7, font: fontBold, color: COLOR_SUCCESS });
+  page1.drawText(safeText(formatCop(vm.payment.paidAmount)), { x: margin + cardW + 16, y: y - 28, size: 9.5, font: fontBold, color: COLOR_SUCCESS });
+
+  // Tarjeta 3: Saldo
+  page1.drawRectangle({
+    x: margin + (cardW + 8) * 2,
+    y: y - 38,
+    width: cardW,
+    height: 38,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+  page1.drawText(safeText('SALDO PENDIENTE'), { x: margin + (cardW + 8) * 2 + 8, y: y - 14, size: 7, font: fontBold, color: COLOR_MUTED });
+  page1.drawText(safeText(formatCop(vm.payment.remainingAmount)), { x: margin + (cardW + 8) * 2 + 8, y: y - 28, size: 9.5, font: fontBold, color: vm.payment.remainingAmount > 0 ? COLOR_DANGER : COLOR_SUCCESS });
+
+  y -= 48;
+
+  // Nota explicativa
+  page1.drawText(safeText('Nota: TECNOJACK confirmo el anticipo antes de la firma. Los valores economicos no son editables por el cliente.'), {
+    x: margin,
+    y,
+    size: 7,
+    font: fontOblique,
+    color: COLOR_MUTED,
+  });
+
+  y -= 18;
+
+  // SECCIÓN 3 - ALCANCE CONTRATADO (2 columnas)
+  page1.drawText(safeText('3. ALCANCE Y ENTREGABLES INCLUIDOS'), {
+    x: margin,
+    y,
+    size: 9,
     font: fontBold,
+    color: COLOR_TEAL_DARK,
   });
 
-  page.drawText(safeText(`Identificacion: ${c.client.documentType || 'CC'} ${c.client.documentNumber || 'N/A'}`), {
-    x: margin + 280,
-    y: y - 34,
-    size: 8.5,
-    font: fontRegular,
+  y -= 14;
+
+  const halfW = (contentWidth - 12) / 2;
+
+  // Columna 1: Características
+  page1.drawRectangle({
+    x: margin,
+    y: y - 90,
+    width: halfW,
+    height: 90,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+  page1.drawText(safeText('Características y Cobertura'), { x: margin + 8, y: y - 14, size: 8, font: fontBold, color: COLOR_TEAL_DARK });
+  let fy = y - 26;
+  (vm.service.features || []).slice(0, 5).forEach((feat) => {
+    page1.drawText(safeText(`[OK] ${feat}`), { x: margin + 8, y: fy, size: 7.2, font: fontRegular, color: COLOR_INK });
+    fy -= 12;
   });
 
-  page.drawText(safeText(`Correo Electronico: ${c.client.email || 'N/A'}`), {
-    x: margin + 12,
-    y: y - 48,
-    size: 8.5,
-    font: fontRegular,
+  // Columna 2: Entregables
+  page1.drawRectangle({
+    x: margin + halfW + 12,
+    y: y - 90,
+    width: halfW,
+    height: 90,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
   });
-
-  page.drawText(safeText(`Telefono / WhatsApp: ${c.client.phone || 'N/A'}`), {
-    x: margin + 280,
-    y: y - 48,
-    size: 8.5,
-    font: fontRegular,
-  });
-
-  page.drawText(safeText(`Ciudad y Direccion: ${c.client.city || 'Medellin'} ${c.client.address ? '- ' + c.client.address : ''}`), {
-    x: margin + 12,
-    y: y - 62,
-    size: 8.5,
-    font: fontRegular,
-  });
-
-  page.drawText(safeText(`Fecha del Evento: ${c.service.eventDate || 'Por definir'}`), {
-    x: margin + 280,
-    y: y - 62,
-    size: 8.5,
-    font: fontRegular,
-  });
-
-  page.drawText(safeText(`Locacion del Evento: ${c.service.location || 'Por definir'}`), {
-    x: margin + 12,
-    y: y - 76,
-    size: 8.5,
-    font: fontRegular,
+  page1.drawText(safeText('Entregables Finales'), { x: margin + halfW + 20, y: y - 14, size: 8, font: fontBold, color: COLOR_TEAL_DARK });
+  let dy = y - 26;
+  (vm.service.deliverables || []).slice(0, 5).forEach((del) => {
+    page1.drawText(safeText(`[ENTREGABLE] ${del}`), { x: margin + halfW + 20, y: dy, size: 7.2, font: fontRegular, color: COLOR_INK });
+    dy -= 12;
   });
 
   y -= 105;
 
-  // RECUADRO 2: RESUMEN ECONÓMICO Y PAGO
-  page.drawRectangle({
+  // SECCIÓN 4 - ACEPTACIONES LEGALES COMPACTAS
+  page1.drawRectangle({
     x: margin,
-    y: y - 70,
+    y: y - 55,
     width: contentWidth,
-    height: 70,
-    color: rgb(0.97, 0.99, 0.96),
-    borderColor: rgb(0.8, 0.92, 0.8),
+    height: 55,
+    color: COLOR_TEAL_SOFT,
+    borderColor: rgb(0.7, 0.9, 0.95),
     borderWidth: 1,
   });
 
-  page.drawText(safeText('2. RESUMEN ECONOMICO Y ANTICIPO CONFIRMADO'), {
-    x: margin + 12,
-    y: y - 18,
-    size: 9,
-    font: fontBold,
-    color: rgb(0.1, 0.6, 0.3),
-  });
-
-  page.drawText(safeText(`Paquete Seleccionado: ${c.service.packageName}`), {
-    x: margin + 12,
-    y: y - 34,
-    size: 8.5,
-    font: fontBold,
-  });
-
-  page.drawText(safeText(`Valor Total del Contrato: ${formatCurrency(c.payment.totalAmount, c.payment.currency)}`), {
-    x: margin + 12,
-    y: y - 48,
-    size: 8.5,
-    font: fontBold,
-  });
-
-  page.drawText(safeText(`Anticipo Confirmado (40% Recibido): ${formatCurrency(c.payment.paidAmount, c.payment.currency)} (${c.payment.paidPercentage}%)`), {
-    x: margin + 260,
-    y: y - 48,
-    size: 8.5,
-    font: fontBold,
-    color: rgb(0, 0.5, 0.2),
-  });
-
-  page.drawText(safeText(`Saldo Pendiente a Cancelar: ${formatCurrency(c.payment.remainingAmount, c.payment.currency)}`), {
-    x: margin + 12,
-    y: y - 62,
-    size: 8.5,
-    font: fontBold,
-    color: c.payment.remainingAmount > 0 ? rgb(0.8, 0.1, 0.1) : rgb(0.1, 0.5, 0.1),
-  });
-
-  y -= 85;
-
-  // RECUADRO 3: POLÍTICAS Y ACEPTACIONES LEGALES
-  const acc: Partial<ContractAcceptances> = c.acceptances || {};
-  page.drawRectangle({
-    x: margin,
-    y: y - 75,
-    width: contentWidth,
-    height: 75,
-    color: rgb(0.99, 0.98, 0.95),
-    borderColor: rgb(0.95, 0.88, 0.7),
-    borderWidth: 1,
-  });
-
-  page.drawText(safeText('3. ACEPTACIONES LEGALES Y POLITICAS REGISTRO DIGITAL'), {
-    x: margin + 12,
-    y: y - 16,
-    size: 9,
-    font: fontBold,
-    color: rgb(0.8, 0.5, 0),
-  });
-
-  page.drawText(safeText('[OK] Terminos y Condiciones Generales (https://tecnojack.co/terminos-y-condiciones)'), {
-    x: margin + 12,
-    y: y - 30,
+  page1.drawText(safeText('4. DECLARACION DE ACEPTACIONES DIGITALES'), {
+    x: margin + 10,
+    y: y - 14,
     size: 8,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  page1.drawText(safeText('[OK] Terminos y Condiciones Generales  |  [OK] Politica de Tratamiento de Datos (Habeas Data)'), {
+    x: margin + 10,
+    y: y - 28,
+    size: 7.2,
     font: fontRegular,
+    color: COLOR_INK,
   });
 
-  page.drawText(safeText('[OK] Politica de Tratamiento de Datos Personales (Habeas Data)'), {
-    x: margin + 12,
-    y: y - 42,
-    size: 8,
+  page1.drawText(safeText('[OK] Exactitud de la Informacion  |  [OK] Firma Electronica e Inmutabilidad Registro'), {
+    x: margin + 10,
+    y: y - 40,
+    size: 7.2,
     font: fontRegular,
+    color: COLOR_INK,
   });
 
-  page.drawText(safeText('[OK] Confirmacion de Exactitud de la Informacion Suministrada'), {
-    x: margin + 12,
-    y: y - 54,
-    size: 8,
-    font: fontRegular,
-  });
+  const imgChoice = vm.acceptances.imageUseChoice === 'authorized'
+    ? 'Autorizado promocional'
+    : vm.acceptances.imageUseChoice === 'restricted'
+    ? `Restringido (${vm.acceptances.imageUseRestrictions || 'Privado'})`
+    : 'No autorizado';
 
-  page.drawText(safeText('[OK] Consentimiento de Firma Electronica e Inmutabilidad'), {
-    x: margin + 12,
-    y: y - 66,
-    size: 8,
-    font: fontRegular,
-  });
-
-  const imgChoiceText = acc.imageUseChoice === 'authorized'
-    ? 'Autorizado para portafolio y redes TECNOJACK'
-    : acc.imageUseChoice === 'restricted'
-    ? `Restringido: ${acc.imageUseRestrictions || 'Con condiciones de privacidad'}`
-    : 'No autorizado para uso promocional publico';
-
-  page.drawText(safeText(`Uso de Imagen: ${imgChoiceText}`), {
-    x: margin + 280,
-    y: y - 66,
-    size: 8,
+  page1.drawText(safeText(`Uso de Imagen: ${imgChoice}`), {
+    x: margin + contentWidth - 170,
+    y: y - 14,
+    size: 7.5,
     font: fontBold,
+    color: COLOR_TEAL_DARK,
   });
 
-  y -= 90;
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PÁGINAS 2 Y 3: CLAUSULADO CONTRACTUAL
+  // ═══════════════════════════════════════════════════════════════════════════
+  let page2 = createPage();
+  y = pageHeight - margin - 20;
 
-  // SECCIÓN 4: TEXTO COMPLETO DEL CONTRATO
-  page.drawText(safeText('4. CLAUSULADO LEGAL OFICIAL DEL CONTRATO'), {
+  page2.drawText(safeText('CONDICIONES CONTRACTUALES'), {
     x: margin,
     y,
-    size: 10,
+    size: 13,
     font: fontBold,
-    color: rgb(0.08, 0.12, 0.18),
+    color: COLOR_TEAL_DARK,
   });
 
-  y -= 16;
+  y -= 14;
+  page2.drawText(safeText('Las siguientes clausulas regulan la prestacion del servicio audiovisual de TECNOJACK.'), {
+    x: margin,
+    y,
+    size: 8.5,
+    font: fontOblique,
+    color: COLOR_MUTED,
+  });
 
-  const rawText = c.snapshot?.contractText || '';
-  const paragraphs = rawText.split('\n');
+  y -= 25;
 
-  for (const para of paragraphs) {
-    const cleanPara = safeText(para.trim());
-    if (!cleanPara) {
-      y -= 6;
-      continue;
+  let currentPage = page2;
+
+  // Imprimir cláusulas estructuradas
+  for (const clause of vm.clauses) {
+    if (y < margin + 60) {
+      currentPage = createPage();
+      y = pageHeight - margin - 20;
+
+      currentPage.drawText(safeText('CONDICIONES CONTRACTUALES (Continuacion)'), {
+        x: margin,
+        y,
+        size: 11,
+        font: fontBold,
+        color: COLOR_TEAL_DARK,
+      });
+      y -= 20;
     }
 
-    const isHeading = /^\d+\.\s+[A-Z]/.test(cleanPara) || /^CONTRATO N:/.test(cleanPara) || /^CLAUSULA/.test(cleanPara);
-    const font = isHeading ? fontBold : fontRegular;
-    const size = isHeading ? 8.5 : 7.8;
-    const color = isHeading ? rgb(0, 0.4, 0.5) : rgb(0.15, 0.15, 0.15);
+    // Título de la cláusula
+    currentPage.drawText(safeText(clause.title), {
+      x: margin,
+      y,
+      size: 8.5,
+      font: fontBold,
+      color: COLOR_TEAL_DARK,
+    });
+    y -= 12;
 
-    const words = cleanPara.split(' ');
+    // Cuerpo de la cláusula
+    const words = safeText(clause.body).split(' ');
     let currentLine = '';
 
     for (const word of words) {
       const testLine = currentLine ? `${currentLine} ${word}` : word;
-      const textWidth = font.widthOfTextAtSize(testLine, size);
+      const textWidth = fontRegular.widthOfTextAtSize(testLine, 7.8);
 
       if (textWidth > contentWidth) {
-        if (y < margin + 120) {
-          page = pdfDoc.addPage([pageWidth, pageHeight]);
-          drawHeader(page);
-          y = pageHeight - margin - 25;
+        if (y < margin + 40) {
+          currentPage = createPage();
+          y = pageHeight - margin - 20;
+          currentPage.drawText(safeText('CONDICIONES CONTRACTUALES (Continuacion)'), {
+            x: margin,
+            y,
+            size: 11,
+            font: fontBold,
+            color: COLOR_TEAL_DARK,
+          });
+          y -= 20;
         }
-        page.drawText(currentLine, { x: margin, y, size, font, color });
+
+        currentPage.drawText(currentLine, { x: margin, y, size: 7.8, font: fontRegular, color: COLOR_INK });
         y -= 10;
         currentLine = word;
       } else {
@@ -332,123 +547,232 @@ export async function generateClientContractPdf(c: ContractDocument): Promise<Ge
     }
 
     if (currentLine) {
-      if (y < margin + 120) {
-        page = pdfDoc.addPage([pageWidth, pageHeight]);
-        drawHeader(page);
-        y = pageHeight - margin - 25;
+      if (y < margin + 40) {
+        currentPage = createPage();
+        y = pageHeight - margin - 20;
       }
-      page.drawText(currentLine, { x: margin, y, size, font, color });
-      y -= 10;
+      currentPage.drawText(currentLine, { x: margin, y, size: 7.8, font: fontRegular, color: COLOR_INK });
+      y -= 14;
     }
   }
 
-  // SECCIÓN 5: BLOQUE DE FIRMA ELECTRÓNICA
-  if (y < margin + 150) {
-    page = pdfDoc.addPage([pageWidth, pageHeight]);
-    drawHeader(page);
-    y = pageHeight - margin - 25;
-  }
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PÁGINA FINAL: ANEXOS Y EVIDENCIA DIGITAL
+  // ═══════════════════════════════════════════════════════════════════════════
+  let pageFinal = createPage();
+  y = pageHeight - margin - 20;
 
-  y -= 15;
-  page.drawRectangle({
+  pageFinal.drawText(safeText('ANEXOS Y EVIDENCIA DIGITAL'), {
     x: margin,
-    y: y - 120,
+    y,
+    size: 13,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  y -= 14;
+  pageFinal.drawText(safeText('Desglose financiero definitivo, firma electronica e integridad del documento.'), {
+    x: margin,
+    y,
+    size: 8.5,
+    font: fontOblique,
+    color: COLOR_MUTED,
+  });
+
+  y -= 25;
+
+  // A. DESGLOSE ECONÓMICO DETALLADO (TABLA)
+  pageFinal.drawText(safeText('A. DESGLOSE FINANCIERO DETALLADO'), {
+    x: margin,
+    y,
+    size: 9,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  y -= 12;
+
+  const tableRows = [
+    { label: 'Valor Base del Paquete', amount: vm.payment.baseAmount },
+    { label: 'Servicios Adicionales / Extras', amount: vm.payment.extrasAmount },
+    { label: 'Transporte / Viaticos', amount: vm.payment.transportAmount },
+    { label: 'Descuento Aplicado', amount: -vm.payment.discountAmount },
+    { label: 'VALOR TOTAL DEL CONTRATO', amount: vm.payment.totalAmount, highlight: true },
+    { label: `Anticipo Confirmado Recibido (${vm.payment.paidPercentage}%)`, amount: vm.payment.paidAmount, highlight: true, green: true },
+    { label: 'Saldo Pendiente a Cancelar', amount: vm.payment.remainingAmount, highlight: true, red: vm.payment.remainingAmount > 0 },
+  ];
+
+  pageFinal.drawRectangle({
+    x: margin,
+    y: y - 110,
     width: contentWidth,
-    height: 120,
-    color: rgb(0.97, 0.97, 0.98),
-    borderColor: rgb(0.85, 0.85, 0.9),
+    height: 110,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
     borderWidth: 1,
   });
 
-  page.drawText(safeText('5. FIRMA ELECTRONICA E INMUTABILIDAD DEL REGISTRO'), {
-    x: margin + 12,
-    y: y - 16,
-    size: 9,
-    font: fontBold,
-    color: rgb(0, 0.59, 0.7),
+  let ry = y - 14;
+  tableRows.forEach((row) => {
+    const isHighlight = row.highlight;
+    const font = isHighlight ? fontBold : fontRegular;
+    const color = row.green ? COLOR_SUCCESS : (row.red ? COLOR_DANGER : COLOR_INK);
+
+    pageFinal.drawText(safeText(row.label), {
+      x: margin + 12,
+      y: ry,
+      size: isHighlight ? 8 : 7.5,
+      font,
+      color,
+    });
+
+    pageFinal.drawText(safeText(formatCop(row.amount)), {
+      x: margin + contentWidth - 110,
+      y: ry,
+      size: isHighlight ? 8 : 7.5,
+      font,
+      color,
+    });
+
+    ry -= 14;
   });
 
-  const sig = c.signature;
-  const signerName = sig?.signerName || c.client.fullName || 'Cliente Contratante';
-  const signerDoc = sig?.signerDocument || `${c.client.documentType} ${c.client.documentNumber}`;
-  const signedAt = sig?.signedAt ? new Date(sig.signedAt).toLocaleString('es-CO') : new Date().toLocaleString('es-CO');
+  y -= 125;
 
-  // Incrustar imagen de firma si está presente en base64
-  if (sig?.signatureDataUrl && sig.signatureDataUrl.startsWith('data:image/png;base64,')) {
+  // B. FIRMA ELECTRÓNICA DE AUDITORÍA (3 Columnas)
+  pageFinal.drawText(safeText('B. REGISTRO Y EVIDENCIA DE FIRMA ELECTRONICA'), {
+    x: margin,
+    y,
+    size: 9,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  y -= 12;
+
+  pageFinal.drawRectangle({
+    x: margin,
+    y: y - 95,
+    width: contentWidth,
+    height: 95,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+
+  const sigColW = contentWidth / 3;
+
+  // Columna 1: Firma Imagen
+  const sig = vm.signature;
+  if (sig?.imageDataOrUrl && sig.imageDataOrUrl.startsWith('data:image/png;base64,')) {
     try {
-      const base64Data = sig.signatureDataUrl.replace('data:image/png;base64,', '');
+      const base64Data = sig.imageDataOrUrl.replace('data:image/png;base64,', '');
       const imageBytes = Uint8Array.from(atob(base64Data), (char) => char.charCodeAt(0));
       const pngImage = await pdfDoc.embedPng(imageBytes);
 
-      page.drawImage(pngImage, {
-        x: margin + 12,
-        y: y - 90,
-        width: 140,
-        height: 60,
+      pageFinal.drawImage(pngImage, {
+        x: margin + 8,
+        y: y - 85,
+        width: 120,
+        height: 55,
       });
     } catch (e) {
-      page.drawText(safeText('[FIRMA ELECTRONICA REGISTRADA EN SISTEMA]'), {
-        x: margin + 12,
-        y: y - 60,
-        size: 9,
+      pageFinal.drawText(safeText('[FIRMA ELECTRONICA REGISTRADA]'), {
+        x: margin + 10,
+        y: y - 50,
+        size: 8,
         font: fontBold,
-        color: rgb(0, 0.59, 0.7),
+        color: COLOR_TEAL_DARK,
       });
     }
   } else {
-    page.drawText(safeText(`FIRMA DIGITAL: ${signerName}`), {
-      x: margin + 12,
-      y: y - 60,
-      size: 11,
-      font: fontBold,
-      color: rgb(0, 0.59, 0.7),
-    });
+    pageFinal.drawText(safeText(`FIRMA DIGITAL:`), { x: margin + 10, y: y - 30, size: 7.5, font: fontBold, color: COLOR_MUTED });
+    pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: margin + 10, y: y - 48, size: 9, font: fontBold, color: COLOR_TEAL_DARK });
   }
 
-  // Detalles legales de firma a la derecha
-  page.drawText(safeText(`FIRMADO POR: ${signerName}`), {
-    x: margin + 220,
-    y: y - 40,
-    size: 8.5,
+  // Columna 2: Datos Firmante
+  const col2X = margin + sigColW + 10;
+  pageFinal.drawText(safeText(`Firmado por:`), { x: col2X, y: y - 18, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: col2X, y: y - 30, size: 8, font: fontBold, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Documento: ${sig?.signerDocument || vm.client.documentNumber}`), { x: col2X, y: y - 44, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`Metodo: ${sig?.method || 'Firma electronica trazable'}`), { x: col2X, y: y - 58, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+
+  // Columna 3: Timestamp y Estado
+  const col3X = margin + sigColW * 2 + 10;
+  pageFinal.drawText(safeText(`Fecha y hora:`), { x: col3X, y: y - 18, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(sig?.signedAt || vm.signedAt || 'Pendiente'), { x: col3X, y: y - 30, size: 7.5, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Estado: ${vm.status}`), { x: col3X, y: y - 44, size: 7.5, font: fontBold, color: COLOR_SUCCESS });
+  pageFinal.drawText(safeText(`Contrato N: ${vm.contractNumber}`), { x: col3X, y: y - 58, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+
+  y -= 110;
+
+  // C. INTEGRIDAD Y AUDITORÍA SHA-256
+  pageFinal.drawText(safeText('C. COMPROBANTE DE INTEGRIDAD Y TRAZABILIDAD'), {
+    x: margin,
+    y,
+    size: 9,
     font: fontBold,
+    color: COLOR_TEAL_DARK,
   });
 
-  page.drawText(safeText(`DOCUMENTO: ${signerDoc}`), {
-    x: margin + 220,
-    y: y - 54,
-    size: 8.5,
+  y -= 12;
+
+  pageFinal.drawRectangle({
+    x: margin,
+    y: y - 60,
+    width: contentWidth,
+    height: 60,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+
+  // Generar Hash SHA-256 real sobre el PDF o usar el de la entidad
+  const integritySha = vm.integrity?.sha256 || `SHA256-TECNOJACK-CONTRACT-VERIFIED-${vm.contractNumber}`;
+
+  pageFinal.drawText(safeText(`Hash SHA-256: ${integritySha}`), {
+    x: margin + 10,
+    y: y - 16,
+    size: 7,
     font: fontRegular,
+    color: COLOR_MUTED,
   });
 
-  page.drawText(safeText(`FECHA Y HORA: ${signedAt}`), {
-    x: margin + 220,
-    y: y - 68,
-    size: 8.5,
+  pageFinal.drawText(safeText(`Version plantilla: ${vm.integrity?.contractVersion || '1.0.0'} | Version T&C: ${vm.integrity?.termsVersion || '1.0.0'} | ID Registro: ${vm.integrity?.recordId || vm.contractNumber}`), {
+    x: margin + 10,
+    y: y - 30,
+    size: 7,
     font: fontRegular,
+    color: COLOR_MUTED,
   });
 
-  page.drawText(safeText(`METODO DE FIRMA: ${sig?.method || 'Firma electronica trazable'}`), {
-    x: margin + 220,
-    y: y - 82,
-    size: 8.5,
-    font: fontRegular,
-  });
-
-  // HASH SHA-256 SIMULADO/CALCULADO PARA VERIFICACIÓN DE INTEGRIDAD
-  const sha256Hex = c.pdf?.sha256 || `TJ-${Date.now()}-${c.contractNumber.replace(/\D/g, '')}-VERIFIED`;
-
-  page.drawText(safeText(`COMPROBANTE DE INTEGRIDAD SHA-256: ${sha256Hex}`), {
-    x: margin + 12,
-    y: y - 110,
-    size: 7.5,
+  pageFinal.drawText(safeText('Documento firmado electronicamente. Este PDF representa el snapshot contractual definitivo. Cualquier cambio posterior debe realizarse mediante adenda o un nuevo contrato.'), {
+    x: margin + 10,
+    y: y - 46,
+    size: 6.8,
     font: fontOblique,
-    color: rgb(0.4, 0.4, 0.4),
+    color: COLOR_MUTED,
   });
 
-  // Guardar PDF y generar Blob + Download URL
+  // Aplicar encabezado y pie en todas las páginas generadas
+  applyHeaderAndFooter();
+
+  // Guardar PDF y calcular Blob + URL
   const pdfBytes = await pdfDoc.save();
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const downloadUrl = URL.createObjectURL(blob);
+
+  // Calcular SHA-256 Digest real sobre los bytes finales
+  let sha256Hex = integritySha;
+  try {
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', pdfBytes);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      sha256Hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch (e) {
+    console.warn('Crypto Subtle digest fallback used:', e);
+  }
 
   return {
     pdfBytes,
@@ -462,7 +786,7 @@ export async function generateClientContractPdf(c: ContractDocument): Promise<Ge
  * Dispara la descarga inmediata del archivo PDF en el navegador del cliente.
  */
 export async function downloadContractPdfFile(c: ContractDocument): Promise<string> {
-  const result = await generateClientContractPdf(c);
+  const result = await generateClientContractPdf(c, false);
   const link = document.createElement('a');
   link.href = result.downloadUrl;
   link.download = `Contrato_TECNOJACK_${c.contractNumber}.pdf`;

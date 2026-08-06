@@ -2,6 +2,7 @@ import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
 import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { ContractClientService } from '../services/contract-client.service';
 import {
@@ -25,6 +26,7 @@ import {
   CatalogAccordionGroup,
 } from '../utils/contract-packages-catalog.util';
 import {
+  generateClientContractPdf,
   downloadContractPdfFile,
   buildFullWhatsappContractMessage,
 } from '../utils/contract-pdf.util';
@@ -71,7 +73,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
           <div class="tj-success-icon">✓</div>
           <h2>Contrato Firmado Correctamente</h2>
           <p>El contrato <strong>N° {{ c.contractNumber }}</strong> ha sido firmado, inmutabilizado y guardado en Firebase.</p>
-          <p class="tj-text-muted">Se ha procesado tu firma electrónica e incorporado al comprobante en formato PDF.</p>
+          <p class="tj-text-muted">Se ha procesado tu firma electrónica e incorporado al comprobante oficial en formato PDF.</p>
 
           <div class="tj-success-actions">
             <!-- BOTÓN DE DESCARGA PDF COMPLETO -->
@@ -423,10 +425,11 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
           </div>
         </div>
 
-        <!-- MODAL VISTA PREVIA PRELIMINAR -->
+        <!-- MODAL VISTA PREVIA PRELIMINAR (Renders exact same PDF template with Watermark) -->
         <tj-pdf-viewer-modal
           [isOpen]="isPreviewModalOpen()"
-          title="Vista Previa del Contrato"
+          title="Vista Previa del Contrato PDF"
+          [pdfUrl]="previewPdfUrl()"
           [textContent]="contract()?.snapshot?.contractText || ''"
           (closeModal)="isPreviewModalOpen.set(false)"
           (confirmPdf)="confirmPdfPreview()">
@@ -492,7 +495,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-text-accent { color: #34d399; }
     .tj-text-danger { color: #f87171; }
     .tj-contract-text-viewer { max-height: 380px; overflow-y: auto; padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: #0c1822; }
-    .tj-contract-text-viewer pre { white-space: pre-wrap; font-family: inherit; font-size: 0.88rem; line-height: 1.6; margin: 0; color: #cbd5e1; }
+    .tj-contract-text-viewer pre { white-space: pre-wrap; font-family: inherit; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1; }
     .tj-terms-link-note { margin-top: 12px; font-size: 0.86rem; color: #94a3b8; }
     .tj-terms-link-note a { color: var(--portfolio-brand, #0097b2); }
     .tj-acceptances-list { display: grid; gap: 16px; }
@@ -514,6 +517,7 @@ export class ClientContractSigningPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly contractClient = inject(ContractClientService);
   private readonly content = inject(PortfolioContentService);
+  private readonly sanitizer = inject(DomSanitizer);
 
   readonly catalogPages = CATALOG_PAGES;
 
@@ -524,6 +528,7 @@ export class ClientContractSigningPageComponent implements OnInit {
   readonly currentStep = signal(1);
   readonly isSubmitting = signal(false);
   readonly isPreviewModalOpen = signal(false);
+  readonly previewPdfUrl = signal<SafeResourceUrl | null>(null);
   readonly isGenericMode = signal(false);
   readonly downloadUrl = signal<string | undefined>(undefined);
 
@@ -733,9 +738,37 @@ export class ClientContractSigningPageComponent implements OnInit {
     this.signatureData = output;
   }
 
-  openPreviewModal(): void {
+  /**
+   * Abre la vista previa del contrato generando la vista PDF nativa con la marca de agua preliminar.
+   */
+  async openPreviewModal(): Promise<void> {
     this.updateContractSnapshot();
-    this.isPreviewModalOpen.set(true);
+    const c = this.contract();
+    if (!c) return;
+
+    // Crear contrato temporal con firma para la vista previa
+    const previewDoc: ContractDocument = {
+      ...c,
+      client: this.clientForm,
+      acceptances: this.acceptances,
+      signature: this.signatureData ? {
+        method: this.signatureData.method,
+        signerName: this.clientForm.fullName,
+        signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
+        signatureDataUrl: this.signatureData.dataUrl,
+        signedAt: new Date().toISOString(),
+      } : undefined,
+    };
+
+    try {
+      const pdfRes = await generateClientContractPdf(previewDoc, true); // isWatermarkPreview = true
+      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfRes.downloadUrl);
+      this.previewPdfUrl.set(safeUrl);
+      this.isPreviewModalOpen.set(true);
+    } catch (err) {
+      console.warn('No se pudo generar vista previa PDF nativa. Usando fallback text...', err);
+      this.isPreviewModalOpen.set(true);
+    }
   }
 
   confirmPdfPreview(): void {

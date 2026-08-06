@@ -96,14 +96,16 @@ service cloud.firestore {
     }
 
     // ── Sistema de Contratación Digital ──
+    // Permitir lectura y creación pública para portal genérico /contratar y firma por token
     match /contracts/{contractId} {
-      allow read: if isSignedIn() || resource.data.token != null;
-      allow create, update: if isSignedIn();
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
       allow delete: if false;
     }
 
     match /contractTemplates/{templateId} {
-      allow read: if isSignedIn();
+      allow read: if true;
       allow create, update: if isSignedIn();
       allow delete: if false;
     }
