@@ -24,6 +24,10 @@ import {
   CatalogPackageItem,
   CatalogAccordionGroup,
 } from '../utils/contract-packages-catalog.util';
+import {
+  downloadContractPdfFile,
+  buildFullWhatsappContractMessage,
+} from '../utils/contract-pdf.util';
 import { SignaturePadComponent, SignatureOutput } from '../components/signature-pad.component';
 import { PdfViewerModalComponent } from '../components/pdf-viewer-modal.component';
 import { PortfolioShellComponent } from '../../portfolio/portfolio-shell.component';
@@ -66,13 +70,16 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
         <div *ngIf="isCompleted() && contract() as c" class="tj-state-card tj-state-card--success">
           <div class="tj-success-icon">✓</div>
           <h2>Contrato Firmado Correctamente</h2>
-          <p>El contrato <strong>N° {{ c.contractNumber }}</strong> ha sido firmado e inmutabilizado con éxito.</p>
-          <p class="tj-text-muted">Se ha procesado tu firma electrónica e incorporado al comprobante oficial.</p>
+          <p>El contrato <strong>N° {{ c.contractNumber }}</strong> ha sido firmado, inmutabilizado y guardado en Firebase.</p>
+          <p class="tj-text-muted">Se ha procesado tu firma electrónica e incorporado al comprobante en formato PDF.</p>
 
           <div class="tj-success-actions">
-            <a *ngIf="downloadUrl()" [href]="downloadUrl()" target="_blank" download class="tj-btn-primary">
+            <!-- BOTÓN DE DESCARGA PDF COMPLETO -->
+            <button type="button" class="tj-btn-primary" (click)="downloadPdf(c)">
               📥 Descargar Contrato PDF Firmado
-            </a>
+            </button>
+
+            <!-- BOTÓN DE ENVÍO WHATSAPP CON TODA LA INFORMACIÓN -->
             <a [href]="buildWhatsappHref(c)" target="_blank" rel="noopener" class="tj-btn-whatsapp">
               💬 Enviar Copia por WhatsApp a TECNOJACK
             </a>
@@ -395,7 +402,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
             <section *ngIf="currentStep() === 7 || currentStep() === 8" class="tj-step-panel">
               <span class="tj-step-tag">Paso {{ currentStep() }} de 8 · Confirmación Definitiva</span>
               <h2>Revisión Final antes del Envío</h2>
-              <p class="tj-step-lead">Confirma que todos los datos y la firma incorporada estén correctos. Al hacer clic en "Confirmar y Firmar", el documento quedará procesado e inmutabilizado.</p>
+              <p class="tj-step-lead">Confirma que todos los datos y la firma incorporada estén correctos. Al hacer clic en "Confirmar y Firmar", el documento quedará procesado, subido a Firebase e inmutabilizado.</p>
 
               <div class="tj-summary-confirmation">
                 <p><strong>Cliente:</strong> {{ clientForm.fullName }} ({{ clientForm.documentType }} {{ clientForm.documentNumber }})</p>
@@ -409,7 +416,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               <div class="tj-wizard-actions">
                 <button type="button" class="tj-btn-ghost" (click)="setStep(6)">← Cambiar Firma</button>
                 <button type="button" class="tj-btn-primary tj-btn-submit-final" [disabled]="isSubmitting()" (click)="submitFinalSignature()">
-                  {{ isSubmitting() ? 'Generando PDF e inmutabilizando...' : '🔒 Confirmar y Firmar Definitivamente' }}
+                  {{ isSubmitting() ? 'Generando PDF e inmutabilizando en Firebase...' : '🔒 Confirmar y Firmar Definitivamente' }}
                 </button>
               </div>
             </section>
@@ -449,7 +456,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     }
     .tj-success-actions { display: flex; justify-content: center; gap: 14px; margin-top: 24px; flex-wrap: wrap; }
     .tj-btn-whatsapp {
-      padding: 12px 24px; border-radius: 12px; border: none; background: #25d366; color: #fff; text-decoration: none; font-weight: 700;
+      padding: 12px 24px; border-radius: 12px; border: none; background: #25d366; color: #fff; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;
     }
     .tj-wizard-wrap { display: grid; gap: 24px; }
     .tj-wizard-progress {
@@ -468,9 +475,6 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-step-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--portfolio-accent, #ffb800); }
     .tj-step-panel h2 { margin: 6px 0 4px; font-size: 1.8rem; }
     .tj-step-lead { margin: 0 0 24px; color: #94a3b8; font-size: 0.95rem; }
-    .tj-service-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 20px; }
-    .tj-info-box { padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); display: grid; gap: 4px; }
-    .tj-info-box span { font-size: 0.78rem; color: #94a3b8; }
     .tj-details-list { margin-top: 18px; }
     .tj-details-list h3 { margin: 0 0 8px; font-size: 1rem; color: var(--portfolio-accent, #ffb800); }
     .tj-details-list ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: #cbd5e1; font-size: 0.92rem; }
@@ -739,6 +743,13 @@ export class ClientContractSigningPageComponent implements OnInit {
     this.setStep(8);
   }
 
+  /**
+   * Genera y descarga el archivo PDF completo con TODA la información del contrato.
+   */
+  async downloadPdf(c: ContractDocument): Promise<void> {
+    await downloadContractPdfFile(c);
+  }
+
   async submitFinalSignature(): Promise<void> {
     const c = this.contract();
     if (!c || !this.signatureData?.dataUrl) {
@@ -749,54 +760,47 @@ export class ClientContractSigningPageComponent implements OnInit {
     this.isSubmitting.set(true);
 
     try {
-      if (this.isGenericMode()) {
-        const now = new Date().toISOString();
-        const updated: ContractDocument = {
-          ...c,
-          status: 'signed',
-          client: this.clientForm,
-          acceptances: this.acceptances,
-          signature: {
-            method: this.signatureData.method,
-            signerName: this.clientForm.fullName,
-            signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
-            signatureDataUrl: this.signatureData.dataUrl,
-            signedAt: now,
-          },
-          snapshot: {
-            ...c.snapshot,
-            locked: true,
-            lockedAt: now,
-          },
-          updatedAt: now,
+      const now = new Date().toISOString();
+      const updated: ContractDocument = {
+        ...c,
+        status: 'signed',
+        client: this.clientForm,
+        acceptances: this.acceptances,
+        signature: {
+          method: this.signatureData.method,
+          signerName: this.clientForm.fullName,
+          signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
+          signatureDataUrl: this.signatureData.dataUrl,
+          signedAt: now,
+        },
+        snapshot: {
+          ...c.snapshot,
+          locked: true,
+          lockedAt: now,
+        },
+        updatedAt: now,
+      };
+
+      // 1. Subir PDF a Firebase Storage y registrar en Firestore
+      const uploadRes = await this.contractClient.uploadContractPdfToFirebase(updated);
+
+      if (uploadRes.downloadUrl) {
+        updated.pdf = {
+          finalStoragePath: `contracts/${new Date().getFullYear()}/${c.id}/contract-signed.pdf`,
+          downloadUrl: uploadRes.downloadUrl,
+          sha256: uploadRes.sha256Hex,
+          generatedAt: now,
         };
-
-        this.contract.set(updated);
-        this.downloadUrl.set(this.signatureData.dataUrl);
-        this.isCompleted.set(true);
-      } else {
-        const res = await this.contractClient.signContract({
-          token: c.token,
-          clientInfo: this.clientForm,
-          acceptances: this.acceptances,
-          signature: {
-            method: this.signatureData.method,
-            signerName: this.clientForm.fullName,
-            signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
-            signatureDataUrl: this.signatureData.dataUrl,
-            signedAt: new Date().toISOString(),
-          },
-        });
-
-        if (res.success) {
-          const updated = await this.contractClient.getContractByToken(c.token);
-          this.contract.set(updated || c);
-          this.downloadUrl.set(res.downloadUrl || this.signatureData.dataUrl);
-          this.isCompleted.set(true);
-        }
       }
+
+      this.contract.set(updated);
+      this.downloadUrl.set(uploadRes.downloadUrl);
+      this.isCompleted.set(true);
+
+      // Disparar descarga automática del PDF en el navegador
+      await downloadContractPdfFile(updated);
     } catch (err: any) {
-      console.error('Error al firmar contrato:', err);
+      console.error('Error al procesar la firma del contrato:', err);
       alert('No se pudo procesar la firma: ' + (err.message || err));
     } finally {
       this.isSubmitting.set(false);
@@ -807,9 +811,12 @@ export class ClientContractSigningPageComponent implements OnInit {
     return formatCurrency(amount, currency);
   }
 
+  /**
+   * Construye la URL de WhatsApp prellenada con TODA la información del contrato.
+   */
   buildWhatsappHref(c: ContractDocument): string {
-    const msg = `Hola TECNOJACK, he firmado el contrato N° ${c.contractNumber} para ${c.client.fullName} (${c.service.packageName}).`;
-    return `https://wa.me/573145406467?text=${encodeURIComponent(msg)}`;
+    const fullMessage = buildFullWhatsappContractMessage(c);
+    return `https://wa.me/573145406467?text=${encodeURIComponent(fullMessage)}`;
   }
 
   private buildGenericContractDoc(): ContractDocument {
@@ -826,29 +833,31 @@ export class ClientContractSigningPageComponent implements OnInit {
     const defaultService: ContractServiceInfo = {
       page: 'portfolio',
       category: 'bodas',
-      packageName: 'Boda Sencilla Híbrida',
-      description: 'Cobertura audiovisual para ceremonia y recepción.',
+      packageName: 'Esencial – Tu historia en foto y video',
+      description: 'Cobertura equilibrada que combina fotografía y video.',
       features: [
-        'Cobertura de hasta 6 horas continuas de evento',
-        '1 Fotógrafo principal + 1 Videógrafo dedicado',
+        'Cobertura parcial del evento',
+        '1 fotógrafo + 1 videógrafo',
+        'Duración de 4 a 6 horas',
       ],
       deliverables: [
-        'Galería digital privada con fotografías editadas en alta resolución',
-        'Video Highlight / Teaser en HD/4K',
+        'Hasta 150 fotografías editadas en alta resolución',
+        'Video principal de 3 a 5 minutos',
+        'Galería digital privada por 3 meses',
       ],
       additionalServices: [],
     };
 
     const defaultPayment: ContractPaymentInfo = {
       currency: 'COP',
-      baseAmount: 2500000,
+      baseAmount: 1650000,
       extrasAmount: 0,
       transportAmount: 0,
       discountAmount: 0,
-      totalAmount: 2500000,
-      paidAmount: 1000000,
+      totalAmount: 1650000,
+      paidAmount: 660000,
       paidPercentage: 40,
-      remainingAmount: 1500000,
+      remainingAmount: 990000,
       selectedOption: 40,
       confirmedManually: true,
       confirmedBy: 'cliente',
