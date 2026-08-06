@@ -9,7 +9,7 @@ import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financia
 import {
   CATALOG_PAGES,
   CatalogPackageItem,
-  CatalogSubServiceGroup,
+  CatalogAccordionGroup,
 } from '../utils/contract-packages-catalog.util';
 
 @Component({
@@ -84,12 +84,12 @@ import {
             </label>
 
             <label class="tj-field tj-field--full">
-              <span>Servicio / Paquete Exacto (Agrupado por Sub-Servicio) *</span>
+              <span>Servicio / Paquete Exacto (Clasificado por Acordeón) *</span>
               <select
                 [ngModel]="selectedPackageId()"
                 (ngModelChange)="onPackageSelected($event)"
                 name="selectedPackageId">
-                <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📌 ' + group.groupName">
+                <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📂 ' + group.accordionTitle">
                   <option *ngFor="let pkg of group.packages" [value]="pkg.id">
                     {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
                   </option>
@@ -433,7 +433,7 @@ export class AdminContractFormPageComponent implements OnInit {
     }
   }
 
-  currentSubServiceGroups(): CatalogSubServiceGroup[] {
+  currentSubServiceGroups(): CatalogAccordionGroup[] {
     const pageId = this.selectedPageId();
     const page = this.catalogPages.find((p) => p.id === pageId);
     return page ? page.subServiceGroups : [];
@@ -453,7 +453,7 @@ export class AdminContractFormPageComponent implements OnInit {
 
     let foundPkg: CatalogPackageItem | undefined;
     for (const g of groups) {
-      const match = g.packages.find((p) => p.id === pkgId);
+      const match = g.packages.find((p: CatalogPackageItem) => p.id === pkgId);
       if (match) {
         foundPkg = match;
         break;

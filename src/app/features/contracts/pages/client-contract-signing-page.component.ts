@@ -21,9 +21,8 @@ import {
 } from '../utils/contract-template-builder.util';
 import {
   CATALOG_PAGES,
-  CatalogPageConfig,
   CatalogPackageItem,
-  CatalogSubServiceGroup,
+  CatalogAccordionGroup,
 } from '../utils/contract-packages-catalog.util';
 import { SignaturePadComponent, SignatureOutput } from '../components/signature-pad.component';
 import { PdfViewerModalComponent } from '../components/pdf-viewer-modal.component';
@@ -99,11 +98,11 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: SELECCIÓN DE PÁGINA Y SERVICIO/PAQUETE CLASIFICADO -->
+            <!-- PASO 1: SELECCIÓN DE PÁGINA Y SERVICIO/PAQUETE CLASIFICADO POR ACORDEÓN -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
               <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
               <h2>Selecciona tu Página de Servicio y Paquete Contratado</h2>
-              <p class="tj-step-lead">Selecciona la línea de servicio y el paquete exacto clasificado por formato.</p>
+              <p class="tj-step-lead">Elige primero la página del servicio y luego selecciona el paquete exacto agrupado por acordeón.</p>
 
               <div class="tj-form-grid">
                 <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
@@ -118,13 +117,13 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   </select>
                 </label>
 
-                <!-- CASILLA 2: LISTA DE SERVICIOS AGRUPADOS POR SUB-SERVICIO -->
+                <!-- CASILLA 2: LISTA DE PAQUETES AGRUPADOS POR EL TÍTULO DEL ACORDEÓN -->
                 <label class="tj-field tj-field--full">
-                  <span>2. Servicio / Paquete Exacto (Clasificado por Sub-Servicio) *</span>
+                  <span>2. Servicio / Paquete Exacto (Clasificado por Acordeón) *</span>
                   <select
                     [ngModel]="selectedPackageId()"
                     (ngModelChange)="onPackageSelected($event)">
-                    <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📌 ' + group.groupName">
+                    <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📂 ' + group.accordionTitle">
                       <option *ngFor="let pkg of group.packages" [value]="pkg.id">
                         {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
                       </option>
@@ -557,7 +556,7 @@ export class ClientContractSigningPageComponent implements OnInit {
     }
   }
 
-  currentSubServiceGroups(): CatalogSubServiceGroup[] {
+  currentSubServiceGroups(): CatalogAccordionGroup[] {
     const pageId = this.selectedPageId();
     const page = this.catalogPages.find((p) => p.id === pageId);
     return page ? page.subServiceGroups : [];
@@ -827,12 +826,11 @@ export class ClientContractSigningPageComponent implements OnInit {
     const defaultService: ContractServiceInfo = {
       page: 'portfolio',
       category: 'bodas',
-      packageName: 'Boda Esencial (Foto + Video Base)',
-      description: 'Cobertura audiovisual esencial para ceremonias y recepción.',
+      packageName: 'Boda Sencilla Híbrida',
+      description: 'Cobertura audiovisual para ceremonia y recepción.',
       features: [
         'Cobertura de hasta 6 horas continuas de evento',
         '1 Fotógrafo principal + 1 Videógrafo dedicado',
-        'Dirección estética de momentos destacados',
       ],
       deliverables: [
         'Galería digital privada con fotografías editadas en alta resolución',
