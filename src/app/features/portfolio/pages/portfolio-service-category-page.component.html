@@ -423,10 +423,10 @@
                         </div>
                     </details>
 
-                    <details class="service-package-request__accordion" *ngIf="customAdditionalGroups().length">
+                    <details class="service-package-request__accordion" *ngIf="simpleAdditionalGroups().length">
                         <summary class="service-package-request__accordion-summary">Servicios adicionales</summary>
                         <div class="service-package-request__builder">
-                            <section class="service-package-request__group" *ngFor="let group of customAdditionalGroups()">
+                            <section class="service-package-request__group" *ngFor="let group of simpleAdditionalGroups()">
                                 <div class="service-package-request__group-head">
                                     <p>Servicios adicionales</p>
                                     <span>{{ group.description || 'Elige los adicionales que quieres incluir en tu solicitud.' }}</span>
@@ -448,6 +448,46 @@
                                                 type="button"
                                                 [attr.aria-pressed]="isOptionSelected(option.id)"
                                                 [attr.title]="isOptionSelected(option.id) ? 'Clic para quitar' : 'Clic para agregar'"
+                                                [class.is-added]="isOptionSelected(option.id)"
+                                                (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
+                                                {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}
+                                            </button>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </details>
+
+                    <details class="service-package-request__accordion" *ngIf="relatedPackageGroups().length">
+                        <summary class="service-package-request__accordion-summary">Experiencias relacionadas</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group" *ngFor="let group of relatedPackageGroups()">
+                                <div class="service-package-request__group-head">
+                                    <p>{{ group.title }}</p>
+                                    <span>{{ group.description }}</span>
+                                </div>
+
+                                <div class="service-package-request__upsell-grid">
+                                    <article class="service-package-request__upsell" *ngFor="let option of group.options">
+                                        <div class="service-package-request__upsell-copy">
+                                            <strong>{{ getUpsellName(option.label) }}</strong>
+                                            <a
+                                                class="service-package-request__linked-package"
+                                                *ngIf="getLinkedPackageHref(option) as linkedHref"
+                                                [href]="linkedHref"
+                                                target="_blank"
+                                                rel="noopener">
+                                                Ver paquete y entregables
+                                            </a>
+                                        </div>
+
+                                        <div class="service-package-request__upsell-actions">
+                                            <span class="service-package-request__upsell-price">{{ option.priceLabel }}</span>
+                                            <button
+                                                class="service-package-request__upsell-btn btn-text"
+                                                type="button"
+                                                [attr.aria-pressed]="isOptionSelected(option.id)"
                                                 [class.is-added]="isOptionSelected(option.id)"
                                                 (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
                                                 {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}

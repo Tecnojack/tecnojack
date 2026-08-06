@@ -34,4 +34,26 @@ describe('prewedding package catalog', () => {
     expect(getPortfolioPackageDetail('preboda', 'plan-especial')?.slug).toBe('preboda-editorial');
     expect(getPortfolioPackageDetail('preboda', 'plan-premium')?.slug).toBe('preboda-premium');
   });
+
+  it('links related experiences to their canonical package names and prices', () => {
+    const hybrid = getPortfolioPackageDetail('bodas', 'esencial-hibrido-foto-video');
+    const related = hybrid?.requestOptionGroups.find(
+      (group) => group.title === 'Experiencias relacionadas',
+    );
+
+    expect(related?.options.length).toBe(7);
+
+    for (const option of related?.options ?? []) {
+      const linked = getPortfolioPackageDetail(
+        option.linkedPackageCategory,
+        option.linkedPackageSlug,
+      );
+
+      expect(linked).withContext(option.id).toBeDefined();
+      expect(option.label).withContext(option.id).toBe(linked?.title);
+      expect(option.priceAmountCop).withContext(option.id).toBe(
+        linked?.baseQuoteOptions[0]?.amountCop,
+      );
+    }
+  });
 });

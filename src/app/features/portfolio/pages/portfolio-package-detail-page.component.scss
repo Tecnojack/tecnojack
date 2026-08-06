@@ -2,6 +2,30 @@
     display: block;
 }
 
+.package-request-option--linked {
+    grid-template-columns: 1fr;
+}
+
+.package-request-option--linked label {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.package-request-option--linked a {
+    margin-left: 30px;
+    color: var(--package-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.package-request-option--linked a:hover,
+.package-request-option--linked a:focus-visible {
+    text-decoration: underline;
+}
+
 .portfolio-package-detail {
     --package-accent: var(--portfolio-accent);
     --package-brand: var(--portfolio-brand, #0097b2);

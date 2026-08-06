@@ -259,10 +259,10 @@
                             </div>
                         </details>
 
-                        <details class="package-request__accordion" *ngIf="customAdditionalGroups().length">
+                        <details class="package-request__accordion" *ngIf="simpleAdditionalGroups().length">
                             <summary class="package-request__accordion-summary">Servicios adicionales</summary>
                             <div class="package-request-groups">
-                                <section class="package-request-group" *ngFor="let group of customAdditionalGroups()" [hidden]="!isCustomRequestMode()">
+                                <section class="package-request-group" *ngFor="let group of simpleAdditionalGroups()" [hidden]="!isCustomRequestMode()">
                                     <div class="package-request-group__head">
                                         <p>{{ group.title }}</p>
                                         <span *ngIf="group.description">{{ group.description }}</span>
@@ -279,6 +279,40 @@
                                                 <small *ngIf="option.priceLabel">{{ option.priceLabel }}</small>
                                             </span>
                                         </label>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+
+                        <details class="package-request__accordion" *ngIf="relatedPackageGroups().length">
+                            <summary class="package-request__accordion-summary">Experiencias relacionadas</summary>
+                            <div class="package-request-groups">
+                                <section class="package-request-group" *ngFor="let group of relatedPackageGroups()" [hidden]="!isCustomRequestMode()">
+                                    <div class="package-request-group__head">
+                                        <p>{{ group.title }}</p>
+                                        <span>{{ group.description }}</span>
+                                    </div>
+
+                                    <div class="package-request-options">
+                                        <div class="package-request-option package-request-option--linked" *ngFor="let option of group.options">
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="isOptionSelected(option.id)"
+                                                    (change)="toggleRequestOption(option.id, $any($event.target).checked)" />
+                                                <span>
+                                                    {{ option.label }}
+                                                    <small>{{ option.priceLabel }}</small>
+                                                </span>
+                                            </label>
+                                            <a
+                                                *ngIf="getLinkedPackageHref(option) as linkedHref"
+                                                [href]="linkedHref"
+                                                target="_blank"
+                                                rel="noopener">
+                                                Ver paquete y entregables
+                                            </a>
+                                        </div>
                                     </div>
                                 </section>
                             </div>

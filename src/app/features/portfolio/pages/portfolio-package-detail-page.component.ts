@@ -25,6 +25,7 @@ import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-fol
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
+import { PortfolioRequestOption, PortfolioRequestOptionGroup } from '../portfolio.data';
 
 const copFormatter = new Intl.NumberFormat('es-CO');
 type RequestMode = 'base' | 'custom';
@@ -188,6 +189,14 @@ export class PortfolioPackageDetailPageComponent {
       this.packageDetail()?.requestOptionGroups.filter(
         (group) => group.selectable,
       ) ?? [],
+  );
+
+  readonly simpleAdditionalGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => !this.isRelatedPackageGroup(group)),
+  );
+
+  readonly relatedPackageGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => this.isRelatedPackageGroup(group)),
   );
 
   readonly isBaseRequestMode = computed(() => this.requestMode() === 'base');
@@ -518,6 +527,24 @@ export class PortfolioPackageDetailPageComponent {
 
   isOptionSelected(optionId: string): boolean {
     return !!this.requestSelections()[optionId];
+  }
+
+  getLinkedPackageHref(option: PortfolioRequestOption): string | null {
+    if (!option.linkedPackageCategory || !option.linkedPackageSlug) {
+      return null;
+    }
+
+    const linked = this.content.getPackageDetail(
+      option.linkedPackageCategory,
+      option.linkedPackageSlug,
+    );
+    return linked ? `${linked.categoryHref}/${linked.slug}` : null;
+  }
+
+  private isRelatedPackageGroup(group: PortfolioRequestOptionGroup): boolean {
+    return group.options.some(
+      (option) => !!option.linkedPackageCategory && !!option.linkedPackageSlug,
+    );
   }
 
   formatCop(value: number): string {

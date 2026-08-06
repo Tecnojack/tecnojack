@@ -170,6 +170,8 @@ export interface PortfolioRequestOption {
   priceLabel?: string;
   priceAmountCop?: number;
   selectedByDefault?: boolean;
+  linkedPackageCategory?: PortfolioPackageCategory;
+  linkedPackageSlug?: string;
 }
 
 export interface PortfolioRequestOptionGroup {
@@ -1667,6 +1669,76 @@ export const preweddingPlans: PreweddingPlan[] = [
   }
 ];
 
+function buildLinkedPackageOption(
+  id: string,
+  label: string,
+  priceLabel: string,
+  priceAmountCop: number,
+  linkedPackageCategory: PortfolioPackageCategory,
+  linkedPackageSlug: string,
+): PortfolioRequestOption {
+  return {
+    id,
+    label,
+    priceLabel,
+    priceAmountCop,
+    selectedByDefault: false,
+    linkedPackageCategory,
+    linkedPackageSlug,
+  };
+}
+
+function buildWeddingRelatedExperiencesGroup(prefix: string): PortfolioRequestOptionGroup {
+  const prebodaOptions = preweddingPlans.map((plan) => {
+    const amount = Number((plan.price ?? '').replace(/\D/g, ''));
+    return buildLinkedPackageOption(
+      `${prefix}-related-${plan.slug}`,
+      plan.name,
+      `${plan.price} COP`,
+      amount,
+      'preboda',
+      plan.slug,
+    );
+  });
+
+  const postbodaOptions = weddingPostweddingPlans.map((plan) =>
+    buildLinkedPackageOption(
+      `${prefix}-related-${plan.slug}`,
+      plan.name,
+      plan.priceLines[0] ?? `${plan.amountCop} COP`,
+      plan.amountCop,
+      'bodas',
+      plan.slug,
+    ),
+  );
+
+  return {
+    title: 'Experiencias relacionadas',
+    description: 'Añade una experiencia completa conservando su nombre, precio y entregables originales.',
+    selectable: true,
+    options: [...prebodaOptions, ...postbodaOptions],
+  };
+}
+
+function buildPreweddingWeddingOptionsGroup(prefix: string): PortfolioRequestOptionGroup {
+  return {
+    title: 'Continúa con la cobertura de boda',
+    description: 'Conecta tu preboda con uno de nuestros paquetes principales de foto y video.',
+    selectable: true,
+    options: weddingMainPlans.map((plan) => {
+      const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
+      return buildLinkedPackageOption(
+        `${prefix}-related-${plan.slug}`,
+        plan.name,
+        plan.priceLines[0] ?? `${amount} COP`,
+        amount,
+        'bodas',
+        plan.slug,
+      );
+    }),
+  };
+}
+
 export const portfolioPackageDetails: PortfolioPackageDetail[] = [
   ...weddingMainPlans.map((plan) => ({
     category: 'bodas' as const,
@@ -1771,6 +1843,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
+      buildWeddingRelatedExperiencesGroup(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -1864,6 +1937,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
+      buildWeddingRelatedExperiencesGroup(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -1890,7 +1964,10 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [buildInvitationWebRequestOptionGroup(plan.slug, 'boda')],
+    requestOptionGroups: [
+      buildWeddingRelatedExperiencesGroup(plan.slug),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda'),
+    ],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de bodas).`)
   })),
@@ -2120,7 +2197,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           ],
           false
         )
-      }
+      },
+      buildPreweddingWeddingOptionsGroup(plan.slug),
     ],
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} de preboda.`)
   }))

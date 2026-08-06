@@ -681,6 +681,14 @@ export class PortfolioServiceCategoryPageComponent {
     },
   );
 
+  readonly simpleAdditionalGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => !this.isRelatedPackageGroup(group)),
+  );
+
+  readonly relatedPackageGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => this.isRelatedPackageGroup(group)),
+  );
+
   readonly selectedBaseQuote = computed(() => {
     const detail = this.selectedPackage();
     if (!detail) {
@@ -1134,6 +1142,24 @@ export class PortfolioServiceCategoryPageComponent {
 
   getUpsellDescription(label: string): string {
     return this.parseUpsellLabel(label).description;
+  }
+
+  getLinkedPackageHref(option: PortfolioRequestOption): string | null {
+    if (!option.linkedPackageCategory || !option.linkedPackageSlug) {
+      return null;
+    }
+
+    const linked = this.content.getPackageDetail(
+      option.linkedPackageCategory,
+      option.linkedPackageSlug,
+    );
+    return linked ? `${linked.categoryHref}/${linked.slug}` : null;
+  }
+
+  private isRelatedPackageGroup(group: PortfolioRequestOptionGroup): boolean {
+    return group.options.some(
+      (option) => !!option.linkedPackageCategory && !!option.linkedPackageSlug,
+    );
   }
 
   private parseUpsellLabel(label: string): {
