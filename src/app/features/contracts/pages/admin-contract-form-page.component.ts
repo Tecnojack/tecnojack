@@ -6,6 +6,10 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContractAdminService } from '../services/contract-admin.service';
 import { ContractClientInfo, ContractServiceInfo } from '../models/contract.model';
 import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financial.util';
+import {
+  CONTRACT_CATALOG_CATEGORIES,
+  CatalogPackageOption,
+} from '../utils/contract-packages-catalog.util';
 
 @Component({
   selector: 'tj-admin-contract-form-page',
@@ -61,27 +65,32 @@ import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financia
           </div>
         </section>
 
-        <!-- 2. DATOS DEL SERVICIO -->
+        <!-- 2. SELECCIÓN DE CATEGORÍA Y PAQUETE -->
         <section class="tj-form-section">
-          <h2>2. Detalles del Servicio y Paquete</h2>
+          <h2>2. Selección de Servicio por Categoría</h2>
+
           <div class="tj-form-grid">
             <label class="tj-field">
-              <span>Nombre del Paquete o Servicio *</span>
-              <input type="text" [(ngModel)]="service.packageName" name="packageName" required placeholder="Ej. Boda Esencial (Foto + Video)" />
+              <span>Tipo de Servicio (Categoría) *</span>
+              <select
+                [ngModel]="selectedCategoryId()"
+                (ngModelChange)="onCategorySelected($event)"
+                name="selectedCategoryId">
+                <option *ngFor="let cat of catalogCategories" [value]="cat.id">
+                  {{ cat.label }}
+                </option>
+              </select>
             </label>
 
             <label class="tj-field">
-              <span>Categoría</span>
-              <select [(ngModel)]="service.category" name="category">
-                <option value="bodas">Bodas</option>
-                <option value="preboda">Preboda</option>
-                <option value="postboda">Postboda</option>
-                <option value="boda_civil">Boda Civil</option>
-                <option value="peticion_mano">Petición de Mano</option>
-                <option value="quinces">Quinces</option>
-                <option value="grados">Grados</option>
-                <option value="corporativo">Corporativo</option>
-                <option value="otros">Otros</option>
+              <span>Paquete o Servicio Exacto *</span>
+              <select
+                [ngModel]="selectedPackageId()"
+                (ngModelChange)="onPackageSelected($event)"
+                name="selectedPackageId">
+                <option *ngFor="let pkg of availablePackages()" [value]="pkg.id">
+                  {{ pkg.packageName }} — {{ formatCop(pkg.priceAmountCop) }}
+                </option>
               </select>
             </label>
 
@@ -99,14 +108,14 @@ import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financia
           <div class="tj-field-full">
             <label class="tj-field">
               <span>Características principales (una por línea)</span>
-              <textarea [(ngModel)]="featuresText" name="featuresText" rows="3" placeholder="- Cobertura de 8 horas&#10;- 2 fotógrafos principales"></textarea>
+              <textarea [(ngModel)]="featuresText" name="featuresText" rows="4"></textarea>
             </label>
           </div>
 
           <div class="tj-field-full">
             <label class="tj-field">
               <span>Entregables por contrato (uno por línea)</span>
-              <textarea [(ngModel)]="deliverablesText" name="deliverablesText" rows="3" placeholder="- Galería digital de 500 fotos&#10;- Video teaser 1 min"></textarea>
+              <textarea [(ngModel)]="deliverablesText" name="deliverablesText" rows="4"></textarea>
             </label>
           </div>
         </section>
@@ -255,6 +264,7 @@ import { calculatePaymentInfo, formatCurrency } from '../utils/contract-financia
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
     }
+    .tj-field-full { grid-column: 1 / -1; }
     .tj-field {
       display: grid;
       gap: 6px;
@@ -361,6 +371,10 @@ export class AdminContractFormPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
+  readonly catalogCategories = CONTRACT_CATALOG_CATEGORIES;
+  readonly selectedCategoryId = signal<string>('bodas');
+  readonly selectedPackageId = signal<string>('boda-esencial');
+
   readonly isEditMode = signal(false);
   readonly isSubmitting = signal(false);
   contractId: string | null = null;
@@ -386,7 +400,7 @@ export class AdminContractFormPageComponent implements OnInit {
   featuresText = '';
   deliverablesText = '';
 
-  baseAmount = 0;
+  baseAmount = 2500000;
   extrasAmount = 0;
   transportAmount = 0;
   discountAmount = 0;
@@ -407,8 +421,36 @@ export class AdminContractFormPageComponent implements OnInit {
       this.isEditMode.set(true);
       this.loadExistingContract(this.contractId);
     } else {
-      this.recalculate();
+      this.onPackageSelected('boda-esencial');
     }
+  }
+
+  availablePackages(): CatalogPackageOption[] {
+    const catId = this.selectedCategoryId();
+    const cat = this.catalogCategories.find((c) => c.id === catId);
+    return cat ? cat.packages : [];
+  }
+
+  onCategorySelected(catId: string): void {
+    this.selectedCategoryId.set(catId);
+    const pkgs = this.availablePackages();
+    if (pkgs.length > 0) {
+      this.onPackageSelected(pkgs[0].id);
+    }
+  }
+
+  onPackageSelected(pkgId: string): void {
+    this.selectedPackageId.set(pkgId);
+    const pkgs = this.availablePackages();
+    const pkg = pkgs.find((p) => p.id === pkgId);
+    if (!pkg) return;
+
+    this.service.category = pkg.category;
+    this.service.packageName = pkg.packageName;
+    this.featuresText = pkg.features.join('\n');
+    this.deliverablesText = pkg.deliverables.join('\n');
+    this.baseAmount = pkg.priceAmountCop;
+    this.recalculate();
   }
 
   async loadExistingContract(id: string): Promise<void> {
@@ -463,7 +505,7 @@ export class AdminContractFormPageComponent implements OnInit {
     }
 
     if (!this.service.packageName.trim()) {
-      alert('Por favor ingresa el nombre del paquete o servicio.');
+      alert('Por favor ingresa o selecciona el nombre del paquete o servicio.');
       return;
     }
 
@@ -504,7 +546,7 @@ export class AdminContractFormPageComponent implements OnInit {
         });
         alert('Contrato actualizado exitosamente.');
       } else {
-        const id = await this.contractAdmin.createContract({
+        await this.contractAdmin.createContract({
           client: this.client,
           service: serviceData,
           paymentInput,

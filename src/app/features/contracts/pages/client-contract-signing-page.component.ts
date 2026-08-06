@@ -19,6 +19,11 @@ import {
   CURRENT_PRIVACY_VERSION,
   CURRENT_TERMS_VERSION,
 } from '../utils/contract-template-builder.util';
+import {
+  CONTRACT_CATALOG_CATEGORIES,
+  CatalogCategory,
+  CatalogPackageOption,
+} from '../utils/contract-packages-catalog.util';
 import { SignaturePadComponent, SignatureOutput } from '../components/signature-pad.component';
 import { PdfViewerModalComponent } from '../components/pdf-viewer-modal.component';
 import { PortfolioShellComponent } from '../../portfolio/portfolio-shell.component';
@@ -74,7 +79,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
           </div>
         </div>
 
-        <!-- WIZARD DE CONTRATACIÓN (9 PASOS) -->
+        <!-- WIZARD DE CONTRATACIÓN (8 PASOS) -->
         <div *ngIf="!isLoading() && !errorMessage() && !isCompleted() && contract() as c" class="tj-wizard-wrap">
           <!-- Indicador de Progreso Visual -->
           <div class="tj-wizard-progress">
@@ -93,59 +98,50 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: RESUMEN / EDICIÓN DEL SERVICIO -->
+            <!-- PASO 1: SELECCIÓN DE CATEGORÍA Y PAQUETE -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
-              <span class="tj-step-tag">Paso 1 de 8 · Servicio Contratado</span>
-              <h2>{{ c.service.packageName || 'Servicio Audiovisual' }}</h2>
-              <p class="tj-step-lead">Verifica o selecciona los detalles del servicio a contratar.</p>
+              <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
+              <h2>Selecciona la Categoría y el Paquete Contratado</h2>
+              <p class="tj-step-lead">Elige primero la categoría de tu evento y luego selecciona el servicio exacto negociado con TECNOJACK.</p>
 
-              <div class="tj-form-grid" *ngIf="isGenericMode()">
-                <label class="tj-field">
-                  <span>Nombre del servicio o paquete *</span>
-                  <input type="text" [(ngModel)]="c.service.packageName" (input)="updateContractSnapshot()" placeholder="Ej. Boda Esencial (Foto + Video)" />
-                </label>
-
-                <label class="tj-field">
-                  <span>Categoría</span>
-                  <select [(ngModel)]="c.service.category" (change)="updateContractSnapshot()">
-                    <option value="bodas">Bodas</option>
-                    <option value="preboda">Preboda</option>
-                    <option value="postboda">Postboda</option>
-                    <option value="boda_civil">Boda Civil</option>
-                    <option value="peticion_mano">Petición de Mano</option>
-                    <option value="quinces">Quinces</option>
-                    <option value="grados">Grados</option>
-                    <option value="corporativo">Corporativo</option>
-                    <option value="otros">Otros</option>
+              <div class="tj-form-grid">
+                <!-- CASILLA 1: TIPO DE SERVICIO / CATEGORÍA -->
+                <label class="tj-field tj-field--full">
+                  <span>1. Tipo de Servicio (Categoría) *</span>
+                  <select
+                    [ngModel]="selectedCategoryId()"
+                    (ngModelChange)="onCategorySelected($event)">
+                    <option *ngFor="let cat of catalogCategories" [value]="cat.id">
+                      {{ cat.label }}
+                    </option>
                   </select>
                 </label>
 
+                <!-- CASILLA 2: LISTA DEL SERVICIO EXACTO ELEGIDO -->
+                <label class="tj-field tj-field--full">
+                  <span>2. Servicio Exacto Seleccionado *</span>
+                  <select
+                    [ngModel]="selectedPackageId()"
+                    (ngModelChange)="onPackageSelected($event)">
+                    <option *ngFor="let pkg of availablePackages()" [value]="pkg.id">
+                      {{ pkg.packageName }} — {{ formatCop(pkg.priceAmountCop) }}
+                    </option>
+                  </select>
+                </label>
+
+                <!-- DATOS ADICIONALES DEL EVENTO -->
                 <label class="tj-field">
                   <span>Fecha estimada del evento</span>
                   <input type="date" [(ngModel)]="c.service.eventDate" (change)="updateContractSnapshot()" />
                 </label>
 
                 <label class="tj-field">
-                  <span>Ciudad o locación</span>
+                  <span>Ciudad o locación del evento</span>
                   <input type="text" [(ngModel)]="c.service.location" (input)="updateContractSnapshot()" placeholder="Ej. Medellín, Rionegro..." />
                 </label>
               </div>
 
-              <div class="tj-service-summary-grid" *ngIf="!isGenericMode()">
-                <div class="tj-info-box">
-                  <span>Categoría:</span>
-                  <strong>{{ c.service.category || 'General' }}</strong>
-                </div>
-                <div class="tj-info-box">
-                  <span>Fecha estimada:</span>
-                  <strong>{{ c.service.eventDate || 'Por confirmar' }}</strong>
-                </div>
-                <div class="tj-info-box">
-                  <span>Ciudad / Locación:</span>
-                  <strong>{{ c.service.location || 'Por definir' }}</strong>
-                </div>
-              </div>
-
+              <!-- DESCRIPCIÓN Y COBERTURA CARGADAS AUTOMÁTICAMENTE -->
               <div class="tj-details-list" *ngIf="c.service.features.length">
                 <h3>Cobertura y Características del Servicio</h3>
                 <ul>
@@ -228,19 +224,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
             <section *ngIf="currentStep() === 3" class="tj-step-panel">
               <span class="tj-step-tag">Paso 3 de 8 · Resumen Económico</span>
               <h2>Condiciones Económicas y Anticipo Recibido</h2>
-              <p class="tj-step-lead">Desglose de valores del contrato y monto abonado.</p>
-
-              <div class="tj-form-grid" *ngIf="isGenericMode()">
-                <label class="tj-field">
-                  <span>Valor Total del Servicio (COP) *</span>
-                  <input type="number" [(ngModel)]="genericTotalAmount" (input)="onGenericFinancialChange()" placeholder="Ej. 1500000" />
-                </label>
-
-                <label class="tj-field">
-                  <span>Anticipo Abonado (COP) *</span>
-                  <input type="number" [(ngModel)]="genericPaidAmount" (input)="onGenericFinancialChange()" placeholder="Ej. 600000" />
-                </label>
-              </div>
+              <p class="tj-step-lead">Desglose de valores del paquete seleccionado y monto abonado.</p>
 
               <div class="tj-financial-box">
                 <div class="tj-fin-row">
@@ -265,7 +249,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   <strong>{{ formatCop(c.payment.totalAmount, c.payment.currency) }}</strong>
                 </div>
                 <div class="tj-fin-row tj-fin-advance">
-                  <span>Anticipo recibido y confirmado:</span>
+                  <span>Anticipo recibido (40% recomendado):</span>
                   <strong class="tj-text-accent">{{ formatCop(c.payment.paidAmount, c.payment.currency) }} ({{ c.payment.paidPercentage }}%)</strong>
                 </div>
                 <div class="tj-fin-row tj-fin-remaining">
@@ -288,7 +272,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
             <section *ngIf="currentStep() === 4" class="tj-step-panel">
               <span class="tj-step-tag">Paso 4 de 8 · Texto del Contrato</span>
               <h2>Contrato de Prestación de Servicios</h2>
-              <p class="tj-step-lead">Lee detenidamente el clausulado legal oficial de TECNOJACK.</p>
+              <p class="tj-step-lead">Lee detenidamente el clausulado legal oficial de TECNOJACK para {{ c.service.packageName }}.</p>
 
               <div class="tj-contract-text-viewer">
                 <pre>{{ c.snapshot.contractText }}</pre>
@@ -523,6 +507,8 @@ export class ClientContractSigningPageComponent implements OnInit {
   private readonly contractClient = inject(ContractClientService);
   private readonly content = inject(PortfolioContentService);
 
+  readonly catalogCategories = CONTRACT_CATALOG_CATEGORIES;
+
   readonly contract = signal<ContractDocument | null>(null);
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
@@ -533,8 +519,8 @@ export class ClientContractSigningPageComponent implements OnInit {
   readonly isGenericMode = signal(false);
   readonly downloadUrl = signal<string | undefined>(undefined);
 
-  genericTotalAmount = 1500000;
-  genericPaidAmount = 600000;
+  readonly selectedCategoryId = signal<string>('bodas');
+  readonly selectedPackageId = signal<string>('boda-esencial');
 
   clientForm: ContractClientInfo = {
     fullName: '',
@@ -566,11 +552,67 @@ export class ClientContractSigningPageComponent implements OnInit {
     }
   }
 
+  availablePackages(): CatalogPackageOption[] {
+    const catId = this.selectedCategoryId();
+    const cat = this.catalogCategories.find((c) => c.id === catId);
+    return cat ? cat.packages : [];
+  }
+
+  onCategorySelected(catId: string): void {
+    this.selectedCategoryId.set(catId);
+    const pkgs = this.availablePackages();
+    if (pkgs.length > 0) {
+      this.onPackageSelected(pkgs[0].id);
+    }
+  }
+
+  onPackageSelected(pkgId: string): void {
+    this.selectedPackageId.set(pkgId);
+    const pkgs = this.availablePackages();
+    const pkg = pkgs.find((p) => p.id === pkgId);
+    if (!pkg) return;
+
+    const c = this.contract();
+    if (!c) return;
+
+    const total = pkg.priceAmountCop;
+    const paid = Math.round(total * 0.4);
+    const remaining = total - paid;
+
+    const service: ContractServiceInfo = {
+      ...c.service,
+      category: pkg.category,
+      packageName: pkg.packageName,
+      description: pkg.description,
+      features: [...pkg.features],
+      deliverables: [...pkg.deliverables],
+    };
+
+    const payment: ContractPaymentInfo = {
+      ...c.payment,
+      baseAmount: total,
+      totalAmount: total,
+      paidAmount: paid,
+      paidPercentage: 40,
+      remainingAmount: remaining,
+    };
+
+    const updated: ContractDocument = {
+      ...c,
+      service,
+      payment,
+    };
+
+    this.contract.set(updated);
+    this.updateContractSnapshot();
+  }
+
   initGenericContract(): void {
     this.isGenericMode.set(true);
     const generic = this.buildGenericContractDoc();
     this.contract.set(generic);
     this.isLoading.set(false);
+    this.onPackageSelected('boda-esencial');
   }
 
   async loadContract(token: string): Promise<void> {
@@ -605,33 +647,6 @@ export class ClientContractSigningPageComponent implements OnInit {
     } finally {
       this.isLoading.set(false);
     }
-  }
-
-  onGenericFinancialChange(): void {
-    const c = this.contract();
-    if (!c) return;
-
-    const total = Math.max(0, this.genericTotalAmount || 0);
-    const paid = Math.min(total, Math.max(0, this.genericPaidAmount || 0));
-    const paidPercentage = total > 0 ? Number(((paid / total) * 100).toFixed(2)) : 0;
-    const remaining = Math.max(0, total - paid);
-
-    const payment: ContractPaymentInfo = {
-      ...c.payment,
-      baseAmount: total,
-      totalAmount: total,
-      paidAmount: paid,
-      paidPercentage,
-      remainingAmount: remaining,
-    };
-
-    const updated: ContractDocument = {
-      ...c,
-      payment,
-    };
-
-    this.contract.set(updated);
-    this.updateContractSnapshot();
   }
 
   updateContractSnapshot(): void {
@@ -794,31 +809,32 @@ export class ClientContractSigningPageComponent implements OnInit {
     const defaultService: ContractServiceInfo = {
       page: 'portfolio',
       category: 'bodas',
-      packageName: 'Cobertura de Servicio Audiovisual TECNOJACK',
-      description: 'Cobertura fotográfica y videográfica profesional para evento.',
+      packageName: 'Boda Esencial (Foto + Video Base)',
+      description: 'Cobertura audiovisual esencial para ceremonias y recepción.',
       features: [
-        'Cobertura audiovisual profesional',
-        'Equipo de producción calificado con dirección estética',
-        'Edición y postproducción digital en alta resolución',
+        'Cobertura de hasta 6 horas continuas de evento',
+        '1 Fotógrafo principal + 1 Videógrafo dedicado',
+        'Dirección estética de momentos destacados (preparativos, ceremonia, brindis)',
+        'Equipos de cámara full frame y lentes luminosos para baja luz',
       ],
       deliverables: [
-        'Galería digital privada para descarga',
-        'Video resumido en alta definición',
-        'Entrega digital dentro de los tiempos estipulados',
+        'Galería digital privada con 350+ fotografías editadas en alta resolución',
+        'Video Highlight / Teaser de 3 a 5 minutos en HD/4K',
+        'Derechos de uso personal y descarga digital sin marcas de agua',
       ],
       additionalServices: [],
     };
 
     const defaultPayment: ContractPaymentInfo = {
       currency: 'COP',
-      baseAmount: 1500000,
+      baseAmount: 2500000,
       extrasAmount: 0,
       transportAmount: 0,
       discountAmount: 0,
-      totalAmount: 1500000,
-      paidAmount: 600000,
+      totalAmount: 2500000,
+      paidAmount: 1000000,
       paidPercentage: 40,
-      remainingAmount: 900000,
+      remainingAmount: 1500000,
       selectedOption: 40,
       confirmedManually: true,
       confirmedBy: 'cliente',
