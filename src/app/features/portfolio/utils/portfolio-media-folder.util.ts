@@ -60,7 +60,7 @@ function resolvePortfolioPackageSegment(
       return 'video-esencial';
 
     case 'preboda':
-      if (hasAny(tokens, ['premium'])) return 'preboda-premium';
+      if (hasAny(tokens, ['premium', 'editorial', 'cinematografica'])) return 'preboda-premium';
       if (hasAny(tokens, ['completa', 'completo', 'basico', 'sencilla'])) return 'preboda-completa';
       return 'preboda-esencial';
 

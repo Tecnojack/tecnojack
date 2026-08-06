@@ -1437,7 +1437,10 @@ export class PortfolioServiceCategoryPageComponent {
     })();
 
     const normalizedTier = tier.replace(/^Plan\s+/i, '').trim();
-    return `${categoryPrefix} ${normalizedTier}`.trim();
+    const tierWithoutRepeatedPrefix = normalizedTier
+      .replace(new RegExp(`^${categoryPrefix}\\s+`, 'i'), '')
+      .trim();
+    return `${categoryPrefix} ${tierWithoutRepeatedPrefix}`.trim();
   }
 
   private buildPackageTagline(detail: PortfolioPackageDetail): string {

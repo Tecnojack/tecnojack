@@ -1546,122 +1546,124 @@ export const quinceAdditionalItems: QuinceAdditionalItem[] = [
 
 export const quincePackageNotes: string[] = ['Precios ajustables', 'Condiciones Medellín'];
 
-export const preweddingPackagesTitle = 'PAQUETES DE PREBODA 2025';
+export const preweddingPackagesTitle = 'PAQUETES DE PREBODA';
 
 export const preweddingPlans: PreweddingPlan[] = [
   {
     slug: 'preboda-esencial',
-    name: 'Esencial – Nuestro comienzo',
+    name: 'Preboda Esencial',
     lead: 'Sesión íntima y natural para capturar la esencia de la pareja antes del gran día.',
     image: 'assets/images/galery/M&D-18.jpg',
-    price: '300.000',
+    price: '400.000',
     items: [
-      '1 locación cercana',
+      '1 fotógrafo',
+      '1 locación',
       'Duración de 2 horas',
-      'Dirección básica de poses',
+      '1 vestuario',
+      'Dirección de pareja',
       'Sesión en exterior',
-      '30 fotografías editadas',
+      '50 fotografías finales, seleccionadas y editadas',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 mes'
     ],
-    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['30 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    features: ['1 fotógrafo', '1 locación', 'Duración de 2 horas', '1 vestuario', 'Dirección de pareja', 'Sesión en exterior'],
+    deliverables: ['50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'preboda-completa',
-    name: 'Completa – La historia antes del sí',
+    name: 'Preboda Completa',
     lead:
       'Sesión más elaborada que permite explorar diferentes escenarios y lograr una narrativa más completa de la pareja.',
     image: 'assets/images/galery/M&D-32.jpg',
-    price: '450.000',
+    price: '580.000',
     items: [
-      '1 a 2 locaciones',
+      '1 fotógrafo',
+      '1 a 2 locaciones cercanas',
       'Duración de 3 horas',
+      'Hasta 2 vestuarios',
       'Dirección creativa',
-      'Posibilidad de cambio de outfit',
-      '50 fotografías editadas',
+      '70 fotografías finales, seleccionadas y editadas',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta calidad',
       'Galería online disponible por 3 meses'
     ],
-    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['50 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
+    deliverables: ['70 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
-    slug: 'preboda-premium',
-    name: 'Premium – Experiencia preboda cinematográfica',
-    lead: 'Experiencia completa que combina fotografía y video para crear contenido emocional antes de la boda.',
-    image: 'assets/images/fotos/M&D-31.jpg',
-    price: '700.000',
+    slug: 'preboda-editorial',
+    name: 'Preboda Editorial',
+    lead: 'Sesión con planeación visual y dirección editorial para crear una historia de pareja con mayor intención estética.',
+    image: 'assets/images/galery/M&D-32.jpg',
+    price: '780.000',
     featured: true,
     items: [
-      '2 o más locaciones',
-      'Duración de 4 a 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento',
-      '80 fotografías editadas',
-      'Video tipo reel Save the Date',
+      '1 fotógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 3 horas',
+      'Hasta 3 vestuarios',
+      'Planeación visual',
+      'Dirección creativa editorial',
+      '80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta resolución',
       'Galería online disponible por 6 meses'
     ],
     features: [
-      '2 o más locaciones',
-      'Duración de 4 a 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento'
+      '1 fotógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 3 horas',
+      'Hasta 3 vestuarios',
+      'Planeación visual',
+      'Dirección creativa editorial'
     ],
     deliverables: [
-      '80 fotografías editadas',
-      'Video tipo reel Save the Date',
+      '80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Galería digital privada por 6 meses',
       'Entrega final en alta resolución por Google Drive'
     ]
   },
   {
-    slug: 'plan-sencilla',
-    name: 'Plan Sencilla',
+    slug: 'preboda-premium',
+    name: 'Preboda Cinematográfica',
     lead:
-      'Una sesión breve y delicada para parejas que quieren un recuerdo previo al matrimonio con dirección sutil y luz limpia.',
-    image: 'assets/images/galery/M&D-18.jpg',
-    price: '280.000',
-    items: ['30 fotos editadas', '1 vestuario', '1 - 2 horas'],
-    features: ['1 vestuario', 'Duración de 1 a 2 horas'],
-    deliverables: ['30 fotografías editadas', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-completa',
-    name: 'Plan Completa',
-    lead:
-      'Más tiempo, más variedad visual y una entrega pensada para parejas que quieren una sesión más amplia sin ir al extremo premium.',
-    image: 'assets/images/galery/M&D-32.jpg',
-    price: '300.000',
-    items: ['50 fotos editadas', '2 vestuarios', '2 - 3 horas', '1 foto impresa 60CM'],
-    features: ['2 vestuarios', 'Duración de 2 a 3 horas'],
-    deliverables: ['50 fotografías editadas', '1 fotografía impresa de 60 cm', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-especial',
-    name: 'Plan Especial',
-    lead:
-      'Una propuesta pensada para parejas que quieren una sesión más completa, mayor variedad de vestuario y una salida social más fuerte.',
-    image: 'assets/images/fotos/default-cover.png',
-    price: '470.000',
-    items: ['70 fotos editadas', '3 vestuarios', '3 horas', '1 foto impresa', 'Reel'],
-    features: ['3 vestuarios', 'Duración de 3 horas'],
-    deliverables: ['70 fotografías editadas', '1 fotografía impresa', 'Reel', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-premium',
-    name: 'Plan Premium',
-    lead:
-      'La sesión preboda más potente: dirección audiovisual, look romántico premium y una película corta para contar la historia con más intención.',
+      'Producción audiovisual de preboda con fotografía, video y una narrativa planeada para contar la historia antes del gran día.',
     image: 'assets/images/fotos/M&D-31.jpg',
-    price: '550.000',
-    featured: true,
-    items: ['80 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos'],
-    features: ['3 o más vestuarios', 'Duración de 4 horas'],
-    deliverables: ['80 fotografías editadas', 'Fotografía impresa', 'Reel', 'Película de hasta 3 minutos', 'Entrega final en alta resolución por Google Drive']
+    price: '1.150.000',
+    items: [
+      '1 fotógrafo y 1 videógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión de planeación',
+      'Concepto visual y narrativa',
+      'Dirección creativa avanzada',
+      '100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Película preboda de 2 a 3 minutos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería online disponible por 1 año'
+    ],
+    features: [
+      '1 fotógrafo y 1 videógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión de planeación',
+      'Concepto visual y narrativa',
+      'Dirección creativa avanzada'
+    ],
+    deliverables: [
+      '100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Película preboda de 2 a 3 minutos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 1 año',
+      'Entrega final en alta resolución por Google Drive'
+    ]
   }
 ];
 
@@ -2088,25 +2090,12 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           return 1;
         case 'preboda-completa':
           return 2;
-        case 'preboda-premium':
+        case 'preboda-editorial':
           return 3;
+        case 'preboda-premium':
+          return 4;
         default:
           break;
-      }
-
-      // Planes legacy (Plan Sencilla/Completa/Especial/Premium): se dejan al final
-      // para mantener el orden principal Esencial → Completa → Premium.
-      if (plan.slug === 'plan-sencilla') {
-        return 10;
-      }
-      if (plan.slug === 'plan-completa') {
-        return 11;
-      }
-      if (plan.slug === 'plan-premium') {
-        return 12;
-      }
-      if (plan.slug === 'plan-especial') {
-        return 13;
       }
 
       return 99;
@@ -2446,6 +2435,15 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
   }
 ].map(normalizePortfolioPackageDetail);
 
+const portfolioPackageSlugAliases: Partial<Record<PortfolioPackageCategory, Record<string, string>>> = {
+  preboda: {
+    'plan-sencilla': 'preboda-esencial',
+    'plan-completa': 'preboda-completa',
+    'plan-especial': 'preboda-editorial',
+    'plan-premium': 'preboda-premium',
+  },
+};
+
 export function getPortfolioPackageDetail(
   category: string | null | undefined,
   slug: string | null | undefined
@@ -2454,7 +2452,8 @@ export function getPortfolioPackageDetail(
     return undefined;
   }
 
-  return portfolioPackageDetails.find((item) => item.category === category && item.slug === slug);
+  const canonicalSlug = portfolioPackageSlugAliases[category as PortfolioPackageCategory]?.[slug] ?? slug;
+  return portfolioPackageDetails.find((item) => item.category === category && item.slug === canonicalSlug);
 }
 
 export function getPortfolioPackageDetailsByCategory(
