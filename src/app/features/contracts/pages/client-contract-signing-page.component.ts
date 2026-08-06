@@ -35,6 +35,7 @@ import {
 } from '../utils/contract-pdf.util';
 import { SignaturePadComponent, SignatureOutput } from '../components/signature-pad.component';
 import { PdfViewerModalComponent } from '../components/pdf-viewer-modal.component';
+import { PolicyModalComponent, PolicyType } from '../components/policy-modal.component';
 import { PortfolioShellComponent } from '../../portfolio/portfolio-shell.component';
 import { PortfolioContentService } from '../../portfolio/services/portfolio-content.service';
 
@@ -50,6 +51,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     RouterLink,
     SignaturePadComponent,
     PdfViewerModalComponent,
+    PolicyModalComponent,
     PortfolioShellComponent,
   ],
   template: `
@@ -393,8 +395,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               </div>
 
               <p class="tj-terms-link-note">
-                📄 Consulta los Términos y Condiciones generales incorporados en
-                <a href="https://tecnojack.co/terminos-y-condiciones" target="_blank" rel="noopener">https://tecnojack.co/terminos-y-condiciones</a>.
+                📄 Haz clic en los botones del Paso 5 para leer las políticas completas en un modal interactivo.
               </p>
 
               <div class="tj-wizard-actions">
@@ -405,37 +406,37 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               </div>
             </section>
 
-            <!-- PASO 5: POLÍTICAS Y AUTORIZACIONES CON HIPERVÍNCULOS EXPLÍCITOS -->
+            <!-- PASO 5: POLÍTICAS Y AUTORIZACIONES CON MODAL EMERGENTE -->
             <section *ngIf="currentStep() === 5" class="tj-step-panel">
               <span class="tj-step-tag">Paso 5 de 8 · Políticas y Autorizaciones</span>
               <h2>Aceptaciones Legales Independientes</h2>
-              <p class="tj-step-lead">Marca cada casilla requerida para otorgar tu consentimiento explícito. Puedes hacer clic en los enlaces para leer el documento completo.</p>
+              <p class="tj-step-lead">Marca cada casilla requerida para otorgar tu consentimiento explícito. Puedes hacer clic en los enlaces para leer el documento completo en una ventana emergente sin salir de la pantalla.</p>
 
               <div class="tj-acceptances-list">
-                <!-- 1. Términos con Hipervínculo -->
+                <!-- 1. Términos con Modal Emergente -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.termsAccepted" />
                   <div>
                     <strong>1. Términos y Condiciones *</strong>
                     <p>
                       Declaro que he leído y acepto los
-                      <a href="https://tecnojack.co/terminos-y-condiciones" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
-                        Términos y Condiciones Generales de TECNOJACK ↗
-                      </a>.
+                      <button type="button" class="tj-accept-link-btn" (click)="openPolicyModal('terms', $event)">
+                        Términos y Condiciones Generales de TECNOJACK 📖
+                      </button>.
                     </p>
                   </div>
                 </label>
 
-                <!-- 2. Tratamiento de Datos con Hipervínculo -->
+                <!-- 2. Tratamiento de Datos con Modal Emergente -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.privacyAccepted" />
                   <div>
                     <strong>2. Tratamiento de Datos Personales (Habeas Data) *</strong>
                     <p>
                       Autorizo a TECNOJACK para recolectar y tratar mis datos personales suministrados conforme a la
-                      <a href="https://tecnojack.co/politica-de-privacidad" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
-                        Política de Privacidad y Tratamiento de Datos ↗
-                      </a>.
+                      <button type="button" class="tj-accept-link-btn" (click)="openPolicyModal('privacy', $event)">
+                        Política de Privacidad y Tratamiento de Datos 📖
+                      </button>.
                     </p>
                   </div>
                 </label>
@@ -449,16 +450,16 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   </div>
                 </label>
 
-                <!-- 4. Consentimiento Firma con Hipervínculo -->
+                <!-- 4. Consentimiento Firma con Modal Emergente -->
                 <label class="tj-accept-card">
                   <input type="checkbox" [(ngModel)]="acceptances.electronicSignatureAccepted" />
                   <div>
                     <strong>4. Firma Electrónica y Validez Legal *</strong>
                     <p>
                       Acepto utilizar este mecanismo de firma electrónica de acuerdo a las
-                      <a href="https://tecnojack.co/terminos-y-condiciones#firma-electronica" target="_blank" rel="noopener" class="tj-accept-link" (click)="$event.stopPropagation()">
-                        Condiciones de Validez y Firma Digital ↗
-                      </a>.
+                      <button type="button" class="tj-accept-link-btn" (click)="openPolicyModal('signature', $event)">
+                        Condiciones de Validez y Firma Digital 📖
+                      </button>.
                     </p>
                   </div>
                 </label>
@@ -553,6 +554,13 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
           (closeModal)="isPreviewModalOpen.set(false)"
           (confirmPdf)="confirmPdfPreview()">
         </tj-pdf-viewer-modal>
+
+        <!-- MODAL EMERGENTE DE POLÍTICAS Y TÉRMINOS -->
+        <tj-policy-modal
+          [isOpen]="isPolicyModalOpen()"
+          [policyType]="activePolicyType()"
+          (closeModal)="isPolicyModalOpen.set(false)">
+        </tj-policy-modal>
       </main>
     </tj-portfolio-shell>
   `,
@@ -652,13 +660,12 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-contract-text-viewer { max-height: 380px; overflow-y: auto; padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: #0c1822; }
     .tj-contract-text-viewer pre { white-space: pre-wrap; font-family: inherit; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1; }
     .tj-terms-link-note { margin-top: 12px; font-size: 0.86rem; color: #94a3b8; }
-    .tj-terms-link-note a { color: var(--portfolio-brand, #0097b2); }
     .tj-acceptances-list { display: grid; gap: 16px; }
     .tj-accept-card { display: flex; gap: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line, rgba(255,255,255,0.12)); background: rgba(255,255,255,0.03); cursor: pointer; }
     .tj-accept-card--image { display: grid; gap: 10px; cursor: default; }
     .tj-accept-card p { margin: 4px 0 0; font-size: 0.86rem; color: #94a3b8; line-height: 1.45; }
-    .tj-accept-link { color: var(--portfolio-brand, #0097b2); text-decoration: underline; font-weight: 600; transition: color 150ms ease; }
-    .tj-accept-link:hover { color: var(--portfolio-accent, #ffb800); }
+    .tj-accept-link-btn { background: transparent; border: none; padding: 0; color: var(--portfolio-brand, #0097b2); font-size: inherit; text-decoration: underline; font-weight: 600; cursor: pointer; transition: color 150ms ease; display: inline; }
+    .tj-accept-link-btn:hover { color: var(--portfolio-accent, #ffb800); }
     .tj-radio-stack { display: grid; gap: 10px; margin-top: 6px; }
     .tj-radio-stack label { display: flex; gap: 10px; cursor: pointer; font-size: 0.88rem; color: #cbd5e1; }
     .tj-wizard-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 16px; flex-wrap: wrap; }
@@ -688,6 +695,9 @@ export class ClientContractSigningPageComponent implements OnInit {
   readonly previewPdfUrl = signal<SafeResourceUrl | null>(null);
   readonly isGenericMode = signal(false);
   readonly downloadUrl = signal<string | undefined>(undefined);
+
+  readonly isPolicyModalOpen = signal(false);
+  readonly activePolicyType = signal<PolicyType>(null);
 
   readonly selectedPageId = signal<string>('bodas');
   readonly selectedPackageId = signal<string>('');
@@ -723,6 +733,15 @@ export class ClientContractSigningPageComponent implements OnInit {
     } else {
       this.initGenericContract();
     }
+  }
+
+  openPolicyModal(type: PolicyType, event?: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.activePolicyType.set(type);
+    this.isPolicyModalOpen.set(true);
   }
 
   currentSubServiceGroups(): CatalogAccordionGroup[] {
