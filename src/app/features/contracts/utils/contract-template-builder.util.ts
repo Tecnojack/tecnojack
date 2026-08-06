@@ -29,7 +29,7 @@ export function buildContractText(options: BuildContractTextOptions): string {
         .join('\n')
     : '- Ningún servicio adicional contratado.';
 
-  const fullContractTitle = `CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK - ${service.packageName || 'SERVICIO'} - CC ${client.documentNumber || ''}`;
+  const fullContractTitle = `Contrato TECNOJACK - ${client.fullName || 'Cliente'} - CC ${client.documentNumber || ''}`;
 
   return `${fullContractTitle}
 CONTRATO N°: ${contractNumber}

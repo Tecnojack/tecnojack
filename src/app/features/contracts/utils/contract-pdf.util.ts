@@ -162,13 +162,15 @@ export async function generateClientContractPdf(
   let page1 = createPage();
   let y = pageHeight - margin - 20;
 
-  // TÍTULO OFICIAL COMPLETO CON PAQUETE Y CC CLIENTE
-  const contractFullTitle = `CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK - ${vm.service.packageName} - CC ${vm.client.documentNumber}`;
+  // TÍTULO OFICIAL SIMPLIFICADO: Contrato TECNOJACK - [Nombre Cliente] - CC [Documento]
+  const clientName = vm.client.fullName || 'Cliente';
+  const clientDoc = vm.client.documentNumber ? `CC ${vm.client.documentNumber}` : '';
+  const contractFullTitle = `Contrato TECNOJACK - ${clientName}${clientDoc ? ' - ' + clientDoc : ''}`;
 
   page1.drawText(safeText(contractFullTitle), {
     x: margin,
     y,
-    size: 11,
+    size: 12,
     font: fontBold,
     color: COLOR_TEAL_DARK,
   });
@@ -786,13 +788,13 @@ export async function generateClientContractPdf(
 
 /**
  * Dispara la descarga inmediata del archivo PDF en el navegador del cliente.
- * Formato del archivo: CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK_[NombrePaquete]_[CCCliente].pdf
+ * Formato del archivo: Contrato_TECNOJACK_[NombreCliente]_CC_[Documento].pdf
  */
 export async function downloadContractPdfFile(c: ContractDocument): Promise<string> {
   const result = await generateClientContractPdf(c, false);
-  const pkgClean = (c.service.packageName || 'SERVICIO').replace(/[^a-zA-Z0-9]/g, '_');
+  const clientClean = (c.client.fullName || 'Cliente').replace(/[^a-zA-Z0-9]/g, '_');
   const docClean = (c.client.documentNumber || '0000').replace(/[^a-zA-Z0-9]/g, '');
-  const fileName = `CONTRATO_DE_SERVICIOS_AUDIOVISUALES_TECNOJACK_${pkgClean}_CC_${docClean}.pdf`;
+  const fileName = `Contrato_TECNOJACK_${clientClean}_CC_${docClean}.pdf`;
 
   const link = document.createElement('a');
   link.href = result.downloadUrl;
@@ -812,9 +814,8 @@ export function buildFullWhatsappContractMessage(c: ContractDocument): string {
   const featuresList = (c.service.features || []).map((f) => `  ✓ ${f}`).join('\n');
   const deliverablesList = (c.service.deliverables || []).map((d) => `  📦 ${d}`).join('\n');
 
-  return `📜 *CONTRATO DE SERVICIOS AUDIOVISUALES TECNOJACK*
+  return `📜 *Contrato TECNOJACK - ${c.client.fullName || 'Cliente'} - CC ${c.client.documentNumber}*
 *Paquete:* ${c.service.packageName}
-*CC Cliente:* ${c.client.documentNumber}
 *N° Registro:* ${c.contractNumber}
 
 👤 *DATOS DEL CONTRATANTE:*
