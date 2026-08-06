@@ -13,6 +13,13 @@ import {
   PortfolioPackageDetail,
 } from '../../portfolio/portfolio.data';
 
+export interface CatalogAddOnItem {
+  id: string;
+  name: string;
+  description: string;
+  priceAmountCop: number;
+}
+
 export interface CatalogPackageItem {
   id: string;
   slug: string;
@@ -24,6 +31,7 @@ export interface CatalogPackageItem {
   lead: string;
   features: string[];
   deliverables: string[];
+  availableAddOns: CatalogAddOnItem[];
 }
 
 export interface CatalogAccordionGroup {
@@ -37,14 +45,7 @@ export interface CatalogPageConfig {
   subServiceGroups: CatalogAccordionGroup[];
 }
 
-export interface CatalogAddOnItem {
-  id: string;
-  name: string;
-  description: string;
-  priceAmountCop: number;
-}
-
-export const CATALOG_AVAILABLE_ADDONS: CatalogAddOnItem[] = [
+export const DEFAULT_CATALOG_ADDONS: CatalogAddOnItem[] = [
   {
     id: 'addon-dron-4k',
     name: 'Cobertura Aérea con Dron 4K UHD',
@@ -58,30 +59,43 @@ export const CATALOG_AVAILABLE_ADDONS: CatalogAddOnItem[] = [
     priceAmountCop: 450000,
   },
   {
-    id: 'addon-hora-extra',
-    name: 'Hora de Cobertura Adicional (Foto + Video)',
-    description: 'Extensión de jornada de cobertura profesional en vivo por hora adicional.',
-    priceAmountCop: 250000,
-  },
-  {
     id: 'addon-same-day-edit',
     name: 'Edición en Vivo Mismo Día (Same Day Edit Reel)',
     description: 'Reel de 60s editado durante el evento proyectado en la recepción.',
     priceAmountCop: 400000,
   },
   {
-    id: 'addon-segundo-fotografo',
-    name: 'Segundo Fotógrafo Profesional de Apoyo',
-    description: 'Fotógrafo secundario para capturar ángulos simultáneos y reacciones.',
-    priceAmountCop: 300000,
-  },
-  {
-    id: 'addon-sesion-estudio',
-    name: 'Sesión de Retrato en Estudio / Externa Adicional',
-    description: 'Sesión previa o posterior de 2 horas con estilismo básico e iluminación.',
-    priceAmountCop: 350000,
+    id: 'addon-hora-extra',
+    name: 'Hora de Cobertura Adicional (Foto + Video)',
+    description: 'Extensión de jornada de cobertura profesional en vivo por hora adicional.',
+    priceAmountCop: 250000,
   },
 ];
+
+function extractAddOnsForSlug(slug: string): CatalogAddOnItem[] {
+  const detail = portfolioPackageDetails.find((d) => d.slug === slug);
+  if (!detail || !detail.requestOptionGroups) {
+    return DEFAULT_CATALOG_ADDONS;
+  }
+
+  const options = detail.requestOptionGroups
+    .filter((g) => g.selectable)
+    .flatMap((g) => g.options);
+
+  if (!options.length) {
+    return DEFAULT_CATALOG_ADDONS;
+  }
+
+  return options.map((opt: any) => {
+    const parts = (opt.label || '').split('||');
+    return {
+      id: opt.id,
+      name: parts[0]?.trim() || opt.label,
+      description: parts[1]?.trim() || opt.description || opt.priceLabel || '',
+      priceAmountCop: opt.priceAmountCop || 0,
+    };
+  });
+}
 
 function parsePriceCop(priceStr?: string | string[], fallbackAmount?: number): number {
   if (fallbackAmount && fallbackAmount > 0) {
@@ -112,6 +126,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -130,6 +145,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -148,6 +164,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -166,6 +183,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -184,6 +202,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -202,6 +221,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -220,6 +240,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -242,6 +263,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -260,6 +282,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -278,6 +301,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
           lead: plan.lead || '',
           features: plan.features || plan.items || [],
           deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
         };
       }),
     },
@@ -319,6 +343,7 @@ export function buildCatalogPages(): CatalogPageConfig[] {
       lead: detail.lead || '',
       features: featSec ? featSec.items : [],
       deliverables: delSec ? delSec.items : [],
+      availableAddOns: extractAddOnsForSlug(detail.slug),
     });
   }
 

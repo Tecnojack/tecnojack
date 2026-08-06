@@ -25,8 +25,8 @@ import {
   CATALOG_PAGES,
   CatalogPackageItem,
   CatalogAccordionGroup,
-  CATALOG_AVAILABLE_ADDONS,
   CatalogAddOnItem,
+  DEFAULT_CATALOG_ADDONS,
 } from '../utils/contract-packages-catalog.util';
 import {
   generateClientContractPdf,
@@ -110,11 +110,11 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
           <div class="tj-wizard-card">
 
-            <!-- PASO 1: SELECCIÓN DE PÁGINA, SERVICIO Y SERVICIOS ADICIONALES -->
+            <!-- PASO 1: SELECCIÓN DE PÁGINA, SERVICIO Y ADICIONALES DINÁMICOS DEL PAQUETE -->
             <section *ngIf="currentStep() === 1" class="tj-step-panel">
               <span class="tj-step-tag">Paso 1 de 8 · Selección del Servicio</span>
               <h2>Selecciona tu Página de Servicio, Paquete y Adicionales</h2>
-              <p class="tj-step-lead">Elige primero la página del servicio, selecciona el paquete principal y agrega los servicios adicionales que desees.</p>
+              <p class="tj-step-lead">Elige primero la página del servicio, selecciona el paquete principal y agrega los servicios adicionales disponibles para este servicio.</p>
 
               <div class="tj-form-grid">
                 <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
@@ -155,14 +155,14 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
               </div>
 
-              <!-- SERVICIOS ADICIONALES OPCIONALES DISPONIBLES -->
-              <div class="tj-addons-section">
-                <h3>Servicios Adicionales Disponibles (Opcionales)</h3>
-                <p class="tj-text-muted">Selecciona los complementos que deseas añadir al paquete contratado:</p>
+              <!-- SERVICIOS ADICIONALES OPCIONALES DEL PAQUETE SELECCIONADO -->
+              <div class="tj-addons-section" *ngIf="currentPackageAddons().length">
+                <h3>Servicios Adicionales Disponibles para este Paquete</h3>
+                <p class="tj-text-muted">Selecciona los complementos opcionales que deseas añadir al servicio:</p>
 
                 <div class="tj-addons-grid">
                   <label
-                    *ngFor="let addon of availableAddons"
+                    *ngFor="let addon of currentPackageAddons()"
                     class="tj-addon-card"
                     [class.selected]="isAddonSelected(addon.id)">
                     <input
@@ -171,9 +171,9 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                       (change)="toggleAddon(addon)" />
                     <div class="tj-addon-info">
                       <strong>{{ addon.name }}</strong>
-                      <p>{{ addon.description }}</p>
+                      <p *ngIf="addon.description">{{ addon.description }}</p>
                     </div>
-                    <span class="tj-addon-price">+ {{ formatCop(addon.priceAmountCop) }}</span>
+                    <span class="tj-addon-price" *ngIf="addon.priceAmountCop > 0">+ {{ formatCop(addon.priceAmountCop) }}</span>
                   </label>
                 </div>
               </div>
@@ -257,13 +257,13 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               </div>
             </section>
 
-            <!-- PASO 3: RESUMEN ECONÓMICO Y ANTICIPO AJUSTABLE -->
+            <!-- PASO 3: RESUMEN ECONÓMICO Y ANTICIPO (SOLO NÚMEROS Y OTRO VALOR) -->
             <section *ngIf="currentStep() === 3" class="tj-step-panel">
               <span class="tj-step-tag">Paso 3 de 8 · Resumen Económico</span>
               <h2>Condiciones Económicas y Selección del Anticipo</h2>
-              <p class="tj-step-lead">Revisa los valores del servicio e ingresa o selecciona el porcentaje/monto del anticipo.</p>
+              <p class="tj-step-lead">Revisa los valores del servicio y selecciona el porcentaje de anticipo o digita otro valor.</p>
 
-              <!-- SELECTOR DE PORCENTAJE / MONTO DE ANTICIPO -->
+              <!-- SELECTOR DE PORCENTAJE (SOLO NÚMEROS Y OTRO VALOR) -->
               <div class="tj-advance-selector-box">
                 <span class="tj-field-label">Selecciona el Porcentaje de Anticipo:</span>
                 <div class="tj-pills-row">
@@ -272,42 +272,42 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                     class="tj-pill-btn"
                     [class.active]="selectedAdvanceOption === 40"
                     (click)="selectAdvanceOption(40)">
-                    40% (Recomendado)
+                    40%
                   </button>
                   <button
                     type="button"
                     class="tj-pill-btn"
                     [class.active]="selectedAdvanceOption === 50"
                     (click)="selectAdvanceOption(50)">
-                    50% (Mitad)
+                    50%
                   </button>
                   <button
                     type="button"
                     class="tj-pill-btn"
                     [class.active]="selectedAdvanceOption === 80"
                     (click)="selectAdvanceOption(80)">
-                    80% (Avanzado)
+                    80%
                   </button>
                   <button
                     type="button"
                     class="tj-pill-btn"
                     [class.active]="selectedAdvanceOption === 100"
                     (click)="selectAdvanceOption(100)">
-                    100% (Pago Total)
+                    100%
                   </button>
                   <button
                     type="button"
                     class="tj-pill-btn"
                     [class.active]="selectedAdvanceOption === 'custom'"
                     (click)="selectAdvanceOption('custom')">
-                    ✏️ Valor Personalizado
+                    Otro valor
                   </button>
                 </div>
 
-                <!-- CAMPO DE ENTRADA CUANDO SE SELECCIONA VALOR PERSONALIZADO -->
+                <!-- CAMPO OTRO VALOR PARA QUE LO DIGITE EL USUARIO -->
                 <div *ngIf="selectedAdvanceOption === 'custom'" class="tj-custom-advance-grid">
                   <label class="tj-field">
-                    <span>Monto de Anticipo Personalizado (COP)</span>
+                    <span>Monto de Anticipo (COP)</span>
                     <input
                       type="number"
                       [ngModel]="c.payment.paidAmount"
@@ -316,7 +316,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                   </label>
 
                   <label class="tj-field">
-                    <span>Porcentaje Equivalente (%)</span>
+                    <span>Porcentaje (%)</span>
                     <input
                       type="number"
                       [ngModel]="c.payment.paidPercentage"
@@ -602,8 +602,8 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-field-label { display: block; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700; color: #cbd5e1; }
     .tj-pills-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .tj-pill-btn {
-      padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #fff;
-      font-size: 0.84rem; cursor: pointer; transition: all 200ms ease;
+      padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #fff;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 200ms ease;
     }
     .tj-pill-btn:hover { border-color: var(--portfolio-brand, #0097b2); }
     .tj-pill-btn.active { border-color: var(--portfolio-brand, #0097b2); background: var(--portfolio-brand, #0097b2); font-weight: 700; }
@@ -650,7 +650,6 @@ export class ClientContractSigningPageComponent implements OnInit {
   private readonly sanitizer = inject(DomSanitizer);
 
   readonly catalogPages = CATALOG_PAGES;
-  readonly availableAddons = CATALOG_AVAILABLE_ADDONS;
 
   readonly contract = signal<ContractDocument | null>(null);
   readonly isLoading = signal(true);
@@ -665,6 +664,7 @@ export class ClientContractSigningPageComponent implements OnInit {
 
   readonly selectedPageId = signal<string>('bodas');
   readonly selectedPackageId = signal<string>('');
+  readonly currentPackageAddons = signal<CatalogAddOnItem[]>([]);
 
   selectedAdvanceOption: 40 | 50 | 80 | 100 | 'custom' = 40;
 
@@ -727,6 +727,9 @@ export class ClientContractSigningPageComponent implements OnInit {
 
     if (!foundPkg) return;
 
+    // Cargar adicionales dinámicos específicos del paquete seleccionado
+    this.currentPackageAddons.set(foundPkg.availableAddOns || DEFAULT_CATALOG_ADDONS);
+
     const c = this.contract();
     if (!c) return;
 
@@ -739,6 +742,7 @@ export class ClientContractSigningPageComponent implements OnInit {
       description: foundPkg.lead,
       features: [...foundPkg.features],
       deliverables: [...foundPkg.deliverables],
+      additionalServices: [], // Resetear adicionales seleccionados al cambiar de paquete
     };
 
     const updated: ContractDocument = {
@@ -747,6 +751,7 @@ export class ClientContractSigningPageComponent implements OnInit {
       payment: {
         ...c.payment,
         baseAmount,
+        extrasAmount: 0,
       },
     };
 
