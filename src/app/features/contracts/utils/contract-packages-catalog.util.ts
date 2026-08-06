@@ -3,9 +3,9 @@ import { portfolioPackageDetails, PortfolioPackageDetail } from '../../portfolio
 export interface CatalogPackageItem {
   id: string;
   slug: string;
-  category: string; // 'bodas' | 'quinces' | 'grados' | 'preboda' | 'videos' | 'corporativos' | 'otros'
-  accordionTitle: string; // Título exacto del acordeón (ej: 'Boda civil', 'Fotografía de bodas', etc.)
-  title: string;
+  category: string; // 'bodas' | 'quinces' | 'grados' | 'videos' | 'corporativos' | 'otros'
+  accordionTitle: string; // Título exacto del acordeón en la web
+  title: string; // Nombre exacto del paquete tal cual aparece en la card del acordeón
   packageName: string;
   priceAmountCop: number;
   lead: string;
@@ -73,10 +73,10 @@ function resolveAccordionTitle(detail: PortfolioPackageDetail): { pageId: string
       return { pageId: 'bodas', accordionTitle: 'Petición de mano' };
     }
     if (pkgType.includes('solo foto') || slug.includes('solo-foto')) {
-      return { pageId: 'bodas', accordionTitle: 'Fotografía de bodas' };
+      return { pageId: 'bodas', accordionTitle: 'Fotografía de bodas (Solo foto)' };
     }
     if (pkgType.includes('video') || slug.includes('video-only') || slug.includes('video')) {
-      return { pageId: 'bodas', accordionTitle: 'Video de bodas' };
+      return { pageId: 'bodas', accordionTitle: 'Video de bodas (Solo video)' };
     }
     return { pageId: 'bodas', accordionTitle: 'Boda híbrida (Foto + video)' };
   }
@@ -100,7 +100,7 @@ function resolveAccordionTitle(detail: PortfolioPackageDetail): { pageId: string
     return { pageId: 'grados', accordionTitle: 'Fotografía de grado (Estudiantes / Individual)' };
   }
 
-  // 4. PREBODA (mapeado a página PREBODA o BODAS acordeones)
+  // 4. PREBODA (organizado dentro de la sección de Bodas)
   if (category === 'preboda') {
     if (slug.includes('postboda') || title.includes('postboda') || title.includes('trash')) {
       return { pageId: 'bodas', accordionTitle: 'Sesión postboda' };
@@ -159,13 +159,16 @@ export function buildCatalogPages(): CatalogPageConfig[] {
     const features = extractFeatures(detail);
     const deliverables = extractDeliverables(detail);
 
+    // Nombre exacto del paquete sin prefijos sintéticos
+    const cleanTitle = detail.title;
+
     pagesMap[pageId][accordionTitle].push({
       id: `${pageId}-${detail.slug}`,
       slug: detail.slug,
       category: pageId,
       accordionTitle,
-      title: detail.title,
-      packageName: `${accordionTitle} · ${detail.title}`,
+      title: cleanTitle,
+      packageName: `${accordionTitle} · ${cleanTitle}`,
       priceAmountCop: price,
       lead: detail.lead || '',
       features,
