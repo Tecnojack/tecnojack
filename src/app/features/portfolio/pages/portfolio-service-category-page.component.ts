@@ -363,14 +363,19 @@ export class PortfolioServiceCategoryPageComponent {
       }
 
       if (category === 'bodas') {
+        const isCivil = (item: PackageCardViewModel) =>
+          item.detail.packageTypeLabel === 'Boda civil';
         const photoOnly = cards.filter(
-          (item) => item.groupKey === 'photo-only',
+          (item) => item.groupKey === 'photo-only' && !isCivil(item),
         );
-        const hybrid = cards.filter((item) => item.groupKey === 'photo-video');
+        const hybrid = cards.filter(
+          (item) => item.groupKey === 'photo-video' && !isCivil(item),
+        );
         const videoOnly = cards.filter(
           (item) =>
-            this.isVideoPackage(item) && item.groupKey !== 'photo-video',
+            this.isVideoPackage(item) && item.groupKey !== 'photo-video' && !isCivil(item),
         );
+        const civil = cards.filter(isCivil);
         const postwedding = cards.filter(
           (item) => item.detail.packageTypeLabel === 'Sesión postboda',
         );
@@ -382,6 +387,7 @@ export class PortfolioServiceCategoryPageComponent {
           { title: 'Boda híbrida (Foto + video)', cards: hybrid },
           { title: 'Fotografía de bodas', cards: photoOnly },
           { title: 'Video de bodas', cards: videoOnly },
+          { title: 'Boda civil', cards: civil },
           { title: 'Sesión de preboda', cards: prebodaForBodas },
           { title: 'Sesión postboda', cards: postwedding },
         ];
@@ -1422,6 +1428,10 @@ export class PortfolioServiceCategoryPageComponent {
 
     const categoryPrefix = (() => {
       if (detail.category === 'bodas') {
+        if (/boda civil/i.test(detail.packageTypeLabel)) {
+          return 'Civil';
+        }
+
         if (/postboda/i.test(detail.packageTypeLabel)) {
           return 'Postboda';
         }

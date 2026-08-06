@@ -69,6 +69,11 @@ function resolvePortfolioPackageSegment(
       if (hasAny(tokens, ['completa', 'completo'])) return 'postboda-completa';
       return 'postboda-esencial';
 
+    case 'boda-civil':
+      if (hasAny(tokens, ['hibrida'])) return 'civil-hibrida';
+      if (hasAny(tokens, ['completa', 'completo'])) return 'civil-completa';
+      return 'civil-esencial';
+
     case 'fotografia-de-quince':
       if (hasAny(tokens, ['premium'])) return 'premium';
       if (hasAny(tokens, ['completa', 'completo'])) return 'completo';
@@ -102,6 +107,10 @@ function resolvePortfolioCategorySegment(
 
   switch (category) {
     case 'bodas':
+      if (typeLabel === 'boda-civil') {
+        return 'boda-civil';
+      }
+
         if (typeLabel === 'foto-video') {
           return 'hibridas';
         }

@@ -1159,6 +1159,19 @@ export type WeddingPostweddingPlan = {
   deliverables: string[];
 };
 
+export type WeddingCivilPlan = {
+  slug: string;
+  name: string;
+  priceLines: string[];
+  amountCop: number;
+  lead: string;
+  image: string;
+  features: string[];
+  deliverables: string[];
+  coverage: string[];
+  featured?: boolean;
+};
+
 export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
   {
     slug: 'video-bodas-elemental',
@@ -1238,6 +1251,59 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
       '2 a 4 clips cortos para redes sociales',
       'Entrega final en alta calidad por Google Drive'
     ]
+  }
+];
+
+export const weddingCivilPlans: WeddingCivilPlan[] = [
+  {
+    slug: 'civil-esencial',
+    name: 'Civil Esencial',
+    priceLines: ['550.000 COP'],
+    amountCop: 550000,
+    lead: 'Una cobertura cercana y precisa para conservar los momentos esenciales de tu ceremonia civil.',
+    image: 'assets/images/galery/M&D-16.jpg',
+    features: ['1 fotógrafo', 'Duración de 2 horas', 'Dirección de pareja y fotografías familiares'],
+    deliverables: [
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Galería digital privada por 1 mes',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Ceremonia civil', 'Firma de documentos y anillos', 'Familiares', 'Sesión breve de pareja']
+  },
+  {
+    slug: 'civil-completa',
+    name: 'Civil Completa',
+    priceLines: ['850.000 COP'],
+    amountCop: 850000,
+    lead: 'Una narrativa más completa que acompaña la llegada, la ceremonia y una celebración breve.',
+    image: 'assets/images/galery/M&D-29.jpg',
+    features: ['1 fotógrafo', 'Duración de 3 horas', 'Dirección creativa de pareja y grupos'],
+    deliverables: [
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 3 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada', 'Ceremonia civil', 'Firma de documentos y anillos', 'Familiares e invitados', 'Sesión dirigida de pareja', 'Brindis o recepción breve'],
+    featured: true
+  },
+  {
+    slug: 'civil-hibrida',
+    name: 'Civil Híbrida',
+    priceLines: ["1'350.000 COP"],
+    amountCop: 1350000,
+    lead: 'Fotografía y video coordinados para contar la ceremonia civil con una mirada más completa.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    features: ['1 fotógrafo y 1 videógrafo', 'Duración de 4 horas', 'Reunión breve de planeación', 'Dirección audiovisual'],
+    deliverables: [
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Video principal de 3 a 5 minutos',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada o preparación breve', 'Ceremonia civil', 'Firma de documentos y anillos', 'Familiares e invitados', 'Sesión de pareja', 'Brindis o recepción']
   }
 ];
 
@@ -1697,7 +1763,7 @@ function buildLinkedPackageOption(
   };
 }
 
-function buildWeddingRelatedExperiencesGroup(prefix: string): PortfolioRequestOptionGroup {
+function buildWeddingRelatedExperiencesGroup(prefix: string, includeCivil = true): PortfolioRequestOptionGroup {
   const prebodaOptions = preweddingPlans.map((plan) => {
     const amount = Number((plan.price ?? '').replace(/\D/g, ''));
     return buildLinkedPackageOption(
@@ -1721,11 +1787,24 @@ function buildWeddingRelatedExperiencesGroup(prefix: string): PortfolioRequestOp
     ),
   );
 
+  const civilOptions = includeCivil
+    ? weddingCivilPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
+
   return {
     title: 'Experiencias relacionadas',
     description: 'Añade una experiencia completa conservando su nombre, precio y entregables originales.',
     selectable: true,
-    options: [...prebodaOptions, ...postbodaOptions],
+    options: [...civilOptions, ...prebodaOptions, ...postbodaOptions],
   };
 }
 
@@ -1734,7 +1813,7 @@ function buildPreweddingWeddingOptionsGroup(prefix: string): PortfolioRequestOpt
     title: 'Continúa con la cobertura de boda',
     description: 'Conecta tu preboda con uno de nuestros paquetes principales de foto y video.',
     selectable: true,
-    options: weddingMainPlans.map((plan) => {
+    options: [...weddingMainPlans, ...weddingCivilPlans].map((plan) => {
       const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
       return buildLinkedPackageOption(
         `${prefix}-related-${plan.slug}`,
@@ -1979,6 +2058,51 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     ],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de bodas).`)
+  })),
+  ...weddingCivilPlans.map((plan, index) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Boda civil',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: 'Boda civil',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Boda civil',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Amplía la cobertura o suma entregables sin cambiar el paquete base.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          [
+            { label: 'Hora adicional||Extiende la cobertura de la ceremonia o celebración', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Grabación continua de la ceremonia||Registro completo de la ceremonia civil con audio', priceLabel: '250.000 COP', priceAmountCop: 250000 },
+            { label: 'Reel adicional para redes', priceLabel: '140.000 COP', priceAmountCop: 140000 },
+            { label: 'Video extendido||Versión más amplia de la historia audiovisual', priceLabel: '220.000 COP', priceAmountCop: 220000 },
+            { label: 'Cuadro fotográfico adicional 60 x 40 cm', priceLabel: '110.000 COP', priceAmountCop: 110000 },
+            { label: 'Fotobook de lujo', priceLabel: '350.000 COP', priceAmountCop: 350000 }
+          ],
+          false
+        )
+      },
+      buildWeddingRelatedExperiencesGroup(plan.slug, false),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
+    ],
+    notes: weddingPackageNotes,
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name}.`)
   })),
   ...weddingPostweddingPlans.map((plan, index) => ({
     category: 'bodas' as const,

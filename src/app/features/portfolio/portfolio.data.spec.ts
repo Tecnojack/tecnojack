@@ -2,6 +2,7 @@ import {
   getPortfolioPackageDetail,
   getPortfolioPackageDetailsByCategory,
   preweddingPlans,
+  weddingCivilPlans,
   weddingPostweddingPlans,
 } from './portfolio.data';
 
@@ -42,7 +43,7 @@ describe('prewedding package catalog', () => {
       (group) => group.title === 'Experiencias relacionadas',
     );
 
-    expect(related?.options.length).toBe(7);
+    expect(related?.options.length).toBe(10);
 
     for (const option of related?.options ?? []) {
       const linked = getPortfolioPackageDetail(
@@ -56,6 +57,40 @@ describe('prewedding package catalog', () => {
         linked?.baseQuoteOptions[0]?.amountCop,
       );
     }
+  });
+});
+
+describe('civil wedding package catalog', () => {
+  it('uses the approved order, prices, durations and photo scopes', () => {
+    expect(weddingCivilPlans.map((plan) => plan.name)).toEqual([
+      'Civil Esencial',
+      'Civil Completa',
+      'Civil Híbrida',
+    ]);
+    expect(weddingCivilPlans.map((plan) => plan.amountCop)).toEqual([
+      550000,
+      850000,
+      1350000,
+    ]);
+    expect(weddingCivilPlans.map((plan) => plan.features[1])).toEqual([
+      'Duración de 2 horas',
+      'Duración de 3 horas',
+      'Duración de 4 horas',
+    ]);
+    expect(weddingCivilPlans.map((plan) => plan.deliverables[0])).toEqual([
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+    ]);
+  });
+
+  it('publishes all civil packages in bodas and keeps the hybrid crew explicit', () => {
+    const civilPackages = getPortfolioPackageDetailsByCategory('bodas').filter(
+      (plan) => plan.packageTypeLabel === 'Boda civil',
+    );
+
+    expect(civilPackages.length).toBe(3);
+    expect(weddingCivilPlans[2]?.features).toContain('1 fotógrafo y 1 videógrafo');
   });
 });
 
