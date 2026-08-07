@@ -1507,7 +1507,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     ],
     features: [
       'Cobertura del evento de 3 a 4 horas',
-      'Dirección básica de poses',
+      'Asistencia básica en dirección de poses',
       'Enfoque documental para los momentos clave'
     ],
     deliverables: [
@@ -1527,7 +1527,8 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     items: [
       'Cobertura del evento de 6 a 7 horas',
       'Dirección de poses y fotografía artística',
-      'Mayor enfoque en momentos clave y estética visual',
+      'Asistente de iluminación dedicado',
+      'Mayor enfoque en estética visual',
       '150 a 200 fotografías editadas',
       '1 fotografía impresa de 50 cm',
       '10 fotografías impresas tamaño 15 cm',
@@ -1536,13 +1537,14 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     features: [
       'Cobertura del evento de 6 a 7 horas',
       'Dirección de poses y fotografía artística',
+      'Asistente de iluminación dedicado para tomas más dramáticas',
       'Mayor enfoque en la estética visual del evento'
     ],
     deliverables: [
       '150 a 200 fotografías con edición profesional',
       '1 ampliación fotográfica de 50 cm',
-      '10 fotografías impresas tamaño 15 cm',
-      'Galería digital privada',
+      '10 fotografías impresas en calidad museo (15 cm)',
+      'Galería digital privada e interactiva',
       'Entrega final en alta resolución'
     ],
     coverage: ['Arreglos y preparativos', 'Llegada al evento', 'Sesión de retratos de la quinceañera', 'Ceremonia', 'Vals de honor', 'Fotos con invitados', 'Inicio de recepción']
@@ -1558,7 +1560,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     items: [
       'Cobertura del evento de 8 a 10 horas (fiesta completa)',
       'Dirección creativa avanzada y narrativa visual',
-      'Sesión fotográfica Pre 15 (1 locación)',
+      'Sesión fotográfica Pre 15 (1 locación con dron)',
       'Hasta 300 fotografías con edición artística',
       '2 ampliaciones fotográficas de 50 cm',
       '15 fotografías impresas tamaño 15 cm',
@@ -1567,18 +1569,19 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     ],
     features: [
       'Cobertura del evento de 8 a 10 horas',
-      'Dirección creativa avanzada con iluminación dedicada',
-      'Narrativa visual y estética de alto nivel'
+      'Dirección creativa avanzada con equipos de iluminación de estudio',
+      'Narrativa visual y estética de alto nivel cinematográfico',
+      'Uso de tomas aéreas (dron) durante la sesión Pre 15'
     ],
     deliverables: [
-      'Hasta 300 fotografías con edición artística',
-      'Sesión Pre 15 incluida',
-      'Fotobook clásico (20 páginas)',
-      '2 ampliaciones fotográficas de 50 cm',
-      '15 fotografías impresas tamaño 15 cm',
+      'Hasta 300 fotografías con edición artística y retoque de piel',
+      'Sesión Pre 15 incluida (1 locación)',
+      'Fotobook clásico de alta durabilidad (20 páginas)',
+      '2 ampliaciones fotográficas de 50 cm listas para enmarcar',
+      '15 fotografías impresas calidad museo (15 cm)',
       'Galería digital privada'
     ],
-    coverage: ['Sesión Pre 15', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Recepción y fiesta completa', 'Brindis y detalles especiales']
+    coverage: ['Sesión Pre 15 con dron', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Recepción y fiesta completa', 'Brindis y detalles especiales']
   },
   {
     slug: 'quince-luxury-experiencia-exclusiva',
@@ -2524,7 +2527,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (sesión postboda).`)
   })),
-  ...quinceMainPlans.map((plan) => ({
+  ...quinceMainPlans.map((plan, index) => ({
     category: 'quinces' as const,
     slug: plan.slug,
     categoryLabel: 'Fotografía de quince',
@@ -2538,7 +2541,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     priceLines: plan.priceLines,
     baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
     featured: plan.featured,
-    sortOrder: plan.slug === 'quince-esencial-recuerdos' ? 1 : plan.slug === 'quince-completa-historia' ? 2 : 3,
+    sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
       { title: 'Cobertura y servicio incluido', items: plan.features },
