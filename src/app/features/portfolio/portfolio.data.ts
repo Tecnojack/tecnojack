@@ -944,14 +944,14 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     name: 'HÍBRIDA - Experiencia cinematográfica',
     priceLines: ["3'900.000 COP"],
     lead:
-      'Experiencia completa que combina fotografía editorial y producción cinematográfica para contar la historia del día con una narrativa mucho más cuidada. Este es nuestro paquete recomendado.',
+      'Experiencia completa que combina fotografía artística y producción cinematográfica para contar la historia del día con una narrativa mucho más cuidada. Este es nuestro paquete recomendado.',
     image: 'assets/images/fotos/M&D-31.jpg',
     featured: true,
     items: [
       'Cobertura de hasta 10 horas',
       'Fotógrafo principal + Videógrafo principal',
       'Segundo operador o asistente según logística',
-      'Preparativos completos, primer encuentro a solas (First Look), ceremonia, sesión editorial, recepción y fiesta',
+      'Preparativos completos, primer encuentro a solas (First Look), ceremonia, sesión artística de pareja, recepción y fiesta',
       'Sesión preboda incluida',
       'Dirección creativa y corrección de color cinematográfica',
       'Gimbal, tomas con dron (cuando sea posible), audio pro dedicado e iluminación de apoyo',
@@ -987,7 +987,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería privada durante 1 año',
       'Entrega digital'
     ],
-    coverage: ['Preparativos completos', 'Primer encuentro a solas (First Look)', 'Ceremonia', 'Sesión editorial', 'Recepción', 'Fiesta']
+    coverage: ['Preparativos completos', 'Primer encuentro a solas (First Look)', 'Ceremonia', 'sesión artística de pareja', 'Recepción', 'Fiesta']
   },
   {
     slug: 'luxury-cinematico-foto-video',
@@ -1003,7 +1003,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
       'Cobertura simultánea de ambos preparativos',
       'Tomas con dron, gimbal, audio e iluminación profesional',
-      'Más de 600 fotos editadas con curaduría editorial',
+      'Más de 600 fotos editadas con selección y edición de las mejores tomas',
       '30 fotos impresas + 2 ampliaciones + Álbum Premium XL + Caja de presentación',
       'Tráiler cinematográfico + Video resumen (10-15 min) + Película documental (45-75 min)',
       '4 Reels para redes + Tráiler vertical',
@@ -1023,12 +1023,11 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Gimbal',
       'Audio profesional de consola y micrófonos inalámbricos',
       'Iluminación profesional de apoyo',
-      'Tomas editoriales, de decoración y de la locación',
+      'Tomas artísticas, de decoración y de la locación',
       'Sesión Preboda Premium y Sesión Postboda Premium'
     ],
     deliverables: [
-      'Más de 600 fotografías editadas',
-      'Curaduría editorial',
+      'Más de 600 fotografías editadas con selección personalizada de las mejores tomas',
       '30 fotografías impresas',
       '2 ampliaciones',
       'Álbum Premium XL',
@@ -1043,7 +1042,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería privada durante 2 años con entrega prioritaria',
       'Adelanto rápido de 20 fotografías durante las primeras 72 horas'
     ],
-    coverage: ['Cobertura simultánea de ambos preparativos', 'Dirección audiovisual completa', 'Tomas con dron', 'Gimbal', 'Audio profesional', 'Iluminación profesional', 'Tomas editoriales', 'Tomas de decoración', 'Tomas de la locación']
+    coverage: ['Cobertura simultánea de ambos preparativos', 'Dirección audiovisual completa', 'Tomas con dron', 'Gimbal', 'Audio profesional', 'Iluminación profesional', 'Tomas artísticas', 'Tomas de decoración', 'Tomas de la locación']
   }
 ];
 
@@ -1113,13 +1112,13 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     name: 'Premium – Experiencia fotográfica completa',
     priceLines: ["2'650.000 COP"],
     lead:
-      'Experiencia completa que combina cobertura total, dirección creativa y resultados con estilo editorial. Nuestro paquete recomendado.',
+      'Experiencia completa que combina cobertura total, dirección creativa y fotografía con acabado artístico. Nuestro paquete recomendado.',
     image: 'assets/images/fotos/M&D-31.jpg',
     featured: true,
     items: [
       'Cobertura completa del evento (preparativos hasta la fiesta)',
       '1 o 2 fotógrafos + 1 asistente',
-      'Dirección creativa (estilo editorial)',
+      'Dirección creativa con enfoque artístico',
       'Sesión previa incluida (preboda)',
       'Hasta 450 fotografías editadas con edición profesional avanzada',
       '20 fotos impresas + Álbum fotográfico',
@@ -1130,7 +1129,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Cobertura completa del evento (preparativos y fiesta)',
       '1 o 2 fotógrafos',
       '1 asistente',
-      'Dirección creativa (estilo editorial)',
+      'Dirección creativa con enfoque artístico',
       'Sesión preboda incluida',
       'Edición profesional avanzada'
     ],
@@ -1149,13 +1148,13 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     name: 'Exclusivo – Producción fotográfica de autor',
     priceLines: ["4'100.000 COP"],
     lead:
-      'Experiencia fotográfica de autor de alto nivel. Diseñada para parejas que buscan una estética puramente editorial y un registro exclusivo de su boda.',
+      'Experiencia fotográfica de autor de alto nivel. Diseñada para parejas que buscan una estética artística y de autor, con un registro exclusivo y diferente de su boda.',
     image: 'assets/images/galery/M&D-32.jpg',
     items: [
       'Cobertura de hasta 12 horas',
       '2 fotógrafos + Asistente',
       'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
-      'Planeación creativa, tablero de inspiración y dirección editorial',
+      'Planeación creativa, tablero de inspiración y dirección creativa avanzada',
       'Esquemas de iluminación profesional',
       'Hasta 600 fotografías editadas',
       'Álbum Premium XL + Caja de presentación',
@@ -1168,7 +1167,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Asistente',
       'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
       'Planeación creativa y tablero de inspiración (moodboard)',
-      'Dirección editorial avanzada',
+      'Dirección creativa avanzada',
       'Iluminación profesional'
     ],
     deliverables: [
@@ -1181,7 +1180,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
       'Galería privada durante 2 años',
       'Entrega prioritaria'
     ],
-    coverage: ['Preparativos de ambos novios', 'Ceremonia', 'Sesión de fotos editorial', 'Recepción', 'Fiesta', 'Detalles y decoración']
+    coverage: ['Preparativos de ambos novios', 'Ceremonia', 'Sesión de fotos artística', 'Recepción', 'Fiesta', 'Detalles y decoración']
   }
 ];
 
@@ -1459,7 +1458,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     name: 'Postboda Editorial',
     priceLines: ['950.000 COP'],
     amountCop: 950000,
-    lead: 'Sesión diseñada para crear imágenes impactantes con estética editorial en locaciones especiales.',
+    lead: 'Sesión diseñada para crear imágenes impactantes con estética artística en locaciones especiales.',
     image: 'assets/images/galery/M&D-22.jpg',
     features: [
       '1 fotógrafo y 1 asistente',
@@ -1468,7 +1467,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
       'Hasta 3 vestuarios',
       'Reunión breve de planeación',
       'Concepto visual',
-      'Dirección editorial avanzada',
+      'dirección creativa avanzada avanzada',
       'Apoyo de iluminación y logística durante la sesión'
     ],
     deliverables: [
@@ -1796,7 +1795,7 @@ export const preweddingPlans: PreweddingPlan[] = [
   {
     slug: 'preboda-editorial',
     name: 'Preboda Editorial',
-    lead: 'Sesión con planeación visual y dirección editorial para crear una historia de pareja con mayor intención estética.',
+    lead: 'Sesión con planeación visual y dirección creativa avanzada para crear una historia de pareja con mayor intención estética.',
     image: 'assets/images/galery/M&D-32.jpg',
     price: '780.000',
     featured: true,
@@ -1806,7 +1805,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Duración de 3 horas',
       'Hasta 3 vestuarios',
       'Planeación visual',
-      'Dirección creativa editorial',
+      'Dirección creativa personalizada',
       'Hasta 80 fotografías finales, seleccionadas y editadas',
       'Reel vertical de 30 a 45 segundos',
       '1 cuadro fotográfico de 60 x 40 cm',
@@ -1819,7 +1818,7 @@ export const preweddingPlans: PreweddingPlan[] = [
       'Duración de 3 horas',
       'Hasta 3 vestuarios',
       'Planeación visual',
-      'Dirección creativa editorial'
+      'Dirección creativa personalizada'
     ],
     deliverables: [
       'Hasta 80 fotografías finales, seleccionadas y editadas',
