@@ -1059,10 +1059,10 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["11'300.000 COP"],
     lead:
       'La experiencia audiovisual definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
-    image: 'assets/images/fotos/M&D-11.jpg',
+    image: 'assets/images/galery/M&D-11.jpg',
     featured: true,
     items: [
-      'Cobertura ilimitada el día de la boda (sin límite de horas)',
+      'Producción VIP: Fotografía y cinematografía (Sin límite de horas)',
       'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
       '2 fotógrafos + 2 videógrafos principales + Asistentes de producción',
       'Preproducción VIP (reuniones creativas ilimitadas, scouting de locaciones, guionización y dirección de arte)',
@@ -1078,11 +1078,9 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Adelanto express de 30 fotografías al día siguiente de la boda'
     ],
     features: [
-      'Cobertura sin límite de tiempo',
-      'Viáticos en Colombia incluidos',
-      '<a href="/portfolio/bodas/peticion-completa">Petición de Mano</a>',
-      '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>',
-      '<a href="/portfolio/bodas/preboda-editorial">Preboda</a> y <a href="/portfolio/bodas/postboda-completa">Postboda</a>',
+      'Producción VIP: Foto + Video (Sin límite)',
+      'Toda tu historia: Petición, civil, boda, preboda y postboda',
+      'Viáticos nacionales (Colombia) cubiertos',
       '2 fotógrafos y 2 videógrafos principales',
       'Asistentes de producción',
       'Reuniones de preproducción VIP y scouting',
@@ -1111,10 +1109,10 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["8'500.000 COP"],
     lead:
       'La experiencia fotográfica definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
-    image: 'assets/images/fotos/M&D-32.jpg',
+    image: 'assets/images/galery/M&D-30.jpg',
     featured: true,
     items: [
-      'Cobertura ilimitada el día de la boda (sin límite de horas)',
+      'Reportaje fotográfico élite (Sin límite de horas)',
       'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
       '2 fotógrafos principales + Asistentes de fotografía',
       'Preproducción VIP (reuniones creativas ilimitadas y scouting de locaciones)',
@@ -1126,11 +1124,9 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Adelanto express de 30 fotografías al día siguiente de la boda'
     ],
     features: [
-      'Cobertura sin límite de tiempo',
-      'Viáticos en Colombia incluidos',
-      '<a href="/portfolio/bodas/peticion-completa">Petición de Mano</a>',
-      '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>',
-      '<a href="/portfolio/bodas/preboda-editorial">Preboda</a> y <a href="/portfolio/bodas/postboda-completa">Postboda</a>',
+      'Reportaje fotográfico élite (Sin límite)',
+      'Tu historia en fotos: Petición, civil, boda, preboda y postboda',
+      'Viáticos nacionales (Colombia) cubiertos',
       '2 fotógrafos principales',
       'Asistentes de fotografía',
       'Reuniones de preproducción VIP y scouting',
