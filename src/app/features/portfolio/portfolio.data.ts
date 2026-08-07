@@ -1066,7 +1066,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
       '2 fotógrafos + 2 videógrafos principales + Asistentes de producción',
       'Preproducción VIP (reuniones creativas ilimitadas, scouting de locaciones, guionización y dirección de arte)',
-      'Documentación completa: <a href="/portfolio/peticion-de-mano/peticion-completa">Petición de mano</a>, <a href="/portfolio/preboda/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-cinematico-foto-video">Boda Principal</a> y <a href="/portfolio/postboda/postboda-completa">Sesión Postboda</a>',
+      'Documentación completa: <a href="/portfolio/bodas/peticion-completa">Petición de mano</a>, <a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/bodas/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-cinematico-foto-video">Boda Principal</a> y <a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>',
       'Cobertura a múltiples cámaras simultáneas en todos los preparativos',
       'Dirección cinematográfica, dron premium, iluminación de cine y masterización de audio',
       'Todas las fotografías del evento editadas en alta resolución (sin límite de entrega)',
@@ -1080,9 +1080,9 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     features: [
       'Cobertura sin límite de tiempo',
       'Viáticos en Colombia incluidos',
-      '<a href="/portfolio/peticion-de-mano/peticion-completa">Petición de Mano</a>',
-      '<a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>',
-      '<a href="/portfolio/preboda/preboda-editorial">Preboda</a> y <a href="/portfolio/postboda/postboda-completa">Postboda</a>',
+      '<a href="/portfolio/bodas/peticion-completa">Petición de Mano</a>',
+      '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>',
+      '<a href="/portfolio/bodas/preboda-editorial">Preboda</a> y <a href="/portfolio/bodas/postboda-completa">Postboda</a>',
       '2 fotógrafos y 2 videógrafos principales',
       'Asistentes de producción',
       'Reuniones de preproducción VIP y scouting',
@@ -1103,7 +1103,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería privada vitalicia',
       'Adelanto express de 30 fotografías al día siguiente'
     ],
-    coverage: ['<a href="/portfolio/peticion-de-mano/peticion-completa">Petición de mano</a>', '<a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>', '<a href="/portfolio/preboda/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-cinematico-foto-video">Día de la Boda completo</a>', '<a href="/portfolio/postboda/postboda-completa">Sesión Postboda</a>', 'Dirección audiovisual VIP', 'Múltiples locaciones en Colombia']
+    coverage: ['<a href="/portfolio/bodas/peticion-completa">Petición de mano</a>', '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>', '<a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-cinematico-foto-video">Día de la Boda completo</a>', '<a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>', 'Dirección audiovisual VIP', 'Múltiples locaciones en Colombia']
   },
   {
     slug: 'full-experience-solo-fotos',
@@ -1118,7 +1118,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
       '2 fotógrafos principales + Asistentes de fotografía',
       'Preproducción VIP (reuniones creativas ilimitadas y scouting de locaciones)',
-      'Documentación completa: <a href="/portfolio/peticion-de-mano/peticion-completa">Petición de mano</a>, <a href="/portfolio/preboda/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-solo-fotos">Boda Principal</a> y <a href="/portfolio/postboda/postboda-completa">Sesión Postboda</a>',
+      'Documentación completa: <a href="/portfolio/bodas/peticion-completa">Petición de mano</a>, <a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/bodas/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-solo-fotos">Boda Principal</a> y <a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>',
       'Dirección fotográfica creativa con iluminación de estudio portátil',
       'Todas las fotografías del evento editadas en alta resolución (sin límite de entrega)',
       '50 fotos impresas fine-art + 3 recuadros fotográficos en madera de 100 cm + Álbum Premium XL + Caja de presentación',
@@ -1128,9 +1128,9 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     features: [
       'Cobertura sin límite de tiempo',
       'Viáticos en Colombia incluidos',
-      '<a href="/portfolio/peticion-de-mano/peticion-completa">Petición de Mano</a>',
-      '<a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>',
-      '<a href="/portfolio/preboda/preboda-editorial">Preboda</a> y <a href="/portfolio/postboda/postboda-completa">Postboda</a>',
+      '<a href="/portfolio/bodas/peticion-completa">Petición de Mano</a>',
+      '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>',
+      '<a href="/portfolio/bodas/preboda-editorial">Preboda</a> y <a href="/portfolio/bodas/postboda-completa">Postboda</a>',
       '2 fotógrafos principales',
       'Asistentes de fotografía',
       'Reuniones de preproducción VIP y scouting',
@@ -1145,7 +1145,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Galería privada vitalicia',
       'Adelanto express de 30 fotografías al día siguiente'
     ],
-    coverage: ['<a href="/portfolio/peticion-de-mano/peticion-completa">Petición de mano</a>', '<a href="/portfolio/boda-civil/civil-completa">Boda Civil</a>', '<a href="/portfolio/preboda/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-solo-fotos">Día de la Boda completo</a>', '<a href="/portfolio/postboda/postboda-completa">Sesión Postboda</a>', 'Dirección fotográfica VIP', 'Múltiples locaciones en Colombia']
+    coverage: ['<a href="/portfolio/bodas/peticion-completa">Petición de mano</a>', '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>', '<a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-solo-fotos">Día de la Boda completo</a>', '<a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>', 'Dirección fotográfica VIP', 'Múltiples locaciones en Colombia']
   }
 ];
 

@@ -39,7 +39,7 @@
                         </div>
 
                         <ul class="pkg-offer__highlights" *ngIf="proposalHighlights().length">
-                            <li *ngFor="let item of proposalHighlights()">{{ item }}</li>
+                            <li *ngFor="let item of proposalHighlights()"><span [innerHTML]="item"></span></li>
                         </ul>
 
                         <div class="pkg-offer__actions">
