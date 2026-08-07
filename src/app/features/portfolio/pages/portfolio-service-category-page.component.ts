@@ -566,8 +566,20 @@ export class PortfolioServiceCategoryPageComponent {
     const minLabel =
       minAmount !== null ? `${this.formatCop(minAmount)} COP` : 'A convenir';
 
-    const clientCount = this.stories().length;
-    const clientLabel = clientCount > 0 ? String(clientCount) : '—';
+    const category = this.categoryState();
+    let clientLabel = '—';
+    if (category === 'bodas') {
+      clientLabel = '+80';
+    } else if (category === 'quinces') {
+      clientLabel = '+20';
+    } else if (category === 'grados') {
+      clientLabel = '+40';
+    } else if (category === 'corporativos') {
+      clientLabel = '+10';
+    } else {
+      const clientCount = this.stories().length;
+      clientLabel = clientCount > 0 ? String(clientCount) : '—';
+    }
 
     const categoryCount = this.content.servicePageCategories().length;
 
@@ -945,20 +957,16 @@ export class PortfolioServiceCategoryPageComponent {
     }
   }
 
-  openPackageModal(slug: string): void {
+  openPackageModal(slug: string, imageUrl?: string): void {
     const detail =
       this.content.getPackageDetail(this.categoryState(), slug) ??
       this.findPackageDetailBySlug(slug);
     if (!detail) {
       return;
     }
-
-    this.selectedPackageSlug.set(slug);
-    this.modalStep.set('detail');
-    this.visiblePackageImages.set(
-      PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_IMAGES,
-    );
-    this.resetRequestState(detail);
+    void this.router.navigate(['/portfolio', detail.category, detail.slug], {
+      queryParams: { coverImage: imageUrl || detail.image }
+    });
   }
 
   private findPackageDetailBySlug(
@@ -1156,7 +1164,7 @@ export class PortfolioServiceCategoryPageComponent {
     return this.parseUpsellLabel(label).description;
   }
 
-  openPackageDetails(slug: string): void {
+  openPackageDetails(slug: string, imageUrl?: string): void {
     const detail =
       this.content.getPackageDetail(this.categoryState(), slug) ??
       this.findPackageDetailBySlug(slug);
@@ -1164,7 +1172,9 @@ export class PortfolioServiceCategoryPageComponent {
       return;
     }
 
-    void this.router.navigateByUrl(`${detail.categoryHref}/${detail.slug}`);
+    void this.router.navigate([detail.categoryHref, detail.slug], {
+      queryParams: { coverImage: imageUrl || detail.image }
+    });
   }
 
   getLinkedPackageHref(option: PortfolioRequestOption): string | null {

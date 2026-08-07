@@ -9,13 +9,13 @@
     <ng-container *ngIf="packageDetail() as detail; else packageMissing">
         <section
             class="portfolio-package-detail"
-            [class.portfolio-package-detail--wedding]="detail.category === 'bodas' || detail.category === 'preboda' || detail.category === 'quinces'"
+            [class.portfolio-package-detail--wedding]="isWeddingDetail(detail)"
             [class.portfolio-package-detail--rose]="detail.accent === 'rose'"
             [class.portfolio-package-detail--modal-open]="isRequestModalOpen()"
             [class.portfolio-package-detail--featured]="detail.featured">
             <!-- ===== WEDDING: propuesta de venta ===== -->
             <ng-container *ngIf="isWeddingDetail(detail); else catalogPackageDetail">
-                <section class="pkg-offer" tjRevealOnScroll *ngIf="packageMediaState() | async as mediaState">
+                <section class="pkg-offer" tjRevealOnScroll>
                     <div class="pkg-offer__copy">
                         <a class="pkg-offer__back" [href]="detail.categoryHref">← {{ detail.categoryLabel }}</a>
                         <p class="pkg-offer__eyebrow">Propuesta · {{ detail.packageTypeLabel }}</p>
@@ -53,19 +53,11 @@
                     </div>
 
                     <div class="pkg-offer__visual">
-                        <img tjFallbackImage [src]="mediaState.coverUrl | tjImageFallback" [alt]="detail.title" loading="eager" decoding="async" />
+                        <img tjFallbackImage [src]="heroCoverImage()" [alt]="detail.title" loading="eager" decoding="async" />
                     </div>
                 </section>
 
-                <ng-container *ngIf="packageMediaState() | async as mediaState">
-                    <p
-                        class="pkg-media-status"
-                        *ngIf="mediaState.status === 'loading' || mediaState.status === 'error' || mediaState.status === 'empty'">
-                        <ng-container *ngIf="mediaState.status === 'loading'">Cargando imágenes...</ng-container>
-                        <ng-container *ngIf="mediaState.status === 'error'">No fue posible cargar la galería. Se usa una imagen por defecto.</ng-container>
-                        <ng-container *ngIf="mediaState.status === 'empty'">Aún no hay imágenes publicadas para este paquete.</ng-container>
-                    </p>
-                </ng-container>
+
 
                 <section class="pkg-why" tjRevealOnScroll>
                     <div class="pkg-why__head">

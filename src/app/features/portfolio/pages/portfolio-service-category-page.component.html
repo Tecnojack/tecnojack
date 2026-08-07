@@ -52,7 +52,7 @@
                 [lead]="section.lead ?? ''"
                 [packages]="section.cards"
                 [initiallyOpen]="index === 0"
-                (openPackage)="openPackageDetails($event)">
+                (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
             </tj-portfolio-category-accordion>
         </div>
 
@@ -218,7 +218,7 @@
                                     <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
                                 </ul>
 
-                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug)">
+                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug, item.detail.image)">
                                     Ver detalle
                                 </button>
                             </div>

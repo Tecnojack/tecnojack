@@ -1,31 +1,18 @@
 <section class="portfolio-section contact-section" id="contact">
-    <div class="contact-section__grid">
-        <div class="contact-section__copy" tjRevealOnScroll>
-            <p class="contact-section__eyebrow">Contacto</p>
-            <h2 class="heading-lg">{{ title }}</h2>
-            <p class="contact-section__lead text-body text-muted">{{ lead }}</p>
-
-            <a class="contact-section__primary btn-text" [href]="whatsappHref" target="_blank" rel="noopener">
-                Hablar por WhatsApp
-            </a>
+    <div class="contact-section__minimal" tjRevealOnScroll>
+        <div class="contact-section__info">
+            <h2 class="heading-md">{{ title }}</h2>
+            <p class="text-body text-muted">{{ lead }}</p>
         </div>
-
-        <div class="contact-section__panel" tjRevealOnScroll>
-            <div class="contact-section__panel-copy">
-                <p class="text-body text-muted">{{ body }}</p>
-            </div>
-
-            <div class="contact-section__links">
-                <a class="contact-card" *ngFor="let item of links" [href]="item.href" target="_blank" rel="noopener">
-                    <div class="contact-card__icon">
-                        <fa-icon [icon]="icons[item.platform]"></fa-icon>
-                    </div>
-                    <div>
-                        <strong class="heading-md">{{ item.title }}</strong>
-                        <p class="text-body text-muted">{{ item.description }}</p>
-                    </div>
+        <div class="contact-section__actions">
+            <div class="contact-section__social-icons">
+                <a class="social-icon-btn" *ngFor="let item of getSocialLinks()" [href]="item.href" target="_blank" rel="noopener" [title]="item.title">
+                    <fa-icon [icon]="icons[item.platform]"></fa-icon>
                 </a>
             </div>
+            <a class="contact-section__btn-wa btn-text" [href]="whatsappHref" target="_blank" rel="noopener">
+                Hablar por WhatsApp
+            </a>
         </div>
     </div>
 </section>

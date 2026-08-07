@@ -41,6 +41,10 @@ export class ContactSectionComponent {
     return this.content.whatsappHref();
   }
 
+  getSocialLinks(): PortfolioContactLink[] {
+    return this.links.filter(link => link.platform !== 'whatsapp');
+  }
+
   readonly icons: Record<PortfolioContactLink['platform'], IconDefinition> = {
     instagram: faInstagram,
     facebook: faFacebookF,

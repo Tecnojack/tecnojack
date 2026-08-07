@@ -163,7 +163,7 @@ export class PortfolioGradesPageComponent {
   readonly heroFacts = computed(() => [
     { label: 'Paquetes', value: '3' },
     { label: 'Desde', value: '60.000 COP' },
-    { label: 'Mín. estudiantes', value: '40' },
+    { label: 'Clientes', value: '+40' },
     { label: 'Entrega', value: '1–2 sem.' }
   ]);
 

@@ -152,7 +152,7 @@ export interface PreweddingPlan {
   featured?: boolean;
 }
 
-export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos';
+export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos' | 'videos';
 export type PortfolioPackageGroup = 'photo-video' | 'photo-only' | 'custom' | 'session';
 
 export interface PortfolioPackageDetailSection {
@@ -2021,6 +2021,90 @@ export const preweddingPlans: PreweddingPlan[] = [
   }
 ];
 
+export const videoAdditionalUpsells = [
+  { label: 'Tomas con drone||Planos aéreos para ampliar el impacto visual y la escala del proyecto', priceLabel: '120.000 COP', priceAmountCop: 120000 },
+  { label: 'Reel adicional para redes||Versión extra en formato vertical pensada para Instagram, TikTok y estados', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+  { label: 'Miniatura para YouTube / Spotify||Miniatura optimizada para YouTube y portada visual para Spotify', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Creación de guión||Desarrollo estructurado de la narrativa del video con enfoque profesional', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Conceptualización y storytelling||Construcción de idea creativa, estética y narrativa del video', priceLabel: '120.000 COP', priceAmountCop: 120000 },
+  { label: 'Video de referencia previo||Video guía con referencias visuales para definir el resultado final antes de grabar', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+  { label: 'Dirección creativa extendida||Acompañamiento completo en la dirección artística durante todo el rodaje', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Planificación de escenas||Organización de tomas y estructura visual para optimizar la grabación', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+  { label: 'Scouting de locación||Búsqueda y selección de locaciones adecuadas para el proyecto', priceLabel: '60.000 COP', priceAmountCop: 60000 }
+];
+
+export interface VideoPackagePlan {
+  slug: string;
+  name: string;
+  lead: string;
+  image: string;
+  priceLines: string[];
+  amountCop: number;
+  items: string[];
+  features: string[];
+  deliverables: string[];
+  featured?: boolean;
+}
+
+export const videoMainPlans: VideoPackagePlan[] = [
+  {
+    slug: 'video-esencial',
+    name: 'Video Esencial',
+    lead: 'Producción directa, limpia y profesional para artistas que buscan un resultado de calidad sin producción compleja.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    priceLines: ['400.000 COP'],
+    amountCop: 400000,
+    items: ['Grabación en locación natural o entorno básico', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto', 'Asesoría creativa previa a la grabación', 'Planeación básica de escenas', '1 video musical final de hasta 4 minutos en 4K', '1 archivo final en formato horizontal'],
+    features: ['Grabación en locación natural o entorno básico', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto', 'Asesoría creativa previa a la grabación', 'Planeación básica de escenas'],
+    deliverables: ['1 video musical final de hasta 4 minutos en 4K', '1 archivo final en formato horizontal', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-pro',
+    name: 'Video Pro',
+    lead: 'Producción con mayor impacto visual, ideal para artistas que buscan calidad superior y contenido para redes.',
+    image: 'assets/images/galery/M&D-31.jpg',
+    priceLines: ['560.000 COP'],
+    amountCop: 560000,
+    items: ['Incluye todo lo del paquete Esencial', 'Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Mayor control de escena', 'Producción de hasta 6 horas', '1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube'],
+    features: ['Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Mayor control de escena', 'Producción de hasta 6 horas', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Dirección creativa durante rodaje', 'Referencia visual previa del proyecto', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube', 'Archivos finales en formato horizontal y vertical', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-cinematico',
+    name: 'Video Cinemático',
+    lead: 'Producción narrativa con enfoque cinematográfico para proyectos de alto nivel visual.',
+    image: 'assets/images/galery/M&D-32.jpg',
+    priceLines: ['850.000 COP'],
+    amountCop: 850000,
+    featured: true,
+    items: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada', '1 video final de hasta 7 minutos en 4K', '1 archivo final en formato horizontal'],
+    features: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Construcción de storytelling', 'Desarrollo de idea narrativa', 'Dirección creativa durante rodaje', 'Planeación básica de escenas', 'Acompañamiento en elección de locación', 'Referencia visual previa del proyecto', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video final de hasta 7 minutos en 4K', '1 archivo final en formato horizontal', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-personalizado',
+    name: 'Video Personalizado',
+    lead: 'Producción completamente adaptada a las necesidades del cliente.',
+    image: 'assets/images/galery/M&D-29.jpg',
+    priceLines: ['250.000 COP (Base)'],
+    amountCop: 250000,
+    items: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios', '1 video final con duración acordada en la cotización'],
+    features: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Desarrollo de idea narrativa', 'Acompañamiento en elección de locación', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video final con duración acordada en la cotización', 'Archivos finales en la resolución y formato definidos en la propuesta', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-cortometraje',
+    name: 'Video Cortometraje',
+    lead: 'Producción narrativa para cortometrajes, storytelling o proyectos creativos no musicales.',
+    image: 'assets/images/galery/M&D-33.jpg',
+    priceLines: ['300.000 COP (Base)'],
+    amountCop: 300000,
+    items: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada', '1 cortometraje o pieza narrativa final'],
+    features: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada', 'Asesoría creativa previa a la grabación'],
+    deliverables: ['1 cortometraje o pieza narrativa final', 'Duración definida en la propuesta escrita', 'Archivo final en resolución acordada para entrega', 'Entrega final por Google Drive']
+  }
+];
+
 function buildLinkedPackageOption(
   id: string,
   label: string,
@@ -3049,6 +3133,53 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
   }
 ].map(normalizePortfolioPackageDetail);
 
+portfolioPackageDetails.push(
+  ...videoMainPlans.map((plan, index) => normalizePortfolioPackageDetail({
+    category: 'videos' as const,
+    slug: plan.slug,
+    categoryLabel: 'Videos',
+    categoryHref: '/portfolio/videos',
+    title: plan.name,
+    packageTypeLabel: 'Producción audiovisual',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Video · Producción audiovisual',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Personaliza la producción sumando estos servicios extra.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          plan.slug === 'video-cortometraje' ? [
+            { label: 'Guión o estructura narrativa||Desarrollo del guión o estructura narrativa del cortometraje', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+            { label: 'Múltiples locaciones||Rodaje en 2 o más locaciones distintas', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+            { label: 'Construcción de storytelling||Desarrollo de arco narrativo y estructura emocional del relato', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+            { label: 'Desarrollo de idea narrativa||Conceptualización de la historia a contar antes del rodaje', priceLabel: '60.000 COP', priceAmountCop: 60000 },
+            { label: 'Dirección creativa durante rodaje||Acompañamiento artístico completo durante todo el día de grabación', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Planificación de escenas||Organización de tomas y estructura visual para optimizar la grabación', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+            { label: 'Acompañamiento en elección de locación||Scouting y selección del lugar ideal para el proyecto', priceLabel: '60.000 COP', priceAmountCop: 60000 },
+            { label: 'Video de referencia previo||Video guía con referencias visuales para definir el resultado final antes de grabar', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+            { label: 'Tomas con drone||Planos aéreos para ampliar la escala visual del cortometraje', priceLabel: '120.000 COP', priceAmountCop: 120000 }
+          ] : videoAdditionalUpsells,
+          false
+        )
+      }
+    ],
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video).`)
+  }))
+);
+
 const portfolioPackageSlugAliases: Partial<Record<PortfolioPackageCategory, Record<string, string>>> = {
   preboda: {
     'plan-sencilla': 'preboda-esencial',
@@ -3530,6 +3661,25 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       'Selecciona el tipo de producción, revisa entregables y alcance, y compártenos objetivo, fecha y ciudad para cotizar con claridad y planear la ejecución.',
     storiesTitle: 'Casos / muestras',
     storiesLead: 'Una selección de estilo visual para contenidos institucionales y comerciales.',
+    stories: []
+  },
+  videos: {
+    category: 'videos',
+    label: 'Videos',
+    shellSubtitle: 'Videos',
+    hero: {
+      eyebrow: 'Portafolio audiovisual',
+      title: 'Producción audiovisual con enfoque cinéfilo.',
+      description: 'Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.',
+      backgroundImage: 'assets/images/galery/M&D-30.jpg',
+      highlights: ['Videos musicales', 'Bodas & eventos', 'Cortometrajes', 'Contenido para redes'],
+      whatsappMessage: 'Hola TECNOJACK, quiero información sobre los paquetes de video.'
+    },
+    packageEyebrow: 'Paquetes de video',
+    packageTitle: 'Elige una base y ajustamos según tu idea',
+    packageLead: 'Selecciona una base para comenzar y la adaptaremos según la complejidad, locaciones y concepto de tu proyecto visual.',
+    storiesTitle: 'Trabajos destacados',
+    storiesLead: 'Explora algunas de nuestras producciones audiovisuales.',
     stories: []
   }
 };

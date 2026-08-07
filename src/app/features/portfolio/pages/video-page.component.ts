@@ -11,6 +11,7 @@ import {
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Observable, map, shareReplay, startWith } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
@@ -25,10 +26,19 @@ import {
   VideoAccordionCategory,
   VideoAccordionComponent,
 } from './video-accordion.component';
-import {
-  VideoModalComponent,
-  VideoServicePackage,
-} from './video-modal.component';
+import { VideoModalComponent } from './video-modal.component';
+
+export interface VideoServicePackage {
+  name: string;
+  price: number;
+  isBasePrice?: boolean;
+  categoryTag?: string;
+  tagline?: string;
+  description: string;
+  features?: string[];
+  deliverables?: string[];
+  additionalServices?: { name: string; price: number; description: string }[];
+}
 
 const videoAdditionalServices: VideoServicePackage['additionalServices'] = [
   {
@@ -110,6 +120,7 @@ export class VideoPageComponent implements OnInit {
   private readonly document = inject(DOCUMENT);
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
+  private readonly router = inject(Router);
   private readonly defaultCoverImage = 'assets/images/fotos/default-cover.png';
   private readonly videoPackageCoverCache = new Map<
     string,
@@ -127,7 +138,6 @@ export class VideoPageComponent implements OnInit {
     );
 
   readonly selectedVideo = signal<PortfolioPlaylistVideo | null>(null);
-  readonly selectedVideoPackage = signal<VideoServicePackage | null>(null);
 
   readonly heroFacts = computed(() => {
     const packageCount = this.videoPackages.length;
@@ -419,7 +429,7 @@ export class VideoPageComponent implements OnInit {
 
   constructor() {
     effect((onCleanup) => {
-      const modalOpen = !!this.selectedVideo() || !!this.selectedVideoPackage();
+      const modalOpen = !!this.selectedVideo();
       this.document.body.classList.toggle(
         'portfolio-request-modal-open',
         modalOpen,
@@ -450,17 +460,15 @@ export class VideoPageComponent implements OnInit {
 
   openVideo(video: PortfolioPlaylistVideo): void {
     this.selectedVideo.set(video);
-    this.selectedVideoPackage.set(null);
   }
 
   openVideoPackage(pkg: VideoServicePackage): void {
-    this.selectedVideoPackage.set(pkg);
-    this.selectedVideo.set(null);
+    const slug = this.videoPackageSlug(pkg);
+    void this.router.navigate(['/portfolio/videos', slug]);
   }
 
   closeVideo(): void {
     this.selectedVideo.set(null);
-    this.selectedVideoPackage.set(null);
   }
 
   formatCop(amount: number): string {

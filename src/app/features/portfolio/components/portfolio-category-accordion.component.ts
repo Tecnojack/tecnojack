@@ -79,9 +79,9 @@ export class PortfolioCategoryAccordionComponent {
   @Input() packages: PortfolioPackageCardViewModel[] = [];
   @Input() initiallyOpen = false;
 
-  @Output() openPackage = new EventEmitter<string>();
+  @Output() openPackage = new EventEmitter<{ slug: string; imageUrl: string }>();
 
-  private readonly openState = signal(false);
+  readonly openState = signal(false);
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);
@@ -95,8 +95,8 @@ export class PortfolioCategoryAccordionComponent {
     this.openState.update((value) => !value);
   }
 
-  requestOpenPackage(slug: string): void {
-    this.openPackage.emit(slug);
+  requestOpenPackage(slug: string, imageUrl: string): void {
+    this.openPackage.emit({ slug, imageUrl });
   }
 
   coverByDetail(

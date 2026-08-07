@@ -16,6 +16,14 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'portfolio/videos/:package',
+		data: { category: 'videos' },
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-package-detail-page.component').then(
+				(m) => m.PortfolioPackageDetailPageComponent
+			)
+	},
+	{
 		path: 'portfolio/videos',
 		loadComponent: () =>
 			import('./features/portfolio/pages/video-page.component').then(

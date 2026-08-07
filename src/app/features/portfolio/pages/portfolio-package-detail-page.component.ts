@@ -4,14 +4,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  Input,
   computed,
   effect,
   inject,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { map } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
@@ -22,6 +24,7 @@ import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ContactSectionComponent } from '../sections/contact-section.component';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
+import { getRealImageUrlByPath } from '../../../core/data/package-real-images';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
@@ -61,6 +64,9 @@ export class PortfolioPackageDetailPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly serviceRequest = inject(ServiceRequestService);
+  private readonly router = inject(Router);
+
+  @Input() coverImage?: string;
 
   readonly isRequestModalOpen = signal(false);
   readonly visibleVisualImages = signal(
@@ -95,6 +101,37 @@ export class PortfolioPackageDetailPageComponent {
   readonly packageMediaFolder = computed(() =>
     resolvePortfolioPackageMediaFolder(this.packageDetail()),
   );
+
+  readonly heroCoverImage = computed(() => {
+    const detail = this.packageDetail();
+    if (detail) {
+      const videoImages: Record<string, string> = {
+        'video-esencial': 'https://images.pexels.com/photos/29379918/pexels-photo-29379918.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-esencial': 'https://images.pexels.com/photos/29379918/pexels-photo-29379918.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-pro': 'https://images.pexels.com/photos/30697924/pexels-photo-30697924.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-pro': 'https://images.pexels.com/photos/30697924/pexels-photo-30697924.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-cinematico': 'https://images.pexels.com/photos/28613680/pexels-photo-28613680.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-cinematico': 'https://images.pexels.com/photos/28613680/pexels-photo-28613680.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-personalizado': 'https://images.pexels.com/photos/9179882/pexels-photo-9179882.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-cortometraje': 'https://images.pexels.com/photos/1327099/pexels-photo-1327099.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop'
+      };
+
+      if (videoImages[detail.slug]) {
+        return videoImages[detail.slug];
+      }
+    }
+    const queryParamImage = this.route.snapshot.queryParamMap.get('coverImage');
+    const resolvedUrl = this.coverImage || queryParamImage;
+    if (resolvedUrl) {
+      return resolvedUrl;
+    }
+    if (!detail) {
+      return this.placeholderImage;
+    }
+    const folder = resolvePortfolioPackageMediaFolder(detail);
+    const realImage = getRealImageUrlByPath(folder);
+    return realImage || detail.image || this.placeholderImage;
+  });
 
   readonly shellSubtitle = computed(() => {
     const detail = this.packageDetail();
@@ -478,6 +515,12 @@ export class PortfolioPackageDetailPageComponent {
   packageMediaState() {
     return this.mediaPublic.getResolvedMediaStateByFolder(
       this.packageMediaFolder(),
+    );
+  }
+
+  coverByDetail(detail: PortfolioPackageDetail | null | undefined) {
+    return this.mediaPublic.getRealImage(
+      resolvePortfolioPackageMediaFolder(detail),
     );
   }
 
