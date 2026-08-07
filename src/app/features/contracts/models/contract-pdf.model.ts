@@ -70,6 +70,9 @@ export interface ContractPdfViewModel {
     imageDataOrUrl?: string;
     signedAt: string;
     ipAddress?: string;
+    userAgent?: string;
+    platform?: string;
+    timezone?: string;
   };
 
   integrity?: {
@@ -78,5 +81,7 @@ export interface ContractPdfViewModel {
     termsVersion?: string;
     privacyVersion?: string;
     recordId?: string;
+    termsAcceptedAt?: string;
+    privacyAcceptedAt?: string;
   };
 }

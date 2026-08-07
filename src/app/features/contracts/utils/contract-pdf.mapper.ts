@@ -31,7 +31,8 @@ export function mapContractDocumentToPdfViewModel(c: ContractDocument, isWaterma
       currentTitle = para;
     } else {
       if (!currentTitle) {
-        currentTitle = `CLÁUSULA GENERAL`;
+        // Ignorar textos introductorios (como título y número de contrato) en el listado de cláusulas de la pág 2
+        continue;
       }
       currentBody.push(para);
     }
@@ -49,7 +50,7 @@ export function mapContractDocumentToPdfViewModel(c: ContractDocument, isWaterma
     draft: 'Borrador',
     ready_to_sign: 'Listo para firma',
     opened: 'En revisión',
-    signed: 'Firmado e Inmutabilizado',
+    signed: 'Firmado electrónicamente',
     completed: 'Completado',
     cancelled: 'Cancelado',
     expired: 'Expirado',
@@ -130,6 +131,9 @@ export function mapContractDocumentToPdfViewModel(c: ContractDocument, isWaterma
           imageDataOrUrl: c.signature.signatureDataUrl,
           signedAt: signedAtFormatted || new Date().toLocaleString('es-CO'),
           ipAddress: c.signature.ipAddress,
+          userAgent: c.signature.userAgent,
+          platform: c.signature.platform,
+          timezone: c.signature.timezone,
         }
       : undefined,
 
@@ -139,6 +143,8 @@ export function mapContractDocumentToPdfViewModel(c: ContractDocument, isWaterma
       termsVersion: c.termsVersion || CURRENT_TERMS_VERSION,
       privacyVersion: c.privacyVersion || CURRENT_PRIVACY_VERSION,
       recordId: c.id,
+      termsAcceptedAt: c.acceptances?.termsAcceptedAt,
+      privacyAcceptedAt: c.acceptances?.privacyAcceptedAt,
     },
   };
 }

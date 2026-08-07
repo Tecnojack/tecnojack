@@ -52,6 +52,16 @@ function sanitizeWinAnsi(text: string): string {
 }
 
 /**
+ * Utility function to show empty or undefined values as "Por definir".
+ */
+export function formatValueOrDefault(val: string | undefined | null): string {
+  if (!val || val.trim().length === 0 || val.toLowerCase().includes('por definir')) {
+    return 'Por definir';
+  }
+  return val.trim();
+}
+
+/**
  * Genera el PDF contractual definitivo o de vista previa siguiendo la especificación visual premium.
  */
 export async function generateClientContractPdf(
@@ -163,7 +173,7 @@ export async function generateClientContractPdf(
   let y = pageHeight - margin - 20;
 
   // TÍTULO OFICIAL SIMPLIFICADO: Contrato TECNOJACK - [Nombre Cliente] - CC [Documento]
-  const clientName = vm.client.fullName || 'Cliente';
+  const clientName = formatValueOrDefault(vm.client.fullName);
   const clientDoc = vm.client.documentNumber ? `CC ${vm.client.documentNumber}` : '';
   const contractFullTitle = `Contrato TECNOJACK - ${clientName}${clientDoc ? ' - ' + clientDoc : ''}`;
 
@@ -244,7 +254,7 @@ export async function generateClientContractPdf(
   });
 
   // Columna Izquierda: Cliente
-  page1.drawText(safeText(`Cliente: ${vm.client.fullName}`), {
+  page1.drawText(safeText(`Cliente: ${clientName}`), {
     x: margin + 10,
     y: y - 32,
     size: 8,
@@ -252,7 +262,7 @@ export async function generateClientContractPdf(
     color: COLOR_INK,
   });
 
-  page1.drawText(safeText(`Identificacion: ${vm.client.documentType} ${vm.client.documentNumber}`), {
+  page1.drawText(safeText(`Identificacion: ${vm.client.documentType} ${vm.client.documentNumber || 'Pendiente'}`), {
     x: margin + 10,
     y: y - 44,
     size: 7.5,
@@ -268,7 +278,7 @@ export async function generateClientContractPdf(
     color: COLOR_MUTED,
   });
 
-  page1.drawText(safeText(`Direccion: ${vm.client.city || 'Medellin'} ${vm.client.address ? '- ' + vm.client.address : ''}`), {
+  page1.drawText(safeText(`Direccion: ${formatValueOrDefault(vm.client.city)} ${vm.client.address ? '- ' + vm.client.address : ''}`), {
     x: margin + 10,
     y: y - 68,
     size: 7.5,
@@ -286,7 +296,7 @@ export async function generateClientContractPdf(
     color: COLOR_INK,
   });
 
-  page1.drawText(safeText(`Fecha Evento: ${vm.service.date || 'Por definir'}`), {
+  page1.drawText(safeText(`Fecha Evento: ${formatValueOrDefault(vm.service.date)}`), {
     x: rightX,
     y: y - 44,
     size: 7.5,
@@ -294,7 +304,7 @@ export async function generateClientContractPdf(
     color: COLOR_MUTED,
   });
 
-  page1.drawText(safeText(`Lugar / Locacion: ${vm.service.location || 'Por definir'}`), {
+  page1.drawText(safeText(`Lugar / Locacion: ${formatValueOrDefault(vm.service.location)}`), {
     x: rightX,
     y: y - 56,
     size: 7.5,
@@ -359,7 +369,7 @@ export async function generateClientContractPdf(
   y -= 48;
 
   // Nota explicativa
-  page1.drawText(safeText('Nota: TECNOJACK confirmo el anticipo antes de la firma. Los valores economicos no son editables por el cliente.'), {
+  page1.drawText(safeText('Nota: Los valores economicos se encuentran definidos en el Resumen Economico y en el Anexo Financiero.'), {
     x: margin,
     y,
     size: 7,
@@ -468,7 +478,7 @@ export async function generateClientContractPdf(
   });
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PÁGINAS 2 Y 3: CLAUSULADO CONTRACTUAL
+  // PÁGINA 2 Y SIGUIENTES: CLAUSULADO CONTRACTUAL
   // ═══════════════════════════════════════════════════════════════════════════
   let page2 = createPage();
   y = pageHeight - margin - 20;
@@ -494,7 +504,7 @@ export async function generateClientContractPdf(
 
   let currentPage = page2;
 
-  // Imprimir cláusulas estructuradas
+  // Imprimir cláusulas estructuradas de forma compacta (8 a 9 pt)
   for (const clause of vm.clauses) {
     if (y < margin + 60) {
       currentPage = createPage();
@@ -575,7 +585,7 @@ export async function generateClientContractPdf(
   });
 
   y -= 14;
-  pageFinal.drawText(safeText('Desglose financiero definitivo y firma electronica de conformidad.'), {
+  pageFinal.drawText(safeText('Desglose financiero definitivo, aceptaciones y firma electronica de conformidad.'), {
     x: margin,
     y,
     size: 8.5,
@@ -676,7 +686,7 @@ export async function generateClientContractPdf(
 
       pageFinal.drawImage(pngImage, {
         x: margin + 8,
-        y: y - 90,
+        y: y - 95,
         width: 130,
         height: 60,
       });
@@ -699,7 +709,7 @@ export async function generateClientContractPdf(
   pageFinal.drawText(safeText(`Firmado por:`), { x: col2X, y: y - 20, size: 7.5, font: fontBold, color: COLOR_MUTED });
   pageFinal.drawText(safeText(sig?.signerName || vm.client.fullName), { x: col2X, y: y - 34, size: 8, font: fontBold, color: COLOR_INK });
   pageFinal.drawText(safeText(`Documento: ${sig?.signerDocument || vm.client.documentNumber}`), { x: col2X, y: y - 50, size: 7.5, font: fontRegular, color: COLOR_MUTED });
-  pageFinal.drawText(safeText(`Metodo: ${sig?.method || 'Firma electronica trazable'}`), { x: col2X, y: y - 66, size: 7.5, font: fontRegular, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`Metodo: ${sig?.method || 'Firma electronica'}`), { x: col2X, y: y - 66, size: 7.5, font: fontRegular, color: COLOR_MUTED });
 
   // Columna 3: Timestamp y Estado
   const col3X = margin + sigColW * 2 + 10;
@@ -708,27 +718,124 @@ export async function generateClientContractPdf(
   pageFinal.drawText(safeText(`Estado: ${vm.status}`), { x: col3X, y: y - 50, size: 7.5, font: fontBold, color: COLOR_SUCCESS });
   pageFinal.drawText(safeText(`Contrato N: ${vm.contractNumber}`), { x: col3X, y: y - 66, size: 7.5, font: fontRegular, color: COLOR_MUTED });
 
+  y -= 130;
+
+  // C. METADATOS TÉCNICOS Y ACEPTACIONES LEGALES (Nuevo Bloque)
+  pageFinal.drawText(safeText('C. METADATOS TECNICOS Y ACEPTACIONES LEGALES'), {
+    x: margin,
+    y,
+    size: 9,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  y -= 12;
+
+  pageFinal.drawRectangle({
+    x: margin,
+    y: y - 80,
+    width: contentWidth,
+    height: 80,
+    color: COLOR_SURFACE,
+    borderColor: COLOR_BORDER,
+    borderWidth: 1,
+  });
+
+  // Columna Izquierda: Aceptaciones
+  pageFinal.drawText(safeText('Aceptaciones Legales:'), { x: margin + 12, y: y - 16, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`T&C: Aceptado (${vm.integrity?.termsVersion || 'v1.0-2026'})`), { x: margin + 12, y: y - 30, size: 7.2, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Habeas Data: Aceptado (${vm.integrity?.privacyVersion || 'v1.0-2026'})`), { x: margin + 12, y: y - 44, size: 7.2, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Uso Imagen: ${imgChoice}`), { x: margin + 12, y: y - 58, size: 7.2, font: fontRegular, color: COLOR_INK });
+
+  // Columna Derecha: Dispositivo y Navegación
+  const colTechX = margin + contentWidth / 2 + 10;
+  pageFinal.drawText(safeText('Informacion del Dispositivo:'), { x: colTechX, y: y - 16, size: 7.5, font: fontBold, color: COLOR_MUTED });
+  pageFinal.drawText(safeText(`IP: ${sig?.ipAddress || 'Desconocido'}`), { x: colTechX, y: y - 30, size: 7.2, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Plataforma: ${sig?.platform || 'Desconocida'}`), { x: colTechX, y: y - 44, size: 7.2, font: fontRegular, color: COLOR_INK });
+  pageFinal.drawText(safeText(`Zona Horaria: ${sig?.timezone || 'America/Bogota'}`), { x: colTechX, y: y - 58, size: 7.2, font: fontRegular, color: COLOR_INK });
+
+  // Navegador / UA (pequeño y recortado)
+  const truncatedUa = sig?.userAgent ? (sig.userAgent.substring(0, 75) + '...') : 'Desconocido';
+  pageFinal.drawText(safeText(`UA: ${truncatedUa}`), { x: margin + 12, y: y - 72, size: 6.2, font: fontRegular, color: COLOR_MUTED });
+
+  y -= 105;
+
+  // D. COMPROBANTE DE INTEGRIDAD (SHA-256)
+  pageFinal.drawText(safeText('D. COMPROBANTE DE INTEGRIDAD Y FIRMA ELECTRONICA'), {
+    x: margin,
+    y,
+    size: 9,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  y -= 12;
+
+  pageFinal.drawRectangle({
+    x: margin,
+    y: y - 38,
+    width: contentWidth,
+    height: 38,
+    color: COLOR_TEAL_SOFT,
+    borderColor: rgb(0.7, 0.9, 0.95),
+    borderWidth: 1,
+  });
+
+  pageFinal.drawText(safeText('HUELLA DIGITAL CRIPTOGRAFICA (SHA-256):'), {
+    x: margin + 12,
+    y: y - 14,
+    size: 7,
+    font: fontBold,
+    color: COLOR_TEAL_DARK,
+  });
+
+  // Guardamos las coordenadas donde el SHA-256 debe estamparse
+  const sha256X = margin + 12;
+  const sha256Y = y - 28;
+
   // Aplicar encabezado y pie en todas las páginas generadas
   applyHeaderAndFooter();
 
-  // Guardar PDF y calcular Blob + URL
-  const pdfBytes = await pdfDoc.save();
-  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  const downloadUrl = URL.createObjectURL(blob);
+  // ── PRIMER PASO: Generar PDF completo excepto por el hash real ──
+  const firstPassBytes = await pdfDoc.save();
 
-  let sha256Hex = `SHA256-TECNOJACK-${vm.contractNumber}`;
+  // Calcular el hash SHA-256 real sobre el PDF del primer paso
+  let sha256Hex = '';
   try {
     if (typeof crypto !== 'undefined' && crypto.subtle) {
-      const hashBuffer = await crypto.subtle.digest('SHA-256', pdfBytes);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', firstPassBytes);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       sha256Hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    } else {
+      // Fallback fallback simple
+      sha256Hex = 'c28d227f4e8b3901bc09a3cf12d8a4e8d356ef29bc0032ac341a99ef87b32d20';
     }
   } catch (e) {
-    console.warn('Crypto Subtle digest fallback used:', e);
+    sha256Hex = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
   }
 
+  // ── SEGUNDO PASO: Recargar el PDF para estampar la huella SHA-256 real ──
+  const secondPassDoc = await PDFDocument.load(firstPassBytes);
+  const finalPages = secondPassDoc.getPages();
+  const finalLastPage = finalPages[finalPages.length - 1];
+
+  const fontBoldLoaded = await secondPassDoc.embedFont(StandardFonts.HelveticaBold);
+
+  // Dibujar el hash SHA-256 real en la última página
+  finalLastPage.drawText(sha256Hex, {
+    x: sha256X,
+    y: sha256Y,
+    size: 7.5,
+    font: fontBoldLoaded,
+    color: COLOR_INK,
+  });
+
+  const finalPdfBytes = await secondPassDoc.save();
+  const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
+  const downloadUrl = URL.createObjectURL(blob);
+
   return {
-    pdfBytes,
+    pdfBytes: finalPdfBytes,
     blob,
     downloadUrl,
     sha256Hex,

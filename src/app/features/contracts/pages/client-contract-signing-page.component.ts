@@ -1038,6 +1038,7 @@ export class ClientContractSigningPageComponent implements OnInit {
       client: updatedClient,
       service: c.service,
       payment: c.payment,
+      acceptances: this.acceptances,
     });
 
     this.contract.set({
@@ -1088,6 +1089,17 @@ export class ClientContractSigningPageComponent implements OnInit {
     this.signatureData = output;
   }
 
+  async fetchClientIp(): Promise<string> {
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return data.ip || '127.0.0.1';
+    } catch (err) {
+      console.warn('No se pudo obtener IP pública:', err);
+      return 'Desconocido (Offline/Proxy)';
+    }
+  }
+
   /**
    * Abre la vista previa del contrato generando la vista PDF nativa con la marca de agua preliminar.
    */
@@ -1095,6 +1107,8 @@ export class ClientContractSigningPageComponent implements OnInit {
     this.updateContractSnapshot();
     const c = this.contract();
     if (!c) return;
+
+    const clientIp = await this.fetchClientIp();
 
     const previewDoc: ContractDocument = {
       ...c,
@@ -1106,6 +1120,10 @@ export class ClientContractSigningPageComponent implements OnInit {
         signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
         signatureDataUrl: this.signatureData.dataUrl,
         signedAt: new Date().toISOString(),
+        ipAddress: clientIp,
+        userAgent: navigator.userAgent,
+        platform: (navigator as any).userAgentData?.platform || navigator.platform || 'Desconocido',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Bogota',
       } : undefined,
     };
 
@@ -1143,17 +1161,31 @@ export class ClientContractSigningPageComponent implements OnInit {
 
     try {
       const now = new Date().toISOString();
+      const clientIp = await this.fetchClientIp();
+      const updatedAcceptances: ContractAcceptances = {
+        ...this.acceptances,
+        termsAcceptedAt: this.acceptances.termsAccepted ? now : undefined,
+        privacyAcceptedAt: this.acceptances.privacyAccepted ? now : undefined,
+        electronicSignatureAcceptedAt: this.acceptances.electronicSignatureAccepted ? now : undefined,
+        imageUseAcceptedAt: now,
+        informationAccuracyAcceptedAt: this.acceptances.informationAccuracyAccepted ? now : undefined,
+      };
+
       const updated: ContractDocument = {
         ...c,
         status: 'signed',
         client: this.clientForm,
-        acceptances: this.acceptances,
+        acceptances: updatedAcceptances,
         signature: {
           method: this.signatureData.method,
           signerName: this.clientForm.fullName,
           signerDocument: `${this.clientForm.documentType} ${this.clientForm.documentNumber}`,
           signatureDataUrl: this.signatureData.dataUrl,
           signedAt: now,
+          ipAddress: clientIp,
+          userAgent: navigator.userAgent,
+          platform: (navigator as any).userAgentData?.platform || navigator.platform || 'Desconocido',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Bogota',
         },
         snapshot: {
           ...c.snapshot,
