@@ -1498,7 +1498,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     items: [
-      'Cobertura del evento de 3 a 4 horas',
+      'Cobertura del evento de 3 a 4 horas (ideal para ceremonia y cena)',
       'Dirección básica de poses',
       'Fotografía documental del evento',
       '80 a 120 fotografías editadas',
@@ -1508,113 +1508,113 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     features: [
       'Cobertura del evento de 3 a 4 horas',
       'Dirección básica de poses',
-      'Fotografía documental del evento'
+      'Enfoque documental para los momentos clave'
     ],
     deliverables: [
-      '80 a 120 fotografías editadas',
-      '1 fotografía impresa de 50 cm',
+      '80 a 120 fotografías con edición profesional',
+      '1 ampliación fotográfica de 50 cm',
       'Entrega final en alta resolución por Google Drive'
     ],
-    coverage: ['Llegada de la quinceañera', 'Decoración y detalles del salón', 'Ceremonia', 'Vals de honor', 'Brindis']
+    coverage: ['Llegada de la quinceañera', 'Ceremonia', 'Vals de honor', 'Brindis', 'Sesión corta con núcleo familiar']
   },
   {
     slug: 'quince-completa-historia',
-    name: 'Completa – Historia completa en fotografía',
-    lead: 'Una cobertura más amplia que permite capturar cada momento importante con mayor detalle y dirección profesional.',
+    name: 'Completa – Historia en fotografía',
+    lead: 'Una cobertura más amplia y artística que permite capturar desde tus preparativos hasta el inicio de la gran fiesta.',
     image: 'assets/images/fotos/M&D-12.jpg',
-    priceLines: ['950.000 COP'],
-    amountCop: 950000,
+    priceLines: ["1'250.000 COP"],
+    amountCop: 1250000,
     items: [
-      'Cobertura del evento de 5 a 6 horas',
-      'Dirección de poses',
-      'Mayor enfoque en momentos clave',
-      '120 a 180 fotografías editadas',
+      'Cobertura del evento de 6 a 7 horas',
+      'Dirección de poses y fotografía artística',
+      'Mayor enfoque en momentos clave y estética visual',
+      '150 a 200 fotografías editadas',
       '1 fotografía impresa de 50 cm',
-      'Galería digital',
-      'Entrega en alta resolución'
+      '10 fotografías impresas tamaño 15 cm',
+      'Galería digital privada'
     ],
     features: [
-      'Cobertura del evento de 5 a 6 horas',
-      'Dirección de poses',
-      'Mayor enfoque en momentos clave'
+      'Cobertura del evento de 6 a 7 horas',
+      'Dirección de poses y fotografía artística',
+      'Mayor enfoque en la estética visual del evento'
     ],
     deliverables: [
-      '120 a 180 fotografías editadas',
-      '1 fotografía impresa de 50 cm',
+      '150 a 200 fotografías con edición profesional',
+      '1 ampliación fotográfica de 50 cm',
+      '10 fotografías impresas tamaño 15 cm',
       'Galería digital privada',
-      'Entrega final en alta resolución por Google Drive'
+      'Entrega final en alta resolución'
     ],
-    coverage: ['Arreglos y preparativos', 'Llegada al evento', 'Sesión de fotos', 'Ceremonia', 'Vals de honor', 'Inicio de recepción']
+    coverage: ['Arreglos y preparativos', 'Llegada al evento', 'Sesión de retratos de la quinceañera', 'Ceremonia', 'Vals de honor', 'Fotos con invitados', 'Inicio de recepción']
   },
   {
     slug: 'quince-premium-experiencia-fotografica',
-    name: 'Premium – Experiencia fotográfica completa',
-    lead: 'Una experiencia completa para capturar tus quince con un estilo artístico y mayor nivel de producción.',
+    name: 'Premium – Experiencia fotográfica',
+    lead: 'Nuestra opción más recomendada. Una experiencia integral con estilo artístico, cubriendo todo el evento y una sesión previa inolvidable.',
     image: 'assets/images/galery/M&D-23.jpg',
-    priceLines: ["1'400.000 COP"],
-    amountCop: 1400000,
+    priceLines: ["1'850.000 COP"],
+    amountCop: 1850000,
     featured: true,
     items: [
-      'Cobertura del evento de 7 a 8 horas',
-      'Dirección creativa avanzada',
-      'Mayor enfoque en estética y narrativa visual',
-      'Hasta 250 fotografías editadas',
-      '2 fotografías impresas de 50 cm',
-      '5 fotografías impresas tamaño 15 cm',
-      'Fotobook básico',
-      'Entrega digital en alta resolución'
+      'Cobertura del evento de 8 a 10 horas (fiesta completa)',
+      'Dirección creativa avanzada y narrativa visual',
+      'Sesión fotográfica Pre 15 (1 locación)',
+      'Hasta 300 fotografías con edición artística',
+      '2 ampliaciones fotográficas de 50 cm',
+      '15 fotografías impresas tamaño 15 cm',
+      'Fotobook clásico (20 páginas)',
+      'Galería digital privada'
     ],
     features: [
-      'Cobertura del evento de 7 a 8 horas',
-      'Dirección creativa avanzada',
-      'Mayor enfoque en estética y narrativa visual'
+      'Cobertura del evento de 8 a 10 horas',
+      'Dirección creativa avanzada con iluminación dedicada',
+      'Narrativa visual y estética de alto nivel'
     ],
     deliverables: [
-      'Hasta 250 fotografías editadas',
-      '2 fotografías impresas de 50 cm',
-      '5 fotografías impresas tamaño 15 cm',
-      'Fotobook básico',
-      'Entrega final en alta resolución por Google Drive'
+      'Hasta 300 fotografías con edición artística',
+      'Sesión Pre 15 incluida',
+      'Fotobook clásico (20 páginas)',
+      '2 ampliaciones fotográficas de 50 cm',
+      '15 fotografías impresas tamaño 15 cm',
+      'Galería digital privada'
     ],
-    coverage: ['Preparativos y arreglos personales', 'Sesión artística de pareja o con amigas', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta', 'Brindis y detalles especiales']
+    coverage: ['Sesión Pre 15', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Recepción y fiesta completa', 'Brindis y detalles especiales']
   },
   {
     slug: 'quince-luxury-experiencia-exclusiva',
-    name: 'Luxury – Experiencia exclusiva de quince',
-    lead: 'El más alto nivel de producción para capturar la magia de tus quince con múltiples locaciones, vestuarios y un acabado verdaderamente lujoso.',
+    name: 'Luxury – Experiencia exclusiva',
+    lead: 'El más alto nivel de producción para capturar la magia de tus quince. Fotografía de autor con locaciones ilimitadas, vestuarios y un acabado verdaderamente lujoso.',
     image: 'assets/images/galery/M&D-25.jpg',
-    priceLines: ["2'500.000 COP"],
-    amountCop: 2500000,
+    priceLines: ["3'200.000 COP"],
+    amountCop: 3200000,
     featured: true,
     items: [
       'Cobertura del evento completa (sin límite de horas)',
-      'Hasta 4 locaciones diferentes',
+      'Hasta 4 locaciones diferentes (en sesiones)',
       'Cambios de vestuario ilimitados',
-      'Dirección creativa de alto nivel',
-      'Iluminación y asistentes dedicados',
-      'Más de 400 fotografías editadas artísticamente',
-      'Fotolibro de lujo premium (acabados finos)',
-      '2 fotografías impresas en retablo de madera (60x40 cm)',
-      '10 fotografías impresas tamaño 15 cm',
-      'Sesión Pre 15',
-      'Sesión Post 15',
-      'Entrega digital en alta resolución'
+      'Dirección creativa de alto nivel con asistentes',
+      'Sesión Pre 15 (Múltiples locaciones)',
+      'Sesión Post 15 (Cierre fotográfico)',
+      'Más de 400 fotografías con edición artística de autor',
+      'Fotolibro de lujo premium (acabados finos, formato grande)',
+      '2 retablos de madera (60x40 cm)',
+      '20 fotografías impresas tamaño 15 cm',
+      'Entrega en memoria USB de lujo'
     ],
     features: [
       'Cobertura completa (sin límite de horas)',
-      'Hasta 4 locaciones diferentes y cambios de vestuario',
-      'Dirección creativa y estilismo avanzado'
+      'Hasta 4 locaciones diferentes y cambios de vestuario ilimitados',
+      'Dirección creativa, iluminación avanzada y asistentes'
     ],
     deliverables: [
-      'Más de 400 fotografías con edición artística',
+      'Más de 400 fotografías con edición artística de autor',
       'Fotolibro de lujo premium',
-      '2 impresiones en retablo de madera (60x40 cm)',
-      '10 fotografías impresas tamaño 15 cm',
-      'Sesión Pre 15 incluida',
-      'Sesión Post 15 incluida',
-      'Entrega final en alta resolución por Google Drive'
+      '2 retablos fotográficos en madera (60x40 cm)',
+      '20 fotografías impresas tamaño 15 cm',
+      'Sesión Pre 15 y Sesión Post 15 incluidas',
+      'Entrega en memoria USB de lujo y Galería digital'
     ],
-    coverage: ['Sesión Pre 15 (múltiples locaciones y vestuarios)', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta completa', 'Sesión Post 15 (cierre fotográfico)']
+    coverage: ['Sesión Pre 15 (múltiples locaciones)', 'Preparativos completos de la quinceañera', 'Llegada y entrada triunfal', 'Ceremonia', 'Vals de honor', 'Sesión artística de retratos', 'Recepción y fiesta hasta el final', 'Sesión Post 15 (cierre fotográfico)']
   }
 ];
 
