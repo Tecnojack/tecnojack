@@ -131,6 +131,7 @@ export interface QuincePackagePlan {
   items: string[];
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 }
 
@@ -1504,8 +1505,17 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       '1 fotografía impresa de 50 cm',
       'Entrega digital en alta resolución'
     ],
-    features: ['Cobertura del evento de 3 a 4 horas', 'Dirección básica de poses', 'Fotografía documental del evento'],
-    deliverables: ['80 a 120 fotografías editadas', '1 fotografía impresa de 50 cm', 'Entrega final en alta resolución por Google Drive']
+    features: [
+      'Cobertura del evento de 3 a 4 horas',
+      'Dirección básica de poses',
+      'Fotografía documental del evento'
+    ],
+    deliverables: [
+      '80 a 120 fotografías editadas',
+      '1 fotografía impresa de 50 cm',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada de la quinceañera', 'Decoración y detalles del salón', 'Ceremonia', 'Vals de honor', 'Brindis']
   },
   {
     slug: 'quince-completa-historia',
@@ -1523,8 +1533,18 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       'Galería digital',
       'Entrega en alta resolución'
     ],
-    features: ['Cobertura del evento de 5 a 6 horas', 'Dirección de poses', 'Mayor enfoque en momentos clave'],
-    deliverables: ['120 a 180 fotografías editadas', '1 fotografía impresa de 50 cm', 'Galería digital privada', 'Entrega final en alta resolución por Google Drive']
+    features: [
+      'Cobertura del evento de 5 a 6 horas',
+      'Dirección de poses',
+      'Mayor enfoque en momentos clave'
+    ],
+    deliverables: [
+      '120 a 180 fotografías editadas',
+      '1 fotografía impresa de 50 cm',
+      'Galería digital privada',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Arreglos y preparativos', 'Llegada al evento', 'Sesión de fotos', 'Ceremonia', 'Vals de honor', 'Inicio de recepción']
   },
   {
     slug: 'quince-premium-experiencia-fotografica',
@@ -1533,6 +1553,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     image: 'assets/images/galery/M&D-23.jpg',
     priceLines: ["1'400.000 COP"],
     amountCop: 1400000,
+    featured: true,
     items: [
       'Cobertura del evento de 7 a 8 horas',
       'Dirección creativa avanzada',
@@ -1554,7 +1575,8 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       '5 fotografías impresas tamaño 15 cm',
       'Fotobook básico',
       'Entrega final en alta resolución por Google Drive'
-    ]
+    ],
+    coverage: ['Preparativos y arreglos personales', 'Sesión artística de pareja o con amigas', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta', 'Brindis y detalles especiales']
   }
 ];
 
@@ -1567,6 +1589,7 @@ type QuinceVideoPlan = {
   amountCop: number;
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 };
 
@@ -1578,8 +1601,17 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-29.jpg',
     priceLines: ['700.000 COP'],
     amountCop: 700000,
-    features: ['Cobertura de 3 a 4 horas', 'Grabación en alta calidad', 'Enfoque en momentos clave'],
-    deliverables: ['Video principal de 3 a 5 minutos en 4K', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 3 a 4 horas',
+      'Grabación en alta calidad',
+      'Enfoque en momentos clave',
+      'Edición profesional'
+    ],
+    deliverables: [
+      'Video principal de 3 a 5 minutos en 4K',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Ceremonia', 'Vals de honor', 'Brindis', 'Momentos destacados']
   },
   {
     slug: 'quince-video-completa',
@@ -1588,8 +1620,18 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-19.jpg',
     priceLines: ["1'200.000 COP"],
     amountCop: 1200000,
-    features: ['Cobertura de 5 a 6 horas', 'Grabación profesional con mejor narrativa', 'Tomas dinámicas'],
-    deliverables: ['Video principal de 5 a 10 minutos en 4K', 'Trailer de 30 a 60 segundos', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 5 a 6 horas',
+      'Grabación profesional con mejor narrativa',
+      'Tomas dinámicas con movimiento',
+      'Edición con corrección de color'
+    ],
+    deliverables: [
+      'Video principal de 5 a 10 minutos en 4K',
+      'Tráiler de 30 a 60 segundos',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos', 'Llegada al evento', 'Ceremonia', 'Vals de honor', 'Recepción e inicio de fiesta']
   },
   {
     slug: 'quince-video-premium-cinematica',
@@ -1598,13 +1640,22 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-23.jpg',
     priceLines: ["2'000.000 COP"],
     amountCop: 2000000,
+    featured: true,
     features: [
       'Cobertura de 7 a 10 horas',
-      'Tomas con drone',
+      'Tomas con dron (cuando sea posible)',
       'Equipo de grabación profesional',
-      'Dirección creativa avanzada'
+      'Dirección creativa avanzada',
+      'Corrección de color cinematográfica',
+      'Audio profesional de consola'
     ],
-    deliverables: ['Video principal de 10 a 20 minutos en 4K', 'Trailer de 2 a 3 minutos', '1 reel vertical para redes', 'Entrega final por Google Drive']
+    deliverables: [
+      'Video principal de 10 a 20 minutos en 4K',
+      'Tráiler de 2 a 3 minutos',
+      '1 reel vertical para redes',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos y arreglos', 'Sesión de fotos previa', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Fiesta completa', 'Detalles y decoración']
   }
 ];
 
@@ -1617,6 +1668,7 @@ type QuinceHybridPlan = {
   amountCop: number;
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 };
 
@@ -1628,8 +1680,18 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-23.jpg',
     priceLines: ["1'250.000 COP"],
     amountCop: 1250000,
-    features: ['Cobertura de 4 a 5 horas', 'Fotógrafo + videógrafo'],
-    deliverables: ['100 a 140 fotografías editadas', 'Video principal de 3 a 5 minutos', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 4 a 5 horas',
+      'Fotógrafo y videógrafo',
+      'Dirección básica de poses y tomas',
+      'Grabación en alta calidad'
+    ],
+    deliverables: [
+      '100 a 140 fotografías editadas',
+      'Video principal de 3 a 5 minutos',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Ceremonia', 'Vals de honor', 'Sesión de fotos', 'Brindis']
   },
   {
     slug: 'quince-mixta-completa-experiencia',
@@ -1638,8 +1700,20 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-19.jpg',
     priceLines: ["1'800.000 COP"],
     amountCop: 1800000,
-    features: ['Cobertura de 5 a 7 horas', 'Fotógrafo y videógrafo dedicados'],
-    deliverables: ['140 a 200 fotografías editadas', 'Video principal de 5 a 10 minutos', 'Trailer de 30 a 60 segundos', 'Fotobook básico', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 5 a 7 horas',
+      'Fotógrafo y videógrafo dedicados',
+      'Dirección creativa durante el evento',
+      'Tomas dinámicas con movimiento'
+    ],
+    deliverables: [
+      '140 a 200 fotografías editadas',
+      'Video principal de 5 a 10 minutos',
+      'Tráiler de 30 a 60 segundos',
+      'Fotobook básico',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos', 'Llegada al evento', 'Sesión de fotos', 'Ceremonia', 'Vals de honor', 'Inicio de recepción']
   },
   {
     slug: 'quince-mixta-premium-produccion-completa',
@@ -1648,16 +1722,25 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-29.jpg',
     priceLines: ["2'900.000 COP"],
     amountCop: 2900000,
-    features: ['Cobertura de 7 a 10 horas', 'Equipo de 2 a 3 personas', 'Tomas con drone', 'Dirección creativa avanzada'],
+    featured: true,
+    features: [
+      'Cobertura de 7 a 10 horas',
+      'Equipo de 2 a 3 personas',
+      'Tomas con dron (cuando sea posible)',
+      'Dirección creativa avanzada',
+      'Corrección de color cinematográfica',
+      'Audio profesional de consola'
+    ],
     deliverables: [
       'Hasta 300 fotografías editadas',
       'Video principal de 10 a 20 minutos',
-      'Trailer de 1 a 2 minutos',
+      'Tráiler de 1 a 2 minutos',
       '1 reel vertical para redes',
       'Fotobook de lujo',
       'Set de fotografías impresas',
       'Entrega final por Google Drive'
-    ]
+    ],
+    coverage: ['Preparativos y arreglos personales', 'Sesión artística previa', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Fiesta completa', 'Brindis y detalles especiales']
   }
 ];
 
@@ -2392,8 +2475,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: plan.slug === 'quince-esencial-recuerdos' ? 1 : plan.slug === 'quince-completa-historia' ? 2 : 3,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
@@ -2424,8 +2508,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
@@ -2456,8 +2541,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
