@@ -1438,6 +1438,10 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private buildPackageDisplayName(detail: PortfolioPackageDetail): string {
+    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+      return detail.title;
+    }
+
     if (detail.category === 'grados') {
       return detail.title;
     }
@@ -1506,6 +1510,9 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private buildPackageTagline(detail: PortfolioPackageDetail): string {
+    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+      return '';
+    }
     const { tagline } = this.splitPlanName(detail.title);
     return tagline || '';
   }
