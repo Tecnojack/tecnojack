@@ -702,7 +702,19 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-field { display: grid; gap: 6px; }
     .tj-field--full { grid-column: 1 / -1; }
     .tj-field span { font-size: 0.82rem; color: #94a3b8; }
-    .tj-field input, .tj-field select { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line, rgba(255,255,255,0.2)); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.95rem; }
+    .tj-field input, .tj-field select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line, rgba(255,255,255,0.2));
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 0.95rem;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+      text-overflow: ellipsis;
+    }
     optgroup { background: #0c1822; color: var(--portfolio-accent, #ffb800); font-weight: 700; }
     option { background: #112233; color: #ffffff; font-weight: 400; }
     .tj-financial-box { padding: 20px; border-radius: 16px; border: 1px solid rgba(0,151,178,0.3); background: rgba(0,151,178,0.08); display: grid; gap: 10px; }
@@ -733,6 +745,14 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
     /* ESTILOS DE RESPONSIVIDAD PARA DISPOSITIVOS MÓVILES */
     @media (max-width: 600px) {
+      .tj-form-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .tj-field input, .tj-field select {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
       .tj-contract-client-page {
         padding: 16px 0 40px;
       }
