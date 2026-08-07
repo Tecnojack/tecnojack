@@ -19,6 +19,10 @@
                     <div class="pkg-offer__copy">
                         <a class="pkg-offer__back" [href]="detail.categoryHref">← {{ detail.categoryLabel }}</a>
                         <p class="pkg-offer__eyebrow">Propuesta · {{ detail.packageTypeLabel }}</p>
+                        <div class="pkg-detail-badges" *ngIf="detail.slug.includes('premium') || detail.slug.includes('luxury')">
+                            <span class="pkg-badge pkg-badge--recommended" *ngIf="detail.slug.includes('premium')">MÁS RECOMENDADO</span>
+                            <span class="pkg-badge pkg-badge--exclusive" *ngIf="detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
+                        </div>
                         <h1 class="pkg-offer__title" *ngIf="heroTitleParts(detail.title) as parts">
                             <span class="text-accent" *ngIf="parts.first">{{ parts.first }}</span>{{ parts.middle }}<span class="text-warm" *ngIf="parts.last">{{ parts.last }}</span>
                         </h1>

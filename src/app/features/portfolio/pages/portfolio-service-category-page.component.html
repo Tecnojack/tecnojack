@@ -56,6 +56,107 @@
             </tj-portfolio-category-accordion>
         </div>
 
+        <!-- TABLA COMPARATIVA DE PAQUETES DE BODA HÍBRIDOS (FOTO + VIDEO) -->
+        <div class="tj-comparison-container" *ngIf="categoryState() === 'bodas'" tjRevealOnScroll>
+            <div class="tj-comparison-head">
+                <h2>Tabla Comparativa de Paquetes Híbridos</h2>
+                <p>Compara de manera directa las características clave de cada uno de nuestros planes principales.</p>
+            </div>
+
+            <div class="tj-comparison-table-wrapper">
+                <table class="tj-comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Esencial</th>
+                            <th>Completo</th>
+                            <th class="recommended-col">Premium</th>
+                            <th>Luxury</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Inversión</td>
+                            <td class="val">$1'900.000 COP</td>
+                            <td class="val">$2'800.000 COP</td>
+                            <td class="val recommended-col">$3'900.000 COP</td>
+                            <td class="val">$5'800.000 COP</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Horas Cobertura</td>
+                            <td>Hasta 6 horas</td>
+                            <td>Hasta 8 horas</td>
+                            <td class="recommended-col">Hasta 10 horas</td>
+                            <td>Hasta 12 horas</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Equipo Humano</td>
+                            <td>1 Fotógrafo + 1 Videógrafo</td>
+                            <td>1 Fotógrafo + 1 Videógrafo (+ Apoyo logístico)</td>
+                            <td class="recommended-col">Fotógrafo Principal + Videógrafo Principal + 2do Operador/Asistente</td>
+                            <td>2 Fotógrafos + 2 Videógrafos + Asistente de Producción</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Fotografías Editadas</td>
+                            <td>Hasta 180 fotos</td>
+                            <td>Hasta 300 fotos</td>
+                            <td class="recommended-col">Hasta 450 fotos</td>
+                            <td>Más de 600 fotos (Curaduría)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Entregables Video</td>
+                            <td>Highlight Film (4-6 min)</td>
+                            <td>Highlight Film (6-8 min) + Película documental (15-25 min)</td>
+                            <td class="recommended-col">Trailer pro (1 min) + Highlight (8-12 min) + Película doc (25-40 min)</td>
+                            <td>Trailer pro + Wedding Film (10-15 min) + Película doc (45-75 min)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Drone Aéreo</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ (Cuando sea posible)</td>
+                            <td>✔ (Tomas avanzadas)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Álbum Físico</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ Álbum fotográfico</td>
+                            <td>✔ Álbum Premium XL + Caja de presentación</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Sesión Preboda</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ Sesión Preboda estándar</td>
+                            <td>✔ Sesión Preboda Premium</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Reels / Redes</td>
+                            <td>1 Reel vertical</td>
+                            <td>1 Reel vertical</td>
+                            <td class="recommended-col">2 Reels</td>
+                            <td>4 Reels + Trailer vertical</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Galería Online</td>
+                            <td>3 meses</td>
+                            <td>6 meses</td>
+                            <td class="recommended-col">1 año</td>
+                            <td>2 años</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Entrega Prioritaria</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">—</td>
+                            <td>✔ (Preview 20 fotos en 72h)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <ng-template #groupedPackages>
             <div class="service-category-package-groups">
                 <section
@@ -82,7 +183,9 @@
                                     aspectRatio="16 / 11"></tj-lazy-img>
                                 <div class="service-package-card__media-badges">
                                     <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
+                                    <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
+                                    <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
+                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
                                 </div>
                             </div>
 

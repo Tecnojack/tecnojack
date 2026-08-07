@@ -127,7 +127,7 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
-  private readonly categoryState = signal<PortfolioPackageCategory>('bodas');
+  readonly categoryState = signal<PortfolioPackageCategory>('bodas');
 
   /** URL CSS de la imagen hero de categoría leída desde Firebase, o null si usa el fallback estático. */
   readonly heroCategoryHeroImage$: Observable<string | null> = toObservable(

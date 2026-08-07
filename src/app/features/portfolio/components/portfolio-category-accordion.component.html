@@ -30,7 +30,9 @@
               aspectRatio="16 / 11"></tj-lazy-img>
             <div class="service-package-card__media-badges">
               <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-              <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
+              <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
+              <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
+              <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
             </div>
           </div>
 
