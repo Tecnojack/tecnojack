@@ -9,7 +9,7 @@
     <ng-container *ngIf="packageDetail() as detail; else packageMissing">
         <section
             class="portfolio-package-detail"
-            [class.portfolio-package-detail--wedding]="detail.category === 'bodas' || detail.category === 'preboda'"
+            [class.portfolio-package-detail--wedding]="detail.category === 'bodas' || detail.category === 'preboda' || detail.category === 'quinces'"
             [class.portfolio-package-detail--rose]="detail.accent === 'rose'"
             [class.portfolio-package-detail--modal-open]="isRequestModalOpen()"
             [class.portfolio-package-detail--featured]="detail.featured">

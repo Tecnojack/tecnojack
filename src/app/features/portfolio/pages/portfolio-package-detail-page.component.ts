@@ -107,6 +107,9 @@ export class PortfolioPackageDetailPageComponent {
     if (detail.category === 'preboda') {
       return 'Sesiones de preboda';
     }
+    if (detail.category === 'quinces') {
+      return 'Paquetes de quinceañeros';
+    }
     return detail.categoryLabel;
   });
   readonly headerCtaLabel = computed(() =>
@@ -690,7 +693,7 @@ export class PortfolioPackageDetailPageComponent {
   isWeddingDetail(
     detail: PortfolioPackageDetail | null | undefined,
   ): boolean {
-    return detail?.category === 'bodas' || detail?.category === 'preboda';
+    return detail?.category === 'bodas' || detail?.category === 'preboda' || detail?.category === 'quinces';
   }
 
   heroTitleParts(title: string): { first: string; middle: string; last: string } {
