@@ -51,7 +51,7 @@
                 [title]="section.title"
                 [lead]="section.lead ?? ''"
                 [packages]="section.cards"
-                [initiallyOpen]="index === 0"
+                [initiallyOpen]="categoryState() === 'bodas' ? section.title.includes('híbrida') : index === 0"
                 (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
             </tj-portfolio-category-accordion>
         </div>
