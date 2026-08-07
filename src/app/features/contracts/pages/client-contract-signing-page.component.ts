@@ -122,27 +122,31 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 <!-- CASILLA 1: TIPO DE SERVICIO / PÁGINA -->
                 <label class="tj-field tj-field--full">
                   <span>1. Tipo de Servicio (Página de Servicio TECNOJACK) *</span>
-                  <select
-                    [ngModel]="selectedPageId()"
-                    (ngModelChange)="onPageSelected($event)">
-                    <option *ngFor="let page of catalogPages" [value]="page.id">
-                      {{ page.label }}
-                    </option>
-                  </select>
+                  <div class="tj-select-wrapper">
+                    <select
+                      [ngModel]="selectedPageId()"
+                      (ngModelChange)="onPageSelected($event)">
+                      <option *ngFor="let page of catalogPages" [value]="page.id">
+                        {{ page.label }}
+                      </option>
+                    </select>
+                  </div>
                 </label>
 
                 <!-- CASILLA 2: LISTA DE PAQUETES AGRUPADOS POR EL TÍTULO DEL ACORDEÓN -->
                 <label class="tj-field tj-field--full">
                   <span>2. Servicio / Paquete Exacto (Clasificado por Acordeón) *</span>
-                  <select
-                    [ngModel]="selectedPackageId()"
-                    (ngModelChange)="onPackageSelected($event)">
-                    <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📂 ' + group.accordionTitle">
-                      <option *ngFor="let pkg of group.packages" [value]="pkg.id">
-                        {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
-                      </option>
-                    </optgroup>
-                  </select>
+                  <div class="tj-select-wrapper">
+                    <select
+                      [ngModel]="selectedPackageId()"
+                      (ngModelChange)="onPackageSelected($event)">
+                      <optgroup *ngFor="let group of currentSubServiceGroups()" [label]="'📂 ' + group.accordionTitle">
+                        <option *ngFor="let pkg of group.packages" [value]="pkg.id">
+                          {{ pkg.title }} — {{ formatCop(pkg.priceAmountCop) }}
+                        </option>
+                      </optgroup>
+                    </select>
+                  </div>
                 </label>
 
                 <!-- DATOS ADICIONALES DEL EVENTO -->
@@ -230,12 +234,14 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
 
                 <label class="tj-field">
                   <span>Tipo de documento *</span>
-                  <select [(ngModel)]="clientForm.documentType" (change)="updateContractSnapshot()">
-                    <option value="CC">Cédula de Ciudadanía (CC)</option>
-                    <option value="CE">Cédula de Extranjería (CE)</option>
-                    <option value="PASAPORTE">Pasaporte</option>
-                    <option value="NIT">NIT</option>
-                  </select>
+                  <div class="tj-select-wrapper">
+                    <select [(ngModel)]="clientForm.documentType" (change)="updateContractSnapshot()">
+                      <option value="CC">Cédula de Ciudadanía (CC)</option>
+                      <option value="CE">Cédula de Extranjería (CE)</option>
+                      <option value="PASAPORTE">Pasaporte</option>
+                      <option value="NIT">NIT</option>
+                    </select>
+                  </div>
                 </label>
 
                 <label class="tj-field">
@@ -702,7 +708,14 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-field { display: grid; gap: 6px; }
     .tj-field--full { grid-column: 1 / -1; }
     .tj-field span { font-size: 0.82rem; color: #94a3b8; }
-    .tj-field input, .tj-field select {
+    .tj-select-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      display: block;
+      overflow: hidden;
+    }
+    .tj-field input {
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid var(--line, rgba(255,255,255,0.2));
@@ -713,7 +726,26 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
       width: 100%;
       box-sizing: border-box;
       min-width: 0;
+    }
+    .tj-field select {
+      padding: 10px 36px 10px 14px !important;
+      border-radius: 10px;
+      border: 1px solid var(--line, rgba(255,255,255,0.2));
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 0.95rem;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
       text-overflow: ellipsis;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 10px center !important;
+      background-size: 20px !important;
     }
     optgroup { background: #0c1822; color: var(--portfolio-accent, #ffb800); font-weight: 700; }
     option { background: #112233; color: #ffffff; font-weight: 400; }
