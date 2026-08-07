@@ -693,7 +693,7 @@ export class PortfolioPackageDetailPageComponent {
   isWeddingDetail(
     detail: PortfolioPackageDetail | null | undefined,
   ): boolean {
-    return detail?.category === 'bodas' || detail?.category === 'preboda' || detail?.category === 'quinces';
+    return true; // Apply premium detail view to all categories
   }
 
   heroTitleParts(title: string): { first: string; middle: string; last: string } {

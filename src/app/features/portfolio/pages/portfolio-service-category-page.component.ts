@@ -1164,12 +1164,7 @@ export class PortfolioServiceCategoryPageComponent {
       return;
     }
 
-    if (detail.category === 'bodas' || detail.category === 'preboda' || detail.category === 'quinces') {
-      void this.router.navigateByUrl(`${detail.categoryHref}/${detail.slug}`);
-      return;
-    }
-
-    this.openPackageModal(slug);
+    void this.router.navigateByUrl(`${detail.categoryHref}/${detail.slug}`);
   }
 
   getLinkedPackageHref(option: PortfolioRequestOption): string | null {
