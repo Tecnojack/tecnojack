@@ -86,7 +86,7 @@
                             <ul>
                                 <li *ngFor="let item of block.items">
                                     <span aria-hidden="true">✓</span>
-                                    {{ item }}
+                                    <span [innerHTML]="item"></span>
                                 </li>
                             </ul>
                         </article>
@@ -263,7 +263,7 @@
                     <div class="package-section-card__content">
                         <p>{{ section.title }}</p>
                         <ul>
-                            <li *ngFor="let item of section.items">{{ item }}</li>
+                            <li *ngFor="let item of section.items"><span [innerHTML]="item"></span></li>
                         </ul>
                     </div>
                 </article>

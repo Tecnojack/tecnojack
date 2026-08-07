@@ -370,10 +370,10 @@ export class PortfolioServiceCategoryPageComponent {
         const isProposal = (item: PackageCardViewModel) =>
           item.detail.packageTypeLabel === 'Petición de mano';
         const photoOnly = cards.filter(
-          (item) => item.groupKey === 'photo-only' && !isCivil(item),
+          (item) => item.groupKey === 'photo-only' && !isCivil(item) && !item.detail.slug.includes('full-experience'),
         );
         const hybrid = cards.filter(
-          (item) => item.groupKey === 'photo-video' && !isCivil(item),
+          (item) => item.groupKey === 'photo-video' && !isCivil(item) && !item.detail.slug.includes('full-experience'),
         );
         const videoOnly = cards.filter(
           (item) =>
@@ -387,8 +387,10 @@ export class PortfolioServiceCategoryPageComponent {
         const prebodaForBodas = prebodaCards.filter((item) =>
           item.detail.slug.startsWith('preboda-'),
         );
+        const fullExperience = cards.filter((item) => item.detail.slug.includes('full-experience'));
 
         return [
+          { title: 'THE FULL EXPERIENCE', cards: fullExperience },
           { title: 'Boda híbrida (Foto + video)', cards: hybrid },
           { title: 'Fotografía de bodas', cards: photoOnly },
           { title: 'Video de bodas', cards: videoOnly },
