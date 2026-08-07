@@ -381,6 +381,8 @@ function buildWeddingMainBaseQuoteOptions(slug: string): PortfolioBaseQuoteOptio
       return [buildBaseQuoteOption(`${slug}-cop`, "3'900.000 COP", 3900000)];
     case 'luxury-cinematico-foto-video':
       return [buildBaseQuoteOption(`${slug}-cop`, "6'100.000 COP", 6100000)];
+    case 'luxury-full-experience':
+      return [buildBaseQuoteOption(`${slug}-cop`, "9'800.000 COP", 9800000)];
     default:
       return [];
   }
@@ -396,6 +398,8 @@ function buildWeddingHybridSortOrder(slug: string): number {
       return 3;
     case 'luxury-cinematico-foto-video':
       return 4;
+    case 'luxury-full-experience':
+      return 5;
     default:
       return 999;
   }
@@ -1044,6 +1048,57 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Adelanto rápido de 20 fotografías durante las primeras 72 horas'
     ],
     coverage: ['Cobertura simultánea de ambos preparativos', 'Dirección audiovisual completa', 'Tomas con dron', 'Gimbal', 'Audio profesional', 'Iluminación profesional', 'Tomas artísticas', 'Tomas de decoración', 'Tomas de la locación']
+  },
+  {
+    slug: 'luxury-full-experience',
+    name: 'HÍBRIDA - Luxury Full Experience',
+    priceLines: ["9'800.000 COP"],
+    lead:
+      'La experiencia audiovisual definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Desde la emotiva petición de mano hasta el último brindis de la postboda, documentaremos tu amor con una producción cinematográfica monumental, creando un legado visual impecable y sumamente exclusivo.',
+    image: 'assets/images/fotos/M&D-11.jpg',
+    featured: true,
+    items: [
+      'Cobertura ilimitada el día de la boda (sin límite de horas)',
+      '2 fotógrafos + 2 videógrafos principales + Asistentes de producción',
+      'Preproducción VIP (reuniones creativas ilimitadas, scouting de locaciones, guionización y dirección de arte)',
+      'Documentación completa: Petición de mano, Sesión Preboda, Boda Civil, Boda Principal y Sesión Postboda',
+      'Cobertura a múltiples cámaras simultáneas en todos los preparativos',
+      'Dirección cinematográfica, dron premium, iluminación de cine y masterización de audio',
+      'Todas las fotografías del evento editadas en alta resolución (sin límite de entrega)',
+      '50 fotos impresas fine-art + 3 ampliaciones + Álbum Premium XL + Caja de presentación',
+      'Tráiler cinematográfico (1 min) + Video Highlight (10-15 min) + Película documental de larga duración',
+      'Mini-documental de la historia de amor (Petición, civil y preboda)',
+      '6 Reels virales para redes sociales + Tráiler vertical',
+      'Galería privada de por vida con entrega prioritaria',
+      'Adelanto express de 30 fotografías al día siguiente de la boda'
+    ],
+    features: [
+      'Cobertura sin límite de tiempo',
+      'Documentación de la Petición de Mano',
+      'Boda Civil incluida',
+      'Sesión Preboda y Postboda VIP',
+      '2 fotógrafos y 2 videógrafos principales',
+      'Asistentes de producción',
+      'Reuniones de preproducción VIP y scouting',
+      'Dirección cinematográfica completa',
+      'Dron premium y estabilización avanzada',
+      'Audio profesional masterizado e iluminación de cine',
+      'Tomas artísticas y documentales exhaustivas'
+    ],
+    deliverables: [
+      'Archivos ilimitados: todas las fotografías seleccionadas y editadas',
+      '50 fotografías impresas fine-art',
+      '3 ampliaciones de lujo',
+      'Álbum Premium XL exclusivo y caja de presentación',
+      'Tráiler cinematográfico (1 min)',
+      'Video resumen (Highlight Film) de 10 a 15 min',
+      'Película documental de boda de larga duración',
+      'Mini-documental de la historia de amor (Pre-eventos)',
+      '6 Reels para redes sociales y tráiler vertical',
+      'Galería privada vitalicia',
+      'Adelanto express de 30 fotografías al día siguiente'
+    ],
+    coverage: ['Petición de mano', 'Boda Civil', 'Sesión Preboda', 'Día de la Boda completo (sin límite)', 'Sesión Postboda', 'Dirección audiovisual VIP', 'Múltiples locaciones']
   }
 ];
 

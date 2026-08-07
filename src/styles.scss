@@ -3134,3 +3134,12 @@ h3,
     background: rgba(0, 151, 178, 0.2);
     color: #ffffff;
 }
+.tj-comparison-table .exclusive-col {
+    background: rgba(255, 184, 0, 0.05);
+    border-left: 1px solid rgba(255, 184, 0, 0.3);
+    border-right: 1px solid rgba(255, 184, 0, 0.3);
+}
+.tj-comparison-table th.exclusive-col {
+    background: rgba(255, 184, 0, 0.2);
+    color: #ffb800;
+}
