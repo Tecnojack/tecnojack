@@ -1577,6 +1577,44 @@ export const quinceMainPlans: QuincePackagePlan[] = [
       'Entrega final en alta resolución por Google Drive'
     ],
     coverage: ['Preparativos y arreglos personales', 'Sesión artística de pareja o con amigas', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta', 'Brindis y detalles especiales']
+  },
+  {
+    slug: 'quince-luxury-experiencia-exclusiva',
+    name: 'Luxury – Experiencia exclusiva de quince',
+    lead: 'El más alto nivel de producción para capturar la magia de tus quince con múltiples locaciones, vestuarios y un acabado verdaderamente lujoso.',
+    image: 'assets/images/galery/M&D-25.jpg',
+    priceLines: ["2'500.000 COP"],
+    amountCop: 2500000,
+    featured: true,
+    items: [
+      'Cobertura del evento completa (sin límite de horas)',
+      'Hasta 4 locaciones diferentes',
+      'Cambios de vestuario ilimitados',
+      'Dirección creativa de alto nivel',
+      'Iluminación y asistentes dedicados',
+      'Más de 400 fotografías editadas artísticamente',
+      'Fotolibro de lujo premium (acabados finos)',
+      '2 fotografías impresas en retablo de madera (60x40 cm)',
+      '10 fotografías impresas tamaño 15 cm',
+      'Sesión Pre 15',
+      'Sesión Post 15',
+      'Entrega digital en alta resolución'
+    ],
+    features: [
+      'Cobertura completa (sin límite de horas)',
+      'Hasta 4 locaciones diferentes y cambios de vestuario',
+      'Dirección creativa y estilismo avanzado'
+    ],
+    deliverables: [
+      'Más de 400 fotografías con edición artística',
+      'Fotolibro de lujo premium',
+      '2 impresiones en retablo de madera (60x40 cm)',
+      '10 fotografías impresas tamaño 15 cm',
+      'Sesión Pre 15 incluida',
+      'Sesión Post 15 incluida',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Sesión Pre 15 (múltiples locaciones y vestuarios)', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta completa', 'Sesión Post 15 (cierre fotográfico)']
   }
 ];
 
@@ -1741,19 +1779,47 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
       'Entrega final por Google Drive'
     ],
     coverage: ['Preparativos y arreglos personales', 'Sesión artística previa', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Fiesta completa', 'Brindis y detalles especiales']
+  },
+  {
+    slug: 'quince-mixta-luxury-experiencia-exclusiva',
+    name: 'Luxury – Producción exclusiva de quince',
+    lead: 'Nuestra propuesta más completa y lujosa. Fotografía y cinematografía del más alto nivel con múltiples locaciones, vestuarios y un resultado deslumbrante.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    priceLines: ["4'500.000 COP"],
+    amountCop: 4500000,
+    featured: true,
+    features: [
+      'Cobertura completa (sin límite de horas)',
+      'Equipo audiovisual completo (múltiples cámaras)',
+      'Tomas con dron (cuando sea posible)',
+      'Hasta 4 locaciones diferentes y cambios de vestuario',
+      'Dirección cinematográfica y estilismo avanzado',
+      'Corrección de color cinematográfica y audio profesional'
+    ],
+    deliverables: [
+      'Más de 400 fotografías con edición artística',
+      'Video principal cinematográfico',
+      'Tráiler y múltiples reels para redes',
+      'Fotolibro de lujo premium',
+      '2 impresiones en retablo de madera (60x40 cm)',
+      'Sesión Pre 15 (foto y video)',
+      'Sesión Post 15 (foto y video)',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Sesión Pre 15 (múltiples locaciones y vestuarios)', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta completa', 'Sesión Post 15 (cierre fotográfico)']
   }
 ];
 
 const quinceAdditionalUpsells: Array<{ label: string; priceLabel: string; priceAmountCop: number }> = [
   {
     label: 'Sesión Pre 15||Sesión previa para capturar tu esencia antes del evento',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '450.000 COP',
+    priceAmountCop: 450000
   },
   {
     label: 'Sesión Post 15||Sesión posterior para fotos más artísticas sin presión',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '500.000 COP',
+    priceAmountCop: 500000
   },
   {
     label: 'Reel para redes||Video corto ideal para redes sociales',
@@ -1772,8 +1838,8 @@ const quinceAdditionalUpsells: Array<{ label: string; priceLabel: string; priceA
   },
   {
     label: 'Fotolibro de lujo||Álbum premium con acabados de alta calidad',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '550.000 COP',
+    priceAmountCop: 550000
   },
   {
     label: 'Fotografía en madera (60x40)||Impresión lista para exhibir',
