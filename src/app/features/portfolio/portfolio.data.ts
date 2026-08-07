@@ -153,7 +153,7 @@ export interface PreweddingPlan {
 }
 
 export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos' | 'videos';
-export type PortfolioPackageGroup = 'photo-video' | 'photo-only' | 'custom' | 'session';
+export type PortfolioPackageGroup = 'full-experience' | 'photo-video' | 'photo-only' | 'custom' | 'session';
 
 export interface PortfolioPackageDetailSection {
   title: string;
@@ -1052,7 +1052,10 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
       'Adelanto rápido de 20 fotografías durante las primeras 72 horas'
     ],
     coverage: ['Cobertura simultánea de ambos preparativos', 'Dirección audiovisual completa', 'Tomas con dron', 'Gimbal', 'Audio profesional', 'Iluminación profesional', 'Tomas artísticas', 'Tomas de decoración', 'Tomas de la locación']
-  },
+  }
+];
+
+export const weddingExperiencePlans: WeddingPackagePlan[] = [
   {
     slug: 'full-experience-hibrido',
     name: 'HÍBRIDA - Full Experience',
@@ -2365,6 +2368,31 @@ function buildPreweddingWeddingOptionGroups(prefix: string): PortfolioRequestOpt
 }
 
 export const portfolioPackageDetails: PortfolioPackageDetail[] = [
+  ...weddingExperiencePlans.map((plan) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Bodas',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: plan.slug.includes('solo-fotos') ? 'Solo fotos' : 'Foto + video',
+    packageGroup: 'full-experience' as const,
+    eyebrow: 'Full Experience',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: buildWeddingMainBaseQuoteOptions(plan.slug),
+    featured: plan.featured,
+    sortOrder: 0,
+    accent: 'gold' as const,
+    whatsappHref: '',
+    sections: [
+      { title: 'Qué incluye', items: plan.features.slice(0, 3) },
+      { title: 'Cobertura y servicio incluido', items: plan.features.slice(3) },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: []
+  })),
   ...weddingMainPlans.map((plan) => ({
     category: 'bodas' as const,
     slug: plan.slug,

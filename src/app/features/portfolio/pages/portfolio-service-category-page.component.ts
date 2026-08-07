@@ -54,7 +54,7 @@ type PackageCardViewModel = {
   sortOrder: number;
 };
 type PackageCardGroupViewModel = {
-  key: 'photo-video' | 'photo-only' | 'custom' | 'session';
+  key: 'full-experience' | 'photo-video' | 'photo-only' | 'custom' | 'session';
   title: string;
   lead: string;
   cards: PackageCardViewModel[];
@@ -1552,6 +1552,8 @@ export class PortfolioServiceCategoryPageComponent {
 
   private getGroupOrder(key: PackageCardGroupViewModel['key']): number {
     switch (key) {
+      case 'full-experience':
+        return 0;
       case 'photo-video':
         return 1;
       case 'photo-only':
@@ -1571,6 +1573,8 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     switch (key) {
+      case 'full-experience':
+        return 'The Full Experience';
       case 'photo-video':
         return 'Foto + video';
       case 'photo-only':
@@ -1578,7 +1582,7 @@ export class PortfolioServiceCategoryPageComponent {
       case 'custom':
         return 'Servicio personalizable';
       case 'session':
-        return 'Sesiones preboda';
+        return 'Sesiones previas';
       default:
         return 'Paquetes';
     }
@@ -1590,6 +1594,8 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     switch (key) {
+      case 'full-experience':
+        return 'Paquetes completos para documentar de principio a fin.';
       case 'photo-video':
         return 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
       case 'photo-only':
