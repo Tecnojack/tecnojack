@@ -2474,7 +2474,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     eyebrow: 'Paquete de preboda',
     lead: plan.lead,
     image: plan.image,
-    priceLines: plan.price ? [plan.price] : [],
+    priceLines: plan.price ? [`${plan.price} COP`] : [],
     baseQuoteOptions: [
       buildBaseQuoteOption(
         `${plan.slug}-base`,
