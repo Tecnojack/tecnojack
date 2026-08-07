@@ -157,28 +157,37 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
                 </label>
               </div>
 
-              <!-- SERVICIOS ADICIONALES SIMPLIFICADOS (2 EN LÍNEA) -->
+              <!-- SERVICIOS ADICIONALES EN ACORDEÓN (COMPRIMIDOS POR DEFECTO) -->
               <div class="tj-addons-section" *ngIf="currentPackageAddons().length">
-                <h3>Servicios Adicionales Disponibles</h3>
+                <button
+                  type="button"
+                  class="tj-addons-accordion-trigger"
+                  (click)="isAddonsAccordionOpen.set(!isAddonsAccordionOpen())"
+                  [class.open]="isAddonsAccordionOpen()">
+                  <span>➕ Agregar Servicios Adicionales (Opcional)</span>
+                  <span class="tj-accordion-arrow">{{ isAddonsAccordionOpen() ? '▲' : '▼' }}</span>
+                </button>
 
-                <div class="tj-addons-simple-list">
-                  <div
-                    *ngFor="let addon of currentPackageAddons()"
-                    class="tj-addon-simple-item"
-                    [class.added]="isAddonSelected(addon.id)">
-                    <div class="tj-addon-simple-info">
-                      <strong>{{ addon.name }}</strong>
-                    </div>
+                <div class="tj-addons-accordion-content" [class.open]="isAddonsAccordionOpen()">
+                  <div class="tj-addons-simple-list">
+                    <div
+                      *ngFor="let addon of currentPackageAddons()"
+                      class="tj-addon-simple-item"
+                      [class.added]="isAddonSelected(addon.id)">
+                      <div class="tj-addon-simple-info">
+                        <strong>{{ addon.name }}</strong>
+                      </div>
 
-                    <div class="tj-addon-simple-action">
-                      <span class="tj-addon-price" *ngIf="addon.priceAmountCop > 0">{{ formatCop(addon.priceAmountCop) }}</span>
-                      <button
-                        type="button"
-                        class="tj-btn-addon-toggle"
-                        [class.added]="isAddonSelected(addon.id)"
-                        (click)="toggleAddon(addon)">
-                        {{ isAddonSelected(addon.id) ? '✓ Agregado' : '+ Agregar' }}
-                      </button>
+                      <div class="tj-addon-simple-action">
+                        <span class="tj-addon-price" *ngIf="addon.priceAmountCop > 0">{{ formatCop(addon.priceAmountCop) }}</span>
+                        <button
+                          type="button"
+                          class="tj-btn-addon-toggle"
+                          [class.added]="isAddonSelected(addon.id)"
+                          (click)="toggleAddon(addon)">
+                          {{ isAddonSelected(addon.id) ? '✓ Agregado' : '+ Agregar' }}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -609,9 +618,56 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-details-list h3 { margin: 0 0 8px; font-size: 1rem; color: var(--portfolio-accent, #ffb800); }
     .tj-details-list ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: #cbd5e1; font-size: 0.92rem; }
     
-    /* ADICIONALES SIMPLIFICADOS ESTILOS (2 EN LÍNEA) */
-    .tj-addons-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, rgba(255,255,255,0.1)); }
-    .tj-addons-section h3 { margin: 0 0 12px; font-size: 1.05rem; color: var(--portfolio-brand, #0097b2); }
+    /* ADICIONALES SIMPLIFICADOS ESTILOS (2 EN LÍNEA EN ACORDEÓN) */
+    .tj-addons-section {
+      margin-top: 24px;
+      padding-top: 0;
+      border-top: none;
+    }
+    .tj-addons-accordion-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 151, 178, 0.4);
+      background: rgba(0, 151, 178, 0.05);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: all 200ms ease;
+    }
+    .tj-addons-accordion-trigger:hover {
+      background: rgba(0, 151, 178, 0.12);
+    }
+    .tj-addons-accordion-trigger.open {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      background: rgba(0, 151, 178, 0.08);
+    }
+    .tj-addons-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1), padding 300ms ease;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid transparent;
+      border-top: none;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+    .tj-addons-accordion-content.open {
+      max-height: 1000px;
+      padding: 20px;
+      border-color: rgba(0, 151, 178, 0.4);
+      overflow-y: auto;
+    }
+    .tj-accordion-arrow {
+      font-size: 0.8rem;
+      color: var(--portfolio-brand, #0097b2);
+    }
     .tj-addons-simple-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
     .tj-addon-simple-item {
       display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;
@@ -748,6 +804,7 @@ export class ClientContractSigningPageComponent implements OnInit {
   readonly selectedPageId = signal<string>('bodas');
   readonly selectedPackageId = signal<string>('');
   readonly currentPackageAddons = signal<CatalogAddOnItem[]>([]);
+  readonly isAddonsAccordionOpen = signal(false);
 
   selectedAdvanceOption: 40 | 50 | 80 | 100 | 'custom' = 40;
 

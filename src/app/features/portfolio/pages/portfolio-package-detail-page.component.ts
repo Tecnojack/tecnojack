@@ -531,7 +531,6 @@ export class PortfolioPackageDetailPageComponent {
 
   addCartOption(optionId: string): void {
     this.toggleRequestOption(optionId, true);
-    this.isCartExpanded.set(true);
   }
 
   removeCartOption(optionId: string): void {
