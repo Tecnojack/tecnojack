@@ -77,7 +77,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
         <div *ngIf="isCompleted() && contract() as c" class="tj-state-card tj-state-card--success">
           <div class="tj-success-icon">✓</div>
           <h2>Contrato Firmado Correctamente</h2>
-          <p>El contrato <strong>N° {{ c.contractNumber }}</strong> ha sido firmado, inmutabilizado y guardado en Firebase.</p>
+          <p>El contrato <strong>N° {{ c.contractNumber }}</strong> ha sido firmado con éxito y se encuentra registrado en nuestro sistema seguro.</p>
           <p class="tj-text-muted">Se ha procesado tu firma electrónica e incorporado al comprobante oficial en formato PDF.</p>
 
           <div class="tj-success-actions">
@@ -523,7 +523,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
             <section *ngIf="currentStep() === 7 || currentStep() === 8" class="tj-step-panel">
               <span class="tj-step-tag">Paso {{ currentStep() }} de 8 · Confirmación Definitiva</span>
               <h2>Revisión Final antes del Envío</h2>
-              <p class="tj-step-lead">Confirma que todos los datos y la firma incorporada estén correctos. Al hacer clic en "Confirmar y Firmar", el documento quedará procesado, subido a Firebase e inmutabilizado.</p>
+              <p class="tj-step-lead">Confirma que todos los datos y la firma incorporada estén correctos. Al hacer clic en "Confirmar y Firmar", el documento se guardará firmado de forma segura y podrás descargar tu copia en PDF.</p>
 
               <div class="tj-summary-confirmation">
                 <p><strong>Cliente:</strong> {{ clientForm.fullName }} ({{ clientForm.documentType }} {{ clientForm.documentNumber }})</p>
@@ -538,7 +538,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
               <div class="tj-wizard-actions">
                 <button type="button" class="tj-btn-ghost" (click)="setStep(6)">← Cambiar Firma</button>
                 <button type="button" class="tj-btn-primary tj-btn-submit-final" [disabled]="isSubmitting()" (click)="submitFinalSignature()">
-                  {{ isSubmitting() ? 'Generando PDF e inmutabilizando en Firebase...' : '🔒 Confirmar y Firmar Definitivamente' }}
+                  {{ isSubmitting() ? 'Guardando contrato firmado de forma segura...' : '🔒 Confirmar y Firmar' }}
                 </button>
               </div>
             </section>
@@ -661,7 +661,7 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-contract-text-viewer pre { white-space: pre-wrap; font-family: inherit; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1; }
     .tj-terms-link-note { margin-top: 12px; font-size: 0.86rem; color: #94a3b8; }
     .tj-acceptances-list { display: grid; gap: 16px; }
-    .tj-accept-card { display: flex; gap: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line, rgba(255,255,255,0.12)); background: rgba(255,255,255,0.03); cursor: pointer; }
+    .tj-accept-card { display: flex; gap: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); background: rgba(255,255,255,0.03); cursor: pointer; }
     .tj-accept-card--image { display: grid; gap: 10px; cursor: default; }
     .tj-accept-card p { margin: 4px 0 0; font-size: 0.86rem; color: #94a3b8; line-height: 1.45; }
     .tj-accept-link-btn { background: transparent; border: none; padding: 0; color: var(--portfolio-brand, #0097b2); font-size: inherit; text-decoration: underline; font-weight: 600; cursor: pointer; transition: color 150ms ease; display: inline; }
@@ -674,6 +674,52 @@ import { PortfolioContentService } from '../../portfolio/services/portfolio-cont
     .tj-btn-ghost { padding: 12px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #fff; cursor: pointer; font-size: 0.9rem; }
     .tj-btn-submit-final { background: linear-gradient(135deg, #0097b2, #00b4d8); font-size: 1.05rem; }
     .tj-summary-confirmation { padding: 20px; border-radius: 14px; border: 1px solid var(--line, rgba(255,255,255,0.15)); background: rgba(255,255,255,0.04); display: grid; gap: 8px; }
+
+    /* ESTILOS DE RESPONSIVIDAD PARA DISPOSITIVOS MÓVILES */
+    @media (max-width: 600px) {
+      .tj-contract-client-page {
+        padding: 16px 0 40px;
+      }
+      .tj-wizard-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+      }
+      .tj-step-panel h2 {
+        font-size: 1.4rem;
+      }
+      .tj-step-lead {
+        font-size: 0.88rem;
+        margin-bottom: 18px;
+      }
+      .tj-wizard-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+      .tj-wizard-actions button,
+      .tj-wizard-actions a {
+        width: 100%;
+        text-align: center;
+      }
+      .tj-steps-labels {
+        font-size: 0.7rem;
+      }
+      .tj-addon-simple-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 14px;
+        gap: 8px;
+      }
+      .tj-addon-simple-action {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .tj-btn-addon-toggle {
+        width: auto;
+      }
+      .tj-accept-card {
+        padding: 12px;
+      }
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

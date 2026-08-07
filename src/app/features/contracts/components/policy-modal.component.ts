@@ -1,12 +1,17 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 
 export type PolicyType = 'terms' | 'privacy' | 'signature' | null;
+
+interface TermsSection {
+  title: string;
+  content: string;
+}
 
 @Component({
   selector: 'tj-policy-modal',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgFor],
   template: `
     <div *ngIf="isOpen" class="tj-policy-overlay" (click)="onOverlayClick($event)">
       <div class="tj-policy-modal-card">
@@ -16,27 +21,16 @@ export type PolicyType = 'terms' | 'privacy' | 'signature' | null;
         </header>
 
         <div class="tj-policy-content">
-          <!-- 1. TÉRMINOS Y CONDICIONES GENERALES -->
+          <!-- 1. TÉRMINOS Y CONDICIONES ORIGINALES COMPLETOS -->
           <div *ngIf="policyType === 'terms'">
-            <h3>1. OBJETO Y ALCANCE DEL SERVICIO</h3>
-            <p>
-              TECNOJACK se compromete a prestar los servicios audiovisuales, fotográficos y de producción contratados con los más altos estándares de calidad profesional, utilizando equipos de alta definición (4K/HD) y personal calificado.
+            <p class="tj-policy-intro-note">
+              A continuación se presentan los Términos y Condiciones oficiales vigentes de TECNOJACK:
             </p>
 
-            <h3>2. TIEMPOS Y CONDICIONES DE ENTREGA</h3>
-            <p>
-              El material final editado será entregado dentro de los plazos acordados tras la realización del evento (habitualmente entre 15 y 30 días hábiles), previa cancelación del 100% del saldo pendiente. Los archivos se entregan mediante enlace digital privado (Google Drive / Galería Digital) activo durante el tiempo estipulado.
-            </p>
-
-            <h3>3. MATERIAL CRUDO (RAW)</h3>
-            <p>
-              El material sin procesar o archivos RAW son propiedad técnica de TECNOJACK y no se entregan en el servicio estándar salvo que se hayan contratado explícitamente como un adicional.
-            </p>
-
-            <h3>4. REPROGRAMACIONES Y FUERZA MAYOR</h3>
-            <p>
-              En caso de fuerza mayor o caso fortuito debidamente probado, las partes acordarán una nueva fecha sujeta a la disponibilidad de agenda de TECNOJACK sin penalidad.
-            </p>
+            <div *ngFor="let section of termsSections" class="tj-terms-section-block">
+              <h4>{{ section.title }}</h4>
+              <p [innerHTML]="formatContent(section.content)"></p>
+            </div>
           </div>
 
           <!-- 2. TRATAMIENTO DE DATOS PERSONALES (HABEAS DATA) -->
@@ -150,6 +144,29 @@ export type PolicyType = 'terms' | 'privacy' | 'signature' | null;
     .tj-policy-content h3:first-child { margin-top: 0; }
     .tj-policy-content p { margin: 0 0 12px; }
     .tj-policy-content ul { margin: 0 0 12px; padding-left: 20px; }
+    .tj-policy-intro-note {
+      font-style: italic;
+      color: #94a3b8;
+      margin-bottom: 20px;
+      border-left: 3px solid #0097b2;
+      padding-left: 10px;
+    }
+    .tj-terms-section-block {
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+    .tj-terms-section-block h4 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: #ffb800;
+      font-weight: 700;
+    }
+    .tj-terms-section-block p {
+      margin: 0;
+      white-space: pre-line;
+      color: #cbd5e1;
+    }
     .tj-policy-footer {
       padding: 16px 24px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -175,6 +192,69 @@ export class PolicyModalComponent {
   @Input() policyType: PolicyType = null;
   @Output() closeModal = new EventEmitter<void>();
 
+  readonly termsSections: TermsSection[] = [
+    {
+      title: '1. Identificación del Prestador',
+      content: 'Los servicios son prestados por TECNOJACK, representada por Jackson Palacios, con sede en Medellín, Antioquia, Colombia.'
+    },
+    {
+      title: '2. Objeto del Servicio',
+      content: 'TECNOJACK ofrece servicios audiovisuales que incluyen fotografía, video, producción audiovisual y servicios complementarios para eventos sociales, corporativos y personales. Cada servicio se presta de acuerdo con el paquete o propuesta seleccionada por el cliente.'
+    },
+    {
+      title: '3. Reserva y Pagos',
+      content: 'Para confirmar cualquier servicio se requiere un anticipo del 40% del valor total. La fecha solo se considera reservada una vez realizado el anticipo.'
+    },
+    {
+      title: '4. Entregas',
+      content: 'Los tiempos de entrega estimados son:\n- Fotografías: entre 1 y 3 semanas.\n- Videos: entre 2 y 6 semanas.\nEstos tiempos pueden variar según la carga de trabajo y complejidad del proyecto. Las entregas se realizan en formato digital mediante plataformas en la nube (Google Drive, WeTransfer, etc.).'
+    },
+    {
+      title: '5. Selección y Edición',
+      content: 'Cuando aplique selección de contenido por parte del cliente, éste tendrá un plazo máximo de 2 semanas para realizar su selección. En caso de no recibir respuesta, TECNOJACK realizará la selección de manera autónoma. El estilo de edición se basa en la línea estética de la marca.'
+    },
+    {
+      title: '6. Servicios Adicionales',
+      content: 'Cualquier servicio no incluido en el paquete inicial será considerado adicional y tendrá un costo extra. Esto incluye horas adicionales, productos físicos, ediciones extra y coberturas extendidas.'
+    },
+    {
+      title: '7. Horas Adicionales',
+      content: 'Las horas adicionales tienen un costo definido según el tipo de servicio contratado. Estas deberán ser aprobadas por el cliente durante el evento o previamente.'
+    },
+    {
+      title: '8. Transporte, Viáticos y Servicio Destination',
+      content: 'Los precios publicados no incluyen transporte. Todo desplazamiento requerido para prestar el servicio, incluso dentro del Área Metropolitana de Medellín, se cotiza por separado y es asumido por el cliente.\n\nLa modalidad Destination aplica cuando el servicio se realiza fuera del Área Metropolitana de Medellín, en otra ciudad o país. El cliente deberá cubrir los gastos de transporte, equipaje, peajes, parqueaderos, alimentación, alojamiento y seguros necesarios.'
+    },
+    {
+      title: '9. Condiciones del Evento',
+      content: 'El cliente es responsable de garantizar el acceso al lugar del evento, condiciones mínimas de iluminación y espacios adecuados para el trabajo. TECNOJACK aportará el equipo técnico necesario, pero no se responsabiliza por condiciones externas que afecten el resultado (clima, restricciones del lugar, etc.).'
+    },
+    {
+      title: '10. Cancelaciones y Reprogramaciones',
+      content: 'Por parte del cliente: el anticipo no es reembolsable. Puede evaluarse una reprogramación según disponibilidad de agenda.\n\nPor parte de TECNOJACK: se realizará la devolución total del anticipo o se podrá asignar un proveedor de calidad equivalente en caso de fuerza mayor.'
+    },
+    {
+      title: '11. Derechos de Imagen',
+      content: 'El cliente autoriza a TECNOJACK a utilizar el material capturado para portafolio, redes sociales, página web y promoción comercial, de conformidad con la elección realizada en el formulario de contratación.'
+    },
+    {
+      title: '12. Uso de Música',
+      content: 'Los videos se editan con música libre de derechos o licencias adecuadas. TECNOJACK no se hace responsable por el uso de música protegida si el cliente solicita su inclusión sin contar con los permisos correspondientes.'
+    },
+    {
+      title: '13. Alimentación del Equipo',
+      content: 'Para eventos de larga duración, el cliente deberá garantizar alimentación básica para el equipo de trabajo (fotógrafo, videógrafo y asistentes).'
+    },
+    {
+      title: '14. Responsabilidad y Fuerza Mayor',
+      content: 'TECNOJACK no se responsabiliza por situaciones fuera de su control como condiciones climáticas adversas, fallas de terceros, restricciones de locación o problemas logísticos externos.'
+    },
+    {
+      title: '15. Aceptación',
+      content: 'Al contratar cualquiera de los servicios, el cliente declara haber leído y aceptado estos términos y condiciones en su totalidad.'
+    }
+  ];
+
   getTitle(): string {
     switch (this.policyType) {
       case 'terms':
@@ -186,6 +266,12 @@ export class PolicyModalComponent {
       default:
         return 'Información Legal';
     }
+  }
+
+  formatContent(content: string): string {
+    return content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>');
   }
 
   onOverlayClick(event: MouseEvent): void {
