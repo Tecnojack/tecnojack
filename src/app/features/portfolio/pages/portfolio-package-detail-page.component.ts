@@ -4,14 +4,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  Input,
   computed,
   effect,
   inject,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { map } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
@@ -22,8 +24,11 @@ import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ContactSectionComponent } from '../sections/contact-section.component';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
+import { getRealImageUrlByPath } from '../../../core/data/package-real-images';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { ServiceRequestService } from '../../../services/service-request.service';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
+import { PortfolioRequestOption, PortfolioRequestOptionGroup, PortfolioPackageDetail } from '../portfolio.data';
 
 const copFormatter = new Intl.NumberFormat('es-CO');
 type RequestMode = 'base' | 'custom';
@@ -42,6 +47,7 @@ type RequestMode = 'base' | 'custom';
     FallbackImageDirective,
     LazyImgComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-package-detail-page.component.html',
   styleUrl: './portfolio-package-detail-page.component.scss',
@@ -58,12 +64,16 @@ export class PortfolioPackageDetailPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly serviceRequest = inject(ServiceRequestService);
+  private readonly router = inject(Router);
+
+  @Input() coverImage?: string;
 
   readonly isRequestModalOpen = signal(false);
   readonly visibleVisualImages = signal(
     PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
   );
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly customerName = signal('');
   readonly customerPhone = signal('');
   readonly eventDate = signal('');
@@ -92,8 +102,57 @@ export class PortfolioPackageDetailPageComponent {
     resolvePortfolioPackageMediaFolder(this.packageDetail()),
   );
 
-  readonly shellSubtitle = computed(
-    () => this.packageDetail()?.categoryLabel ?? 'Portafolio',
+  readonly heroCoverImage = computed(() => {
+    const detail = this.packageDetail();
+    if (detail) {
+      const videoImages: Record<string, string> = {
+        'video-esencial': 'https://images.pexels.com/photos/29379918/pexels-photo-29379918.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-esencial': 'https://images.pexels.com/photos/29379918/pexels-photo-29379918.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-pro': 'https://images.pexels.com/photos/30697924/pexels-photo-30697924.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-pro': 'https://images.pexels.com/photos/30697924/pexels-photo-30697924.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-cinematico': 'https://images.pexels.com/photos/28613680/pexels-photo-28613680.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'quince-video-cinematico': 'https://images.pexels.com/photos/28613680/pexels-photo-28613680.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-personalizado': 'https://images.pexels.com/photos/9179882/pexels-photo-9179882.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+        'video-cortometraje': 'https://images.pexels.com/photos/1327099/pexels-photo-1327099.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop'
+      };
+
+      if (videoImages[detail.slug]) {
+        return videoImages[detail.slug];
+      }
+    }
+    const queryParamImage = this.route.snapshot.queryParamMap.get('coverImage');
+    const resolvedUrl = this.coverImage || queryParamImage;
+    if (resolvedUrl) {
+      return resolvedUrl;
+    }
+    if (!detail) {
+      return this.placeholderImage;
+    }
+    const folder = resolvePortfolioPackageMediaFolder(detail);
+    const realImage = getRealImageUrlByPath(folder);
+    return realImage || detail.image || this.placeholderImage;
+  });
+
+  readonly shellSubtitle = computed(() => {
+    const detail = this.packageDetail();
+    if (!detail) {
+      return 'Portafolio';
+    }
+    if (detail.category === 'bodas') {
+      return 'Paquetes de boda';
+    }
+    if (detail.category === 'preboda') {
+      return 'Sesiones de preboda';
+    }
+    if (detail.category === 'quinces') {
+      return 'Paquetes de quinceañeros';
+    }
+    return detail.categoryLabel;
+  });
+  readonly headerCtaLabel = computed(() =>
+    this.isWeddingDetail(this.packageDetail())
+      ? 'Solicitar propuesta'
+      : 'WhatsApp directo',
   );
   readonly footerText = computed(() => {
     const detail = this.packageDetail();
@@ -102,17 +161,91 @@ export class PortfolioPackageDetailPageComponent {
       : 'TECNOJACK · fotografía y video para celebraciones especiales.';
   });
 
-  readonly selectedRequestItems = computed(() => {
-    if (this.requestMode() === 'base') {
-      return this.fixedIncludedGroups().flatMap((group) =>
-        group.options.map((option) => option.label),
-      );
+  readonly proposalHighlights = computed(() => {
+    const detail = this.packageDetail();
+    if (!detail || !this.isWeddingDetail(detail)) {
+      return [] as string[];
     }
 
+    const items = detail.sections.flatMap((section) => section.items);
+    return items.slice(0, 4);
+  });
+
+  readonly proposalIncludeBlocks = computed(() => {
+    const detail = this.packageDetail();
+    if (!detail) {
+      return [] as Array<{
+        title: string;
+        eyebrow: string;
+        role: string;
+        items: string[];
+      }>;
+    }
+
+    return detail.sections.map((section) => {
+      const role = this.classifyIncludeSection(section.title);
+      return {
+        title: section.title,
+        eyebrow: this.includeSectionEyebrow(role),
+        role,
+        items: section.items,
+      };
+    });
+  });
+
+  readonly proposalPillars = computed(() => {
+    const detail = this.packageDetail();
+    if (!detail) {
+      return [] as Array<{ title: string; text: string }>;
+    }
+
+    const type = detail.packageTypeLabel.toLowerCase();
+    const coverageText = type.includes('foto') && type.includes('video')
+      ? 'Foto y video coordinados en una sola cobertura, con el mismo criterio visual.'
+      : type.includes('video')
+        ? 'Video con dirección clara para narrar el día sin perder lo esencial.'
+        : type.includes('preboda')
+          ? 'Sesión pensada para conectar antes del gran día, con dirección y entrega definida.'
+          : 'Fotografía con dirección para capturar lo importante y entregarlo ordenado.';
+
     return [
-      ...this.selectedIncludedOptions(),
-      ...this.selectedAdditionalOptions(),
-    ].map((option) => option.label);
+      {
+        title: detail.packageTypeLabel,
+        text: coverageText,
+      },
+      {
+        title: 'Qué recibes, por escrito',
+        text: 'Cobertura, entregables y momentos listados con claridad para que decidas sin dudar.',
+      },
+      {
+        title: 'Cierre directo',
+        text: 'Armas la solicitud en esta misma vista y la enviamos lista por WhatsApp.',
+      },
+    ];
+  });
+
+  readonly extrasOptionsCount = computed(() =>
+    this.simpleAdditionalGroups().reduce((total, group) => total + group.options.length, 0),
+  );
+
+  readonly relatedOptionsCount = computed(() =>
+    this.relatedPackageGroups().reduce((total, group) => total + group.options.length, 0),
+  );
+
+  readonly selectedRequestItems = computed(() => {
+    const includedLabels =
+      this.requestMode() === 'base'
+        ? this.fixedIncludedGroups().flatMap((group) =>
+            group.options.map((option) => option.label),
+          )
+        : this.selectedIncludedOptions().map((option) => option.label);
+
+    const extraLabels = this.selectedAdditionalOptions().map((option) => {
+      const name = this.getOptionName(option.label);
+      return option.priceLabel ? `${name} (${option.priceLabel})` : name;
+    });
+
+    return [...includedLabels, ...extraLabels];
   });
 
   readonly selectedBaseQuote = computed(() => {
@@ -130,10 +263,6 @@ export class PortfolioPackageDetailPageComponent {
   });
 
   readonly selectedAdditionalOptions = computed(() => {
-    if (this.requestMode() !== 'custom') {
-      return [];
-    }
-
     const detail = this.packageDetail();
     const selected = this.requestSelections();
 
@@ -173,6 +302,24 @@ export class PortfolioPackageDetailPageComponent {
     return baseAmount + this.additionalServicesTotalCop();
   });
 
+  readonly cartExtrasCount = computed(
+    () => this.selectedAdditionalOptions().length,
+  );
+
+  readonly cartDisplayTotal = computed(() => {
+    const total = this.estimatedTotalCop();
+    if (total !== undefined) {
+      return this.formatCop(total);
+    }
+
+    const baseLabel = this.selectedBaseQuote()?.label;
+    if (baseLabel) {
+      return baseLabel;
+    }
+
+    return this.packageDetail()?.priceLines[0] ?? 'Por definir';
+  });
+
   readonly fixedIncludedGroups = computed(
     () =>
       this.packageDetail()?.requestOptionGroups.filter(
@@ -187,16 +334,31 @@ export class PortfolioPackageDetailPageComponent {
       ) ?? [],
   );
 
+  readonly simpleAdditionalGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => !this.isRelatedPackageGroup(group)),
+  );
+
+  readonly relatedPackageGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => this.isRelatedPackageGroup(group)),
+  );
+
   readonly isBaseRequestMode = computed(() => this.requestMode() === 'base');
   readonly isCustomRequestMode = computed(
     () => this.requestMode() === 'custom',
   );
-  readonly isRequestFormValid = computed(
-    () =>
+  readonly isRequestFormValid = computed(() => {
+    const detail = this.packageDetail();
+    if (!detail) {
+      return false;
+    }
+
+    return (
       this.customerName().trim().length > 1 &&
-      this.customerPhone().trim().length > 6 &&
-      !!this.packageDetail(),
-  );
+      this.customerPhone().trim().length > 6
+    );
+  });
+
+  readonly isCartExpanded = signal(false);
 
   readonly requestWhatsappHref = computed(() => {
     const detail = this.packageDetail();
@@ -268,6 +430,14 @@ export class PortfolioPackageDetailPageComponent {
       lines.push(`Total estimado: ${this.formatCop(total)}`);
     }
 
+    lines.push(
+      '',
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+    );
+    if (this.isDestinationService()) {
+      lines.push('Entiendo que transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
+    }
+
     if (this.customerNotes().trim()) {
       lines.push('', `Notas: ${this.customerNotes().trim()}`);
     }
@@ -315,7 +485,9 @@ export class PortfolioPackageDetailPageComponent {
       this.guestCount.set('');
       this.customerNotes.set('');
       this.hasAcceptedTerms.set(false);
+      this.isDestinationService.set(false);
       this.isRequestModalOpen.set(false);
+      this.isCartExpanded.set(false);
       this.visibleVisualImages.set(
         PortfolioPackageDetailPageComponent.INITIAL_VISIBLE_IMAGES,
       );
@@ -343,6 +515,12 @@ export class PortfolioPackageDetailPageComponent {
   packageMediaState() {
     return this.mediaPublic.getResolvedMediaStateByFolder(
       this.packageMediaFolder(),
+    );
+  }
+
+  coverByDetail(detail: PortfolioPackageDetail | null | undefined) {
+    return this.mediaPublic.getRealImage(
+      resolvePortfolioPackageMediaFolder(detail),
     );
   }
 
@@ -381,6 +559,7 @@ export class PortfolioPackageDetailPageComponent {
 
   openRequestModal(): void {
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
     this.isRequestModalOpen.set(true);
   }
@@ -388,7 +567,29 @@ export class PortfolioPackageDetailPageComponent {
   closeRequestModal(): void {
     this.isRequestModalOpen.set(false);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
+  }
+
+  toggleCartExpanded(): void {
+    this.isCartExpanded.update((open) => !open);
+  }
+
+  addCartOption(optionId: string): void {
+    this.toggleRequestOption(optionId, true);
+  }
+
+  removeCartOption(optionId: string): void {
+    this.toggleRequestOption(optionId, false);
+  }
+
+  toggleCartOption(optionId: string): void {
+    if (this.isOptionSelected(optionId)) {
+      this.removeCartOption(optionId);
+      return;
+    }
+
+    this.addCartOption(optionId);
   }
 
   guardRequestSubmit(event: MouseEvent): void {
@@ -504,6 +705,99 @@ export class PortfolioPackageDetailPageComponent {
 
   isOptionSelected(optionId: string): boolean {
     return !!this.requestSelections()[optionId];
+  }
+
+  getLinkedPackageHref(option: PortfolioRequestOption): string | null {
+    if (!option.linkedPackageCategory || !option.linkedPackageSlug) {
+      return null;
+    }
+
+    const linked = this.content.getPackageDetail(
+      option.linkedPackageCategory,
+      option.linkedPackageSlug,
+    );
+    return linked ? `${linked.categoryHref}/${linked.slug}` : null;
+  }
+
+  private isRelatedPackageGroup(group: PortfolioRequestOptionGroup): boolean {
+    return group.options.some(
+      (option) => !!option.linkedPackageCategory && !!option.linkedPackageSlug,
+    );
+  }
+
+  getOptionName(label: string): string {
+    return String(label ?? '').split('||')[0]?.trim() ?? '';
+  }
+
+  getOptionDescription(label: string): string {
+    return String(label ?? '').split('||').slice(1).join('||').trim();
+  }
+
+  isWeddingDetail(
+    detail: PortfolioPackageDetail | null | undefined,
+  ): boolean {
+    return true; // Apply premium detail view to all categories
+  }
+
+  heroTitleParts(title: string): { first: string; middle: string; last: string } {
+    const words = String(title ?? '')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    if (words.length === 0) {
+      return { first: '', middle: '', last: '' };
+    }
+
+    if (words.length === 1) {
+      return { first: words[0], middle: '', last: '' };
+    }
+
+    if (words.length === 2) {
+      return { first: words[0], middle: ' ', last: words[1] };
+    }
+
+    return {
+      first: words[0],
+      middle: ` ${words.slice(1, -1).join(' ')} `,
+      last: words[words.length - 1],
+    };
+  }
+
+  private classifyIncludeSection(
+    title: string,
+  ): 'coverage' | 'deliverables' | 'moments' | 'other' {
+    const normalized = title.toLowerCase();
+    if (normalized.includes('entreg')) {
+      return 'deliverables';
+    }
+    if (normalized.includes('moment')) {
+      return 'moments';
+    }
+    if (
+      normalized.includes('cobertura') ||
+      normalized.includes('incluye') ||
+      normalized.includes('servicio') ||
+      normalized.includes('caracter')
+    ) {
+      return 'coverage';
+    }
+    return 'other';
+  }
+
+  private includeSectionEyebrow(
+    role: 'coverage' | 'deliverables' | 'moments' | 'other',
+  ): string {
+    switch (role) {
+      case 'deliverables':
+        return 'Esto te llevas';
+      case 'moments':
+        return 'Momentos cubiertos';
+      case 'coverage':
+        return 'Así te acompañamos';
+      default:
+        return 'Incluido';
+    }
   }
 
   formatCop(value: number): string {

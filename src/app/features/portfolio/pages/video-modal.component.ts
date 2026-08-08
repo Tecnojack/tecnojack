@@ -20,6 +20,7 @@ import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { PortfolioPlaylistVideo } from '../portfolio.data';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 export type VideoServicePackage = {
   name: string;
@@ -71,7 +72,7 @@ type VideoAdditionalRequestOptionGroup = {
 @Component({
   selector: 'tj-video-modal',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, LazyImgComponent],
+  imports: [AsyncPipe, NgIf, NgFor, LazyImgComponent, DestinationServiceComponent],
   templateUrl: './video-modal.component.html',
   styleUrl: './video-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -114,6 +115,7 @@ export class VideoModalComponent implements OnChanges {
   readonly guestCount = signal('');
   readonly customerNotes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly isSubmittingRequest = signal(false);
 
   readonly baseQuoteOptions = computed<Array<{ id: string; label: string }>>(
@@ -348,6 +350,14 @@ export class VideoModalComponent implements OnChanges {
       lines.push('', `Total estimado: ${totalLabel}`);
     }
 
+    lines.push(
+      '',
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+    );
+    if (this.isDestinationService()) {
+      lines.push('Entiendo que transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
+    }
+
     if (pkg.isBasePrice) {
       lines.push(
         '',
@@ -423,6 +433,7 @@ export class VideoModalComponent implements OnChanges {
   startRequest(mode: RequestMode): void {
     this.requestMode.set(mode);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.modalStep.set('request');
   }
 
@@ -474,6 +485,7 @@ export class VideoModalComponent implements OnChanges {
       `Servicios: ${this.requestSummaryServices().join(', ') || 'No especificado'}`,
       `Adicionales: ${this.requestSummaryAdditionalsDetailed().map((item) => item.name).join(', ') || 'Ninguno'}`,
       `Total estimado: ${this.requestTotalLabel() || 'A confirmar'}`,
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­' : 'No'}`,
       this.customerNotes().trim() ? `Notas: ${this.customerNotes().trim()}` : '',
     ]
       .filter((line) => line.length > 0)
@@ -585,6 +597,7 @@ export class VideoModalComponent implements OnChanges {
     this.guestCount.set('');
     this.customerNotes.set('');
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
   }
 }

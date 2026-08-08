@@ -21,6 +21,7 @@ import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-sc
 import { LazyImgComponent } from '../../../shared/images/lazy-img.component';
 import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 import { PortfolioPackageDetail } from '../portfolio.data';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 
@@ -43,6 +44,7 @@ export type PortfolioPackageCardViewModel = {
     RevealOnScrollDirective,
     LazyImgComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-category-accordion.component.html',
   styleUrl: './portfolio-category-accordion.component.scss',
@@ -77,9 +79,9 @@ export class PortfolioCategoryAccordionComponent {
   @Input() packages: PortfolioPackageCardViewModel[] = [];
   @Input() initiallyOpen = false;
 
-  @Output() openPackage = new EventEmitter<string>();
+  @Output() openPackage = new EventEmitter<{ slug: string; imageUrl: string }>();
 
-  private readonly openState = signal(false);
+  readonly openState = signal(false);
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);
@@ -93,8 +95,8 @@ export class PortfolioCategoryAccordionComponent {
     this.openState.update((value) => !value);
   }
 
-  requestOpenPackage(slug: string): void {
-    this.openPackage.emit(slug);
+  requestOpenPackage(slug: string, imageUrl: string): void {
+    this.openPackage.emit({ slug, imageUrl });
   }
 
   coverByDetail(

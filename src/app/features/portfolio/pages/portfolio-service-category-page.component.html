@@ -51,9 +51,138 @@
                 [title]="section.title"
                 [lead]="section.lead ?? ''"
                 [packages]="section.cards"
-                [initiallyOpen]="index === 0"
-                (openPackage)="openPackageModal($event)">
+                [initiallyOpen]="categoryState() === 'bodas' ? section.title.includes('híbrida') : index === 0"
+                (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
             </tj-portfolio-category-accordion>
+        </div>
+
+        <!-- TABLA COMPARATIVA DE PAQUETES DE BODA HÍBRIDOS (FOTO + VIDEO) -->
+        <div class="tj-comparison-container" *ngIf="categoryState() === 'bodas'" tjRevealOnScroll>
+            <div class="tj-comparison-head">
+                <h2>Tabla Comparativa de Paquetes Híbridos</h2>
+                <p>Compara de manera directa las características clave de cada uno de nuestros planes principales.</p>
+            </div>
+
+            <div class="tj-comparison-table-wrapper">
+                <table class="tj-comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Esencial</th>
+                            <th>Completo</th>
+                            <th class="recommended-col">Premium</th>
+                            <th>Luxury</th>
+                            <th class="exclusive-col">Full Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Inversión</td>
+                            <td class="val">$1'900.000 COP</td>
+                            <td class="val">$2'800.000 COP</td>
+                            <td class="val recommended-col">$3'900.000 COP</td>
+                            <td class="val">$6'100.000 COP</td>
+                            <td class="val exclusive-col">$11'300.000 COP</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Horas Cobertura</td>
+                            <td>Hasta 6 horas</td>
+                            <td>Hasta 8 horas</td>
+                            <td class="recommended-col">Hasta 10 horas</td>
+                            <td>Hasta 12 horas</td>
+                            <td class="exclusive-col">Ilimitada</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Viáticos Colombia</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">—</td>
+                            <td>—</td>
+                            <td class="exclusive-col">✔ Cubiertos</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Equipo Humano</td>
+                            <td>1 Fotógrafo + 1 Videógrafo</td>
+                            <td>1 Fotógrafo + 1 Videógrafo (+ Apoyo logístico)</td>
+                            <td class="recommended-col">Fotógrafo Principal + Videógrafo Principal + 2do Operador/Asistente</td>
+                            <td>2 Fotógrafos + 2 Videógrafos + Asistente de Producción</td>
+                            <td class="exclusive-col">2 Fots. + 2 Vids. + Crew Producción</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Fotografías Editadas</td>
+                            <td>Hasta 180 fotos</td>
+                            <td>Hasta 300 fotos</td>
+                            <td class="recommended-col">Hasta 450 fotos</td>
+                            <td>Más de 600 fotos (Edición)</td>
+                            <td class="exclusive-col">Ilimitadas</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Entregables Video</td>
+                            <td>Highlight Film (4-6 min)</td>
+                            <td>Highlight Film (6-8 min) + Película documental (15-25 min)</td>
+                            <td class="recommended-col">Trailer pro (1 min) + Highlight (8-12 min) + Película doc (25-40 min)</td>
+                            <td>Trailer pro + Wedding Film (10-15 min) + Película doc (45-75 min)</td>
+                            <td class="exclusive-col">Trailer + Highlight + Documental VIP sin límite</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Drone Aéreo</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ (Cuando sea posible)</td>
+                            <td>✔ (Tomas avanzadas)</td>
+                            <td class="exclusive-col">✔ Premium / Cine</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Álbum Físico</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ Álbum fotográfico</td>
+                            <td>✔ Álbum Premium XL + Caja de presentación</td>
+                            <td class="exclusive-col">✔ Álbum Premium XL grabado + Caja VIP</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Sesión Preboda</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">✔ Sesión Preboda estándar</td>
+                            <td>✔ Sesión Preboda Premium</td>
+                            <td class="exclusive-col">✔ Preboda VIP (Locaciones exclusivas)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Sesión Postboda</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">—</td>
+                            <td>✔ Sesión Postboda Premium</td>
+                            <td class="exclusive-col">✔ Postboda VIP</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Reels / Redes</td>
+                            <td>1 Reel vertical</td>
+                            <td>1 Reel vertical</td>
+                            <td class="recommended-col">2 Reels</td>
+                            <td>4 Reels + Trailer vertical</td>
+                            <td class="exclusive-col">6 Reels + Trailer vertical + Mini doc</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Galería Online</td>
+                            <td>3 meses</td>
+                            <td>6 meses</td>
+                            <td class="recommended-col">1 año</td>
+                            <td>2 años</td>
+                            <td class="exclusive-col">Vitalicia</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Entrega Prioritaria</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="recommended-col">—</td>
+                            <td>✔ (Preview 20 fotos en 72h)</td>
+                            <td class="exclusive-col">✔ Express (30 fotos en 24h)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <ng-template #groupedPackages>
@@ -82,7 +211,9 @@
                                     aspectRatio="16 / 11"></tj-lazy-img>
                                 <div class="service-package-card__media-badges">
                                     <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured">Premium</span>
+                                    <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
+                                    <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
+                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
                                 </div>
                             </div>
 
@@ -108,7 +239,7 @@
                                     <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
                                 </ul>
 
-                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageModal(item.detail.slug)">
+                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug, item.detail.image)">
                                     Ver detalle
                                 </button>
                             </div>
@@ -423,12 +554,12 @@
                         </div>
                     </details>
 
-                    <details class="service-package-request__accordion" *ngIf="customAdditionalGroups().length">
+                    <details class="service-package-request__accordion" *ngIf="simpleAdditionalGroups().length">
                         <summary class="service-package-request__accordion-summary">Servicios adicionales</summary>
                         <div class="service-package-request__builder">
-                            <section class="service-package-request__group" *ngFor="let group of customAdditionalGroups()">
+                            <section class="service-package-request__group" *ngFor="let group of simpleAdditionalGroups()">
                                 <div class="service-package-request__group-head">
-                                    <p>Servicios adicionales</p>
+                                    <p>Opciones disponibles</p>
                                     <span>{{ group.description || 'Elige los adicionales que quieres incluir en tu solicitud.' }}</span>
                                 </div>
 
@@ -448,6 +579,46 @@
                                                 type="button"
                                                 [attr.aria-pressed]="isOptionSelected(option.id)"
                                                 [attr.title]="isOptionSelected(option.id) ? 'Clic para quitar' : 'Clic para agregar'"
+                                                [class.is-added]="isOptionSelected(option.id)"
+                                                (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
+                                                {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}
+                                            </button>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </details>
+
+                    <details class="service-package-request__accordion" *ngIf="relatedPackageGroups().length">
+                        <summary class="service-package-request__accordion-summary">Otros servicios para tu historia</summary>
+                        <div class="service-package-request__builder">
+                            <section class="service-package-request__group" *ngFor="let group of relatedPackageGroups()">
+                                <div class="service-package-request__group-head">
+                                    <p>{{ group.title }}</p>
+                                    <span>{{ group.description }}</span>
+                                </div>
+
+                                <div class="service-package-request__upsell-grid">
+                                    <article class="service-package-request__upsell" *ngFor="let option of group.options">
+                                        <div class="service-package-request__upsell-copy">
+                                            <strong>{{ getUpsellName(option.label) }}</strong>
+                                            <a
+                                                class="service-package-request__linked-package"
+                                                *ngIf="getLinkedPackageHref(option) as linkedHref"
+                                                [href]="linkedHref"
+                                                target="_blank"
+                                                rel="noopener">
+                                                Consultar detalles del paquete
+                                            </a>
+                                        </div>
+
+                                        <div class="service-package-request__upsell-actions">
+                                            <span class="service-package-request__upsell-price">{{ option.priceLabel }}</span>
+                                            <button
+                                                class="service-package-request__upsell-btn btn-text"
+                                                type="button"
+                                                [attr.aria-pressed]="isOptionSelected(option.id)"
                                                 [class.is-added]="isOptionSelected(option.id)"
                                                 (click)="toggleRequestOption(option.id, !isOptionSelected(option.id))">
                                                 {{ isOptionSelected(option.id) ? 'Agregado' : 'Agregar' }}
@@ -496,6 +667,13 @@
                             <span>Total estimado</span>
                             <strong>{{ requestTotalLabel() }}</strong>
                         </div>
+
+                        <tj-destination-service
+                            variant="selection"
+                            [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
+                            [selected]="isDestinationService()"
+                            (selectedChange)="isDestinationService.set($event)">
+                        </tj-destination-service>
 
                         <label class="service-package-request__option service-package-request__terms">
                             <input

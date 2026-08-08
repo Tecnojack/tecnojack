@@ -3,64 +3,23 @@
 }
 
 .services-section {
-    --services-brand-soft: color-mix(in srgb, var(--portfolio-brand) 18%, transparent);
-    --services-brand-strong: color-mix(in srgb, var(--portfolio-brand) 40%, transparent);
-    --services-accent-soft: color-mix(in srgb, var(--portfolio-accent) 16%, transparent);
-    --services-accent-strong: color-mix(in srgb, var(--portfolio-accent) 42%, transparent);
-    --services-surface-top: rgba(7, 18, 28, 0.88);
-    --services-surface-bottom: rgba(8, 24, 37, 0.9);
     width: min(1180px, calc(100% - 32px));
     margin: 0 auto;
-    padding: 24px 0;
+    padding: 40px 0;
 }
 
-.services-shell {
-    position: relative;
-    overflow: hidden;
-    border-radius: 24px;
-    border: 1px solid color-mix(in srgb, var(--portfolio-brand) 22%, rgba(255, 255, 255, 0.08));
-    background:
-        radial-gradient(circle at 8% 8%, var(--services-brand-soft), transparent 34%),
-        radial-gradient(circle at 90% 90%, var(--services-accent-soft), transparent 34%),
-        linear-gradient(165deg, var(--services-surface-top), var(--services-surface-bottom));
-    padding: 26px;
+.services-minimal-container {
     display: grid;
-    gap: 26px;
+    gap: 40px;
 }
 
-.services-shell__accent {
-    position: absolute;
-    pointer-events: none;
-    border-radius: 50%;
-    filter: blur(58px);
-    opacity: 0.16;
-}
-
-.services-shell__accent--left {
-    width: 300px;
-    height: 300px;
-    top: -90px;
-    left: -90px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--portfolio-brand) 70%, white 12%), transparent 72%);
-}
-
-.services-shell__accent--right {
-    width: 340px;
-    height: 340px;
-    right: -100px;
-    bottom: -110px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--portfolio-accent) 72%, white 10%), transparent 72%);
-}
-
-.section-heading {
-    position: relative;
-    z-index: 1;
-    text-align: center;
+.services-minimal-head {
     display: grid;
-    gap: 10px;
+    gap: 8px;
+    text-align: left;
 }
 
-.section-heading__eyebrow {
+.services-minimal-head .eyebrow {
     margin: 0;
     color: var(--portfolio-accent);
     font-family: var(--portfolio-font-display);
@@ -70,227 +29,103 @@
     text-transform: uppercase;
 }
 
-.section-heading h2 {
-    margin: 0 auto;
-    max-width: 24ch;
+.services-minimal-head h2 {
+    margin: 0;
     font-family: var(--portfolio-font-display);
-    font-size: clamp(1.8rem, 3vw, 2.9rem);
-    line-height: 1.06;
-    letter-spacing: -0.035em;
-    background: linear-gradient(
-        118deg,
-        rgba(242, 251, 255, 0.98) 0%,
-        color-mix(in srgb, var(--portfolio-brand) 58%, white 42%) 46%,
-        color-mix(in srgb, var(--portfolio-accent) 62%, white 38%) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-wrap: balance;
-}
-
-.section-heading__meta {
-    margin: 2px 0 0;
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--portfolio-text) 62%, transparent);
-}
-
-.services-grid {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.service-card {
-    position: relative;
-    display: grid;
-    overflow: hidden;
-    border-radius: 18px;
-    border: 1px solid color-mix(in srgb, var(--portfolio-brand) 22%, rgba(255, 255, 255, 0.08));
-    background:
-        radial-gradient(circle at 92% 12%, var(--services-brand-soft), transparent 32%),
-        linear-gradient(180deg, rgba(10, 28, 40, 0.86), rgba(7, 20, 31, 0.92));
-    transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
-}
-
-.service-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--services-accent-strong);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.36);
-}
-
-.service-card--featured {
-    grid-column: 1 / -1;
-    border-color: color-mix(in srgb, var(--portfolio-accent) 36%, rgba(255, 255, 255, 0.08));
-    background:
-        radial-gradient(circle at 88% 16%, color-mix(in srgb, var(--portfolio-accent) 22%, transparent), transparent 34%),
-        radial-gradient(circle at 14% 86%, color-mix(in srgb, var(--portfolio-brand) 18%, transparent), transparent 36%),
-        linear-gradient(130deg, rgba(10, 31, 45, 0.9), rgba(7, 19, 30, 0.95));
-}
-
-.service-card--solutions {
-    border-color: color-mix(in srgb, var(--portfolio-accent) 58%, rgba(255, 255, 255, 0.1));
-    box-shadow:
-        0 0 0 1px color-mix(in srgb, var(--portfolio-brand) 16%, transparent),
-        0 18px 42px rgba(0, 0, 0, 0.38);
-    background:
-        radial-gradient(circle at 84% 14%, color-mix(in srgb, var(--portfolio-accent) 30%, transparent), transparent 30%),
-        radial-gradient(circle at 12% 82%, color-mix(in srgb, var(--portfolio-brand) 24%, transparent), transparent 34%),
-        linear-gradient(130deg, rgba(16, 39, 52, 0.96), rgba(8, 22, 31, 0.98));
-}
-
-.service-card--solutions .service-card__glow {
-    background: radial-gradient(circle, color-mix(in srgb, var(--portfolio-accent) 34%, transparent), transparent 72%);
-}
-
-.service-card--solutions .service-card__tag {
-    border-color: color-mix(in srgb, var(--portfolio-accent) 42%, transparent);
-    background: color-mix(in srgb, var(--portfolio-accent) 10%, transparent);
-    color: color-mix(in srgb, var(--portfolio-accent) 72%, white 28%);
-}
-
-.service-card--solutions .service-card__cta {
-    border-color: color-mix(in srgb, var(--portfolio-accent) 72%, transparent);
-    background: linear-gradient(135deg, color-mix(in srgb, var(--portfolio-accent) 22%, transparent), color-mix(in srgb, var(--portfolio-accent) 14%, transparent));
-}
-
-.service-card--solutions:hover {
-    border-color: color-mix(in srgb, var(--portfolio-accent) 85%, transparent);
-    box-shadow:
-        0 0 0 1px color-mix(in srgb, var(--portfolio-brand) 20%, transparent),
-        0 22px 48px rgba(0, 0, 0, 0.44);
-}
-
-.service-card__glow {
-    position: absolute;
-    right: -42px;
-    top: -44px;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, color-mix(in srgb, var(--portfolio-brand) 25%, transparent), transparent 72%);
-    filter: blur(12px);
-    pointer-events: none;
-}
-
-.service-card__body {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 12px;
-    padding: 22px 20px 24px;
-    align-content: start;
-}
-
-.service-card__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.service-card__index {
-    color: color-mix(in srgb, var(--portfolio-accent) 80%, white 20%);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-}
-
-.service-card__tag {
-    min-height: 26px;
-    padding: 0 10px;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--portfolio-brand) 24%, transparent);
-    background: rgba(6, 20, 30, 0.6);
-    color: color-mix(in srgb, var(--portfolio-text) 78%, var(--portfolio-brand) 22%);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-}
-
-.service-card h3 {
-    margin: 0;
-    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-size: clamp(1.8rem, 3.2vw, 2.8rem);
     line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--portfolio-text);
 }
 
-.service-card p,
-.service-card li {
+.services-minimal-head span {
+    font-size: 0.9rem;
     color: var(--portfolio-muted);
-    line-height: 1.62;
 }
 
-.service-card p {
+.services-minimal-list {
+    display: grid;
+    border-top: 1px solid var(--portfolio-line);
+}
+
+.service-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--portfolio-line);
+    align-items: start;
+    transition: transform 220ms ease;
+}
+
+.service-row:hover {
+    transform: translateX(4px);
+}
+
+.service-row__num {
+    font-family: var(--portfolio-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--portfolio-accent);
+    opacity: 0.8;
+}
+
+.service-row__content {
+    display: grid;
+    gap: 8px;
+}
+
+.service-row__content h3 {
     margin: 0;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--portfolio-text);
 }
 
-.service-card__cta {
+.service-row__content p {
+    margin: 0;
+    max-width: 70ch;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--portfolio-muted);
+}
+
+.service-row__action {
+    grid-column: 2 / -1;
+    margin-top: 12px;
+}
+
+.service-row__cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    justify-content: center;
-    min-height: 42px;
-    justify-self: start;
-    padding: 0 16px;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--portfolio-accent) 42%, transparent);
-    background: color-mix(in srgb, var(--portfolio-accent) 10%, transparent);
-    color: var(--portfolio-text);
+    gap: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--portfolio-accent);
     text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: border-color 0.22s ease, transform 0.22s ease, background 0.22s ease;
+    transition: color 220ms ease;
 }
 
-.service-card__cta:hover {
-    border-color: color-mix(in srgb, var(--portfolio-accent) 80%, transparent);
-    background: color-mix(in srgb, var(--portfolio-accent) 18%, transparent);
-    transform: translateX(2px);
+.service-row__cta:hover {
+    color: var(--portfolio-text);
 }
 
-@media (min-width: 980px) {
-    .services-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (min-width: 768px) {
+    .service-row {
+        grid-template-columns: 80px 1fr auto;
+        align-items: center;
+        gap: 32px;
     }
 
-    .service-card--featured {
-        grid-column: span 2;
+    .service-row__action {
+        grid-column: auto;
+        margin-top: 0;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .service-card,
-    .service-card__media img,
-    .service-card__cta {
+    .service-row {
         transition: none;
-    }
-}
-
-@media (max-width: 860px) {
-    .services-section {
-        width: min(1180px, calc(100% - 24px));
-    }
-
-    .services-shell {
-        border-radius: 18px;
-        padding: 18px 14px;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .service-card,
-    .service-card--featured {
-        grid-column: auto;
     }
 }

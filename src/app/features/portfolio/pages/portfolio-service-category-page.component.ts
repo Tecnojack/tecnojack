@@ -11,6 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { Observable, combineLatest, map, of, shareReplay, startWith, switchMap, catchError } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -37,6 +38,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ClientPublicService } from '../services/client-public.service';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 type ServiceModalStep = 'detail' | 'request';
 type RequestMode = 'base' | 'custom';
@@ -52,7 +54,7 @@ type PackageCardViewModel = {
   sortOrder: number;
 };
 type PackageCardGroupViewModel = {
-  key: 'photo-video' | 'photo-only' | 'custom' | 'session';
+  key: 'full-experience' | 'photo-video' | 'photo-only' | 'custom' | 'session';
   title: string;
   lead: string;
   cards: PackageCardViewModel[];
@@ -106,12 +108,14 @@ const extrasSectionTitlePattern = /extra/i;
     LazyImgComponent,
     PortfolioCategoryAccordionComponent,
     TjImageFallbackPipe,
+    DestinationServiceComponent,
   ],
   templateUrl: './portfolio-service-category-page.component.html',
   styleUrl: './portfolio-service-category-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioServiceCategoryPageComponent {
+  private readonly router = inject(Router);
   private static readonly INITIAL_VISIBLE_IMAGES = 19;
   private static readonly VISIBLE_IMAGE_STEP = 20;
   private static readonly INITIAL_VISIBLE_STORIES = 20;
@@ -123,7 +127,7 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
-  private readonly categoryState = signal<PortfolioPackageCategory>('bodas');
+  readonly categoryState = signal<PortfolioPackageCategory>('bodas');
 
   /** URL CSS de la imagen hero de categoría leída desde Firebase, o null si usa el fallback estático. */
   readonly heroCategoryHeroImage$: Observable<string | null> = toObservable(
@@ -207,6 +211,7 @@ export class PortfolioServiceCategoryPageComponent {
   readonly guestCount = signal('');
   readonly customerNotes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly activeStoryIndex = signal<number | null>(null);
   readonly activeStoryImageIndex = signal(0);
   readonly isMobileStories = signal(false);
@@ -360,25 +365,37 @@ export class PortfolioServiceCategoryPageComponent {
       }
 
       if (category === 'bodas') {
+        const isCivil = (item: PackageCardViewModel) =>
+          item.detail.packageTypeLabel === 'Boda civil';
+        const isProposal = (item: PackageCardViewModel) =>
+          item.detail.packageTypeLabel === 'Petición de mano';
         const photoOnly = cards.filter(
-          (item) => item.groupKey === 'photo-only',
+          (item) => item.groupKey === 'photo-only' && !isCivil(item) && !item.detail.slug.includes('full-experience'),
         );
-        const hybrid = cards.filter((item) => item.groupKey === 'photo-video');
+        const hybrid = cards.filter(
+          (item) => item.groupKey === 'photo-video' && !isCivil(item) && !item.detail.slug.includes('full-experience'),
+        );
         const videoOnly = cards.filter(
           (item) =>
-            this.isVideoPackage(item) && item.groupKey !== 'photo-video',
+            this.isVideoPackage(item) && item.groupKey !== 'photo-video' && !isCivil(item),
         );
+        const civil = cards.filter(isCivil);
+        const proposals = cards.filter(isProposal);
         const postwedding = cards.filter(
           (item) => item.detail.packageTypeLabel === 'Sesión postboda',
         );
         const prebodaForBodas = prebodaCards.filter((item) =>
           item.detail.slug.startsWith('preboda-'),
         );
+        const fullExperience = cards.filter((item) => item.detail.slug.includes('full-experience'));
 
         return [
+          { title: 'THE FULL EXPERIENCE', cards: fullExperience },
           { title: 'Boda híbrida (Foto + video)', cards: hybrid },
           { title: 'Fotografía de bodas', cards: photoOnly },
           { title: 'Video de bodas', cards: videoOnly },
+          { title: 'Boda civil', cards: civil },
+          { title: 'Petición de mano', cards: proposals },
           { title: 'Sesión de preboda', cards: prebodaForBodas },
           { title: 'Sesión postboda', cards: postwedding },
         ];
@@ -551,8 +568,20 @@ export class PortfolioServiceCategoryPageComponent {
     const minLabel =
       minAmount !== null ? `${this.formatCop(minAmount)} COP` : 'A convenir';
 
-    const clientCount = this.stories().length;
-    const clientLabel = clientCount > 0 ? String(clientCount) : '—';
+    const category = this.categoryState();
+    let clientLabel = '—';
+    if (category === 'bodas') {
+      clientLabel = '+80';
+    } else if (category === 'quinces') {
+      clientLabel = '+20';
+    } else if (category === 'grados') {
+      clientLabel = '+40';
+    } else if (category === 'corporativos') {
+      clientLabel = '+10';
+    } else {
+      const clientCount = this.stories().length;
+      clientLabel = clientCount > 0 ? String(clientCount) : '—';
+    }
 
     const categoryCount = this.content.servicePageCategories().length;
 
@@ -676,6 +705,14 @@ export class PortfolioServiceCategoryPageComponent {
         ? [...baseGroups, this.corporativosAdditionalGroup()]
         : baseGroups;
     },
+  );
+
+  readonly simpleAdditionalGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => !this.isRelatedPackageGroup(group)),
+  );
+
+  readonly relatedPackageGroups = computed(() =>
+    this.customAdditionalGroups().filter((group) => this.isRelatedPackageGroup(group)),
   );
 
   readonly selectedBaseQuote = computed(() => {
@@ -827,6 +864,15 @@ export class PortfolioServiceCategoryPageComponent {
       lines.push('', `Total estimado: ${totalLabel}`);
     }
 
+    lines.push(
+      '',
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+    );
+
+    if (this.isDestinationService()) {
+      lines.push('Entiendo que transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
+    }
+
     if (this.customerNotes().trim()) {
       lines.push('', `Notas: ${this.customerNotes().trim()}`);
     }
@@ -913,20 +959,16 @@ export class PortfolioServiceCategoryPageComponent {
     }
   }
 
-  openPackageModal(slug: string): void {
+  openPackageModal(slug: string, imageUrl?: string): void {
     const detail =
       this.content.getPackageDetail(this.categoryState(), slug) ??
       this.findPackageDetailBySlug(slug);
     if (!detail) {
       return;
     }
-
-    this.selectedPackageSlug.set(slug);
-    this.modalStep.set('detail');
-    this.visiblePackageImages.set(
-      PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_IMAGES,
-    );
-    this.resetRequestState(detail);
+    void this.router.navigate(['/portfolio', detail.category, detail.slug], {
+      queryParams: { coverImage: imageUrl || detail.image }
+    });
   }
 
   private findPackageDetailBySlug(
@@ -1012,6 +1054,7 @@ export class PortfolioServiceCategoryPageComponent {
   startRequest(mode: RequestMode): void {
     this.requestMode.set(mode);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.modalStep.set('request');
   }
 
@@ -1121,6 +1164,37 @@ export class PortfolioServiceCategoryPageComponent {
 
   getUpsellDescription(label: string): string {
     return this.parseUpsellLabel(label).description;
+  }
+
+  openPackageDetails(slug: string, imageUrl?: string): void {
+    const detail =
+      this.content.getPackageDetail(this.categoryState(), slug) ??
+      this.findPackageDetailBySlug(slug);
+    if (!detail) {
+      return;
+    }
+
+    void this.router.navigate([detail.categoryHref, detail.slug], {
+      queryParams: { coverImage: imageUrl || detail.image }
+    });
+  }
+
+  getLinkedPackageHref(option: PortfolioRequestOption): string | null {
+    if (!option.linkedPackageCategory || !option.linkedPackageSlug) {
+      return null;
+    }
+
+    const linked = this.content.getPackageDetail(
+      option.linkedPackageCategory,
+      option.linkedPackageSlug,
+    );
+    return linked ? `${linked.categoryHref}/${linked.slug}` : null;
+  }
+
+  private isRelatedPackageGroup(group: PortfolioRequestOptionGroup): boolean {
+    return group.options.some(
+      (option) => !!option.linkedPackageCategory && !!option.linkedPackageSlug,
+    );
   }
 
   private parseUpsellLabel(label: string): {
@@ -1294,6 +1368,7 @@ export class PortfolioServiceCategoryPageComponent {
     this.guestCount.set('');
     this.customerNotes.set('');
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
   }
 
   private buildCardHighlights(detail: PortfolioPackageDetail): string[] {
@@ -1370,6 +1445,10 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private buildPackageDisplayName(detail: PortfolioPackageDetail): string {
+    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+      return detail.title;
+    }
+
     if (detail.category === 'grados') {
       return detail.title;
     }
@@ -1382,6 +1461,14 @@ export class PortfolioServiceCategoryPageComponent {
 
     const categoryPrefix = (() => {
       if (detail.category === 'bodas') {
+        if (/petición de mano/i.test(detail.packageTypeLabel)) {
+          return 'Petición';
+        }
+
+        if (/boda civil/i.test(detail.packageTypeLabel)) {
+          return 'Civil';
+        }
+
         if (/postboda/i.test(detail.packageTypeLabel)) {
           return 'Postboda';
         }
@@ -1423,10 +1510,16 @@ export class PortfolioServiceCategoryPageComponent {
     })();
 
     const normalizedTier = tier.replace(/^Plan\s+/i, '').trim();
-    return `${categoryPrefix} ${normalizedTier}`.trim();
+    const tierWithoutRepeatedPrefix = normalizedTier
+      .replace(new RegExp(`^${categoryPrefix}\\s+`, 'i'), '')
+      .trim();
+    return `${categoryPrefix} ${tierWithoutRepeatedPrefix}`.trim();
   }
 
   private buildPackageTagline(detail: PortfolioPackageDetail): string {
+    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+      return '';
+    }
     const { tagline } = this.splitPlanName(detail.title);
     return tagline || '';
   }
@@ -1459,6 +1552,8 @@ export class PortfolioServiceCategoryPageComponent {
 
   private getGroupOrder(key: PackageCardGroupViewModel['key']): number {
     switch (key) {
+      case 'full-experience':
+        return 0;
       case 'photo-video':
         return 1;
       case 'photo-only':
@@ -1478,6 +1573,8 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     switch (key) {
+      case 'full-experience':
+        return 'The Full Experience';
       case 'photo-video':
         return 'Foto + video';
       case 'photo-only':
@@ -1485,7 +1582,7 @@ export class PortfolioServiceCategoryPageComponent {
       case 'custom':
         return 'Servicio personalizable';
       case 'session':
-        return 'Sesiones preboda';
+        return 'Sesiones previas';
       default:
         return 'Paquetes';
     }
@@ -1497,6 +1594,8 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     switch (key) {
+      case 'full-experience':
+        return 'Paquetes completos para documentar de principio a fin.';
       case 'photo-video':
         return 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
       case 'photo-only':

@@ -22,11 +22,12 @@ import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { PortfolioServiceCategoryPageComponent } from './portfolio-service-category-page.component';
 import { ServiceRequestService } from '../../../services/service-request.service';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 @Component({
   selector: 'tj-portfolio-grades-page',
   standalone: true,
-  imports: [AsyncPipe, PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective],
+  imports: [AsyncPipe, PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective, DestinationServiceComponent],
   templateUrl: './portfolio-grades-page.component.html',
   styleUrl: './portfolio-grades-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -93,6 +94,7 @@ export class PortfolioGradesPageComponent {
   readonly studentCount = signal('');
   readonly notes = signal('');
   readonly hasAcceptedTerms = signal(false);
+  readonly isDestinationService = signal(false);
   readonly isSubmittingInstitutionsRequest = signal(false);
   readonly isInstitutionsRequestFormValid = computed(
     () =>
@@ -113,6 +115,8 @@ export class PortfolioGradesPageComponent {
     if (this.eventCity().trim()) lines.push(`Ciudad: ${this.eventCity().trim()}`);
     if (this.eventDate().trim()) lines.push(`Fecha estimada: ${this.eventDate().trim()}`);
     if (this.studentCount().trim()) lines.push(`Estudiantes: ${this.studentCount().trim()}`);
+    lines.push('', `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`);
+    if (this.isDestinationService()) lines.push('Transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.');
     if (this.notes().trim()) lines.push('', `Notas: ${this.notes().trim()}`);
 
     return this.content.buildWhatsappHref(lines.join('\n'));
@@ -159,7 +163,7 @@ export class PortfolioGradesPageComponent {
   readonly heroFacts = computed(() => [
     { label: 'Paquetes', value: '3' },
     { label: 'Desde', value: '60.000 COP' },
-    { label: 'Mín. estudiantes', value: '40' },
+    { label: 'Clientes', value: '+40' },
     { label: 'Entrega', value: '1–2 sem.' }
   ]);
 
@@ -210,6 +214,7 @@ export class PortfolioGradesPageComponent {
     this.studentsPackages?.closePackageModal();
     this.studentsPackages?.closeStoryModal();
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingInstitutionsRequest.set(false);
     this.isInstitutionsRequestOpen.set(true);
   }
@@ -217,6 +222,7 @@ export class PortfolioGradesPageComponent {
   closeInstitutionsRequest(): void {
     this.isInstitutionsRequestOpen.set(false);
     this.hasAcceptedTerms.set(false);
+    this.isDestinationService.set(false);
     this.isSubmittingInstitutionsRequest.set(false);
   }
 
@@ -250,6 +256,7 @@ export class PortfolioGradesPageComponent {
       `Ciudad: ${this.eventCity().trim() || 'No definida'}`,
       `Fecha estimada: ${this.eventDate().trim() || 'No definida'}`,
       `Estudiantes: ${this.studentCount().trim() || 'No definido'}`,
+      `Modalidad Destination: ${this.isDestinationService() ? 'SÃ­' : 'No'}`,
       `Notas: ${this.notes().trim() || 'N/A'}`
     ];
 

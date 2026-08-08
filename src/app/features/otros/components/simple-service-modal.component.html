@@ -108,6 +108,13 @@
           ></textarea>
         </div>
 
+        <tj-destination-service
+          variant="selection"
+          [serviceContext]="service.name"
+          [selected]="isDestinationService"
+          (selectedChange)="isDestinationService = $event">
+        </tj-destination-service>
+
         <button
           class="ssm__submit btn"
           type="button"

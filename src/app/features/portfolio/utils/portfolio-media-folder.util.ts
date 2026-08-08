@@ -60,7 +60,7 @@ function resolvePortfolioPackageSegment(
       return 'video-esencial';
 
     case 'preboda':
-      if (hasAny(tokens, ['premium'])) return 'preboda-premium';
+      if (hasAny(tokens, ['premium', 'editorial', 'cinematografica'])) return 'preboda-premium';
       if (hasAny(tokens, ['completa', 'completo', 'basico', 'sencilla'])) return 'preboda-completa';
       return 'preboda-esencial';
 
@@ -68,6 +68,16 @@ function resolvePortfolioPackageSegment(
       if (hasAny(tokens, ['premium'])) return 'postboda-premium';
       if (hasAny(tokens, ['completa', 'completo'])) return 'postboda-completa';
       return 'postboda-esencial';
+
+    case 'boda-civil':
+      if (hasAny(tokens, ['hibrida'])) return 'civil-hibrida';
+      if (hasAny(tokens, ['completa', 'completo'])) return 'civil-completa';
+      return 'civil-esencial';
+
+    case 'peticion-de-mano':
+      if (hasAny(tokens, ['hibrida'])) return 'peticion-hibrida';
+      if (hasAny(tokens, ['completa', 'completo'])) return 'peticion-completa';
+      return 'peticion-esencial';
 
     case 'fotografia-de-quince':
       if (hasAny(tokens, ['premium'])) return 'premium';
@@ -102,6 +112,14 @@ function resolvePortfolioCategorySegment(
 
   switch (category) {
     case 'bodas':
+      if (typeLabel === 'boda-civil') {
+        return 'boda-civil';
+      }
+
+      if (typeLabel === 'peticion-de-mano') {
+        return 'peticion-de-mano';
+      }
+
         if (typeLabel === 'foto-video') {
           return 'hibridas';
         }

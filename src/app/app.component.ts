@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
   private readonly documentRef = inject(DOCUMENT);
   appTitle = 'TECNOJACK';
   showTravelShell = true;
+  showAppTitle = true;
+  showAudioToggle = false;
 
   ngOnInit(): void {
     this.syncShellState(this.router.url);
@@ -49,19 +51,40 @@ export class AppComponent implements OnInit {
   private syncShellState(url: string): void {
     const isPortfolio = this.isPortfolioRoute(url);
     const isAdmin = this.isMediaAdminRoute(url);
-    this.showTravelShell = !isPortfolio && !isAdmin;
+    const hideTravelShellByRoute = this.getRouteData<boolean>('hideTravelShell') === true;
+    const hideAppTitleByRoute = this.getRouteData<boolean>('hideAppTitle') === true;
+
+    this.showTravelShell = !isPortfolio && !isAdmin && !hideTravelShellByRoute;
+    this.showAppTitle = !hideAppTitleByRoute;
     this.documentRef.body.classList.toggle('portfolio-route', isPortfolio);
     this.documentRef.documentElement.classList.toggle('portfolio-route', isPortfolio);
     this.documentRef.body.classList.toggle('media-admin-route', isAdmin);
     this.documentRef.documentElement.classList.toggle('media-admin-route', isAdmin);
 
-    const isWeddingInvitation = this.getRouteData<boolean>('audio') === true;
+    const isMarcelaInvitationRoute = this.isMarcelaInvitationRoute(url);
+    this.showAudioToggle = isMarcelaInvitationRoute;
 
-    if (isWeddingInvitation) {
+    if (isMarcelaInvitationRoute) {
+      this.audio.setSource('assets/audio/A Thousand Years.mp3');
       this.audio.start();
-    } else {
-      this.audio.pause();
+      return;
     }
+
+    this.audio.pause();
+  }
+
+  private isMarcelaInvitationRoute(url: string): boolean {
+    const normalized = String(url ?? '').split('?')[0]?.split('#')[0] ?? '';
+    if (normalized === '/invitacion-diana-juan') return true;
+    return normalized === '/wedding/marcela-sebastian' || normalized.startsWith('/wedding/marcela-sebastian/');
+  }
+
+  private normalizeSlugToken(value: string): string {
+    return String(value ?? '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   }
 
   private isPortfolioRoute(url: string): boolean {

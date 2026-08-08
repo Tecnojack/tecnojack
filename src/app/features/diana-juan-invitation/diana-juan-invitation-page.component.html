@@ -1,0 +1,268 @@
+<section class="cw-page" id="wedding" [class.cw-page--locked]="!invitationOpened()" [ngClass]="{ 'cw-page--friends': isFriendsView(), 'cw-page--family': isFamilyView(), 'cw-page--mobile': isMobileDevice() }">
+    <section class="cw-intro" *ngIf="!invitationOpened()" [class.is-opening]="invitationOpening()" aria-label="Portada de sobre de invitación">
+        <article class="cw-laptop" (click)="openInvitationCover()" role="button" tabindex="0" aria-label="Abrir invitación" (keydown.enter)="openInvitationCover()" (keydown.space)="openInvitationCover(); $event.preventDefault()">
+            <div class="cw-laptop__screen">
+                <p class="cw-laptop__kicker">Nuestra Boda</p>
+                <p class="cw-laptop__names" aria-label="Marcela y Sebastian">
+                    <span class="cw-laptop__name-line">Marcela</span>
+                    <span class="cw-laptop__name-amp">&</span>
+                    <span class="cw-laptop__name-line">Sebastian</span>
+                </p>
+                <div class="cw-mini-scene" aria-hidden="true">
+                    <span class="cw-mini-scene__plate cw-mini-scene__plate--left"></span>
+                    <span class="cw-mini-scene__plate cw-mini-scene__plate--right"></span>
+                    <span class="cw-mini-scene__orb cw-mini-scene__orb--left"></span>
+                    <span class="cw-mini-scene__orb cw-mini-scene__orb--right"></span>
+                    <div class="cw-mini-envelope">
+                        <div class="cw-mini-envelope__back"></div>
+                        <div class="cw-mini-envelope__paper">
+                            <p class="cw-mini-envelope__guest">
+                                <span class="cw-mini-envelope__guest-label">Para:</span>
+                                <span class="cw-mini-envelope__guest-name">{{ guestDisplayName() }}</span>
+                            </p>
+                        </div>
+                        <div class="cw-mini-envelope__front"></div>
+                        <div class="cw-mini-envelope__flap"></div>
+                        <div class="cw-mini-envelope__seal">MS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cw-laptop__base" aria-hidden="true"></div>
+            <p class="cw-laptop__cta">Toca para abrir</p>
+        </article>
+    </section>
+
+    <header class="cw-hero" [style.background]="heroBackgroundStyle()">
+        <div class="cw-hero__content">
+            <article class="cw-hero__text">
+                <p class="cw-kicker">Nuestra Boda</p>
+                <p class="cw-hero__names">Marcela & Sebastian</p>
+                <p class="cw-verse">
+                    <span class="cw-verse__line cw-verse__quote">“Y sobre todas estas cosas vestíos de amor, que es el vínculo perfecto.”</span>
+                    <span class="cw-verse__line cw-verse__source">Colosenses 3:14</span>
+                </p>
+            </article>
+
+            <article class="cw-hero__centerpiece" aria-live="polite">
+                <p class="cw-hero__invitee">{{ heroGuestTitle() }}</p>
+            </article>
+
+            <article class="cw-hero__collage" aria-hidden="true">
+                <div class="cw-photo cw-photo--main"></div>
+                <div class="cw-photo cw-photo--small-a"></div>
+                <div class="cw-photo cw-photo--small-b"></div>
+            </article>
+        </div>
+
+        <section class="cw-countdown" *ngIf="!isEventDay(); else eventDayTpl" aria-label="Cronómetro para la boda">
+            <header class="cw-countdown__head">
+                <p>¡Prepárate! Nos vemos dentro de</p>
+            </header>
+            <div class="cw-countdown__dial" aria-hidden="true"></div>
+            <div class="cw-countdown__grid">
+                <article class="cw-countdown__cell">
+                    <strong>{{ daysRemaining() }}</strong>
+                    <small>días</small>
+                </article>
+                <article class="cw-countdown__cell">
+                    <strong>{{ hoursRemaining() }}</strong>
+                    <small>horas</small>
+                </article>
+                <article class="cw-countdown__cell">
+                    <strong>{{ minutesRemaining() }}</strong>
+                    <small>minutos</small>
+                </article>
+                <article class="cw-countdown__cell">
+                    <strong>{{ secondsRemaining() }}</strong>
+                    <small>segundos</small>
+                </article>
+            </div>
+        </section>
+        <ng-template #eventDayTpl>
+            <section class="cw-countdown cw-countdown--today">
+                <header class="cw-countdown__head">
+                    <p>¡Prepárate! Nos vemos dentro de</p>
+                </header>
+                <div class="cw-countdown__grid">
+                    <article class="cw-countdown__cell cw-countdown__cell--today">
+                        <strong>Hoy es el gran día</strong>
+                        <small>nos vemos en el altar</small>
+                    </article>
+                </div>
+            </section>
+        </ng-template>
+    </header>
+
+    <section class="cw-services" id="servicios">
+        <p class="cw-kicker">Bienvenidos a nuestra boda</p>
+        <p class="cw-services__welcome">{{ heroNarrative() }}</p>
+        <h2>Amor infinito y eterno</h2>
+        <div class="cw-services__ornaments" aria-hidden="true">
+            <span class="cw-ornament cw-ornament--ring"></span>
+            <span class="cw-ornament cw-ornament--floral"></span>
+            <span class="cw-ornament cw-ornament--spark"></span>
+        </div>
+        <div class="cw-services__cards">
+            <article class="cw-card" id="service-card-fecha" data-badge="Fecha">
+                <div class="cw-card__img cw-card__img--plan" aria-hidden="true"></div>
+                <div class="cw-card__body">
+                    <div class="cw-card__meta">
+                        <span class="cw-card__icon cw-card__icon--calendar" aria-hidden="true"></span>
+                    </div>
+                    <div class="cw-card__text">
+                        <p class="cw-card__line-primary">{{ datePrimaryText() }}</p>
+                        <p class="cw-card__line-secondary">{{ dateSecondaryText() }}</p>
+                    </div>
+                    <a
+                        class="cw-card__action"
+                        [href]="calendarEventHref()"
+                        target="_blank"
+                        rel="noopener">
+                        Guardar en calendario
+                    </a>
+                </div>
+            </article>
+            <article class="cw-card cw-card--mirror" id="service-card-lugar" data-badge="Lugar">
+                <div class="cw-card__img cw-card__img--flower" aria-hidden="true"></div>
+                <div class="cw-card__body">
+                    <div class="cw-card__meta">
+                        <span class="cw-card__icon cw-card__icon--place" aria-hidden="true"></span>
+                    </div>
+                    <div class="cw-card__text">
+                        <p class="cw-card__line-primary">{{ locationPrimaryText() }}</p>
+                        <p class="cw-card__line-secondary">{{ locationSecondaryText() }}</p>
+                    </div>
+                    <a
+                        class="cw-card__action"
+                        [href]="locationGpsHref()"
+                        target="_blank"
+                        rel="noopener">
+                        Ir con GPS
+                    </a>
+                </div>
+            </article>
+            <article class="cw-card" id="service-card-vestuario" data-badge="Vestuario">
+                <div class="cw-card__img cw-card__img--couple" aria-hidden="true"></div>
+                <div class="cw-card__body">
+                    <div class="cw-card__meta">
+                        <span class="cw-card__icon cw-card__icon--dress" aria-hidden="true"></span>
+                    </div>
+                    <div class="cw-card__text">
+                        <p class="cw-card__line-primary">Celebración al aire libre.</p>
+                        <p class="cw-card__line-secondary">{{ dressCardText() }}</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="cw-lightbox" *ngIf="activeGalleryImage() as image" role="dialog" aria-modal="true" aria-label="Galería de servicios" (click)="closeGalleryImage()">
+        <article class="cw-lightbox__panel" (click)="$event.stopPropagation()">
+            <button type="button" class="cw-lightbox__close" (click)="closeGalleryImage()" aria-label="Cerrar imagen">×</button>
+            <div class="cw-lightbox__viewer" (touchstart)="onLightboxTouchStart($event)" (touchend)="onLightboxTouchEnd($event)">
+                <button type="button" class="cw-lightbox__nav cw-lightbox__nav--prev" (click)="showPreviousGalleryImage()" aria-label="Imagen anterior">‹</button>
+                <div class="cw-lightbox__status" *ngIf="isGalleryImageLoading()">Cargando imagen...</div>
+                <div class="cw-lightbox__status cw-lightbox__status--error" *ngIf="galleryImageError()">No se pudo cargar la imagen. Intenta de nuevo.</div>
+                <img
+                    class="cw-lightbox__image"
+                    [class.cw-lightbox__image--hidden]="isGalleryImageLoading() || galleryImageError()"
+                    [src]="image.src"
+                    [alt]="image.alt"
+                    (load)="onGalleryImageLoad()"
+                    (error)="onGalleryImageError()">
+                <button type="button" class="cw-lightbox__nav cw-lightbox__nav--next" (click)="showNextGalleryImage()" aria-label="Imagen siguiente">›</button>
+            </div>
+        </article>
+    </section>
+
+    <section class="cw-gallery" id="galeria">
+        <h2>Nuestros momentos</h2>
+        <p class="cw-gallery__intro">Una selección de recuerdos que cuentan nuestra historia.</p>
+        <button
+            *ngIf="galleryLeadImage as leadImage"
+            type="button"
+            class="cw-gallery__lead cw-love__media-btn"
+            (click)="openGalleryImage(leadImage.key)"
+            [attr.aria-label]="'Abrir foto principal de la galería'">
+            <img
+                class="cw-gallery__lead-image"
+                [src]="leadImage.src"
+                [alt]="leadImage.alt"
+                loading="lazy"
+                decoding="async">
+        </button>
+        <div class="cw-gallery__masonry" aria-label="Galería de recuerdos">
+            <button
+                type="button"
+                class="cw-gallery__masonry-item cw-love__media-btn"
+                *ngFor="let image of galleryGridItems; let index = index"
+                [class.is-current]="featuredGalleryImage().key === image.key"
+                (click)="openGalleryImage(image.key)"
+                [attr.aria-label]="'Abrir foto ' + (index + 1) + ' de la galería'">
+                <img
+                    class="cw-gallery__masonry-image"
+                    [src]="image.src"
+                    [alt]="image.alt"
+                    loading="lazy"
+                    decoding="async">
+            </button>
+        </div>
+    </section>
+
+    <section class="cw-sobres" id="sobres">
+        <h2>Nuestro Regalo</h2>
+        <p class="cw-sobres__intro">
+            Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente,
+            te dejamos la opcion de <strong>Lluvia de sobres</strong>.
+        </p>
+        <div class="cw-sobres__rain" aria-label="Lluvia de sobres" aria-hidden="true">
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+        </div>
+    </section>
+
+    <section class="cw-contact" id="contacto">
+        <h2>Confirma tu asistencia</h2>
+        <div class="cw-contact__content">
+            <p class="cw-contact__lead">{{ confirmationText() }}</p>
+            <p class="cw-contact__note">{{ confirmationPolicyText() }}</p>
+            <a class="cw-btn cw-contact__cta" [href]="rsvpHref()" target="_blank" rel="noopener">Confirmar asistencia</a>
+        </div>
+    </section>
+
+    <section class="cw-footer-band" aria-label="Pie de TecnoJack">
+        <footer class="tj-footer" aria-label="Desarrollado por TecnoJack">
+            <p class="tj-footer__copy">
+                © 2026 TECNOJACK.
+                <span class="muted">Creamos historias que se sienten y se recuerdan. Producción audiovisual para bodas, marcas y eventos con dirección creativa, sensibilidad y alto nivel visual.</span>
+                <span class="tj-footer__sep">·</span>
+                <a class="tj-footer__phone" href="https://tecnojack.co/portfolio" target="_blank" rel="noopener" aria-label="Ver portafolio audiovisual de TecnoJack">Ver portafolio audiovisual</a>
+                <span class="tj-footer__sep">·</span>
+                <span class="muted">¿Listo para contar tu historia en grande?</span>
+                <a class="tj-footer__phone" href="https://wa.me/573145406467" target="_blank" rel="noopener" aria-label="WhatsApp +57 314 540 6467">+57 314 540 6467</a>
+            </p>
+
+            <nav class="tj-footer__social" aria-label="Redes TecnoJack">
+                <a class="tj-footer__icon" href="https://wa.me/573145406467" target="_blank" rel="noopener" aria-label="WhatsApp TecnoJack +57 314 540 6467">
+                    <img src="/assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+                </a>
+                <a class="tj-footer__icon" href="https://instagram.com/tecnojack" target="_blank" rel="noopener" aria-label="Instagram @tecnojack">
+                    <img src="/assets/images/icons/instagram.svg" alt="" aria-hidden="true" />
+                </a>
+                <a class="tj-footer__icon" href="https://youtube.com/@tecnojack" target="_blank" rel="noopener" aria-label="YouTube @tecnojack">
+                    <img src="/assets/images/icons/youtube.svg" alt="" aria-hidden="true" />
+                </a>
+                <a class="tj-footer__icon" href="https://linkedin.com/company/tecnojack" target="_blank" rel="noopener" aria-label="LinkedIn TecnoJack">
+                    <img src="/assets/images/icons/linkedin.svg" alt="" aria-hidden="true" />
+                </a>
+                <a class="tj-footer__icon" href="https://tecnojack.co/portfolio" target="_blank" rel="noopener" aria-label="Página web TecnoJack">
+                    <img src="/assets/images/icons/website.svg" alt="" aria-hidden="true" />
+                </a>
+            </nav>
+        </footer>
+    </section>
+</section>

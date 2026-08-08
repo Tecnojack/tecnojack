@@ -19,6 +19,12 @@ service firebase.storage {
       allow write: if isSignedIn();
     }
 
+    // Archivos de contratos (PDFs y firmas subidas desde portal genérico /contratar o por token)
+    match /contracts/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+
     // Cualquier otra ruta del storage
     match /{allPaths=**} {
       allow read: if true;

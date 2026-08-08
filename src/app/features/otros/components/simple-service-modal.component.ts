@@ -17,6 +17,7 @@ import { MediaPublicService } from '../../../shared/media/media-public.service';
 import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pipe';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { SimpleService, SimpleServiceAddOn } from '../models/simple-service.model';
+import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 const PHONE = '573145406467';
 
@@ -31,7 +32,7 @@ export interface SimpleServiceInquiryForm {
 @Component({
   selector: 'tj-simple-service-modal',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, FormsModule, LazyImgComponent, TjImageFallbackPipe],
+  imports: [AsyncPipe, NgIf, NgFor, FormsModule, LazyImgComponent, TjImageFallbackPipe, DestinationServiceComponent],
   templateUrl: './simple-service-modal.component.html',
   styleUrl: './simple-service-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -58,6 +59,7 @@ export class SimpleServiceModalComponent implements OnChanges {
   selectedAddOnIds = new Set<string>();
   coverImage$: Observable<string> = of('');
   isSubmitting = false;
+  isDestinationService = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['service'] && changes['service'].currentValue) {
@@ -65,6 +67,7 @@ export class SimpleServiceModalComponent implements OnChanges {
       this.selectedAddOnIds = new Set<string>();
       this.coverImage$ = this.resolveCoverImage();
       this.isSubmitting = false;
+      this.isDestinationService = false;
     }
   }
 
@@ -174,6 +177,8 @@ export class SimpleServiceModalComponent implements OnChanges {
       `Ubicación: ${this.form.location.trim() || 'No definida'}`,
       `Precio base: ${this.service.priceLabel}`,
       `Total estimado: ${this.totalPriceLabel}`,
+      `Modalidad Destination: ${this.isDestinationService ? 'SÃ­, solicito cotizaciÃ³n de viaje' : 'No seleccionada'}`,
+      ...(this.isDestinationService ? ['Transporte y gastos de viaje se cotizan por separado y son asumidos por el cliente.'] : []),
       ``,
       `Incluye:`,
       ...includeLines,
@@ -189,7 +194,8 @@ export class SimpleServiceModalComponent implements OnChanges {
       this.form.message.trim(),
       `Adicionales: ${this.selectedAddOns.map((addOn) => addOn.label).join(', ') || 'Ninguno'}`,
       `Incluye: ${this.selectedIncludes.join(', ')}`,
-      `Total estimado: ${this.totalPriceLabel}`
+      `Total estimado: ${this.totalPriceLabel}`,
+      `Modalidad Destination: ${this.isDestinationService ? 'SÃ­' : 'No'}`
     ]
       .filter((line) => line && line.trim().length)
       .join(' | ');

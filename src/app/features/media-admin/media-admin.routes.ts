@@ -26,6 +26,11 @@ export const MEDIA_ADMIN_ROUTES: Routes = [
     component: RequestsPageComponent,
   },
   {
+    path: 'contratos',
+    loadChildren: () =>
+      import('../contracts/contracts.routes').then((m) => m.CONTRACT_ADMIN_ROUTES),
+  },
+  {
     canActivate: [mediaAdminAuthGuard],
     path: '',
     pathMatch: 'full',

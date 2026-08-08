@@ -16,6 +16,14 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'portfolio/videos/:package',
+		data: { category: 'videos' },
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-package-detail-page.component').then(
+				(m) => m.PortfolioPackageDetailPageComponent
+			)
+	},
+	{
 		path: 'portfolio/videos',
 		loadComponent: () =>
 			import('./features/portfolio/pages/video-page.component').then(
@@ -126,6 +134,20 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'contratar',
+		loadComponent: () =>
+			import('./features/contracts/pages/client-contract-signing-page.component').then(
+				(m) => m.ClientContractSigningPageComponent
+			)
+	},
+	{
+		path: 'contratar/:token',
+		loadComponent: () =>
+			import('./features/contracts/pages/client-contract-signing-page.component').then(
+				(m) => m.ClientContractSigningPageComponent
+			)
+	},
+	{
 		path: 'terminos-y-condiciones',
 		loadComponent: () =>
 			import('./features/portfolio/pages/terms-and-conditions-page.component').then(
@@ -166,6 +188,30 @@ export const routes: Routes = [
 		loadComponent: () =>
 			import('./features/portfolio/pages/clients-page.component').then(
 				(m) => m.ClientsPageComponent
+			)
+	},
+	{
+		path: 'wedding/marcela-sebastian/:guest/:count',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
+			)
+	},
+	{
+		path: 'wedding/marcela-sebastian/:guest',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitacion-diana-juan',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/diana-juan-invitation/diana-juan-invitation-page.component').then(
+				(m) => m.DianaJuanInvitationPageComponent
 			)
 	},
 	{

@@ -225,7 +225,7 @@ export class PortfolioContentService {
 
   private normalizeCategory(category: PortfolioPackageCategory | string | null | undefined): PortfolioPackageCategory | null {
     const value = String(category ?? '').trim().toLowerCase();
-    if (value === 'bodas' || value === 'quinces' || value === 'grados' || value === 'preboda' || value === 'corporativos') {
+    if (value === 'bodas' || value === 'quinces' || value === 'grados' || value === 'preboda' || value === 'corporativos' || value === 'videos') {
       return value;
     }
 

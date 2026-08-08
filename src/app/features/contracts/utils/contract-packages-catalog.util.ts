@@ -1,0 +1,473 @@
+import {
+  weddingMainPlans,
+  weddingPhotoOnlyPlans,
+  weddingVideoOnlyPlans,
+  weddingCivilPlans,
+  weddingProposalPlans,
+  preweddingPlans,
+  weddingPostweddingPlans,
+  quinceMainPlans,
+  quinceVideoPlans,
+  quinceHybridPlans,
+  portfolioPackageDetails,
+  PortfolioPackageDetail,
+} from '../../portfolio/portfolio.data';
+
+export interface CatalogAddOnItem {
+  id: string;
+  name: string;
+  description: string;
+  priceAmountCop: number;
+}
+
+export interface CatalogPackageItem {
+  id: string;
+  slug: string;
+  category: string; // 'bodas' | 'quinces' | 'grados' | 'videos' | 'corporativos' | 'otros'
+  accordionTitle: string; // Título del acordeón
+  title: string; // Nombre exacto del paquete en la card
+  packageName: string;
+  priceAmountCop: number;
+  lead: string;
+  features: string[];
+  deliverables: string[];
+  availableAddOns: CatalogAddOnItem[];
+}
+
+export interface CatalogAccordionGroup {
+  accordionTitle: string;
+  packages: CatalogPackageItem[];
+}
+
+export interface CatalogPageConfig {
+  id: string; // 'bodas' | 'quinces' | 'grados' | 'videos' | 'corporativos' | 'otros'
+  label: string;
+  subServiceGroups: CatalogAccordionGroup[];
+}
+
+export const DEFAULT_CATALOG_ADDONS: CatalogAddOnItem[] = [
+  {
+    id: 'addon-dron-4k',
+    name: 'Cobertura Aérea con Dron 4K UHD',
+    description: 'Tomas aéreas cinemáticas de alta resolución durante la ceremonia y exteriores.',
+    priceAmountCop: 350000,
+  },
+  {
+    id: 'addon-fotolibro-lujo',
+    name: 'Álbum Fotolibro Impreso de Lujo (30x30 cm)',
+    description: 'Álbum tapa dura personalizado con 40 páginas en papel fotográfico brillante.',
+    priceAmountCop: 450000,
+  },
+  {
+    id: 'addon-same-day-edit',
+    name: 'Edición en Vivo Mismo Día (Same Day Edit Reel)',
+    description: 'Reel de 60s editado durante el evento proyectado en la recepción.',
+    priceAmountCop: 400000,
+  },
+  {
+    id: 'addon-hora-extra',
+    name: 'Hora de Cobertura Adicional (Foto + Video)',
+    description: 'Extensión de jornada de cobertura profesional en vivo por hora adicional.',
+    priceAmountCop: 250000,
+  },
+];
+
+function extractAddOnsForSlug(slug: string): CatalogAddOnItem[] {
+  const detail = portfolioPackageDetails.find((d) => d.slug === slug);
+  if (!detail || !detail.requestOptionGroups) {
+    return DEFAULT_CATALOG_ADDONS;
+  }
+
+  const options = detail.requestOptionGroups
+    .filter((g) => g.selectable)
+    .flatMap((g) => g.options);
+
+  if (!options.length) {
+    return DEFAULT_CATALOG_ADDONS;
+  }
+
+  return options.map((opt: any) => {
+    const parts = (opt.label || '').split('||');
+    return {
+      id: opt.id,
+      name: parts[0]?.trim() || opt.label,
+      description: parts[1]?.trim() || opt.description || opt.priceLabel || '',
+      priceAmountCop: opt.priceAmountCop || 0,
+    };
+  });
+}
+
+function parsePriceCop(priceStr?: string | string[], fallbackAmount?: number): number {
+  if (fallbackAmount && fallbackAmount > 0) {
+    return fallbackAmount;
+  }
+  if (!priceStr) return 1500000;
+  const raw = Array.isArray(priceStr) ? priceStr.join(' ') : priceStr;
+  const cleaned = raw.replace(/[^\d]/g, '');
+  const val = parseInt(cleaned, 10);
+  return !isNaN(val) && val > 0 ? val : 1500000;
+}
+
+export function buildCatalogPages(): CatalogPageConfig[] {
+  // 1. BODAS (7 Acordeones Oficiales)
+  const bodasGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: 'Boda Híbrida (Foto + Video)',
+      packages: weddingMainPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-main-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Boda Híbrida (Foto + Video)',
+          title: plan.name,
+          packageName: `Boda Híbrida · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Fotografía de Bodas',
+      packages: weddingPhotoOnlyPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-photo-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Fotografía de Bodas',
+          title: plan.name,
+          packageName: `Fotografía de Bodas · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Video de Bodas',
+      packages: weddingVideoOnlyPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines, plan.amountCop);
+        return {
+          id: `bodas-video-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Video de Bodas',
+          title: plan.name,
+          packageName: `Video de Bodas · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Boda Civil',
+      packages: weddingCivilPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-civil-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Boda Civil',
+          title: plan.name,
+          packageName: `Boda Civil · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Petición de Mano',
+      packages: weddingProposalPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-proposal-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Petición de Mano',
+          title: plan.name,
+          packageName: `Petición de Mano · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Sesión de Preboda',
+      packages: preweddingPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines || plan.price);
+        return {
+          id: `bodas-prewedding-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Sesión de Preboda',
+          title: plan.name,
+          packageName: `Sesión de Preboda · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Sesión Postboda',
+      packages: weddingPostweddingPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `bodas-postwedding-${plan.slug}`,
+          slug: plan.slug,
+          category: 'bodas',
+          accordionTitle: 'Sesión Postboda',
+          title: plan.name,
+          packageName: `Sesión Postboda · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+  ];
+
+  // 2. QUINCES (3 Acordeones Oficiales)
+  const quincesGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: 'Fotografía de Quinceañeras',
+      packages: quinceMainPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `quinces-photo-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: 'Fotografía de Quinceañeras',
+          title: plan.name,
+          packageName: `Fotografía Quinces · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Video de Quinceañeras',
+      packages: quinceVideoPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `quinces-video-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: 'Video de Quinceañeras',
+          title: plan.name,
+          packageName: `Video Quinces · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+    {
+      accordionTitle: 'Quinces Híbrido (Foto + Video)',
+      packages: quinceHybridPlans.map((plan: any) => {
+        const price = parsePriceCop(plan.priceLines);
+        return {
+          id: `quinces-hybrid-${plan.slug}`,
+          slug: plan.slug,
+          category: 'quinces',
+          accordionTitle: 'Quinces Híbrido (Foto + Video)',
+          title: plan.name,
+          packageName: `Quinces Híbrido · ${plan.name}`,
+          priceAmountCop: price,
+          lead: plan.lead || '',
+          features: plan.features || plan.items || [],
+          deliverables: plan.deliverables || [],
+          availableAddOns: extractAddOnsForSlug(plan.slug),
+        };
+      }),
+    },
+  ];
+
+  // 3. VIDEOS (5 Paquetes Oficiales de la Sección Videos)
+  const videoGroups: CatalogAccordionGroup[] = [
+    {
+      accordionTitle: 'Videos Musicales y Producción',
+      packages: [
+        {
+          id: 'videos-esencial',
+          slug: 'video-esencial',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Esencial',
+          packageName: 'Videos Musicales · Video Esencial',
+          priceAmountCop: 400000,
+          lead: 'Producción directa, limpia y profesional para artistas.',
+          features: ['Grabación en locación natural', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto'],
+          deliverables: ['1 video musical final de hasta 4 minutos en 4K', '1 archivo final horizontal', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-pro',
+          slug: 'video-pro',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Pro',
+          packageName: 'Videos Musicales · Video Pro',
+          priceAmountCop: 560000,
+          lead: 'Producción con mayor impacto visual e iluminación mejorada.',
+          features: ['Incluye todo lo del paquete Esencial', 'Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Producción de hasta 6 horas'],
+          deliverables: ['1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-cinematico',
+          slug: 'video-cinematico',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Cinemático',
+          packageName: 'Videos Musicales · Video Cinemático',
+          priceAmountCop: 850000,
+          lead: 'Producción narrativa con enfoque cinematográfico.',
+          features: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada'],
+          deliverables: ['1 video final de hasta 7 minutos en 4K', '1 archivo final horizontal', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+        {
+          id: 'videos-personalizado',
+          slug: 'video-personalizado',
+          category: 'videos',
+          accordionTitle: 'Videos Musicales y Producción',
+          title: 'Video Personalizado',
+          packageName: 'Videos Musicales · Video Personalizado',
+          priceAmountCop: 250000,
+          lead: 'Producción adaptada a las necesidades del cliente.',
+          features: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios'],
+          deliverables: ['1 video final con duración acordada en la propuesta', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+      ],
+    },
+    {
+      accordionTitle: 'Cortometrajes y Narrativa',
+      packages: [
+        {
+          id: 'videos-cortometraje',
+          slug: 'video-cortometraje',
+          category: 'videos',
+          accordionTitle: 'Cortometrajes y Narrativa',
+          title: 'Video Cortometraje',
+          packageName: 'Cortometraje · Video Cortometraje',
+          priceAmountCop: 300000,
+          lead: 'Producción narrativa para cortometrajes o proyectos creativos.',
+          features: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada'],
+          deliverables: ['1 cortometraje o pieza narrativa final', 'Entrega por Google Drive'],
+          availableAddOns: DEFAULT_CATALOG_ADDONS,
+        },
+      ],
+    },
+  ];
+
+  // 4, 5, 6. OTRAS PÁGINAS (GRADOS, CORPORATIVOS, OTROS)
+  const otherPagesMap: Record<string, Record<string, CatalogPackageItem[]>> = {
+    grados: {},
+    corporativos: {},
+    otros: {},
+  };
+
+  for (const detail of portfolioPackageDetails) {
+    let targetPage = 'otros';
+    const catStr = (detail.category as string) || '';
+    if (catStr === 'grados') targetPage = 'grados';
+    else if (catStr === 'corporativos') targetPage = 'corporativos';
+    else if (catStr === 'bodas' || catStr === 'quinces') continue; // Ya procesados individualmente
+    else targetPage = 'otros';
+
+    // Usar packageTypeLabel si existe para clasificar exactamente por acordeón (e.g. Video Institucional, Contenido para Redes, Eventos Corporativos, Marca Personal)
+    const rawAccordion = detail.packageTypeLabel || detail.categoryLabel || detail.title;
+    const accordionTitle = rawAccordion.toUpperCase();
+
+    if (!otherPagesMap[targetPage][accordionTitle]) {
+      otherPagesMap[targetPage][accordionTitle] = [];
+    }
+
+    const price = parsePriceCop(detail.priceLines, detail.baseQuoteOptions?.[0]?.amountCop);
+    const featSec = detail.sections.find((s) => /cobertura|incluido|características|incluye/i.test(s.title)) || detail.sections[0];
+    const delSec = detail.sections.find((s) => /entregables|entrega/i.test(s.title)) || detail.sections[1];
+
+    otherPagesMap[targetPage][accordionTitle].push({
+      id: `${targetPage}-${detail.slug}`,
+      slug: detail.slug,
+      category: targetPage,
+      accordionTitle,
+      title: detail.title,
+      packageName: `${accordionTitle} · ${detail.title}`,
+      priceAmountCop: price,
+      lead: detail.lead || '',
+      features: featSec ? featSec.items : [],
+      deliverables: delSec ? delSec.items : [],
+      availableAddOns: extractAddOnsForSlug(detail.slug),
+    });
+  }
+
+  const buildSubGroups = (pageId: string): CatalogAccordionGroup[] => {
+    const obj = otherPagesMap[pageId] || {};
+    return Object.keys(obj).map((accordionTitle) => ({
+      accordionTitle,
+      packages: obj[accordionTitle],
+    }));
+  };
+
+  return [
+    {
+      id: 'bodas',
+      label: '💍 BODAS',
+      subServiceGroups: bodasGroups,
+    },
+    {
+      id: 'quinces',
+      label: '👑 QUINCES',
+      subServiceGroups: quincesGroups,
+    },
+    {
+      id: 'grados',
+      label: '🎓 GRADOS',
+      subServiceGroups: buildSubGroups('grados'),
+    },
+    {
+      id: 'videos',
+      label: '🎥 VIDEOS',
+      subServiceGroups: videoGroups,
+    },
+    {
+      id: 'corporativos',
+      label: '🏢 CORPORATIVOS',
+      subServiceGroups: buildSubGroups('corporativos'),
+    },
+    {
+      id: 'otros',
+      label: '⭐ OTROS',
+      subServiceGroups: buildSubGroups('otros'),
+    },
+  ];
+}
+
+export const CATALOG_PAGES = buildCatalogPages();

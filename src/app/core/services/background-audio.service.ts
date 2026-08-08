@@ -4,6 +4,7 @@ import { Injectable, computed, signal } from '@angular/core';
 export class BackgroundAudioService {
   private audio?: HTMLAudioElement;
   private initialized = false;
+  private source = 'assets/audio/Mia & Sebastians Theme.mp3';
 
   private readonly _isPlaying = signal(false);
   readonly isPlaying = this._isPlaying.asReadonly();
@@ -20,7 +21,7 @@ export class BackgroundAudioService {
     audio.preload = 'auto';
     audio.loop = true;
     audio.volume = 0.28;
-    audio.src = encodeURI('assets/audio/Mia & Sebastians Theme.mp3');
+    audio.src = encodeURI(this.source);
 
     audio.addEventListener('play', () => this._isPlaying.set(true));
     audio.addEventListener('pause', () => this._isPlaying.set(false));
@@ -29,13 +30,34 @@ export class BackgroundAudioService {
     return audio;
   }
 
+  setSource(source: string): void {
+    const next = String(source ?? '').trim();
+    if (!next || next === this.source) return;
+
+    this.source = next;
+    this.initialized = false;
+
+    if (!this.audio) return;
+
+    this.audio.pause();
+    this.audio.src = encodeURI(this.source);
+    this.audio.load();
+    this._isPlaying.set(false);
+  }
+
   /**
    * Intenta reproducir al entrar. Si el navegador bloquea autoplay,
    * reintenta automáticamente al primer click/tecla del usuario.
    */
   start(): void {
     if (typeof window === 'undefined') return;
-    if (this.initialized) return;
+    if (this.initialized) {
+      void this.play().catch(() => {
+        // Si sigue bloqueado por autoplay, no rompemos el flujo.
+      });
+      return;
+    }
+
     this.initialized = true;
 
     void this.play().catch(() => {

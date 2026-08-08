@@ -6,6 +6,36 @@ export interface PackageStockImage {
 
 export const PACKAGE_STOCK_IMAGES: PackageStockImage[] = [
   {
+    path: 'servicios/bodas/peticion-de-mano/peticion-esencial',
+    imageUrl: 'assets/images/stock/peticion-de-mano/peticion-esencial.jpg',
+    keywords: ['petición de mano', 'anillo', 'momento íntimo']
+  },
+  {
+    path: 'servicios/bodas/peticion-de-mano/peticion-completa',
+    imageUrl: 'assets/images/stock/peticion-de-mano/peticion-completa.jpg',
+    keywords: ['petición de mano', 'abrazo', 'celebración']
+  },
+  {
+    path: 'servicios/bodas/peticion-de-mano/peticion-hibrida',
+    imageUrl: 'assets/images/stock/peticion-de-mano/peticion-hibrida.jpg',
+    keywords: ['petición de mano', 'sorpresa', 'historia audiovisual']
+  },
+  {
+    path: 'servicios/bodas/boda-civil/civil-esencial',
+    imageUrl: 'assets/images/stock/boda-civil/civil-esencial.jpg',
+    keywords: ['boda civil', 'ceremonia íntima', 'familia']
+  },
+  {
+    path: 'servicios/bodas/boda-civil/civil-completa',
+    imageUrl: 'assets/images/stock/boda-civil/civil-completa.jpg',
+    keywords: ['boda civil', 'firma', 'documentos']
+  },
+  {
+    path: 'servicios/bodas/boda-civil/civil-hibrida',
+    imageUrl: 'assets/images/stock/boda-civil/civil-hibrida.jpg',
+    keywords: ['boda civil', 'pareja', 'historia audiovisual']
+  },
+  {
     path: 'servicios/corporativos/video-institucional/corporativos-video-institucional-esencial',
     imageUrl:
       'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',

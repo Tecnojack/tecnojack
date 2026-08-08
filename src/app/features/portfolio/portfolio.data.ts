@@ -131,6 +131,7 @@ export interface QuincePackagePlan {
   items: string[];
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 }
 
@@ -151,8 +152,8 @@ export interface PreweddingPlan {
   featured?: boolean;
 }
 
-export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos';
-export type PortfolioPackageGroup = 'photo-video' | 'photo-only' | 'custom' | 'session';
+export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos' | 'videos';
+export type PortfolioPackageGroup = 'full-experience' | 'photo-video' | 'photo-only' | 'custom' | 'session';
 
 export interface PortfolioPackageDetailSection {
   title: string;
@@ -170,6 +171,8 @@ export interface PortfolioRequestOption {
   priceLabel?: string;
   priceAmountCop?: number;
   selectedByDefault?: boolean;
+  linkedPackageCategory?: PortfolioPackageCategory;
+  linkedPackageSlug?: string;
 }
 
 export interface PortfolioRequestOptionGroup {
@@ -371,13 +374,17 @@ function normalizePortfolioPackageDetail(
 function buildWeddingMainBaseQuoteOptions(slug: string): PortfolioBaseQuoteOption[] {
   switch (slug) {
     case 'esencial-hibrido-foto-video':
-      return [buildBaseQuoteOption(`${slug}-cop`, "1'650.000 COP", 1650000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "1'900.000 COP", 1900000)];
     case 'completo-hibrido-foto-video':
-      return [buildBaseQuoteOption(`${slug}-cop`, "2'200.000 COP", 2200000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "2'800.000 COP", 2800000)];
     case 'premium-cinematico-foto-video':
-      return [buildBaseQuoteOption(`${slug}-cop`, "3'200.000 COP", 3200000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "3'900.000 COP", 3900000)];
     case 'luxury-cinematico-foto-video':
-      return [buildBaseQuoteOption(`${slug}-cop`, "4'800.000 COP", 4800000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "6'100.000 COP", 6100000)];
+    case 'full-experience-hibrido':
+      return [buildBaseQuoteOption(`${slug}-cop`, "11'300.000 COP", 11300000)];
+    case 'full-experience-solo-fotos':
+      return [buildBaseQuoteOption(`${slug}-cop`, "8'500.000 COP", 8500000)];
     default:
       return [];
   }
@@ -393,6 +400,10 @@ function buildWeddingHybridSortOrder(slug: string): number {
       return 3;
     case 'luxury-cinematico-foto-video':
       return 4;
+    case 'full-experience-hibrido':
+      return 5;
+    case 'full-experience-solo-fotos':
+      return 6;
     default:
       return 999;
   }
@@ -401,11 +412,13 @@ function buildWeddingHybridSortOrder(slug: string): number {
 function buildWeddingPhotoBaseQuoteOptions(slug: string): PortfolioBaseQuoteOption[] {
   switch (slug) {
     case 'sencilla-solo-fotos':
-      return [buildBaseQuoteOption(`${slug}-cop`, '750.000 COP', 750000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, '900.000 COP', 900000)];
     case 'completa-solo-fotos':
-      return [buildBaseQuoteOption(`${slug}-cop`, "1'350.000 COP", 1350000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "1'650.000 COP", 1650000)];
     case 'premium-solo-fotos':
-      return [buildBaseQuoteOption(`${slug}-cop`, "2'400.000 COP", 2400000)];
+      return [buildBaseQuoteOption(`${slug}-cop`, "2'650.000 COP", 2650000)];
+    case 'luxury-solo-fotos':
+      return [buildBaseQuoteOption(`${slug}-cop`, "4'100.000 COP", 4100000)];
     default:
       return [];
   }
@@ -857,166 +870,281 @@ export const weddingPackagesTitle = 'Paquetes principales de boda';
 export const weddingMainPlans: WeddingPackagePlan[] = [
   {
     slug: 'esencial-hibrido-foto-video',
-    name: 'Esencial – Tu historia en foto y video',
-    priceLines: ["1'650.000 COP"],
+    name: 'HÍBRIDA - Tu historia en foto y video',
+    priceLines: ["1'900.000 COP"],
     lead:
-      'Cobertura equilibrada que combina fotografía y video para capturar los momentos más importantes de tu boda.',
+      'Cobertura equilibrada que combina fotografía y video para conservar los momentos más importantes del día de una forma natural, elegante y emotiva. Ideal para bodas pequeñas o parejas que desean conservar los recuerdos esenciales sin perder calidad.',
     image: 'assets/images/galery/M&D-16.jpg',
-    featured: true,
     items: [
-      'Cobertura parcial del evento',
-      '1 fotógrafo',
-      '1 videógrafo',
-      'Duración de 4 a 6 horas',
-      'Dirección básica',
-      'Hasta 150 fotos editadas',
-      'Video principal de 3 a 5 minutos',
-      'Galería online por 3 meses',
-      'Entrega digital en alta resolución'
+      'Cobertura de hasta 6 horas',
+      '1 fotógrafo y 1 videógrafo',
+      'Ceremonia, momentos importantes y recepción parcial',
+      'Dirección básica de poses',
+      'Hasta 180 fotos editadas',
+      'Video resumen (Highlight Film) de 4 a 6 minutos',
+      '1 Reel vertical para redes sociales',
+      'Galería privada durante 3 meses',
+      'Entrega digital mediante Google Drive'
     ],
     features: [
-      'Cobertura parcial del evento',
+      'Cobertura de hasta 6 horas',
       '1 fotógrafo',
       '1 videógrafo',
-      'Duración de 4 a 6 horas',
-      'Dirección básica'
+      'Dirección básica',
+      'Edición profesional',
+      'Colorización cinematográfica ligera',
+      'Audio ambiente'
     ],
     deliverables: [
-      'Hasta 150 fotografías editadas en alta resolución',
-      'Video principal de 3 a 5 minutos',
-      'Galería digital privada por 3 meses',
-      'Entrega final por Google Drive'
+      'Hasta 180 fotografías editadas',
+      'Video resumen (Highlight Film) de 4 a 6 minutos',
+      '1 Reel vertical para redes sociales',
+      'Galería privada durante 3 meses',
+      'Entrega digital mediante Google Drive'
     ],
-    coverage: ['Ceremonia', 'Momentos clave', 'Recepción (parcial)']
+    coverage: ['Ceremonia', 'Momentos importantes', 'Recepción parcial']
   },
   {
     slug: 'completo-hibrido-foto-video',
-    name: 'Completa – La historia completa de tu boda',
-    priceLines: ["2'200.000 COP"],
+    name: 'HÍBRIDA - La historia completa de tu boda',
+    priceLines: ["2'800.000 COP"],
     lead:
-      'Cobertura completa que documenta tu boda con fotografía y video, capturando emociones y momentos clave.',
+      'Cobertura completa que documenta el desarrollo de la boda desde los preparativos hasta los momentos más importantes de la celebración. Diseñado para parejas que desean revivir su historia completa.',
     image: 'assets/images/galery/M&D-29.jpg',
     items: [
-      'Cobertura amplia del evento',
+      'Cobertura de hasta 8 horas',
       '1 fotógrafo y 1 videógrafo',
-      'Duración de 6 a 8 horas',
-      'Dirección durante el evento',
+      'Apoyo logístico cuando sea necesario',
+      'Preparativos, ceremonia, sesión de pareja, recepción e inicio de fiesta',
+      'Dirección durante el evento y tomas creativas',
+      'Gimbal y audio profesional de consola',
       'Hasta 300 fotos editadas',
-      '10 fotos impresas',
-      '1 ampliación',
-      'Video principal de 5 a 8 minutos',
-      'Video extendido de 15 a 25 minutos',
-      'Galería online por 6 meses',
-      'Entrega digital en alta calidad'
+      '15 fotos impresas + 1 ampliación',
+      'Video resumen (Highlight Film) de 6 a 8 minutos',
+      'Película documental de 15 a 25 minutos',
+      '1 Reel vertical para redes',
+      'Galería privada durante 6 meses',
+      'Entrega digital'
     ],
     features: [
-      'Cobertura amplia del evento',
-      '1 fotógrafo y 1 videógrafo',
-      'Duración de 6 a 8 horas',
-      'Dirección durante el evento'
+      'Cobertura de hasta 8 horas',
+      '1 fotógrafo',
+      '1 videógrafo',
+      'Apoyo logístico cuando sea necesario',
+      'Dirección durante el evento',
+      'Tomas creativas',
+      'Audio profesional de consola',
+      'Gimbal'
     ],
     deliverables: [
-      'Hasta 300 fotografías editadas en alta resolución',
-      '10 fotografías impresas',
-      '1 fotografía ampliada',
-      'Video principal de 5 a 8 minutos',
-      'Video extendido de 15 a 25 minutos',
-      'Galería digital privada por 6 meses',
-      'Entrega final por Google Drive'
+      'Hasta 300 fotografías editadas',
+      '15 fotografías impresas',
+      '1 recuadro fotográfico en madera de 70 cm',
+      'Video resumen (Highlight Film) de 6 a 8 minutos',
+      'Película documental de 15 a 25 minutos',
+      '1 Reel vertical',
+      'Galería privada durante 6 meses',
+      'Entrega digital'
     ],
-    coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción']
+    coverage: ['Preparativos', 'Ceremonia', 'Sesión de pareja', 'Recepción', 'Inicio de fiesta']
   },
   {
     slug: 'premium-cinematico-foto-video',
-    name: 'Premium – Experiencia cinematográfica completa',
-    priceLines: ["3'200.000 COP"],
+    name: 'HÍBRIDA - Experiencia cinematográfica',
+    priceLines: ["3'900.000 COP"],
     lead:
-      'Experiencia completa que combina fotografía profesional y producción audiovisual con estilo cinematográfico.',
+      'Experiencia completa que combina fotografía artística y producción cinematográfica para contar la historia del día con una narrativa mucho más cuidada. Este es nuestro paquete recomendado.',
     image: 'assets/images/fotos/M&D-31.jpg',
+    featured: true,
     items: [
-      'Cobertura completa del evento',
-      '1 fotógrafo y 1 videógrafo',
-      'Asistente',
-      'Dirección creativa',
-      'Tomas con gimbal',
-      'Tomas con drone si aplica',
+      'Cobertura de hasta 10 horas',
+      'Fotógrafo principal + Videógrafo principal',
+      'Segundo operador o asistente según logística',
+      'Preparativos completos, primer encuentro a solas (First Look), ceremonia, sesión artística de pareja, recepción y fiesta',
+      'Sesión preboda incluida',
+      'Dirección creativa y corrección de color cinematográfica',
+      'Gimbal, tomas con dron (cuando sea posible), audio pro dedicado e iluminación de apoyo',
       'Hasta 450 fotos editadas',
-      'Fotos impresas',
-      '1 ampliación',
-      'Álbum fotográfico',
-      'Trailer de 1 minuto',
-      'Video principal de 6 a 10 minutos',
-      'Video extendido de 20 a 30 minutos',
-      'Galería online por 1 año',
-      'Reel para redes'
+      '20 fotos impresas + 1 ampliación + Álbum fotográfico',
+      'Tráiler cinematográfico + Video resumen (8-12 min) + Película documental (25-40 min)',
+      '2 Reels para redes sociales',
+      'Galería privada durante 1 año',
+      'Entrega digital'
     ],
     features: [
-      'Cobertura completa del evento',
-      '1 fotógrafo y 1 videógrafo',
-      'Asistente',
+      'Cobertura de hasta 10 horas',
+      'Fotógrafo principal',
+      'Videógrafo principal',
+      'Segundo operador o asistente según logística',
       'Dirección creativa',
-      'Tomas con gimbal',
-      'Tomas con drone si aplica'
+      'Gimbal',
+      'Tomas con dron cuando sea posible',
+      'Audio profesional dedicado',
+      'Iluminación de apoyo',
+      'Corrección de color cinematográfica',
+      'Sesión preboda incluida'
     ],
     deliverables: [
       'Hasta 450 fotografías editadas',
-      'Fotografías impresas',
-      '1 fotografía ampliada',
+      '20 fotografías impresas',
+      '1 recuadro fotográfico en madera de 70 cm',
       'Álbum fotográfico',
-      'Trailer de 1 minuto',
-      'Video principal de 6 a 10 minutos',
-      'Video extendido de 20 a 30 minutos',
-      'Reel para redes',
-      'Galería digital privada por 1 año',
-      'Entrega final por Google Drive'
+      'Tráiler cinematográfico',
+      'Video resumen (Highlight Film) de 8 a 12 minutos',
+      'Película documental de 25 a 40 minutos',
+      '2 Reels para redes',
+      'Galería privada durante 1 año',
+      'Entrega digital'
     ],
-    coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
+    coverage: ['Preparativos completos', 'Primer encuentro a solas (First Look)', 'Ceremonia', 'sesión artística de pareja', 'Recepción', 'Fiesta']
   },
   {
     slug: 'luxury-cinematico-foto-video',
-    name: 'Exclusivo – Producción cinematográfica integral',
-    priceLines: ["4'800.000 COP"],
+    name: 'HÍBRIDA - The Wedding Film Experience',
+    priceLines: ["6'100.000 COP"],
     lead:
-      'Producción audiovisual de alto nivel donde fotografía y video trabajan juntos para crear una experiencia cinematográfica completa.',
+      'La experiencia audiovisual más completa de TECNOJACK. Pensada para parejas que desean transformar su boda en una producción cinematográfica de alto nivel con un enfoque de autor sumamente exclusivo.',
     image: 'assets/images/galery/M&D-32.jpg',
     items: [
-      'Cobertura total del evento',
-      '2 fotógrafos y 2 videógrafos',
-      'Asistente de producción',
-      'Dirección audiovisual completa',
-      'Tomas con gimbal y drone',
-      'Iluminación adicional',
-      '500+ fotos editadas',
-      'Álbum fotográfico',
-      'Fotos impresas y ampliaciones',
-      'Trailer cinematográfico',
-      'Video principal de 8 a 10 minutos',
-      'Video documental de 30 a 60 minutos',
-      'Clips para redes',
-      'Sesión de preboda incluida',
-      'Galería online extendida'
+      'Cobertura de hasta 12 horas',
+      '2 fotógrafos + 2 videógrafos + Asistente de producción',
+      'Preproducción completa (reunión creativa, planeación, cronograma, tablero de inspiración y lista de fotos clave)',
+      'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
+      'Cobertura simultánea de ambos preparativos',
+      'Tomas con dron, gimbal, audio e iluminación profesional',
+      'Más de 600 fotos editadas con selección y edición de las mejores tomas',
+      '30 fotos impresas + 2 ampliaciones + Álbum Premium XL + Caja de presentación',
+      'Tráiler cinematográfico + Video resumen (10-15 min) + Película documental (45-75 min)',
+      '4 Reels para redes + Tráiler vertical',
+      'Galería privada durante 2 años con entrega prioritaria',
+      'Adelanto rápido de 20 fotografías durante las primeras 72 horas'
     ],
     features: [
-      'Cobertura total del evento',
-      '2 fotógrafos y 2 videógrafos',
+      'Cobertura de hasta 12 horas',
+      '2 fotógrafos',
+      '2 videógrafos',
       'Asistente de producción',
+      'Reunión creativa, planeación, cronograma, tablero de inspiración (moodboard) y lista de fotos deseadas',
+      'Asesoría de locaciones y de iluminación',
+      'Cobertura simultánea de ambos preparativos',
       'Dirección audiovisual completa',
-      'Tomas con gimbal y drone',
-      'Iluminación adicional',
-      'Sesión de preboda incluida'
+      'Tomas con dron',
+      'Gimbal',
+      'Audio profesional de consola y micrófonos inalámbricos',
+      'Iluminación profesional de apoyo',
+      'Tomas artísticas, de decoración y de la locación',
+      'Sesión Preboda Premium y Sesión Postboda Premium'
     ],
     deliverables: [
-      'Más de 500 fotografías editadas',
-      'Álbum fotográfico',
-      'Fotografías impresas y ampliaciones',
-      'Trailer cinematográfico',
-      'Video principal de 8 a 10 minutos',
-      'Video documental de 30 a 60 minutos',
-      'Clips para redes',
-      'Galería digital privada extendida',
-      'Entrega final por Google Drive'
+      'Más de 600 fotografías editadas con selección personalizada de las mejores tomas',
+      '30 fotografías impresas',
+      '2 ampliaciones',
+      'Álbum Premium XL',
+      'Caja de presentación',
+      'Tráiler cinematográfico',
+      'Video resumen (Highlight Film) de 10 a 15 minutos',
+      'Película documental de 45 a 75 minutos',
+      '4 Reels para redes',
+      'Tráiler vertical',
+      'Sesión Preboda Premium',
+      'Sesión Postboda Premium',
+      'Galería privada durante 2 años con entrega prioritaria',
+      'Adelanto rápido de 20 fotografías durante las primeras 72 horas'
     ],
-    coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
+    coverage: ['Cobertura simultánea de ambos preparativos', 'Dirección audiovisual completa', 'Tomas con dron', 'Gimbal', 'Audio profesional', 'Iluminación profesional', 'Tomas artísticas', 'Tomas de decoración', 'Tomas de la locación']
+  }
+];
+
+export const weddingExperiencePlans: WeddingPackagePlan[] = [
+  {
+    slug: 'full-experience-hibrido',
+    name: 'HÍBRIDA - Full Experience',
+    priceLines: ["11'300.000 COP"],
+    lead:
+      'La experiencia audiovisual definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
+    image: 'assets/images/galery/M&D-11.jpg',
+    featured: true,
+    items: [
+      'Producción VIP: Fotografía y cinematografía (Sin límite de horas)',
+      'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
+      '2 fotógrafos + 2 videógrafos principales + Asistentes de producción',
+      'Preproducción VIP (reuniones creativas ilimitadas, scouting de locaciones, guionización y dirección de arte)',
+      'Documentación completa: <a href="/portfolio/bodas/peticion-completa">Petición de mano</a>, <a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/bodas/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-cinematico-foto-video">Boda Principal</a> y <a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>',
+      'Cobertura a múltiples cámaras simultáneas en todos los preparativos',
+      'Dirección cinematográfica, dron premium, iluminación de cine y masterización de audio',
+      'Todas las fotografías del evento editadas en alta resolución (sin límite de entrega)',
+      '50 fotos impresas fine-art + 3 recuadros fotográficos en madera de 100 cm + Álbum Premium XL + Caja de presentación',
+      'Tráiler cinematográfico (1 min) + Video Highlight (10-15 min) + Película documental de larga duración',
+      'Mini-documental de la historia de amor (Petición, civil y preboda)',
+      '6 Reels virales para redes sociales + Tráiler vertical',
+      'Galería privada de por vida con entrega prioritaria',
+      'Adelanto express de 30 fotografías al día siguiente de la boda'
+    ],
+    features: [
+      'Producción VIP: Foto + Video (Sin límite)',
+      'Toda tu historia: Petición, civil, boda, preboda y postboda',
+      'Viáticos nacionales (Colombia) cubiertos',
+      '2 fotógrafos y 2 videógrafos principales',
+      'Asistentes de producción',
+      'Reuniones de preproducción VIP y scouting',
+      'Dirección cinematográfica completa',
+      'Dron premium y estabilización avanzada',
+      'Audio profesional masterizado e iluminación de cine'
+    ],
+    deliverables: [
+      'Archivos ilimitados: todas las fotografías seleccionadas y editadas',
+      '50 fotografías impresas fine-art',
+      '3 recuadros fotográficos en madera de 100 cm',
+      'Álbum Premium XL exclusivo y caja de presentación',
+      'Tráiler cinematográfico (1 min)',
+      'Video resumen (Highlight Film) de 10 a 15 min',
+      'Película documental de boda de larga duración',
+      'Mini-documental de la historia de amor (Pre-eventos)',
+      '6 Reels para redes sociales y tráiler vertical',
+      'Galería privada vitalicia',
+      'Adelanto express de 30 fotografías al día siguiente'
+    ],
+    coverage: ['<a href="/portfolio/bodas/peticion-completa">Petición de mano</a>', '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>', '<a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-cinematico-foto-video">Día de la Boda completo</a>', '<a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>', 'Dirección audiovisual VIP', 'Múltiples locaciones en Colombia']
+  },
+  {
+    slug: 'full-experience-solo-fotos',
+    name: 'SOLO FOTOS - Full Experience',
+    priceLines: ["8'500.000 COP"],
+    lead:
+      'La experiencia fotográfica definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    featured: true,
+    items: [
+      'Reportaje fotográfico élite (Sin límite de horas)',
+      'Viáticos y traslados a nivel nacional (Colombia) cubiertos por TECNOJACK',
+      '2 fotógrafos principales + Asistentes de fotografía',
+      'Preproducción VIP (reuniones creativas ilimitadas y scouting de locaciones)',
+      'Documentación completa: <a href="/portfolio/bodas/peticion-completa">Petición de mano</a>, <a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>, <a href="/portfolio/bodas/civil-completa">Boda Civil</a>, <a href="/portfolio/bodas/premium-solo-fotos">Boda Principal</a> y <a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>',
+      'Dirección fotográfica creativa con iluminación de estudio portátil',
+      'Todas las fotografías del evento editadas en alta resolución (sin límite de entrega)',
+      '50 fotos impresas fine-art + 3 recuadros fotográficos en madera de 100 cm + Álbum Premium XL + Caja de presentación',
+      'Galería privada de por vida con entrega prioritaria',
+      'Adelanto express de 30 fotografías al día siguiente de la boda'
+    ],
+    features: [
+      'Reportaje fotográfico élite (Sin límite)',
+      'Tu historia en fotos: Petición, civil, boda, preboda y postboda',
+      'Viáticos nacionales (Colombia) cubiertos',
+      '2 fotógrafos principales',
+      'Asistentes de fotografía',
+      'Reuniones de preproducción VIP y scouting',
+      'Dirección fotográfica avanzada',
+      'Iluminación profesional de apoyo'
+    ],
+    deliverables: [
+      'Archivos ilimitados: todas las fotografías seleccionadas y editadas',
+      '50 fotografías impresas fine-art',
+      '3 recuadros fotográficos en madera de 100 cm',
+      'Álbum Premium XL exclusivo y caja de presentación',
+      'Galería privada vitalicia',
+      'Adelanto express de 30 fotografías al día siguiente'
+    ],
+    coverage: ['<a href="/portfolio/bodas/peticion-completa">Petición de mano</a>', '<a href="/portfolio/bodas/civil-completa">Boda Civil</a>', '<a href="/portfolio/bodas/preboda-editorial">Sesión Preboda</a>', '<a href="/portfolio/bodas/premium-solo-fotos">Día de la Boda completo</a>', '<a href="/portfolio/bodas/postboda-completa">Sesión Postboda</a>', 'Dirección fotográfica VIP', 'Múltiples locaciones en Colombia']
   }
 ];
 
@@ -1026,112 +1154,135 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
   {
     slug: 'sencilla-solo-fotos',
     name: 'Esencial – Recuerdo esencial de tu boda',
-    priceLines: ['750.000 COP'],
+    priceLines: ['900.000 COP'],
     lead:
       'Cobertura fotográfica ideal para capturar los momentos más importantes de tu boda de forma natural y emotiva.',
     image: 'assets/images/galery/M&D-22.jpg',
     items: [
-      'Cobertura parcial del evento (ceremonia y momentos clave)',
+      'Cobertura de hasta 4 horas',
       '1 fotógrafo',
-      'Duración de 3 a 4 horas',
-      'Dirección básica de poses',
-      'Edición con estilo limpio y natural',
-      'Hasta 120 fotografías editadas',
-      '10 fotos impresas (15x21 cm)',
-      'Entrega digital en alta resolución',
-      'Galería online disponible por 3 meses'
+      'Hasta 150 fotografías editadas',
+      '10 fotos impresas',
+      'Galería privada durante 3 meses'
     ],
     features: [
-      'Cobertura parcial del evento (ceremonia y momentos clave)',
+      'Cobertura de hasta 4 horas',
       '1 fotógrafo',
-      'Duración de 3 a 4 horas',
       'Dirección básica de poses',
       'Edición con estilo limpio y natural'
     ],
     deliverables: [
-      'Hasta 120 fotografías editadas',
-      '10 fotografías impresas (15x21 cm)',
+      'Hasta 150 fotografías editadas',
+      '10 fotografías impresas',
       'Galería digital privada por 3 meses',
-      'Entrega final en alta resolución por Google Drive'
+      'Entrega digital en alta resolución'
     ],
     coverage: ['Ceremonia', 'Momentos clave']
   },
   {
     slug: 'completa-solo-fotos',
     name: 'Completa – La historia completa de tu día',
-    priceLines: ["1'350.000 COP"],
+    priceLines: ["1'650.000 COP"],
     lead:
       'Cobertura más amplia que documenta tu boda con mayor detalle, acompañamiento y enfoque emocional.',
     image: 'assets/images/galery/M&D-29.jpg',
     items: [
-      'Cobertura amplia del evento',
-      '1 fotógrafo principal',
-      '1 asistente de fotografía',
-      'Duración de 5 a 7 horas',
-      'Dirección y acompañamiento durante el evento',
-      'Edición profesional con estilo natural',
-      'Hasta 250 fotografías editadas',
-      '20 fotos impresas (15x21 cm)',
-      '1 fotografía ampliada (50 cm)',
-      'Entrega digital en alta resolución',
-      'Galería online disponible por 6 meses'
+      'Cobertura de hasta 7 horas',
+      'Fotógrafo principal + Asistente de fotografía',
+      'Hasta 280 fotografías editadas',
+      '20 fotos impresas + 1 ampliación',
+      'Galería privada durante 6 meses'
     ],
     features: [
-      'Cobertura amplia del evento',
+      'Cobertura de hasta 7 horas',
       '1 fotógrafo principal',
       '1 asistente de fotografía',
-      'Duración de 5 a 7 horas',
       'Dirección y acompañamiento durante el evento',
       'Edición profesional con estilo natural'
     ],
     deliverables: [
-      'Hasta 250 fotografías editadas',
-      '20 fotografías impresas (15x21 cm)',
-      '1 fotografía ampliada (50 cm)',
+      'Hasta 280 fotografías editadas',
+      '20 fotografías impresas',
+      '1 recuadro fotográfico en madera de 70 cm',
       'Galería digital privada por 6 meses',
-      'Entrega final en alta resolución por Google Drive'
+      'Entrega digital en alta resolución'
     ],
-    coverage: ['Ceremonia', 'Sesión de fotos', 'Recepción', 'Momentos clave']
+    coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción']
   },
   {
     slug: 'premium-solo-fotos',
     name: 'Premium – Experiencia fotográfica completa',
-    priceLines: ["2'400.000 COP"],
+    priceLines: ["2'650.000 COP"],
     lead:
-      'Experiencia completa que combina cobertura total, dirección creativa y resultados con estilo editorial.',
+      'Experiencia completa que combina cobertura total, dirección creativa y fotografía con acabado artístico. Nuestro paquete recomendado.',
     image: 'assets/images/fotos/M&D-31.jpg',
     featured: true,
     items: [
       'Cobertura completa del evento (preparativos hasta la fiesta)',
-      '1 o 2 fotógrafos',
-      '1 asistente',
-      'Dirección creativa (estilo editorial)',
+      '1 o 2 fotógrafos + 1 asistente',
+      'Dirección creativa con enfoque artístico',
       'Sesión previa incluida (preboda)',
-      'Edición profesional avanzada',
-      'Hasta 450 fotografías editadas',
-      '20 fotos impresas (15x21 cm)',
-      '1 fotografía ampliada (50 cm)',
-      'Álbum fotográfico',
-      'Entrega digital en alta resolución',
+      'Hasta 450 fotografías editadas con edición profesional avanzada',
+      '20 fotos impresas + Álbum fotográfico',
+      'Adelanto rápido de fotografías en las primeras 72 horas',
       'Galería online disponible por 1 año'
     ],
     features: [
-      'Cobertura completa del evento (preparativos hasta la fiesta)',
+      'Cobertura completa del evento (preparativos y fiesta)',
       '1 o 2 fotógrafos',
       '1 asistente',
-      'Dirección creativa (estilo editorial)',
-      'Sesión previa incluida (preboda)',
+      'Dirección creativa con enfoque artístico',
+      'Sesión preboda incluida',
       'Edición profesional avanzada'
     ],
     deliverables: [
       'Hasta 450 fotografías editadas',
-      '20 fotografías impresas (15x21 cm)',
-      '1 fotografía ampliada (50 cm)',
+      '20 fotografías impresas',
       'Álbum fotográfico',
+      'Adelanto rápido de fotografías',
       'Galería digital privada por 1 año',
-      'Entrega final en alta resolución por Google Drive'
+      'Entrega digital en alta resolución'
     ],
     coverage: ['Preparativos', 'Ceremonia', 'Sesión de fotos', 'Recepción', 'Fiesta']
+  },
+  {
+    slug: 'luxury-solo-fotos',
+    name: 'Exclusivo – Producción fotográfica de autor',
+    priceLines: ["4'100.000 COP"],
+    lead:
+      'Experiencia fotográfica de autor de alto nivel. Diseñada para parejas que buscan una estética artística y de autor, con un registro exclusivo y diferente de su boda.',
+    image: 'assets/images/galery/M&D-32.jpg',
+    items: [
+      'Cobertura de hasta 12 horas',
+      '2 fotógrafos + Asistente',
+      'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
+      'Planeación creativa, tablero de inspiración y dirección creativa avanzada',
+      'Esquemas de iluminación profesional',
+      'Hasta 600 fotografías editadas',
+      'Álbum Premium XL + Caja de presentación',
+      'Adelanto rápido de 20 fotografías en las primeras 72 horas',
+      'Galería privada durante 2 años con entrega prioritaria'
+    ],
+    features: [
+      'Cobertura de hasta 12 horas',
+      '2 fotógrafos',
+      'Asistente',
+      'Sesión Preboda Premium y Sesión Postboda Premium incluidas',
+      'Planeación creativa y tablero de inspiración (moodboard)',
+      'Dirección creativa avanzada',
+      'Iluminación profesional'
+    ],
+    deliverables: [
+      'Hasta 600 fotografías editadas',
+      'Álbum Premium XL',
+      'Caja de presentación',
+      'Sesión Preboda Premium',
+      'Sesión Postboda Premium',
+      'Adelanto rápido de 20 fotografías',
+      'Galería privada durante 2 años',
+      'Entrega prioritaria'
+    ],
+    coverage: ['Preparativos de ambos novios', 'Ceremonia', 'Sesión de fotos artística', 'Recepción', 'Fiesta', 'Detalles y decoración']
   }
 ];
 
@@ -1157,124 +1308,277 @@ export type WeddingPostweddingPlan = {
   deliverables: string[];
 };
 
+export type WeddingCivilPlan = {
+  slug: string;
+  name: string;
+  priceLines: string[];
+  amountCop: number;
+  lead: string;
+  image: string;
+  features: string[];
+  deliverables: string[];
+  coverage: string[];
+  featured?: boolean;
+};
+
+export type WeddingProposalPlan = {
+  slug: string;
+  name: string;
+  priceLines: string[];
+  amountCop: number;
+  lead: string;
+  image: string;
+  features: string[];
+  deliverables: string[];
+  coverage: string[];
+  featured?: boolean;
+};
+
 export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
   {
     slug: 'video-bodas-elemental',
     name: 'Esencial – Recuerdo esencial de tu boda',
-    priceLines: ['650.000 COP'],
-    amountCop: 650000,
-    lead: 'Cobertura sencilla y emotiva para conservar los momentos más importantes de tu boda.',
+    priceLines: ['850.000 COP'],
+    amountCop: 850000,
+    lead: 'Cobertura sencilla y emotiva grabada en resolución 4K para conservar los momentos más importantes de tu boda.',
     image: 'assets/images/galery/M&D-16.jpg',
-    features: ['Cobertura parcial del evento', '1 cámara', 'Grabación en Full HD', 'Audio ambiente', 'Tomas espontáneas'],
-    deliverables: ['Video principal de 3 a 5 minutos', 'Entrega final en alta calidad por Google Drive']
+    features: [
+      'Cobertura parcial del evento (hasta 4 horas)',
+      '1 videógrafo',
+      'Grabación en resolución 4K',
+      'Audio ambiente',
+      'Tomas espontáneas'
+    ],
+    deliverables: [
+      'Highlight Film de 4 a 6 minutos',
+      '1 Reel vertical para redes sociales',
+      'Entrega final por Google Drive'
+    ]
   },
   {
     slug: 'video-bodas-completo',
     name: 'Completo – La historia de tu día',
-    priceLines: ["1'250.000 COP"],
-    amountCop: 1250000,
-    lead: 'Narrativa completa de tu boda capturando emociones y momentos clave.',
+    priceLines: ["1'650.000 COP"],
+    amountCop: 1650000,
+    lead: 'Narrativa completa de tu boda con dos cámaras y audio dedicado para capturar cada emoción.',
     image: 'assets/images/galery/M&D-29.jpg',
     features: [
-      'Cobertura de ceremonia y recepción parcial',
+      'Cobertura amplia (ceremonia y recepción parcial)',
       '2 cámaras',
+      'Gimbal para tomas estabilizadas',
       'Captura de audio de votos y discursos',
       'Tomas creativas',
       'Edición narrativa'
     ],
     deliverables: [
-      'Video principal de 5 a 8 minutos',
-      'Video extendido de 15 a 25 minutos',
-      'Entrega final en alta calidad por Google Drive'
+      'Highlight Film',
+      'Película documental',
+      '1 Reel vertical para redes sociales',
+      'Entrega final por Google Drive'
     ]
   },
   {
     slug: 'video-bodas-premium',
     name: 'Premium – Experiencia cinematográfica',
-    priceLines: ["2'600.000 COP"],
-    amountCop: 2600000,
-    lead: 'Producción audiovisual con enfoque cinematográfico para contar tu historia con emoción y detalle.',
+    priceLines: ["2'800.000 COP"],
+    amountCop: 2800000,
+    lead: 'Producción audiovisual con enfoque cinematográfico, tomas aéreas y cobertura completa de tu boda.',
     image: 'assets/images/galery/M&D-30.jpg',
     features: [
-      'Cobertura completa del evento',
+      'Cobertura completa del evento (preparativos y fiesta)',
       '2 a 3 cámaras',
       'Tomas estabilizadas (gimbal)',
-      'Audio profesional',
-      'Colorización cinematográfica',
-      'Tomas aéreas con drone (si aplica)'
+      'Tomas aéreas con drone (si aplica)',
+      'Audio profesional dedicado',
+      'Colorización cinematográfica'
     ],
     deliverables: [
-      'Trailer de 1 minuto',
-      'Video principal de 6 a 10 minutos',
-      'Video extendido de 20 a 30 minutos',
-      '1 versión vertical corta para redes sociales',
-      'Entrega final en alta calidad por Google Drive'
+      'Highlight Film',
+      'Película documental',
+      '2 Reels para redes sociales',
+      'Entrega final por Google Drive'
     ]
   },
   {
     slug: 'video-bodas-luxury',
-    name: 'Exclusivo – Producción cinematográfica de alto nivel',
-    priceLines: ["4'200.000 COP"],
-    amountCop: 4200000,
-    lead: 'Experiencia premium que transforma tu boda en una película con narrativa cinematográfica.',
+    name: 'Exclusivo – The Wedding Film Experience',
+    priceLines: ["4'500.000 COP"],
+    amountCop: 4500000,
+    lead: 'Experiencia premium de autor que transforma tu boda en una película con narrativa cinematográfica, diseño sonoro e iluminación profesional.',
     image: 'assets/images/galery/M&D-32.jpg',
     features: [
       'Cobertura completa desde preparativos hasta la fiesta',
-      '3 cámaras o más',
-      'Dirección audiovisual',
-      'Tomas avanzadas con gimbal y drone',
-      'Audio profesional con micrófonos dedicados',
-      'Iluminación adicional si es necesario',
-      'Edición cinematográfica avanzada',
-      'Storytelling estructurado',
-      'Edición prioritaria'
+      'Reunión de dirección, cronograma de producción, tablero de inspiración (moodboard) y desarrollo de narrativa',
+      '3 a 4 cámaras',
+      '2 videógrafos principales + Asistente',
+      'Tomas avanzadas con gimbal y dron',
+      'Audio profesional y multicámara con micrófonos dedicados',
+      'Esquemas de iluminación profesional',
+      'Corrección de color (color grading) cinematográfica avanzada',
+      'Diseño de sonido (Sound Design) cinematográfico'
     ],
     deliverables: [
-      'Trailer cinematográfico de 1 minuto',
-      'Video principal de 8 a 10 minutos',
-      'Video documental de 30 a 60 minutos o más',
-      '2 a 4 clips cortos para redes sociales',
-      'Entrega final en alta calidad por Google Drive'
+      'Tráiler cinematográfico',
+      'Wedding Film principal',
+      'Película documental larga',
+      '3 a 4 Reels para redes',
+      'Edición prioritaria',
+      'Entrega final por Google Drive'
     ]
+  }
+];
+
+export const weddingCivilPlans: WeddingCivilPlan[] = [
+  {
+    slug: 'civil-esencial',
+    name: 'Civil Esencial',
+    priceLines: ['550.000 COP'],
+    amountCop: 550000,
+    lead: 'Una cobertura cercana y precisa para conservar los momentos esenciales de tu ceremonia civil.',
+    image: 'assets/images/stock/boda-civil/civil-esencial.jpg',
+    features: ['1 fotógrafo', 'Duración de 2 horas', 'Dirección de pareja y fotografías familiares'],
+    deliverables: [
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Galería digital privada por 1 mes',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Ceremonia civil', 'Firma de documentos y anillos', 'Familiares', 'Sesión breve de pareja']
+  },
+  {
+    slug: 'civil-completa',
+    name: 'Civil Completa',
+    priceLines: ['850.000 COP'],
+    amountCop: 850000,
+    lead: 'Una narrativa más completa que acompaña la llegada, la ceremonia y una celebración breve.',
+    image: 'assets/images/stock/boda-civil/civil-completa.jpg',
+    features: ['1 fotógrafo', 'Duración de 3 horas', 'Dirección creativa de pareja y grupos'],
+    deliverables: [
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 3 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada', 'Ceremonia civil', 'Firma de documentos y anillos', 'Familiares e invitados', 'Sesión dirigida de pareja', 'Brindis o recepción breve'],
+    featured: true
+  },
+  {
+    slug: 'civil-hibrida',
+    name: 'Civil Híbrida',
+    priceLines: ["1'350.000 COP"],
+    amountCop: 1350000,
+    lead: 'Fotografía y video coordinados para contar la ceremonia civil con una mirada más completa.',
+    image: 'assets/images/stock/boda-civil/civil-hibrida.jpg',
+    features: ['1 fotógrafo y 1 videógrafo', 'Duración de 4 horas', 'Reunión breve de planeación', 'Dirección audiovisual'],
+    deliverables: [
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Video principal de 3 a 5 minutos',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada o preparación breve', 'Ceremonia civil', 'Firma de documentos y anillos', 'Familiares e invitados', 'Sesión de pareja', 'Brindis o recepción']
+  }
+];
+
+export const weddingProposalPlans: WeddingProposalPlan[] = [
+  {
+    slug: 'peticion-esencial',
+    name: 'Petición Esencial',
+    priceLines: ['450.000 COP'],
+    amountCop: 450000,
+    lead: 'Capturamos la sorpresa con discreción y cerramos la experiencia con una sesión breve de pareja.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-esencial.jpg',
+    features: ['1 fotógrafo', 'Duración de 2 horas', 'Reunión breve de planeación', 'Coordinación de ubicación y momento clave'],
+    deliverables: [
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
+      'Galería digital privada por 1 mes',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada discreta', 'Momento de la petición', 'Reacciones', 'Sesión breve de pareja']
+  },
+  {
+    slug: 'peticion-completa',
+    name: 'Petición Completa',
+    priceLines: ['750.000 COP'],
+    amountCop: 750000,
+    lead: 'Una cobertura más cuidada para documentar la preparación, la sorpresa y la celebración posterior.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-completa.jpg',
+    features: ['1 fotógrafo y 1 asistente', 'Duración de 3 horas', 'Reunión de planeación', 'Apoyo de iluminación y coordinación discreta'],
+    deliverables: [
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 3 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Preparación del momento', 'Llegada discreta', 'Petición y reacciones', 'Sesión dirigida de pareja', 'Brindis o celebración breve'],
+    featured: true
+  },
+  {
+    slug: 'peticion-hibrida',
+    name: 'Petición Híbrida',
+    priceLines: ["1'150.000 COP"],
+    amountCop: 1150000,
+    lead: 'Fotografía y video coordinados para convertir la sorpresa en una historia audiovisual completa.',
+    image: 'assets/images/stock/peticion-de-mano/peticion-hibrida.jpg',
+    features: ['1 fotógrafo, 1 videógrafo y 1 asistente', 'Duración de 4 horas', 'Planeación audiovisual', 'Coordinación discreta del equipo'],
+    deliverables: [
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Video principal de 2 a 4 minutos',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Preparación y detalles', 'Llegada discreta', 'Petición y reacciones', 'Sesión de pareja', 'Brindis o celebración']
   }
 ];
 
 export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
   {
     slug: 'postboda-esencial',
-    name: 'Esencial – Recuerdo natural después del gran día',
-    priceLines: ['350.000 COP'],
-    amountCop: 350000,
+    name: 'Postboda Esencial',
+    priceLines: ['400.000 COP'],
+    amountCop: 400000,
     lead: 'Sesión sencilla y emotiva para capturar momentos naturales como recién casados sin el estrés del evento.',
     image: 'assets/images/galery/M&D-15.jpg',
-    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['50 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    features: ['1 fotógrafo', '1 locación', 'Duración de 2 horas', '1 vestuario', 'Dirección de pareja', 'Sesión en exterior'],
+    deliverables: ['Hasta 50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'postboda-completa',
-    name: 'Completa – Una historia después del sí',
+    name: 'Postboda Completa',
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     lead: 'Sesión más elaborada que permite explorar diferentes escenarios y lograr fotografías más cuidadas y expresivas.',
     image: 'assets/images/galery/M&D-21.jpg',
-    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['80 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
+    deliverables: ['Hasta 80 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
     slug: 'postboda-premium',
-    name: 'Premium – Experiencia artística postboda',
-    priceLines: ["1'200.000 COP"],
-    amountCop: 1200000,
-    lead: 'Sesión diseñada para crear imágenes impactantes con estética editorial en locaciones especiales.',
+    name: 'Postboda Editorial',
+    priceLines: ['950.000 COP'],
+    amountCop: 950000,
+    lead: 'Sesión diseñada para crear imágenes impactantes con estética artística en locaciones especiales.',
     image: 'assets/images/galery/M&D-22.jpg',
     features: [
-      '2 o más locaciones',
-      'Duración de 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento'
+      '1 fotógrafo y 1 asistente',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión breve de planeación',
+      'Concepto visual',
+      'dirección creativa avanzada avanzada',
+      'Apoyo de iluminación y logística durante la sesión'
     ],
-    deliverables: ['120 fotografías editadas', 'Galería digital privada por 6 meses', 'Entrega final en alta resolución por Google Drive', '5 fotografías impresas']
+    deliverables: [
+      'Hasta 120 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 6 meses',
+      'Entrega final en alta resolución por Google Drive'
+    ]
   }
 ];
 
@@ -1295,64 +1599,126 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     items: [
-      'Cobertura del evento de 3 a 4 horas',
+      'Cobertura del evento de 3 a 4 horas (ideal para ceremonia y cena)',
       'Dirección básica de poses',
       'Fotografía documental del evento',
       '80 a 120 fotografías editadas',
       '1 fotografía impresa de 50 cm',
       'Entrega digital en alta resolución'
     ],
-    features: ['Cobertura del evento de 3 a 4 horas', 'Dirección básica de poses', 'Fotografía documental del evento'],
-    deliverables: ['80 a 120 fotografías editadas', '1 fotografía impresa de 50 cm', 'Entrega final en alta resolución por Google Drive']
+    features: [
+      'Cobertura del evento de 3 a 4 horas',
+      'Asistencia básica en dirección de poses',
+      'Enfoque documental para los momentos clave'
+    ],
+    deliverables: [
+      '80 a 120 fotografías con edición profesional',
+      '1 ampliación fotográfica de 50 cm',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Llegada de la quinceañera', 'Ceremonia', 'Vals de honor', 'Brindis', 'Sesión corta con núcleo familiar']
   },
   {
     slug: 'quince-completa-historia',
-    name: 'Completa – Historia completa en fotografía',
-    lead: 'Una cobertura más amplia que permite capturar cada momento importante con mayor detalle y dirección profesional.',
+    name: 'Completa – Historia en fotografía',
+    lead: 'Una cobertura más amplia y artística que permite capturar desde tus preparativos hasta el inicio de la gran fiesta.',
     image: 'assets/images/fotos/M&D-12.jpg',
-    priceLines: ['950.000 COP'],
-    amountCop: 950000,
+    priceLines: ["1'250.000 COP"],
+    amountCop: 1250000,
     items: [
-      'Cobertura del evento de 5 a 6 horas',
-      'Dirección de poses',
-      'Mayor enfoque en momentos clave',
-      '120 a 180 fotografías editadas',
+      'Cobertura del evento de 6 a 7 horas',
+      'Dirección de poses y fotografía artística',
+      'Asistente de iluminación dedicado',
+      'Mayor enfoque en estética visual',
+      '150 a 200 fotografías editadas',
       '1 fotografía impresa de 50 cm',
-      'Galería digital',
-      'Entrega en alta resolución'
+      '10 fotografías impresas tamaño 15 cm',
+      'Galería digital privada'
     ],
-    features: ['Cobertura del evento de 5 a 6 horas', 'Dirección de poses', 'Mayor enfoque en momentos clave'],
-    deliverables: ['120 a 180 fotografías editadas', '1 fotografía impresa de 50 cm', 'Galería digital privada', 'Entrega final en alta resolución por Google Drive']
+    features: [
+      'Cobertura del evento de 6 a 7 horas',
+      'Dirección de poses y fotografía artística',
+      'Asistente de iluminación dedicado para tomas más dramáticas',
+      'Mayor enfoque en la estética visual del evento'
+    ],
+    deliverables: [
+      '150 a 200 fotografías con edición profesional',
+      '1 ampliación fotográfica de 50 cm',
+      '10 fotografías impresas en calidad museo (15 cm)',
+      'Galería digital privada e interactiva',
+      'Entrega final en alta resolución'
+    ],
+    coverage: ['Arreglos y preparativos', 'Llegada al evento', 'Sesión de retratos de la quinceañera', 'Ceremonia', 'Vals de honor', 'Fotos con invitados', 'Inicio de recepción']
   },
   {
     slug: 'quince-premium-experiencia-fotografica',
-    name: 'Premium – Experiencia fotográfica completa',
-    lead: 'Una experiencia completa para capturar tus quince con un estilo artístico y mayor nivel de producción.',
+    name: 'Premium – Experiencia fotográfica',
+    lead: 'Nuestra opción más recomendada. Una experiencia integral con estilo artístico, cubriendo todo el evento y una sesión previa inolvidable.',
     image: 'assets/images/galery/M&D-23.jpg',
-    priceLines: ["1'400.000 COP"],
-    amountCop: 1400000,
+    priceLines: ["1'850.000 COP"],
+    amountCop: 1850000,
+    featured: true,
     items: [
-      'Cobertura del evento de 7 a 8 horas',
-      'Dirección creativa avanzada',
-      'Mayor enfoque en estética y narrativa visual',
-      'Hasta 250 fotografías editadas',
-      '2 fotografías impresas de 50 cm',
-      '5 fotografías impresas tamaño 15 cm',
-      'Fotobook básico',
-      'Entrega digital en alta resolución'
+      'Cobertura del evento de 8 a 10 horas (fiesta completa)',
+      'Dirección creativa avanzada y narrativa visual',
+      'Sesión fotográfica Pre 15 (1 locación con dron)',
+      'Hasta 300 fotografías con edición artística',
+      '2 ampliaciones fotográficas de 50 cm',
+      '15 fotografías impresas tamaño 15 cm',
+      'Fotobook clásico (20 páginas)',
+      'Galería digital privada'
     ],
     features: [
-      'Cobertura del evento de 7 a 8 horas',
-      'Dirección creativa avanzada',
-      'Mayor enfoque en estética y narrativa visual'
+      'Cobertura del evento de 8 a 10 horas',
+      'Dirección creativa avanzada con equipos de iluminación de estudio',
+      'Narrativa visual y estética de alto nivel cinematográfico',
+      'Uso de tomas aéreas (dron) durante la sesión Pre 15'
     ],
     deliverables: [
-      'Hasta 250 fotografías editadas',
-      '2 fotografías impresas de 50 cm',
-      '5 fotografías impresas tamaño 15 cm',
-      'Fotobook básico',
-      'Entrega final en alta resolución por Google Drive'
-    ]
+      'Hasta 300 fotografías con edición artística y retoque de piel',
+      'Sesión Pre 15 incluida (1 locación)',
+      'Fotobook clásico de alta durabilidad (20 páginas)',
+      '2 ampliaciones fotográficas de 50 cm listas para enmarcar',
+      '15 fotografías impresas calidad museo (15 cm)',
+      'Galería digital privada'
+    ],
+    coverage: ['Sesión Pre 15 con dron', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Recepción y fiesta completa', 'Brindis y detalles especiales']
+  },
+  {
+    slug: 'quince-luxury-experiencia-exclusiva',
+    name: 'Luxury – Experiencia exclusiva',
+    lead: 'El más alto nivel de producción para capturar la magia de tus quince. Fotografía de autor con locaciones ilimitadas, vestuarios y un acabado verdaderamente lujoso.',
+    image: 'assets/images/galery/M&D-25.jpg',
+    priceLines: ["3'200.000 COP"],
+    amountCop: 3200000,
+    featured: true,
+    items: [
+      'Cobertura del evento completa (sin límite de horas)',
+      'Hasta 4 locaciones diferentes (en sesiones)',
+      'Cambios de vestuario ilimitados',
+      'Dirección creativa de alto nivel con asistentes',
+      'Sesión Pre 15 (Múltiples locaciones)',
+      'Sesión Post 15 (Cierre fotográfico)',
+      'Más de 400 fotografías con edición artística de autor',
+      'Fotolibro de lujo premium (acabados finos, formato grande)',
+      '2 retablos de madera (60x40 cm)',
+      '20 fotografías impresas tamaño 15 cm',
+      'Entrega en memoria USB de lujo'
+    ],
+    features: [
+      'Cobertura completa (sin límite de horas)',
+      'Hasta 4 locaciones diferentes y cambios de vestuario ilimitados',
+      'Dirección creativa, iluminación avanzada y asistentes'
+    ],
+    deliverables: [
+      'Más de 400 fotografías con edición artística de autor',
+      'Fotolibro de lujo premium',
+      '2 retablos fotográficos en madera (60x40 cm)',
+      '20 fotografías impresas tamaño 15 cm',
+      'Sesión Pre 15 y Sesión Post 15 incluidas',
+      'Entrega en memoria USB de lujo y Galería digital'
+    ],
+    coverage: ['Sesión Pre 15 (múltiples locaciones)', 'Preparativos completos de la quinceañera', 'Llegada y entrada triunfal', 'Ceremonia', 'Vals de honor', 'Sesión artística de retratos', 'Recepción y fiesta hasta el final', 'Sesión Post 15 (cierre fotográfico)']
   }
 ];
 
@@ -1365,6 +1731,7 @@ type QuinceVideoPlan = {
   amountCop: number;
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 };
 
@@ -1376,8 +1743,17 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-29.jpg',
     priceLines: ['700.000 COP'],
     amountCop: 700000,
-    features: ['Cobertura de 3 a 4 horas', 'Grabación en alta calidad', 'Enfoque en momentos clave'],
-    deliverables: ['Video principal de 3 a 5 minutos en 4K', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 3 a 4 horas',
+      'Grabación en alta calidad',
+      'Enfoque en momentos clave',
+      'Edición profesional'
+    ],
+    deliverables: [
+      'Video principal de 3 a 5 minutos en 4K',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Ceremonia', 'Vals de honor', 'Brindis', 'Momentos destacados']
   },
   {
     slug: 'quince-video-completa',
@@ -1386,8 +1762,18 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-19.jpg',
     priceLines: ["1'200.000 COP"],
     amountCop: 1200000,
-    features: ['Cobertura de 5 a 6 horas', 'Grabación profesional con mejor narrativa', 'Tomas dinámicas'],
-    deliverables: ['Video principal de 5 a 10 minutos en 4K', 'Trailer de 30 a 60 segundos', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 5 a 6 horas',
+      'Grabación profesional con mejor narrativa',
+      'Tomas dinámicas con movimiento',
+      'Edición con corrección de color'
+    ],
+    deliverables: [
+      'Video principal de 5 a 10 minutos en 4K',
+      'Tráiler de 30 a 60 segundos',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos', 'Llegada al evento', 'Ceremonia', 'Vals de honor', 'Recepción e inicio de fiesta']
   },
   {
     slug: 'quince-video-premium-cinematica',
@@ -1396,13 +1782,22 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     image: 'assets/images/galery/M&D-23.jpg',
     priceLines: ["2'000.000 COP"],
     amountCop: 2000000,
+    featured: true,
     features: [
       'Cobertura de 7 a 10 horas',
-      'Tomas con drone',
+      'Tomas con dron (cuando sea posible)',
       'Equipo de grabación profesional',
-      'Dirección creativa avanzada'
+      'Dirección creativa avanzada',
+      'Corrección de color cinematográfica',
+      'Audio profesional de consola'
     ],
-    deliverables: ['Video principal de 10 a 20 minutos en 4K', 'Trailer de 2 a 3 minutos', '1 reel vertical para redes', 'Entrega final por Google Drive']
+    deliverables: [
+      'Video principal de 10 a 20 minutos en 4K',
+      'Tráiler de 2 a 3 minutos',
+      '1 reel vertical para redes',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos y arreglos', 'Sesión de fotos previa', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Fiesta completa', 'Detalles y decoración']
   }
 ];
 
@@ -1415,6 +1810,7 @@ type QuinceHybridPlan = {
   amountCop: number;
   features: string[];
   deliverables: string[];
+  coverage?: string[];
   featured?: boolean;
 };
 
@@ -1426,8 +1822,18 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-23.jpg',
     priceLines: ["1'250.000 COP"],
     amountCop: 1250000,
-    features: ['Cobertura de 4 a 5 horas', 'Fotógrafo + videógrafo'],
-    deliverables: ['100 a 140 fotografías editadas', 'Video principal de 3 a 5 minutos', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 4 a 5 horas',
+      'Fotógrafo y videógrafo',
+      'Dirección básica de poses y tomas',
+      'Grabación en alta calidad'
+    ],
+    deliverables: [
+      '100 a 140 fotografías editadas',
+      'Video principal de 3 a 5 minutos',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Ceremonia', 'Vals de honor', 'Sesión de fotos', 'Brindis']
   },
   {
     slug: 'quince-mixta-completa-experiencia',
@@ -1436,8 +1842,20 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-19.jpg',
     priceLines: ["1'800.000 COP"],
     amountCop: 1800000,
-    features: ['Cobertura de 5 a 7 horas', 'Fotógrafo y videógrafo dedicados'],
-    deliverables: ['140 a 200 fotografías editadas', 'Video principal de 5 a 10 minutos', 'Trailer de 30 a 60 segundos', 'Fotobook básico', 'Entrega final por Google Drive']
+    features: [
+      'Cobertura de 5 a 7 horas',
+      'Fotógrafo y videógrafo dedicados',
+      'Dirección creativa durante el evento',
+      'Tomas dinámicas con movimiento'
+    ],
+    deliverables: [
+      '140 a 200 fotografías editadas',
+      'Video principal de 5 a 10 minutos',
+      'Tráiler de 30 a 60 segundos',
+      'Fotobook básico',
+      'Entrega final por Google Drive'
+    ],
+    coverage: ['Preparativos', 'Llegada al evento', 'Sesión de fotos', 'Ceremonia', 'Vals de honor', 'Inicio de recepción']
   },
   {
     slug: 'quince-mixta-premium-produccion-completa',
@@ -1446,29 +1864,66 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     image: 'assets/images/galery/M&D-29.jpg',
     priceLines: ["2'900.000 COP"],
     amountCop: 2900000,
-    features: ['Cobertura de 7 a 10 horas', 'Equipo de 2 a 3 personas', 'Tomas con drone', 'Dirección creativa avanzada'],
+    featured: true,
+    features: [
+      'Cobertura de 7 a 10 horas',
+      'Equipo de 2 a 3 personas',
+      'Tomas con dron (cuando sea posible)',
+      'Dirección creativa avanzada',
+      'Corrección de color cinematográfica',
+      'Audio profesional de consola'
+    ],
     deliverables: [
       'Hasta 300 fotografías editadas',
       'Video principal de 10 a 20 minutos',
-      'Trailer de 1 a 2 minutos',
+      'Tráiler de 1 a 2 minutos',
       '1 reel vertical para redes',
       'Fotobook de lujo',
       'Set de fotografías impresas',
       'Entrega final por Google Drive'
-    ]
+    ],
+    coverage: ['Preparativos y arreglos personales', 'Sesión artística previa', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos con familia y amigas', 'Fiesta completa', 'Brindis y detalles especiales']
+  },
+  {
+    slug: 'quince-mixta-luxury-experiencia-exclusiva',
+    name: 'Luxury – Producción exclusiva de quince',
+    lead: 'Nuestra propuesta más completa y lujosa. Fotografía y cinematografía del más alto nivel con múltiples locaciones, vestuarios y un resultado deslumbrante.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    priceLines: ["4'500.000 COP"],
+    amountCop: 4500000,
+    featured: true,
+    features: [
+      'Cobertura completa (sin límite de horas)',
+      'Equipo audiovisual completo (múltiples cámaras)',
+      'Tomas con dron (cuando sea posible)',
+      'Hasta 4 locaciones diferentes y cambios de vestuario',
+      'Dirección cinematográfica y estilismo avanzado',
+      'Corrección de color cinematográfica y audio profesional'
+    ],
+    deliverables: [
+      'Más de 400 fotografías con edición artística',
+      'Video principal cinematográfico',
+      'Tráiler y múltiples reels para redes',
+      'Fotolibro de lujo premium',
+      '2 impresiones en retablo de madera (60x40 cm)',
+      'Sesión Pre 15 (foto y video)',
+      'Sesión Post 15 (foto y video)',
+      'Entrega final en alta resolución por Google Drive'
+    ],
+    coverage: ['Sesión Pre 15 (múltiples locaciones y vestuarios)', 'Preparativos y arreglos personales', 'Llegada y entrada al evento', 'Ceremonia', 'Vals de honor', 'Sesión de retratos', 'Recepción y fiesta completa', 'Sesión Post 15 (cierre fotográfico)']
   }
 ];
 
 const quinceAdditionalUpsells: Array<{ label: string; priceLabel: string; priceAmountCop: number }> = [
   {
     label: 'Sesión Pre 15||Sesión previa para capturar tu esencia antes del evento',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '450.000 COP',
+    priceAmountCop: 450000
   },
   {
     label: 'Sesión Post 15||Sesión posterior para fotos más artísticas sin presión',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '500.000 COP',
+    priceAmountCop: 500000
   },
   {
     label: 'Reel para redes||Video corto ideal para redes sociales',
@@ -1487,8 +1942,8 @@ const quinceAdditionalUpsells: Array<{ label: string; priceLabel: string; priceA
   },
   {
     label: 'Fotolibro de lujo||Álbum premium con acabados de alta calidad',
-    priceLabel: '350.000 COP',
-    priceAmountCop: 350000
+    priceLabel: '550.000 COP',
+    priceAmountCop: 550000
   },
   {
     label: 'Fotografía en madera (60x40)||Impresión lista para exhibir',
@@ -1546,126 +2001,398 @@ export const quinceAdditionalItems: QuinceAdditionalItem[] = [
 
 export const quincePackageNotes: string[] = ['Precios ajustables', 'Condiciones Medellín'];
 
-export const preweddingPackagesTitle = 'PAQUETES DE PREBODA 2025';
+export const preweddingPackagesTitle = 'PAQUETES DE PREBODA';
 
 export const preweddingPlans: PreweddingPlan[] = [
   {
     slug: 'preboda-esencial',
-    name: 'Esencial – Nuestro comienzo',
+    name: 'Preboda Esencial',
     lead: 'Sesión íntima y natural para capturar la esencia de la pareja antes del gran día.',
     image: 'assets/images/galery/M&D-18.jpg',
-    price: '300.000',
+    price: '400.000',
     items: [
-      '1 locación cercana',
+      '1 fotógrafo',
+      '1 locación',
       'Duración de 2 horas',
-      'Dirección básica de poses',
+      '1 vestuario',
+      'Dirección de pareja',
       'Sesión en exterior',
-      '30 fotografías editadas',
+      'Hasta 50 fotografías finales, seleccionadas y editadas',
       'Entrega digital en alta resolución',
       'Galería online disponible por 1 mes'
     ],
-    features: ['1 locación cercana', 'Duración de 2 horas', 'Dirección básica de poses', 'Sesión en exterior'],
-    deliverables: ['30 fotografías editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
+    features: ['1 fotógrafo', '1 locación', 'Duración de 2 horas', '1 vestuario', 'Dirección de pareja', 'Sesión en exterior'],
+    deliverables: ['Hasta 50 fotografías finales, seleccionadas y editadas', 'Galería digital privada por 1 mes', 'Entrega final en alta resolución por Google Drive']
   },
   {
     slug: 'preboda-completa',
-    name: 'Completa – La historia antes del sí',
+    name: 'Preboda Completa',
     lead:
       'Sesión más elaborada que permite explorar diferentes escenarios y lograr una narrativa más completa de la pareja.',
     image: 'assets/images/galery/M&D-32.jpg',
-    price: '450.000',
+    price: '580.000',
     items: [
-      '1 a 2 locaciones',
+      '1 fotógrafo',
+      '1 a 2 locaciones cercanas',
       'Duración de 3 horas',
+      'Hasta 2 vestuarios',
       'Dirección creativa',
-      'Posibilidad de cambio de outfit',
-      '50 fotografías editadas',
+      'Hasta 70 fotografías finales, seleccionadas y editadas',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta calidad',
       'Galería online disponible por 3 meses'
     ],
-    features: ['1 a 2 locaciones', 'Duración de 3 horas', 'Dirección creativa', 'Posibilidad de cambio de outfit'],
-    deliverables: ['50 fotografías editadas', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
+    features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
+    deliverables: ['Hasta 70 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
   {
-    slug: 'preboda-premium',
-    name: 'Premium – Experiencia preboda cinematográfica',
-    lead: 'Experiencia completa que combina fotografía y video para crear contenido emocional antes de la boda.',
-    image: 'assets/images/fotos/M&D-31.jpg',
-    price: '700.000',
+    slug: 'preboda-editorial',
+    name: 'Preboda Editorial',
+    lead: 'Sesión con planeación visual y dirección creativa avanzada para crear una historia de pareja con mayor intención estética.',
+    image: 'assets/images/galery/M&D-32.jpg',
+    price: '780.000',
     featured: true,
     items: [
-      '2 o más locaciones',
-      'Duración de 4 a 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento',
-      '80 fotografías editadas',
-      'Video tipo reel Save the Date',
+      '1 fotógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 3 horas',
+      'Hasta 3 vestuarios',
+      'Planeación visual',
+      'Dirección creativa personalizada',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Entrega digital en alta resolución',
       'Galería online disponible por 6 meses'
     ],
     features: [
-      '2 o más locaciones',
-      'Duración de 4 a 5 horas',
-      'Dirección creativa avanzada',
-      'Planeación previa de concepto visual',
-      'Posible desplazamiento'
+      '1 fotógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 3 horas',
+      'Hasta 3 vestuarios',
+      'Planeación visual',
+      'Dirección creativa personalizada'
     ],
     deliverables: [
-      '80 fotografías editadas',
-      'Video tipo reel Save the Date',
+      'Hasta 80 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 30 a 45 segundos',
+      '1 cuadro fotográfico de 60 x 40 cm',
       'Galería digital privada por 6 meses',
       'Entrega final en alta resolución por Google Drive'
     ]
   },
   {
-    slug: 'plan-sencilla',
-    name: 'Plan Sencilla',
+    slug: 'preboda-premium',
+    name: 'Preboda Cinematográfica',
     lead:
-      'Una sesión breve y delicada para parejas que quieren un recuerdo previo al matrimonio con dirección sutil y luz limpia.',
-    image: 'assets/images/galery/M&D-18.jpg',
-    price: '280.000',
-    items: ['30 fotos editadas', '1 vestuario', '1 - 2 horas'],
-    features: ['1 vestuario', 'Duración de 1 a 2 horas'],
-    deliverables: ['30 fotografías editadas', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-completa',
-    name: 'Plan Completa',
-    lead:
-      'Más tiempo, más variedad visual y una entrega pensada para parejas que quieren una sesión más amplia sin ir al extremo premium.',
-    image: 'assets/images/galery/M&D-32.jpg',
-    price: '300.000',
-    items: ['50 fotos editadas', '2 vestuarios', '2 - 3 horas', '1 foto impresa 60CM'],
-    features: ['2 vestuarios', 'Duración de 2 a 3 horas'],
-    deliverables: ['50 fotografías editadas', '1 fotografía impresa de 60 cm', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-especial',
-    name: 'Plan Especial',
-    lead:
-      'Una propuesta pensada para parejas que quieren una sesión más completa, mayor variedad de vestuario y una salida social más fuerte.',
-    image: 'assets/images/fotos/default-cover.png',
-    price: '470.000',
-    items: ['70 fotos editadas', '3 vestuarios', '3 horas', '1 foto impresa', 'Reel'],
-    features: ['3 vestuarios', 'Duración de 3 horas'],
-    deliverables: ['70 fotografías editadas', '1 fotografía impresa', 'Reel', 'Entrega final en alta resolución por Google Drive']
-  },
-  {
-    slug: 'plan-premium',
-    name: 'Plan Premium',
-    lead:
-      'La sesión preboda más potente: dirección audiovisual, look romántico premium y una película corta para contar la historia con más intención.',
+      'Producción audiovisual de preboda con fotografía, video y una narrativa planeada para contar la historia antes del gran día.',
     image: 'assets/images/fotos/M&D-31.jpg',
-    price: '550.000',
-    featured: true,
-    items: ['80 fotos', '3+ vestuarios', '4 horas', 'Foto impresa', 'Reel', 'Película de hasta 3 minutos'],
-    features: ['3 o más vestuarios', 'Duración de 4 horas'],
-    deliverables: ['80 fotografías editadas', 'Fotografía impresa', 'Reel', 'Película de hasta 3 minutos', 'Entrega final en alta resolución por Google Drive']
+    price: '1.150.000',
+    items: [
+      '1 fotógrafo y 1 videógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión de planeación',
+      'Concepto visual y narrativa',
+      'Dirección creativa avanzada',
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Película preboda de 2 a 3 minutos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería online disponible por 1 año'
+    ],
+    features: [
+      '1 fotógrafo y 1 videógrafo',
+      'Hasta 2 locaciones',
+      'Duración de 4 horas',
+      'Hasta 3 vestuarios',
+      'Reunión de planeación',
+      'Concepto visual y narrativa',
+      'Dirección creativa avanzada'
+    ],
+    deliverables: [
+      'Hasta 100 fotografías finales, seleccionadas y editadas',
+      'Reel vertical de 45 a 60 segundos',
+      'Película preboda de 2 a 3 minutos',
+      '1 cuadro fotográfico de 60 x 40 cm',
+      'Galería digital privada por 1 año',
+      'Entrega final en alta resolución por Google Drive'
+    ]
   }
 ];
 
+export const videoAdditionalUpsells = [
+  { label: 'Tomas con drone||Planos aéreos para ampliar el impacto visual y la escala del proyecto', priceLabel: '120.000 COP', priceAmountCop: 120000 },
+  { label: 'Reel adicional para redes||Versión extra en formato vertical pensada para Instagram, TikTok y estados', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+  { label: 'Miniatura para YouTube / Spotify||Miniatura optimizada para YouTube y portada visual para Spotify', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Creación de guión||Desarrollo estructurado de la narrativa del video con enfoque profesional', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Conceptualización y storytelling||Construcción de idea creativa, estética y narrativa del video', priceLabel: '120.000 COP', priceAmountCop: 120000 },
+  { label: 'Video de referencia previo||Video guía con referencias visuales para definir el resultado final antes de grabar', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+  { label: 'Dirección creativa extendida||Acompañamiento completo en la dirección artística durante todo el rodaje', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Planificación de escenas||Organización de tomas y estructura visual para optimizar la grabación', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+  { label: 'Scouting de locación||Búsqueda y selección de locaciones adecuadas para el proyecto', priceLabel: '60.000 COP', priceAmountCop: 60000 }
+];
+
+export interface VideoPackagePlan {
+  slug: string;
+  name: string;
+  lead: string;
+  image: string;
+  priceLines: string[];
+  amountCop: number;
+  items: string[];
+  features: string[];
+  deliverables: string[];
+  featured?: boolean;
+}
+
+export const videoMainPlans: VideoPackagePlan[] = [
+  {
+    slug: 'video-esencial',
+    name: 'Video Esencial',
+    lead: 'Producción directa, limpia y profesional para artistas que buscan un resultado de calidad sin producción compleja.',
+    image: 'assets/images/galery/M&D-30.jpg',
+    priceLines: ['400.000 COP'],
+    amountCop: 400000,
+    items: ['Grabación en locación natural o entorno básico', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto', 'Asesoría creativa previa a la grabación', 'Planeación básica de escenas', '1 video musical final de hasta 4 minutos en 4K', '1 archivo final en formato horizontal'],
+    features: ['Grabación en locación natural o entorno básico', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto', 'Asesoría creativa previa a la grabación', 'Planeación básica de escenas'],
+    deliverables: ['1 video musical final de hasta 4 minutos en 4K', '1 archivo final en formato horizontal', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-pro',
+    name: 'Video Pro',
+    lead: 'Producción con mayor impacto visual, ideal para artistas que buscan calidad superior y contenido para redes.',
+    image: 'assets/images/galery/M&D-31.jpg',
+    priceLines: ['560.000 COP'],
+    amountCop: 560000,
+    items: ['Incluye todo lo del paquete Esencial', 'Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Mayor control de escena', 'Producción de hasta 6 horas', '1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube'],
+    features: ['Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Mayor control de escena', 'Producción de hasta 6 horas', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Dirección creativa durante rodaje', 'Referencia visual previa del proyecto', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube', 'Archivos finales en formato horizontal y vertical', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-cinematico',
+    name: 'Video Cinemático',
+    lead: 'Producción narrativa con enfoque cinematográfico para proyectos de alto nivel visual.',
+    image: 'assets/images/galery/M&D-32.jpg',
+    priceLines: ['850.000 COP'],
+    amountCop: 850000,
+    featured: true,
+    items: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada', '1 video final de hasta 7 minutos en 4K', '1 archivo final en formato horizontal'],
+    features: ['Múltiples locaciones', 'Storytelling', 'Dirección creativa', 'Producción más elaborada', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Construcción de storytelling', 'Desarrollo de idea narrativa', 'Dirección creativa durante rodaje', 'Planeación básica de escenas', 'Acompañamiento en elección de locación', 'Referencia visual previa del proyecto', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video final de hasta 7 minutos en 4K', '1 archivo final en formato horizontal', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-personalizado',
+    name: 'Video Personalizado',
+    lead: 'Producción completamente adaptada a las necesidades del cliente.',
+    image: 'assets/images/galery/M&D-29.jpg',
+    priceLines: ['250.000 COP (Base)'],
+    amountCop: 250000,
+    items: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios', '1 video final con duración acordada en la cotización'],
+    features: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios', 'Asesoría creativa previa a la grabación', 'Definición de concepto visual', 'Desarrollo de idea narrativa', 'Acompañamiento en elección de locación', 'Definición de estilo visual y ritmo del video'],
+    deliverables: ['1 video final con duración acordada en la cotización', 'Archivos finales en la resolución y formato definidos en la propuesta', 'Entrega final por Google Drive']
+  },
+  {
+    slug: 'video-cortometraje',
+    name: 'Video Cortometraje',
+    lead: 'Producción narrativa para cortometrajes, storytelling o proyectos creativos no musicales.',
+    image: 'assets/images/galery/M&D-33.jpg',
+    priceLines: ['300.000 COP (Base)'],
+    amountCop: 300000,
+    items: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada', '1 cortometraje o pieza narrativa final'],
+    features: ['Desarrollo de concepto', 'Dirección creativa', 'Producción personalizada', 'Asesoría creativa previa a la grabación'],
+    deliverables: ['1 cortometraje o pieza narrativa final', 'Duración definida en la propuesta escrita', 'Archivo final en resolución acordada para entrega', 'Entrega final por Google Drive']
+  }
+];
+
+function buildLinkedPackageOption(
+  id: string,
+  label: string,
+  priceLabel: string,
+  priceAmountCop: number,
+  linkedPackageCategory: PortfolioPackageCategory,
+  linkedPackageSlug: string,
+): PortfolioRequestOption {
+  return {
+    id,
+    label,
+    priceLabel,
+    priceAmountCop,
+    selectedByDefault: false,
+    linkedPackageCategory,
+    linkedPackageSlug,
+  };
+}
+
+function buildWeddingRelatedExperienceGroups(
+  prefix: string,
+  includeCivil = true,
+  includeProposal = true,
+  includeMainWedding = false,
+  includePostwedding = true,
+): PortfolioRequestOptionGroup[] {
+  const prebodaOptions = preweddingPlans.map((plan) => {
+    const amount = Number((plan.price ?? '').replace(/\D/g, ''));
+    return buildLinkedPackageOption(
+      `${prefix}-related-${plan.slug}`,
+      plan.name,
+      `${plan.price} COP`,
+      amount,
+      'preboda',
+      plan.slug,
+    );
+  });
+
+  const postbodaOptions = includePostwedding
+    ? weddingPostweddingPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
+
+  const civilOptions = includeCivil
+    ? weddingCivilPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
+
+  const proposalOptions = includeProposal
+    ? weddingProposalPlans.map((plan) =>
+        buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${plan.amountCop} COP`,
+          plan.amountCop,
+          'bodas',
+          plan.slug,
+        ),
+      )
+    : [];
+
+  const mainWeddingOptions = includeMainWedding
+    ? weddingMainPlans.map((plan) => {
+        const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
+        return buildLinkedPackageOption(
+          `${prefix}-related-${plan.slug}`,
+          plan.name,
+          plan.priceLines[0] ?? `${amount} COP`,
+          amount,
+          'bodas',
+          plan.slug,
+        );
+      })
+    : [];
+
+  return [
+    {
+      title: 'Petición de mano',
+      description: 'Documenta el comienzo de la historia antes de la boda.',
+      selectable: true,
+      options: proposalOptions,
+    },
+    {
+      title: 'Boda civil',
+      description: 'Añade una cobertura independiente para la ceremonia civil.',
+      selectable: true,
+      options: civilOptions,
+    },
+    {
+      title: 'Sesión de preboda',
+      description: 'Crea fotografías de pareja antes del día de la boda.',
+      selectable: true,
+      options: prebodaOptions,
+    },
+    {
+      title: 'Cobertura principal de boda',
+      description: 'Continúa con uno de los paquetes protagonistas de foto y video.',
+      selectable: true,
+      options: mainWeddingOptions,
+    },
+    {
+      title: 'Sesión postboda',
+      description: 'Extiende la historia con una sesión después de la celebración.',
+      selectable: true,
+      options: postbodaOptions,
+    },
+  ].filter((group) => group.options.length > 0);
+}
+
+function buildPreweddingWeddingOptionGroups(prefix: string): PortfolioRequestOptionGroup[] {
+  const buildOptions = (plans: Array<{ slug: string; name: string; priceLines: string[] }>) =>
+    plans.map((plan) => {
+      const amount = Number((plan.priceLines[0] ?? '').replace(/\D/g, ''));
+      return buildLinkedPackageOption(
+        `${prefix}-related-${plan.slug}`,
+        plan.name,
+        plan.priceLines[0] ?? `${amount} COP`,
+        amount,
+        'bodas',
+        plan.slug,
+      );
+    });
+
+  return [
+    {
+      title: 'Cobertura principal de boda',
+      description: 'Continúa con uno de nuestros paquetes protagonistas de foto y video.',
+      selectable: true,
+      options: buildOptions(weddingMainPlans),
+    },
+    {
+      title: 'Boda civil',
+      description: 'Conecta la preboda con una cobertura independiente para la ceremonia civil.',
+      selectable: true,
+      options: buildOptions(weddingCivilPlans),
+    },
+    {
+      title: 'Petición de mano',
+      description: 'Consulta los paquetes disponibles para documentar también la petición.',
+      selectable: true,
+      options: buildOptions(weddingProposalPlans),
+    },
+  ];
+}
+
 export const portfolioPackageDetails: PortfolioPackageDetail[] = [
+  ...weddingExperiencePlans.map((plan) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Bodas',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: plan.slug.includes('solo-fotos') ? 'Solo fotos' : 'Foto + video',
+    packageGroup: 'full-experience' as const,
+    eyebrow: 'Full Experience',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: buildWeddingMainBaseQuoteOptions(plan.slug),
+    featured: plan.featured,
+    sortOrder: 0,
+    accent: 'gold' as const,
+    whatsappHref: '',
+    sections: [
+      { title: 'Qué incluye', items: plan.features.slice(0, 3) },
+      { title: 'Cobertura y servicio incluido', items: plan.features.slice(3) },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: []
+  })),
   ...weddingMainPlans.map((plan) => ({
     category: 'bodas' as const,
     slug: plan.slug,
@@ -1769,6 +2496,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -1788,7 +2516,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     priceLines: plan.priceLines,
     baseQuoteOptions: buildWeddingPhotoBaseQuoteOptions(plan.slug),
     featured: plan.featured,
-    sortOrder: plan.slug === 'sencilla-solo-fotos' ? 1 : plan.slug === 'completa-solo-fotos' ? 2 : 3,
+    sortOrder: plan.slug === 'sencilla-solo-fotos' ? 1 : plan.slug === 'completa-solo-fotos' ? 2 : plan.slug === 'premium-solo-fotos' ? 3 : 4,
     accent: 'gold' as const,
     sections: [
       { title: 'Cobertura y servicio incluido', items: plan.features },
@@ -1862,6 +2590,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           false
         )
       },
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
       buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
     ],
     notes: weddingPackageNotes,
@@ -1888,9 +2617,102 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
       { title: 'Incluye', items: plan.features },
       { title: 'Entregables', items: plan.deliverables }
     ],
-    requestOptionGroups: [buildInvitationWebRequestOptionGroup(plan.slug, 'boda')],
+    requestOptionGroups: [
+      ...buildWeddingRelatedExperienceGroups(plan.slug),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda'),
+    ],
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video de bodas).`)
+  })),
+  ...weddingCivilPlans.map((plan, index) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Boda civil',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: 'Boda civil',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Boda civil',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Amplía la cobertura o suma entregables sin cambiar el paquete base.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          [
+            { label: 'Hora adicional||Extiende la cobertura de la ceremonia o celebración', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Grabación continua de la ceremonia||Registro completo de la ceremonia civil con audio', priceLabel: '250.000 COP', priceAmountCop: 250000 },
+            { label: 'Reel adicional para redes', priceLabel: '140.000 COP', priceAmountCop: 140000 },
+            { label: 'Video extendido||Versión más amplia de la historia audiovisual', priceLabel: '220.000 COP', priceAmountCop: 220000 },
+            { label: 'Cuadro fotográfico adicional 60 x 40 cm', priceLabel: '110.000 COP', priceAmountCop: 110000 },
+            { label: 'Fotobook de lujo', priceLabel: '350.000 COP', priceAmountCop: 350000 }
+          ],
+          false
+        )
+      },
+      ...buildWeddingRelatedExperienceGroups(plan.slug, false),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
+    ],
+    notes: weddingPackageNotes,
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name}.`)
+  })),
+  ...weddingProposalPlans.map((plan, index) => ({
+    category: 'bodas' as const,
+    slug: plan.slug,
+    categoryLabel: 'Petición de mano',
+    categoryHref: '/portfolio/bodas',
+    title: plan.name,
+    packageTypeLabel: 'Petición de mano',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Petición de mano',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      { title: 'Incluye momentos', items: plan.coverage }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Personaliza el registro audiovisual sin modificar el paquete base.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          [
+            { label: 'Hora adicional||Amplía la preparación, sesión o celebración', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Videógrafo adicional||Suma registro profesional de video al equipo', priceLabel: '350.000 COP', priceAmountCop: 350000 },
+            { label: 'Reel adicional para redes', priceLabel: '140.000 COP', priceAmountCop: 140000 },
+            { label: 'Video extendido||Versión más amplia de la petición y sus reacciones', priceLabel: '220.000 COP', priceAmountCop: 220000 },
+            { label: 'Cuadro fotográfico adicional 60 x 40 cm', priceLabel: '110.000 COP', priceAmountCop: 110000 },
+            { label: 'Edición prioritaria', priceLabel: '150.000 COP', priceAmountCop: 150000 }
+          ],
+          false
+        )
+      },
+      ...buildWeddingRelatedExperienceGroups(plan.slug, true, false, true, false),
+      buildInvitationWebRequestOptionGroup(plan.slug, 'boda')
+    ],
+    notes: weddingPackageNotes,
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name}.`)
   })),
   ...weddingPostweddingPlans.map((plan, index) => ({
     category: 'bodas' as const,
@@ -1915,7 +2737,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     notes: weddingPackageNotes,
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (sesión postboda).`)
   })),
-  ...quinceMainPlans.map((plan) => ({
+  ...quinceMainPlans.map((plan, index) => ({
     category: 'quinces' as const,
     slug: plan.slug,
     categoryLabel: 'Fotografía de quince',
@@ -1929,11 +2751,12 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     priceLines: plan.priceLines,
     baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
     featured: plan.featured,
-    sortOrder: plan.slug === 'quince-esencial-recuerdos' ? 1 : plan.slug === 'quince-completa-historia' ? 2 : 3,
+    sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
@@ -1964,8 +2787,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
@@ -1996,8 +2820,9 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     sortOrder: index + 1,
     accent: 'rose' as const,
     sections: [
-      { title: 'Incluye', items: plan.features },
-      { title: 'Entregables', items: plan.deliverables }
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables },
+      ...(plan.coverage && plan.coverage.length ? [{ title: 'Incluye momentos', items: plan.coverage }] : [])
     ],
     requestOptionGroups: [
       {
@@ -2073,7 +2898,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     eyebrow: 'Paquete de preboda',
     lead: plan.lead,
     image: plan.image,
-    priceLines: plan.price ? [plan.price] : [],
+    priceLines: plan.price ? [`${plan.price} COP`] : [],
     baseQuoteOptions: [
       buildBaseQuoteOption(
         `${plan.slug}-base`,
@@ -2088,25 +2913,12 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           return 1;
         case 'preboda-completa':
           return 2;
-        case 'preboda-premium':
+        case 'preboda-editorial':
           return 3;
+        case 'preboda-premium':
+          return 4;
         default:
           break;
-      }
-
-      // Planes legacy (Plan Sencilla/Completa/Especial/Premium): se dejan al final
-      // para mantener el orden principal Esencial → Completa → Premium.
-      if (plan.slug === 'plan-sencilla') {
-        return 10;
-      }
-      if (plan.slug === 'plan-completa') {
-        return 11;
-      }
-      if (plan.slug === 'plan-premium') {
-        return 12;
-      }
-      if (plan.slug === 'plan-especial') {
-        return 13;
       }
 
       return 99;
@@ -2131,7 +2943,8 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
           ],
           false
         )
-      }
+      },
+      ...buildPreweddingWeddingOptionGroups(plan.slug),
     ],
     whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} de preboda.`)
   }))
@@ -2446,6 +3259,62 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
   }
 ].map(normalizePortfolioPackageDetail);
 
+portfolioPackageDetails.push(
+  ...videoMainPlans.map((plan, index) => normalizePortfolioPackageDetail({
+    category: 'videos' as const,
+    slug: plan.slug,
+    categoryLabel: 'Videos',
+    categoryHref: '/portfolio/videos',
+    title: plan.name,
+    packageTypeLabel: 'Producción audiovisual',
+    packageGroup: 'custom' as const,
+    eyebrow: 'Video · Producción audiovisual',
+    lead: plan.lead,
+    image: plan.image,
+    priceLines: plan.priceLines,
+    baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-cop`, plan.priceLines[0] ?? 'Cotización personalizada', plan.amountCop)],
+    featured: plan.featured,
+    sortOrder: index + 1,
+    accent: 'gold' as const,
+    sections: [
+      { title: 'Cobertura y servicio incluido', items: plan.features },
+      { title: 'Entregables', items: plan.deliverables }
+    ],
+    requestOptionGroups: [
+      {
+        title: 'Servicios adicionales',
+        description: 'Personaliza la producción sumando estos servicios extra.',
+        selectable: true,
+        options: buildPricedRequestOptions(
+          `${plan.slug}-addon`,
+          plan.slug === 'video-cortometraje' ? [
+            { label: 'Guión o estructura narrativa||Desarrollo del guión o estructura narrativa del cortometraje', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+            { label: 'Múltiples locaciones||Rodaje en 2 o más locaciones distintas', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+            { label: 'Construcción de storytelling||Desarrollo de arco narrativo y estructura emocional del relato', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+            { label: 'Desarrollo de idea narrativa||Conceptualización de la historia a contar antes del rodaje', priceLabel: '60.000 COP', priceAmountCop: 60000 },
+            { label: 'Dirección creativa durante rodaje||Acompañamiento artístico completo durante todo el día de grabación', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+            { label: 'Planificación de escenas||Organización de tomas y estructura visual para optimizar la grabación', priceLabel: '70.000 COP', priceAmountCop: 70000 },
+            { label: 'Acompañamiento en elección de locación||Scouting y selección del lugar ideal para el proyecto', priceLabel: '60.000 COP', priceAmountCop: 60000 },
+            { label: 'Video de referencia previo||Video guía con referencias visuales para definir el resultado final antes de grabar', priceLabel: '80.000 COP', priceAmountCop: 80000 },
+            { label: 'Tomas con drone||Planos aéreos para ampliar la escala visual del cortometraje', priceLabel: '120.000 COP', priceAmountCop: 120000 }
+          ] : videoAdditionalUpsells,
+          false
+        )
+      }
+    ],
+    whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.name} (video).`)
+  }))
+);
+
+const portfolioPackageSlugAliases: Partial<Record<PortfolioPackageCategory, Record<string, string>>> = {
+  preboda: {
+    'plan-sencilla': 'preboda-esencial',
+    'plan-completa': 'preboda-completa',
+    'plan-especial': 'preboda-editorial',
+    'plan-premium': 'preboda-premium',
+  },
+};
+
 export function getPortfolioPackageDetail(
   category: string | null | undefined,
   slug: string | null | undefined
@@ -2454,7 +3323,8 @@ export function getPortfolioPackageDetail(
     return undefined;
   }
 
-  return portfolioPackageDetails.find((item) => item.category === category && item.slug === slug);
+  const canonicalSlug = portfolioPackageSlugAliases[category as PortfolioPackageCategory]?.[slug] ?? slug;
+  return portfolioPackageDetails.find((item) => item.category === category && item.slug === canonicalSlug);
 }
 
 export function getPortfolioPackageDetailsByCategory(
@@ -2917,6 +3787,25 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       'Selecciona el tipo de producción, revisa entregables y alcance, y compártenos objetivo, fecha y ciudad para cotizar con claridad y planear la ejecución.',
     storiesTitle: 'Casos / muestras',
     storiesLead: 'Una selección de estilo visual para contenidos institucionales y comerciales.',
+    stories: []
+  },
+  videos: {
+    category: 'videos',
+    label: 'Videos',
+    shellSubtitle: 'Videos',
+    hero: {
+      eyebrow: 'Portafolio audiovisual',
+      title: 'Producción audiovisual con enfoque cinéfilo.',
+      description: 'Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.',
+      backgroundImage: 'assets/images/galery/M&D-30.jpg',
+      highlights: ['Videos musicales', 'Bodas & eventos', 'Cortometrajes', 'Contenido para redes'],
+      whatsappMessage: 'Hola TECNOJACK, quiero información sobre los paquetes de video.'
+    },
+    packageEyebrow: 'Paquetes de video',
+    packageTitle: 'Elige una base y ajustamos según tu idea',
+    packageLead: 'Selecciona una base para comenzar y la adaptaremos según la complejidad, locaciones y concepto de tu proyecto visual.',
+    storiesTitle: 'Trabajos destacados',
+    storiesLead: 'Explora algunas de nuestras producciones audiovisuales.',
     stories: []
   }
 };

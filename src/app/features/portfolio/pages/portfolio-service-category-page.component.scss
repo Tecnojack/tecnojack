@@ -2,6 +2,20 @@
     display: block;
 }
 
+.service-package-request__linked-package {
+    display: inline-flex;
+    margin-top: 0.45rem;
+    color: var(--portfolio-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.service-package-request__linked-package:hover,
+.service-package-request__linked-package:focus-visible {
+    text-decoration: underline;
+}
+
 .service-package-request__terms {
     margin-top: 10px;
     display: flex;
