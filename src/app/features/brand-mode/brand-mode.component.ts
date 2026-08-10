@@ -45,7 +45,7 @@ export class BrandModeComponent implements OnInit {
     'Hola TECNOJACK, quiero cotizar un proyecto audiovisual o digital y necesito orientación para elegir la mejor opción.'
   );
   readonly brandLogoHorizontalWhite = 'assets/LogoHW.png';
-  readonly brandLogoSquareWhite = 'assets/LogoB.png';
+  readonly brandLogoSquareWhite = 'assets/logo.png';
 
   readonly services: BrandActionItem[] = [
     {
