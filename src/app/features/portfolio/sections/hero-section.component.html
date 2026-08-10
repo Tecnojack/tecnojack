@@ -1,16 +1,18 @@
 <section class="portfolio-section hero-section" id="hero">
-    <div class="hero-section__media" aria-hidden="true">
-        <img tjFallbackImage [src]="heroImageUrl" alt="" fetchpriority="high" />
-        <div class="hero-section__overlay"></div>
+    <!-- Responsive Logo Watermark -->
+    <div class="hero-section__watermark" aria-hidden="true">
+        <img src="assets/logo.png" alt="TECNOJACK Logo" />
     </div>
+
+    <div class="hero-section__overlay"></div>
 
     <div class="hero-section__content">
         <div class="hero-section__copy">
-            <p class="hero-section__eyebrow">JACKSON PALACIOS · TECNOJACK</p>
+            <span class="hero-badge">JACKSON PALACIOS · TECNOJACK</span>
 
             <h1 class="heading-xl hero-section__title">Fotógrafo &amp; Filmmaker</h1>
             <p class="hero-section__lead text-body text-muted">
-                Fotografía de autor y cinematografía para bodas, eventos, marcas y producciones visuales que trascienden el tiempo.
+                Cine, fotografía de autor y dirección artística para bodas, eventos, marcas y visiones audiovisuales que trascienden el tiempo.
             </p>
 
             <div class="hero-section__pills">
@@ -22,6 +24,7 @@
 
             <div class="hero-section__actions">
                 <a class="hero-btn hero-btn--primary" [href]="whatsappHref" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="btn-icon" />
                     Cotizar por WhatsApp
                 </a>
                 <a class="hero-btn hero-btn--ghost" [href]="servicesHref">
@@ -38,5 +41,6 @@
         </div>
     </div>
 </section>
+
 
 

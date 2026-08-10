@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
+import { AboutBrandSectionComponent } from './sections/about-brand-section.component';
 import { ContactSectionComponent } from './sections/contact-section.component';
 import { HeroSectionComponent } from './sections/hero-section.component';
 import { PortfolioShellComponent } from './portfolio-shell.component';
 import { PortfolioContentService } from './services/portfolio-content.service';
+import { ProfessionalProfileSectionComponent } from './sections/professional-profile-section.component';
 import { ServicesSectionComponent } from './sections/services-section.component';
 
 @Component({
@@ -13,7 +15,9 @@ import { ServicesSectionComponent } from './sections/services-section.component'
   imports: [
     PortfolioShellComponent,
     HeroSectionComponent,
+    ProfessionalProfileSectionComponent,
     ServicesSectionComponent,
+    AboutBrandSectionComponent,
     ContactSectionComponent
   ],
   templateUrl: './portfolio-page.component.html',
