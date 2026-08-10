@@ -196,7 +196,7 @@
                         <span>{{ group.lead }}</span>
                     </div>
 
-                    <div class="service-category-packages__grid">
+                    <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="group.cards.length === 2">
                         <article
                             class="service-package-card"
                             *ngFor="let item of group.cards; let index = index"
