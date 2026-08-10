@@ -6,32 +6,44 @@
 
     <div class="hero-section__content">
         <div class="hero-section__copy">
-            <p class="hero-section__eyebrow">{{ heroEyebrow }}</p>
+            <span class="hero-section__badge">JACKSON PALACIOS · TECNOJACK</span>
 
-            <h1 class="heading-xl">{{ heroTitle }}</h1>
-            <p class="hero-section__lead text-body text-muted">{{ heroLead }}</p>
-            <p class="hero-section__location-pill" aria-label="Ubicación base">
-                Medellín, Antioquia - Colombia
+            <h1 class="heading-xl hero-section__title">Productor Audiovisual &amp; Fotógrafo Élite</h1>
+            <p class="hero-section__lead text-body text-muted">
+                Dirección visual, cinematografía 4K y fotografía de autor. Transformo bodas, eventos y marcas en experiencias audiovisuales inolvidables que trascienden el tiempo.
             </p>
 
+            <div class="hero-section__pills">
+                <span class="hero-pill">📷 Fotografía Editorial &amp; Fine-Art</span>
+                <span class="hero-pill">🎬 Cinematografía 4K &amp; Dron</span>
+                <span class="hero-pill">💍 Bodas &amp; Full Experience</span>
+                <span class="hero-pill">💼 Marcas &amp; Corporativos</span>
+            </div>
+
+            <div class="hero-section__actions">
+                <a class="hero-btn hero-btn--primary" [href]="whatsappHref" target="_blank" rel="noopener">
+                    Cotizar Proyecto por WhatsApp
+                </a>
+                <a class="hero-btn hero-btn--secondary" [href]="servicesHref">
+                    Explorar Servicios &rarr;
+                </a>
+            </div>
+
             <div class="hero-section__stats">
-                <article class="hero-stat" *ngFor="let stat of stats">
-                    <strong>{{ stat.value }}</strong>
-                    <span>{{ stat.label }}</span>
+                <article class="hero-stat">
+                    <strong>+100</strong>
+                    <span>Bodas Inmortalizadas</span>
+                </article>
+                <article class="hero-stat">
+                    <strong>+250</strong>
+                    <span>Producciones Ejecutadas</span>
+                </article>
+                <article class="hero-stat">
+                    <strong>100%</strong>
+                    <span>Cobertura Nacional / Destination</span>
                 </article>
             </div>
         </div>
-
-        <aside class="hero-section__aside reveal reveal--right" tjRevealOnScroll>
-            <p class="hero-section__aside-text text-body text-muted">Hablemos de tu próximo proyecto audiovisual.</p>
-            <a class="hero-section__whatsapp-btn" [href]="whatsappHref" target="_blank" rel="noopener">Cotizar</a>
-        </aside>
-    </div>
-
-    <div class="hero-section__highlights" tjRevealOnScroll>
-        <article class="hero-highlight" *ngFor="let item of highlights">
-            <span></span>
-            <p class="text-body">{{ item }}</p>
-        </article>
     </div>
 </section>
+

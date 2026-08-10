@@ -1,18 +1,25 @@
 <section class="portfolio-section contact-section" id="contact">
-    <div class="contact-section__minimal" tjRevealOnScroll>
-        <div class="contact-section__info">
-            <h2 class="heading-md">{{ title }}</h2>
-            <p class="text-body text-muted">{{ lead }}</p>
-        </div>
-        <div class="contact-section__actions">
-            <div class="contact-section__social-icons">
-                <a class="social-icon-btn" *ngFor="let item of getSocialLinks()" [href]="item.href" target="_blank" rel="noopener" [title]="item.title">
-                    <fa-icon [icon]="icons[item.platform]"></fa-icon>
+    <div class="contact-card" tjRevealOnScroll>
+        <div class="contact-card__content">
+            <span class="contact-badge">¿LISTO PARA COMENZAR?</span>
+            <h2 class="contact-title">Hagamos realidad tu próximo proyecto audiovisual</h2>
+            <p class="contact-lead">
+                Cuéntame las fechas y detalles de tu boda, evento o marca. Te responderé directamente por WhatsApp con una propuesta a tu medida.
+            </p>
+
+            <div class="contact-actions">
+                <a class="contact-btn-wa" [href]="whatsappHref" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="btn-icon" />
+                    Cotizar por WhatsApp
                 </a>
+
+                <div class="contact-socials">
+                    <a class="social-icon-btn" *ngFor="let item of getSocialLinks()" [href]="item.href" target="_blank" rel="noopener" [title]="item.title">
+                        <fa-icon [icon]="icons[item.platform]"></fa-icon>
+                    </a>
+                </div>
             </div>
-            <a class="contact-section__btn-wa btn-text" [href]="whatsappHref" target="_blank" rel="noopener">
-                Hablar por WhatsApp
-            </a>
         </div>
     </div>
 </section>
+
