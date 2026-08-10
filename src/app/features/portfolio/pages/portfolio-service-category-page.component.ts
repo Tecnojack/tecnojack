@@ -1445,7 +1445,7 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private buildPackageDisplayName(detail: PortfolioPackageDetail): string {
-    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+    if (detail.category === 'bodas' && (detail.packageGroup === 'photo-video' || detail.packageGroup === 'full-experience')) {
       return detail.title;
     }
 
@@ -1517,7 +1517,7 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private buildPackageTagline(detail: PortfolioPackageDetail): string {
-    if (detail.category === 'bodas' && detail.packageGroup === 'photo-video') {
+    if (detail.category === 'bodas' && (detail.packageGroup === 'photo-video' || detail.packageGroup === 'full-experience')) {
       return '';
     }
     const { tagline } = this.splitPlanName(detail.title);
