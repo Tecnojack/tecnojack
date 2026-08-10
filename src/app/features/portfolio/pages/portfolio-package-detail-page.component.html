@@ -28,7 +28,7 @@
                         </h1>
                         <p class="pkg-offer__lead">{{ detail.lead }}</p>
 
-                        <div class="pkg-offer__destination">
+                        <div class="pkg-offer__destination" *ngIf="detail.category === 'bodas' || detail.category === 'quinces'">
                             <tj-destination-service [serviceContext]="detail.packageTypeLabel"></tj-destination-service>
                         </div>
 
@@ -269,7 +269,7 @@
                 </article>
             </div>
 
-            <section class="package-destination" tjRevealOnScroll>
+            <section class="package-destination" *ngIf="detail.category === 'bodas' || detail.category === 'quinces'" tjRevealOnScroll>
                 <tj-destination-service [serviceContext]="detail.packageTypeLabel"></tj-destination-service>
             </section>
 
@@ -446,6 +446,7 @@
                         <!-- Footer: Destination + TyC + Submit -->
                         <div class="pkg-simple-modal__footer">
                             <tj-destination-service
+                                *ngIf="detail.category === 'bodas' || detail.category === 'quinces'"
                                 variant="selection"
                                 [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
                                 [selected]="isDestinationService()"

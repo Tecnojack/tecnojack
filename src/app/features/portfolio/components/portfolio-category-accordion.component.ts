@@ -99,6 +99,11 @@ export class PortfolioCategoryAccordionComponent {
     this.openPackage.emit({ slug, imageUrl });
   }
 
+  get showDestinationNotice(): boolean {
+    const value = (this.title || '').toLowerCase();
+    return value.includes('boda') || value.includes('quince') || value.includes('15');
+  }
+
   coverByDetail(
     detail: PortfolioPackageDetail | null | undefined,
   ): Observable<string> {

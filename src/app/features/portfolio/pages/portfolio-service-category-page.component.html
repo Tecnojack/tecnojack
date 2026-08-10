@@ -669,6 +669,7 @@
                         </div>
 
                         <tj-destination-service
+                            *ngIf="category === 'bodas' || category === 'quinces'"
                             variant="selection"
                             [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
                             [selected]="isDestinationService()"

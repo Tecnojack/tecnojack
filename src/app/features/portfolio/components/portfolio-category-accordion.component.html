@@ -15,7 +15,7 @@
 
   <div class="service-category-package-group__content" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
     <div class="service-category-package-group__panel">
-      <tj-destination-service [serviceContext]="title"></tj-destination-service>
+      <tj-destination-service *ngIf="showDestinationNotice" [serviceContext]="title"></tj-destination-service>
 
       <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="packages.length === 2" *ngIf="packages.length; else emptyState">
         <article

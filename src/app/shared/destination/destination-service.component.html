@@ -16,7 +16,7 @@
   </div>
 </ng-template>
 
-<div class="destination-modal" *ngIf="isInfoOpen()">
+<div class="destination-modal" #modalRef *ngIf="isInfoOpen()">
   <div class="destination-modal__backdrop" (click)="closeInfo()"></div>
   <section class="destination-modal__panel" role="dialog" aria-modal="true" aria-labelledby="destination-modal-title">
     <button class="destination-modal__close" type="button" (click)="closeInfo()" aria-label="Cerrar modal">
