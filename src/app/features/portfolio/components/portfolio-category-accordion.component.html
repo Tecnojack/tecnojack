@@ -17,7 +17,7 @@
     <div class="service-category-package-group__panel">
       <tj-destination-service [serviceContext]="title"></tj-destination-service>
 
-      <div class="service-category-packages__grid" *ngIf="packages.length; else emptyState">
+      <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="packages.length === 2" *ngIf="packages.length; else emptyState">
         <article
           class="service-package-card"
           *ngFor="let item of packages; let index = index"

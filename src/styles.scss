@@ -1728,8 +1728,9 @@ body.portfolio-request-modal-open {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .portfolio-page .service-category-packages__grid--two-cols {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .portfolio-page .service-category-packages__grid--two-cols,
+    .service-category-packages__grid--two-cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
 
