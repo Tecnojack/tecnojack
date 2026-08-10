@@ -16,23 +16,22 @@
     background: #041217;
 }
 
-/* ── Logo Watermark (Crisp, Responsive, Non-obstructive) ── */
+/* ── Logo Watermark (LogoHW.png: 50% Opacity, Light Blur) ── */
 .hero-section__watermark {
     position: absolute;
     top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(380px, 78vw);
-    aspect-ratio: 1;
+    width: min(560px, 90vw);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.16;
-    filter: drop-shadow(0 0 40px rgba(0, 151, 178, 0.5));
-    animation: watermarkGlow 10s ease-in-out infinite alternate;
+    opacity: 0.5;
+    filter: blur(2.5px) drop-shadow(0 0 30px rgba(0, 151, 178, 0.4));
 
     img {
         width: 100%;
-        height: 100%;
+        height: auto;
+        max-height: 220px;
         object-fit: contain;
         display: block;
     }

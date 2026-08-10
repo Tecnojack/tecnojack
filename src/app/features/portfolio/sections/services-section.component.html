@@ -1,29 +1,28 @@
 <section class="portfolio-section services-section" id="services">
     <div class="services-container" tjRevealOnScroll>
         <div class="services-head">
-            <span class="services-badge">CATÁLOGO DE SERVICIOS</span>
-            <h2 class="heading-lg services-title">Propuestas &amp; Coberturas Audiovisuales</h2>
+            <span class="services-badge">PROPUESTAS &amp; COBERTURAS</span>
+            <h2 class="heading-lg services-title">Servicios Audiovisuales &amp; Fotográficos</h2>
             <p class="text-body text-muted services-lead">
-                Soluciones integrales de fotografía, cinematografía y desarrollo visual diseñadas para cada tipo de proyecto.
+                Formatos diseñados a la medida para cada historia, evento o estrategia de marca.
             </p>
         </div>
 
-        <div class="services-grid">
-            <article class="service-card" *ngFor="let service of services; let index = index" tjRevealOnScroll>
-                <div class="service-card__media" *ngIf="service.image">
-                    <img [src]="service.image" [alt]="service.title" loading="lazy" />
-                    <div class="service-card__badge">0{{ index + 1 }}</div>
+        <div class="services-list">
+            <article class="service-row" *ngFor="let service of services; let index = index" tjRevealOnScroll>
+                <div class="service-row__num">0{{ index + 1 }}</div>
+
+                <div class="service-row__content">
+                    <h3 class="service-row__title">{{ service.title }}</h3>
+                    <p class="service-row__desc">{{ service.description }}</p>
+
+                    <div class="service-row__points" *ngIf="service.points?.length">
+                        <span class="point-chip" *ngFor="let point of service.points">✓ {{ point }}</span>
+                    </div>
                 </div>
 
-                <div class="service-card__body">
-                    <h3 class="service-card__title">{{ service.title }}</h3>
-                    <p class="service-card__desc">{{ service.description }}</p>
-
-                    <ul class="service-card__points" *ngIf="service.points?.length">
-                        <li *ngFor="let point of service.points">✓ {{ point }}</li>
-                    </ul>
-
-                    <a class="service-card__btn" [href]="service.href">
+                <div class="service-row__action">
+                    <a class="service-row__btn" [href]="service.href">
                         {{ service.ctaLabel || 'Ver Paquetes' }} &rarr;
                     </a>
                 </div>
@@ -31,4 +30,5 @@
         </div>
     </div>
 </section>
+
 
