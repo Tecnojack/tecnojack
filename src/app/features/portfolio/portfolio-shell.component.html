@@ -59,13 +59,14 @@
 
     <footer class="portfolio-footer">
         <div class="portfolio-footer__inner">
+            <!-- Brand header -->
             <a *ngIf="isInternalRoute(brandHref); else footerBrandExternal" class="portfolio-footer__brand" [routerLink]="brandHref" aria-label="Ir al inicio">
                 <span class="portfolio-footer__brand-mark" aria-hidden="true">
                     <img src="assets/logo.png" alt="" />
                 </span>
                 <span class="portfolio-footer__brand-copy">
                     <span class="portfolio-footer__brand-name">TECNOJACK</span>
-                    <span class="portfolio-footer__brand-sub text-body text-muted">Estudio audiovisual</span>
+                    <span class="portfolio-footer__brand-sub">Estudio Audiovisual &amp; Fotografía</span>
                 </span>
             </a>
             <ng-template #footerBrandExternal>
@@ -75,40 +76,42 @@
                     </span>
                     <span class="portfolio-footer__brand-copy">
                         <span class="portfolio-footer__brand-name">TECNOJACK</span>
-                        <span class="portfolio-footer__brand-sub text-body text-muted">Estudio audiovisual</span>
+                        <span class="portfolio-footer__brand-sub">Estudio Audiovisual &amp; Fotografía</span>
                     </span>
                 </a>
             </ng-template>
 
-            <p class="portfolio-footer__text text-body text-muted">{{ resolvedFooterText }}</p>
+            <p class="portfolio-footer__text">{{ resolvedFooterText }}</p>
 
-            <div class="portfolio-footer__bar" aria-label="Enlaces del sitio">
-                <div class="portfolio-footer__links" aria-label="Enlaces legales">
-                    <a class="btn-text" routerLink="/terminos-y-condiciones">Términos y Condiciones</a>
-
-                    <a *ngIf="isInternalRoute(brandHref); else footerExternalLink" class="btn-text" [routerLink]="brandHref">Volver arriba</a>
-                    <ng-template #footerExternalLink>
-                        <a class="btn-text" [href]="brandHref">Volver arriba</a>
-                    </ng-template>
-                </div>
-
-                <div class="portfolio-footer__social" aria-label="Redes y contacto">
-                    <a
-                        class="portfolio-footer__social-link btn-text"
-                        *ngFor="let link of contactLinks"
-                        [href]="link.href"
-                        target="_blank"
-                        rel="noopener"
-                        [attr.aria-label]="link.title">
-                        <img *ngIf="link.iconSrc" [src]="link.iconSrc" alt="" aria-hidden="true" />
-                        <span>{{ link.title }}</span>
-                    </a>
-                </div>
+            <!-- Social Networks Grid -->
+            <div class="portfolio-footer__social-grid" aria-label="Redes sociales y contacto">
+                <a
+                    class="portfolio-footer__social-chip"
+                    *ngFor="let link of contactLinks"
+                    [href]="link.href"
+                    target="_blank"
+                    rel="noopener"
+                    [attr.aria-label]="link.title">
+                    <img *ngIf="link.iconSrc" [src]="link.iconSrc" alt="" aria-hidden="true" />
+                    <span>{{ link.title }}</span>
+                </a>
             </div>
 
-            <p class="portfolio-footer__credit">Imaginado y ejecutado por Jackson Palacios</p>
+            <!-- Links & Legal -->
+            <div class="portfolio-footer__links" aria-label="Enlaces del sitio">
+                <a class="footer-link" routerLink="/terminos-y-condiciones">Términos y Condiciones</a>
+                <span class="footer-dot">•</span>
+                <a *ngIf="isInternalRoute(brandHref); else footerExternalLink" class="footer-link" [routerLink]="brandHref">Volver arriba ↑</a>
+                <ng-template #footerExternalLink>
+                    <a class="footer-link" [href]="brandHref">Volver arriba ↑</a>
+                </ng-template>
+            </div>
+
+            <!-- Author Signature -->
+            <p class="portfolio-footer__credit">Imaginado y ejecutado por <strong>Jackson Palacios</strong></p>
         </div>
     </footer>
+
 
     <a
         class="portfolio-float-wa btn-text"

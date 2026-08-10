@@ -278,7 +278,7 @@ export interface PortfolioVideoCategory {
 }
 
 export interface PortfolioContactLink {
-  platform: 'instagram' | 'facebook' | 'tiktok' | 'whatsapp';
+  platform: 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'whatsapp';
   title: string;
   description: string;
   href: string;
@@ -298,6 +298,7 @@ export const socialLinks = {
   instagram: 'https://www.instagram.com/tecnojack',
   facebook: 'https://www.facebook.com/tecnojack.pc',
   tiktok: 'https://www.tiktok.com/@tecnojackyt',
+  youtube: 'https://youtube.com/@tecnojack',
   whatsapp: 'https://wa.me/573145406467'
 };
 
@@ -3537,6 +3538,12 @@ export const portfolioContactLinks: PortfolioContactLink[] = [
     title: 'Instagram',
     description: 'Explora trabajos recientes, reels y contenido detrás de cámaras.',
     href: socialLinks.instagram
+  },
+  {
+    platform: 'youtube',
+    title: 'YouTube',
+    description: 'Mira producciones completas, cortometrajes y piezas cinematográficas.',
+    href: socialLinks.youtube
   },
   {
     platform: 'facebook',

@@ -2,7 +2,7 @@ import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faFacebookF, faInstagram, faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faInstagram, faTiktok, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { PortfolioContactLink } from '../portfolio.data';
@@ -47,6 +47,7 @@ export class ContactSectionComponent {
 
   readonly icons: Record<PortfolioContactLink['platform'], IconDefinition> = {
     instagram: faInstagram,
+    youtube: faYoutube,
     facebook: faFacebookF,
     tiktok: faTiktok,
     whatsapp: faWhatsapp

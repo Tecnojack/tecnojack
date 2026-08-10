@@ -43,6 +43,7 @@ export class PortfolioShellComponent {
     const iconMap: Record<string, string> = {
       whatsapp: 'assets/images/icons/whatsapp.svg',
       instagram: 'assets/images/icons/instagram.svg',
+      youtube: 'assets/images/icons/youtube.svg',
       facebook: 'assets/images/icons/facebook.svg',
       tiktok: 'assets/images/icons/tiktok.svg'
     };
