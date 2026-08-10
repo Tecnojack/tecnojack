@@ -6,44 +6,37 @@
 
     <div class="hero-section__content">
         <div class="hero-section__copy">
-            <span class="hero-section__badge">JACKSON PALACIOS · TECNOJACK</span>
+            <p class="hero-section__eyebrow">JACKSON PALACIOS · TECNOJACK</p>
 
-            <h1 class="heading-xl hero-section__title">Productor Audiovisual &amp; Fotógrafo Élite</h1>
+            <h1 class="heading-xl hero-section__title">Fotógrafo &amp; Filmmaker</h1>
             <p class="hero-section__lead text-body text-muted">
-                Dirección visual, cinematografía 4K y fotografía de autor. Transformo bodas, eventos y marcas en experiencias audiovisuales inolvidables que trascienden el tiempo.
+                Fotografía de autor y cinematografía para bodas, eventos, marcas y producciones visuales que trascienden el tiempo.
             </p>
 
             <div class="hero-section__pills">
                 <span class="hero-pill">📷 Fotografía Editorial &amp; Fine-Art</span>
                 <span class="hero-pill">🎬 Cinematografía 4K &amp; Dron</span>
                 <span class="hero-pill">💍 Bodas &amp; Full Experience</span>
-                <span class="hero-pill">💼 Marcas &amp; Corporativos</span>
+                <span class="hero-pill">💼 Corporativo &amp; Marcas</span>
             </div>
 
             <div class="hero-section__actions">
                 <a class="hero-btn hero-btn--primary" [href]="whatsappHref" target="_blank" rel="noopener">
-                    Cotizar Proyecto por WhatsApp
+                    Cotizar por WhatsApp
                 </a>
-                <a class="hero-btn hero-btn--secondary" [href]="servicesHref">
-                    Explorar Servicios &rarr;
+                <a class="hero-btn hero-btn--ghost" [href]="servicesHref">
+                    Ver Servicios &rarr;
                 </a>
             </div>
 
             <div class="hero-section__stats">
-                <article class="hero-stat">
-                    <strong>+100</strong>
-                    <span>Bodas Inmortalizadas</span>
-                </article>
-                <article class="hero-stat">
-                    <strong>+250</strong>
-                    <span>Producciones Ejecutadas</span>
-                </article>
-                <article class="hero-stat">
-                    <strong>100%</strong>
-                    <span>Cobertura Nacional / Destination</span>
+                <article class="hero-stat" *ngFor="let stat of stats">
+                    <strong>{{ stat.value }}</strong>
+                    <span>{{ stat.label }}</span>
                 </article>
             </div>
         </div>
     </div>
 </section>
+
 
