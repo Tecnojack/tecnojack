@@ -1058,7 +1058,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
 export const weddingExperiencePlans: WeddingPackagePlan[] = [
   {
     slug: 'full-experience-hibrido',
-    name: 'HÍBRIDA - Full Experience',
+    name: 'The Cinematic Full Experience – Tu historia audiovisual',
     priceLines: ["11'300.000 COP"],
     lead:
       'La experiencia audiovisual definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
@@ -1108,7 +1108,7 @@ export const weddingExperiencePlans: WeddingPackagePlan[] = [
   },
   {
     slug: 'full-experience-solo-fotos',
-    name: 'SOLO FOTOS - Full Experience',
+    name: 'The Heritage Full Experience – Relato fotográfico sin límites',
     priceLines: ["8'500.000 COP"],
     lead:
       'La experiencia fotográfica definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
