@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { PortfolioContactLink, PortfolioNavItem } from './portfolio.data';
@@ -26,6 +26,23 @@ export class PortfolioShellComponent {
   @Input() editable = false;
   @Input() floatWaHref?: string;
   @Input() hideHeader = false;
+
+  readonly isMenuOpen = signal(false);
+
+  toggleFloatingMenu(): void {
+    this.isMenuOpen.update((val) => !val);
+  }
+
+  closeFloatingMenu(): void {
+    this.isMenuOpen.set(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  closeOnEscape(): void {
+    if (this.isMenuOpen()) {
+      this.closeFloatingMenu();
+    }
+  }
 
   get resolvedHeaderCtaHref(): string {
     return this.headerCtaHref || this.content.whatsappHref();

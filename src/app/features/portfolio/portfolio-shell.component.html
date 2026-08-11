@@ -106,6 +106,49 @@
 
 
 
+    <!-- Floating Navigation Menu (Speed-dial Stack above WhatsApp) -->
+    <aside class="portfolio-float-menu" [class.portfolio-float-menu--open]="isMenuOpen()">
+        <div class="portfolio-float-menu__backdrop" *ngIf="isMenuOpen()" (click)="closeFloatingMenu()"></div>
+
+        <div class="portfolio-float-menu__stack" *ngIf="isMenuOpen()">
+            <ng-container *ngFor="let item of navItems; let i = index">
+                <a
+                    *ngIf="isInternalRoute(item.href); else externalFloatLink"
+                    class="portfolio-float-menu__item"
+                    [style.--item-index]="i"
+                    [routerLink]="item.href"
+                    (click)="closeFloatingMenu()"
+                    routerLinkActive="portfolio-float-menu__item--active"
+                    [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }">
+                    <span>{{ item.label }}</span>
+                </a>
+                <ng-template #externalFloatLink>
+                    <a
+                        class="portfolio-float-menu__item"
+                        [style.--item-index]="i"
+                        [href]="item.href"
+                        (click)="closeFloatingMenu()">
+                        <span>{{ item.label }}</span>
+                    </a>
+                </ng-template>
+            </ng-container>
+        </div>
+
+        <button
+            type="button"
+            class="portfolio-float-menu__toggle"
+            (click)="toggleFloatingMenu()"
+            [attr.aria-expanded]="isMenuOpen()"
+            aria-label="Navegación de páginas">
+            <span class="portfolio-float-menu__burger">
+                <span class="line line--1"></span>
+                <span class="line line--2"></span>
+                <span class="line line--3"></span>
+            </span>
+            <span class="portfolio-float-menu__label">Páginas</span>
+        </button>
+    </aside>
+
     <a
         class="portfolio-float-wa btn-text"
         [href]="whatsappHref"
@@ -118,3 +161,4 @@
 
     <ng-content select="[portfolioOverlay]"></ng-content>
 </div>
+
