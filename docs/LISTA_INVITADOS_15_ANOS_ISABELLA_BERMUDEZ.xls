@@ -12,7 +12,7 @@
   </Style>
   <Style ss:ID="HeaderTitle">
    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
-   <Font ss:FontName="Calibri" ss:Size="16" ss:Bold="1" ss:Color="#FFFFFF"/>
+   <Font ss:FontName="Calibri" ss:Size="15" ss:Bold="1" ss:Color="#FFFFFF"/>
    <Interior ss:Color="#384C32" ss:Pattern="Solid"/>
   </Style>
   <Style ss:ID="HeaderCol">
@@ -43,18 +43,17 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Invitaciones XV Isabella">
-  <Table ss:ExpandedColumnCount="8" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="24">
+  <Table ss:ExpandedColumnCount="7" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="24">
    <Column ss:Width="40"/>
    <Column ss:Width="80"/>
    <Column ss:Width="50"/>
-   <Column ss:Width="160"/>
-   <Column ss:Width="260"/>
-   <Column ss:Width="130"/>
-   <Column ss:Width="300"/>
+   <Column ss:Width="170"/>
    <Column ss:Width="280"/>
+   <Column ss:Width="140"/>
+   <Column ss:Width="360"/>
 
    <Row ss:Height="40">
-    <Cell ss:MergeAcross="7" ss:StyleID="HeaderTitle"><Data ss:Type="String">LISTA OFICIAL DE INVITADOS — 15 AÑOS ISABELLA BERMÚDEZ (Total: 98 Pases)</Data></Cell>
+    <Cell ss:MergeAcross="6" ss:StyleID="HeaderTitle"><Data ss:Type="String">LISTA OFICIAL DE INVITACIONES — 15 AÑOS ISABELLA BERMÚDEZ (Total: 98 Pases)</Data></Cell>
    </Row>
 
    <Row ss:Height="28">
@@ -64,8 +63,7 @@
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Nombre Principal / Grupo</Data></Cell>
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Invitados Detallados</Data></Cell>
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Nota Especial</Data></Cell>
-    <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Enlace de Invitación (Producción)</Data></Cell>
-    <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Enlace Local de Prueba</Data></Cell>
+    <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Enlace Directo de la Invitación Web</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">1</Data></Cell>
@@ -75,7 +73,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Fiorella Alvarez, Noa Zambrano</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">2</Data></Cell>
@@ -85,7 +82,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Elizabeth Villada</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elizabeth-villada/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elizabeth-villada/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/elizabeth-villada/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/elizabeth-villada/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">3</Data></Cell>
@@ -95,7 +91,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valentina Ruiz</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valentina-ruiz/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valentina-ruiz/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/valentina-ruiz/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/valentina-ruiz/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">4</Data></Cell>
@@ -105,7 +100,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sofia Fernandez, Emely Fernandez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">5</Data></Cell>
@@ -115,7 +109,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valeria Requena</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valeria-requena/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valeria-requena/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/valeria-requena/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/valeria-requena/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">6</Data></Cell>
@@ -125,7 +118,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Alina Gutierrez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/alina-gutierrez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/alina-gutierrez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/alina-gutierrez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/alina-gutierrez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">7</Data></Cell>
@@ -135,7 +127,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Ana Isabel Giraldo</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/ana-isabel-giraldo/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/ana-isabel-giraldo/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/ana-isabel-giraldo/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/ana-isabel-giraldo/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">8</Data></Cell>
@@ -145,7 +136,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Mailen Feria</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mailen-feria/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mailen-feria/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/mailen-feria/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/mailen-feria/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">9</Data></Cell>
@@ -155,7 +145,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Maria Fernanda Quintero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-quintero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-quintero/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/maria-fernanda-quintero/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/maria-fernanda-quintero/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">10</Data></Cell>
@@ -165,7 +154,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Santiago Deossa</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/santiago-deossa/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/santiago-deossa/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/santiago-deossa/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/santiago-deossa/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">11</Data></Cell>
@@ -175,7 +163,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juanes Diaz</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanes-diaz/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanes-diaz/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/juanes-diaz/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/juanes-diaz/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">12</Data></Cell>
@@ -185,7 +172,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Lina Soler</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/lina-soler/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/lina-soler/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/lina-soler/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/lina-soler/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">13</Data></Cell>
@@ -195,7 +181,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Mariana Osorio</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mariana-osorio/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mariana-osorio/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/mariana-osorio/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/mariana-osorio/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">14</Data></Cell>
@@ -205,7 +190,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juanita Torres</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanita-torres/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanita-torres/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/juanita-torres/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/juanita-torres/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">15</Data></Cell>
@@ -215,7 +199,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juan Bocanegra</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juan-bocanegra/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juan-bocanegra/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/juan-bocanegra/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/juan-bocanegra/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">16</Data></Cell>
@@ -225,7 +208,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juan Camilo Baquero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juan-camilo-baquero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juan-camilo-baquero/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/juan-camilo-baquero/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/juan-camilo-baquero/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">17</Data></Cell>
@@ -235,7 +217,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Juanes Millan, Dana Millan</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanes-millan-dana-millan/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanes-millan-dana-millan/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/juanes-millan-dana-millan/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/juanes-millan-dana-millan/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">18</Data></Cell>
@@ -245,7 +226,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sandra Yepes, John Jairo Bermudez, Samuel Bermudez, Eliana Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sandra-yepes/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sandra-yepes/4</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/sandra-yepes/4"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/sandra-yepes/4</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">19</Data></Cell>
@@ -255,7 +235,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Mariana Garzon, Matias Holguin, Wilson Gómez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">20</Data></Cell>
@@ -265,7 +244,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Elvia Elena Yepes, Mateo Garzón</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">21</Data></Cell>
@@ -275,7 +253,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Felipe Garzón, Valentina Martinez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">22</Data></Cell>
@@ -285,7 +262,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Arelis Molina, Elkin Barros, Santiago Barros</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">23</Data></Cell>
@@ -295,7 +271,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Carolina Arrubla, Diana Rios</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/carolina-arrubla-diana-rios/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/carolina-arrubla-diana-rios/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/carolina-arrubla-diana-rios/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/carolina-arrubla-diana-rios/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">24</Data></Cell>
@@ -305,7 +280,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Elizabeth Cano, Fany Mejia, Dario Ospina</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">25</Data></Cell>
@@ -315,7 +289,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Diana Ospina, Bernabe Bustamante</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">26</Data></Cell>
@@ -325,7 +298,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Natalia Ospina</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/natalia-ospina/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/natalia-ospina/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/natalia-ospina/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/natalia-ospina/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">27</Data></Cell>
@@ -335,7 +307,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Daniel Ospina, Doria Arrieta, Juan Pablo Ospina, Andres Felie Ospina</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/daniel-ospina/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/daniel-ospina/4</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/daniel-ospina/4"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/daniel-ospina/4</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">28</Data></Cell>
@@ -345,7 +316,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Socorro Bermudez, Jhon Jairo Giraldo</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">29</Data></Cell>
@@ -355,7 +325,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Mauricio Giraldo, Joan Torres</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">30</Data></Cell>
@@ -365,7 +334,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Arlen Restrepo, Tatian Aleman, Jose David Restrepo, Manuela Restrepo</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arlen-restrepo/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arlen-restrepo/4</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/arlen-restrepo/4"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/arlen-restrepo/4</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">31</Data></Cell>
@@ -375,7 +343,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Jose Bermudez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/jose-bermudez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/jose-bermudez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/jose-bermudez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/jose-bermudez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">32</Data></Cell>
@@ -385,7 +352,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Saul Bermudez, Dexcy Coromoto</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">33</Data></Cell>
@@ -395,7 +361,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Duvan Bermudez, Leidy Zapata</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">34</Data></Cell>
@@ -405,7 +370,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Robinson Bermudez, Sandra Castaño, Miguel Angel Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/robinson-bermudez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/robinson-bermudez/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/robinson-bermudez/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/robinson-bermudez/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">35</Data></Cell>
@@ -415,7 +379,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Arley Bermudez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arley-bermudez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arley-bermudez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/arley-bermudez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/arley-bermudez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">36</Data></Cell>
@@ -425,7 +388,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Solangel Londoño, Luz Adriana Bermudez, Jhon Alexander Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/solangel-londono/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/solangel-londono/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/solangel-londono/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/solangel-londono/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">37</Data></Cell>
@@ -435,7 +397,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Lina Garcia, Luciana Galeano</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/lina-garcia-luciana-galeano/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/lina-garcia-luciana-galeano/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/lina-garcia-luciana-galeano/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/lina-garcia-luciana-galeano/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">38</Data></Cell>
@@ -445,7 +406,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Carlos Bermudez, Elcy Quiroz, Johana Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/carlos-bermudez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/carlos-bermudez/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/carlos-bermudez/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/carlos-bermudez/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">39</Data></Cell>
@@ -455,7 +415,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Xiomara Bermudez, Elkin Angel, Julian Angel, Veronica Angel, Martin Angel</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/xiomara-bermudez/5"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/xiomara-bermudez/5</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/xiomara-bermudez/5"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/xiomara-bermudez/5</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">40</Data></Cell>
@@ -465,7 +424,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Kedwin Gonzalez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/kedwin-gonzalez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/kedwin-gonzalez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/kedwin-gonzalez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/kedwin-gonzalez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">41</Data></Cell>
@@ -475,7 +433,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Garcia, Brian Garcia</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sara-garcia-brian-garcia/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sara-garcia-brian-garcia/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/sara-garcia-brian-garcia/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/sara-garcia-brian-garcia/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">42</Data></Cell>
@@ -485,7 +442,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Zapata, Jeferson Orozco</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Zapata + (baby)</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sara-zapata/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sara-zapata/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/sara-zapata/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/sara-zapata/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">43</Data></Cell>
@@ -495,7 +451,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Maria Fernanda Horta, Nicolas Useche</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">44</Data></Cell>
@@ -505,7 +460,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sindy Giraldo, David Rodriguez, Nicolas Castrillon</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sindy-giraldo/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sindy-giraldo/3</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/sindy-giraldo/3"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/sindy-giraldo/3</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">45</Data></Cell>
@@ -515,7 +469,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Yesenia Gomez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/yesenia-gomez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/yesenia-gomez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/yesenia-gomez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/yesenia-gomez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">46</Data></Cell>
@@ -525,7 +478,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valentina Aristizabal</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valentina-aristizabal/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valentina-aristizabal/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/valentina-aristizabal/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/valentina-aristizabal/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">47</Data></Cell>
@@ -535,7 +487,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Camila Arbelaez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/camila-arbelaez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/camila-arbelaez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/camila-arbelaez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/camila-arbelaez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">48</Data></Cell>
@@ -545,7 +496,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Michel Rodas</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/michel-rodas/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/michel-rodas/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/michel-rodas/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/michel-rodas/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">49</Data></Cell>
@@ -555,7 +505,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Isabel Sierra</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/isabel-sierra/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/isabel-sierra/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/isabel-sierra/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/isabel-sierra/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">50</Data></Cell>
@@ -565,7 +514,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Rosa Gomez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/rosa-gomez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/rosa-gomez/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/rosa-gomez/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/rosa-gomez/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">51</Data></Cell>
@@ -575,7 +523,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Catalina Londoño</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/catalina-londono/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/catalina-londono/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/catalina-londono/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/catalina-londono/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">52</Data></Cell>
@@ -585,7 +532,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Edwar Ospina</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/edwar-ospina/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/edwar-ospina/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/edwar-ospina/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/edwar-ospina/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">53</Data></Cell>
@@ -595,7 +541,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Marlon Duque</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/marlon-duque/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/marlon-duque/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/marlon-duque/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/marlon-duque/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">54</Data></Cell>
@@ -605,7 +550,6 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Daniela Quintero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/daniela-quintero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/daniela-quintero/1</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/daniela-quintero/1"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/daniela-quintero/1</Data></Cell>
    </Row>
    <Row ss:Height="24">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">55</Data></Cell>
@@ -615,7 +559,6 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Nancy Rueda, Alejandro Echeverri</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2</Data></Cell>
-    <Cell ss:StyleID="LinkCell" ss:HRef="http://localhost:4205/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2"><Data ss:Type="String">http://localhost:4205/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2</Data></Cell>
    </Row>
   </Table>
  </Worksheet>
