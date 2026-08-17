@@ -215,6 +215,78 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'xv/:celebrantSlug/:guestSlug/:guestCount',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'xv/:celebrantSlug/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'xv/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitaciones/xv/:celebrantSlug/:guestSlug/:guestCount',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitaciones/xv/:celebrantSlug/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitaciones/xv/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitations/xv/:celebrantSlug/:guestSlug/:guestCount',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitations/xv/:celebrantSlug/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitations/xv/:guestSlug',
+		data: { hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/xv-invitation/xv-invitation-page.component').then(
+				(m) => m.XvInvitationPageComponent
+			)
+	},
+	{
 		path: ':wedding/:guest/:count',
 		data: { audio: true },
 		loadComponent: () =>

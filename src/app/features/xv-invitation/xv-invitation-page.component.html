@@ -1,0 +1,798 @@
+<!-- PRELOADER DE ENTRADA -->
+<div class="xv-preloader" [class.xv-preloader--hidden]="loaded()" aria-hidden="true">
+  <div class="xv-preloader__content">
+    <div class="xv-preloader__icon">
+      <span>❖</span>
+    </div>
+    <div class="xv-preloader__spinner"></div>
+  </div>
+</div>
+
+<main class="xv-container" *ngIf="!loading()">
+
+  <!-- PANTALLA INICIAL DE BIENVENIDA / ENTRADA CON O SIN MÚSICA -->
+  <div class="xv-welcome-gate" *ngIf="welcomeGateOpen() && !notFound() && group() as g" role="dialog" aria-modal="true" aria-label="Bienvenida a la invitación de 15 años">
+    <div class="xv-welcome-gate__backdrop"></div>
+    <div class="xv-welcome-gate__card">
+      
+      <!-- Sello Ornamental Superior -->
+      <div class="welcome-sello" aria-hidden="true">
+        <span class="welcome-sello__linea"></span>
+        <span class="welcome-sello__icono">❖</span>
+        <span class="welcome-sello__linea"></span>
+      </div>
+
+      <!-- Nombre de la Quinceañera -->
+      <h2 class="welcome-title">{{ celebrantName() }}</h2>
+      <p class="welcome-subtitle">Mis 15 años</p>
+
+      <div class="welcome-divider" aria-hidden="true"></div>
+
+      <!-- Dedicatoria con los nombres de los invitados -->
+      <div class="welcome-guest-box">
+        <span class="welcome-guest-kicker">{{ isGroup() ? '✦ INVITACIÓN PARA USTEDES ✦' : '✦ INVITACIÓN ESPECIAL ✦' }}</span>
+        <h3 class="welcome-guest-names">{{ formattedNames() }}</h3>
+        <span class="welcome-guest-passes">{{ g.guestCount }} {{ g.guestCount === 1 ? 'Pase Reservado' : 'Pases Reservados' }}</span>
+      </div>
+
+      <!-- Pregunta de música -->
+      <p class="welcome-audio-prompt">
+        ¿Deseas ingresar con música a la celebración?
+      </p>
+
+      <!-- Botones de Acción de Entrada -->
+      <div class="welcome-actions">
+        <button type="button" class="boton boton--welcome-music" (click)="enterInvitation(true)">
+          <span class="btn-icon">🎵</span>
+          <span>Entrar con música</span>
+        </button>
+
+        <button type="button" class="boton boton--welcome-silent" (click)="enterInvitation(false)">
+          <span class="btn-icon">🔇</span>
+          <span>Entrar sin música</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ESTADO: SLUG NO ENCONTRADO -->
+  <div class="xv-not-found" *ngIf="notFound()">
+    <div class="xv-not-found__card reveal-on-scroll">
+      <div class="xv-not-found__icon">✨</div>
+      <h2>Invitación no encontrada</h2>
+      <p>No pudimos encontrar esta invitación. Por favor verifica que hayas abierto el enlace exacto que te envié.</p>
+      <a routerLink="/brand" class="boton boton--outline">Ir a la página principal</a>
+    </div>
+  </div>
+
+  <!-- VISTA DE INVITACIÓN VÁLIDA -->
+  <div class="xv-page" *ngIf="!notFound() && group() as g">
+
+    <!-- 1. PORTADA / HERO MINIMALISTA (Voz directa en primera persona de la quinceañera) -->
+    <header class="portada-fullbleed">
+      <!-- Imagen de fondo a pantalla completa -->
+      <div class="portada-fullbleed__img" [style.background-image]="'url(' + config.coverImage + ')'" role="img" aria-label="Fotografía de Isabella Bermúdez"></div>
+      
+      <!-- Degradado suave hacia abajo para fundirse con el fondo -->
+      <div class="portada-fullbleed__gradient" aria-hidden="true"></div>
+
+      <!-- Follaje botánico superior izquierdo SVG sutil -->
+      <div class="portada-flor-izq-sup" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 473" width="100%" height="100%">
+          <g transform="translate(10, 10)">
+            <path fill="#C5A467" opacity="0.3" d="M120,40 C140,80 180,110 160,160 C140,210 90,240 70,200 C50,160 100,100 120,40 Z"/>
+            <path fill="#1C2A26" opacity="0.1" d="M160,110 C190,140 240,180 220,230 C200,280 150,300 130,260 C110,220 130,160 160,110 Z"/>
+            <path fill="none" stroke="#C5A467" stroke-width="1.2" stroke-linecap="round" d="M180,20 Q120,180 100,420"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Espacio superior para contemplar la fotografía limpia -->
+      <div class="portada-foto-spacer" aria-hidden="true"></div>
+
+      <!-- Contenido tipográfico elegante y minimalista en la parte inferior del Hero -->
+      <div class="container portada-content reveal-on-scroll">
+        
+        <!-- Fecha en línea tipográfica dorada sutil -->
+        <div class="portada-fecha">
+          <span class="fecha-dot">✦</span>
+          <span class="fecha-texto">{{ config.dateText }}</span>
+          <span class="fecha-dot">✦</span>
+        </div>
+
+        <!-- Título principal refinado: Isabella Bermúdez -->
+        <div class="box-nombres-portada">
+          <h1 class="titulo-portada">
+            {{ celebrantName() }}
+          </h1>
+          <h2 class="subtitulo-portada">
+            Mis 15 años
+          </h2>
+          
+          <div class="ornamento-divisor">
+            <span class="linea-izq"></span>
+            <span class="diamante">❖</span>
+            <span class="linea-der"></span>
+          </div>
+        </div>
+
+        <!-- Frase emocional minimalista -->
+        <div class="portada-frase-minimal">
+          <p>“{{ config.quoteMessage }}”</p>
+        </div>
+
+        <!-- Indicador minimalista de desplazamiento -->
+        <div class="flecha-continuar-wrap">
+          <button class="flecha-continuar" (click)="scrollToSection('cuenta-regresiva')" aria-label="Desplazar hacia abajo">
+            <span class="flecha-texto">Ver mi invitación</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- 2. CUENTA REGRESIVA CON AROS CONCÉNTRICOS DORADOS -->
+    <section id="cuenta-regresiva" class="seccion-bloque cuenta-regresiva">
+      <div class="container text-center">
+        <div class="box-aros reveal-on-scroll">
+          <div class="box-circulo text-center">
+
+            <span class="falta">{{ isGroup() ? 'Faltan para mi fiesta' : 'Falta para mi fiesta' }}</span>
+
+            <div id="reloj" class="reloj" *ngIf="!countdown().isExpired">
+              <div id="dias" class="reloj-col">
+                <span class="number">{{ countdown().days }}</span>
+                <span class="time">días</span>
+              </div>
+
+              <div id="horas" class="reloj-col">
+                <span class="number">{{ countdown().hours }}</span>
+                <span class="time">hs</span>
+              </div>
+
+              <div id="minutos" class="reloj-col">
+                <span class="number">{{ countdown().minutes }}</span>
+                <span class="time">min</span>
+              </div>
+
+              <div id="segundos" class="reloj-col no-border">
+                <span class="number">{{ countdown().seconds }}</span>
+                <span class="time">seg</span>
+              </div>
+            </div>
+
+            <div class="reloj-expirado" *ngIf="countdown().isExpired">
+              <p class="fin-cuenta">¡Hoy es el gran día de mi fiesta de 15 años!</p>
+            </div>
+
+            <div class="corazon-falta" aria-hidden="true">
+              <span>❖</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BLOQUE GRUPO DE INVITADOS Y PASES (En primera persona de Isabella) -->
+    <section class="seccion-bloque bloque-grupo-invitados">
+      <div class="container text-center">
+        <div class="card-grupo-invitados reveal-on-scroll">
+          <div class="card-content">
+
+            <!-- Insignia circular de pases con filo dorado -->
+            <div class="pases-total">
+              <span class="pases-num">{{ g.guestCount }}</span>
+              <span class="pases-lbl">{{ g.guestCount === 1 ? 'PASE' : 'PASES' }}</span>
+            </div>
+
+            <!-- Título del bloque -->
+            <h3 class="titulo-grupo">
+              {{ isGroup() ? 'MI INVITACIÓN PARA USTEDES' : 'MI INVITACIÓN PARA TI' }}
+            </h3>
+
+            <!-- Saludo personalizado singular / plural -->
+            <p class="saludo-personalizado">
+              <ng-container *ngIf="!isGroup()">
+                He preparado esta invitación con muchísimo cariño especialmente para ti:
+              </ng-container>
+              <ng-container *ngIf="isGroup()">
+                He preparado esta invitación con muchísimo cariño especialmente para ustedes:
+              </ng-container>
+            </p>
+
+            <!-- Lista completa de invitados del grupo -->
+            <ul class="lista-invitados">
+              <li class="invitado-item" *ngFor="let guest of g.guests">
+                <span class="invitado-icon">✦</span>
+                <span class="invitado-nombre">{{ guest }}</span>
+              </li>
+            </ul>
+
+            <!-- Mención especial (ej: baby) si existe -->
+            <div class="badge-acomp" *ngIf="g.note">
+              <span>👶 {{ g.note }}</span>
+            </div>
+
+            <!-- Mensaje de bienvenida de Isabella -->
+            <p class="mensaje-grupo">
+              <ng-container *ngIf="!isGroup()">
+                Me hará inmensamente feliz que me acompañes en este día tan soñado y especial para mí. ¡Te espero!
+              </ng-container>
+              <ng-container *ngIf="isGroup()">
+                Me hará inmensamente feliz que nos acompañen en este día tan soñado y especial para mí. ¡Los espero!
+              </ng-container>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CEREMONIA / FIESTA (3 COLUMNAS CENTRADAS) -->
+    <section class="seccion-bloque ceremonia-fiesta">
+      <div class="container text-center">
+        <div class="col-fiesta reveal-on-scroll">
+
+          <!-- Icono Fiesta en dorado -->
+          <div class="anim-fiesta">
+            <div class="icono-circulo-dorado">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 22h8M12 11v11M19 3l-7 8-7-8h14z"/>
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="titulo-seccion-fiesta">Mi Fiesta</h2>
+
+          <div class="info-col">
+
+            <!-- Card 1: Día -->
+            <div class="info-box">
+              <div class="info-box__header">
+                <span class="info-box__badge">Día y Hora</span>
+              </div>
+              <p class="info-box__texto">
+                <strong>{{ config.dateDayName }} {{ config.dateText }}</strong><br>
+                <span>{{ config.timeText }}</span>
+              </p>
+              <a [href]="googleCalendarUrl()" target="_blank" rel="noopener noreferrer" class="boton boton--card-action">
+                📅 Agendar en mi calendario
+              </a>
+            </div>
+
+            <!-- Card 2: Lugar -->
+            <div class="info-box">
+              <div class="info-box__header">
+                <span class="info-box__badge">Recepción</span>
+              </div>
+              <p class="info-box__texto">
+                <strong>{{ config.venueName }}</strong><br>
+                <span>Celebraremos juntos esta noche mágica</span>
+              </p>
+              <button (click)="openRsvpModal(false)" class="boton boton--card-action">
+                Confirmar asistencia
+              </button>
+            </div>
+
+            <!-- Card 3: Dirección -->
+            <div class="info-box">
+              <div class="info-box__header">
+                <span class="info-box__badge">Ubicación</span>
+              </div>
+              <p class="info-box__texto">
+                <strong>{{ config.venueAddress }}</strong><br>
+                <span>¿Cómo llegar a mi fiesta?</span>
+              </p>
+              <button (click)="openModal('map')" class="boton boton--card-action">
+                📍 ¿Cómo llegar?
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SECCIÓN CONFIRMACIÓN DE ASISTENCIA (RSVP) -->
+    <section id="confirmacion-asistencia" class="seccion-bloque confirmacion-asistencia">
+      <div class="container text-center">
+        <div class="box-confirmacion reveal-on-scroll">
+          <span class="confirmacion-tag">✦ RSVP ✦</span>
+          <h2 class="title">Confirmar Asistencia</h2>
+          <p class="subtitle">
+            <ng-container *ngIf="!isGroup()">
+              Para mí es muy importante contar contigo. Por favor confírmame antes del <strong>{{ config.rsvpDeadlineText }}</strong>
+            </ng-container>
+            <ng-container *ngIf="isGroup()">
+              Para mí es muy importante contar con ustedes. Por favor confírmennos antes del <strong>{{ config.rsvpDeadlineText }}</strong>
+            </ng-container>
+          </p>
+          
+          <!-- Botón de Confirmación que abre el modal interactivo -->
+          <button (click)="openRsvpModal(false)" class="boton boton--confirmacion">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.705 1.754zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span>Confirmar asistencia</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. GRID DE DETALLES DE LA FIESTA -->
+    <section class="seccion-bloque fiesta-detalles">
+      <div class="container text-center">
+        <div class="header-detalles reveal-on-scroll">
+          <h2 class="title">Detalles de mi Noche</h2>
+          <p class="subtitle">He preparado cada detalle con mucho amor para que vivamos una fiesta inolvidable.</p>
+        </div>
+
+        <div class="grid-items-fiesta">
+
+          <!-- Item 1: Música -->
+          <div class="item-fiesta reveal-on-scroll">
+            <div class="content-item-fiesta">
+              <div class="anim-icono-fiesta">
+                <div class="icono-circulo">🎵</div>
+              </div>
+              <h3>Música</h3>
+              <p *ngIf="!savedSong()">¡Ayúdame con la playlist! ¿Cuál canción no puede faltar para bailar juntos?</p>
+              
+              <div class="song-saved-preview" *ngIf="savedSong() as s">
+                <span class="song-saved-badge">✓ Canción guardada</span>
+                <strong class="song-saved-title">"{{ s.title }}"</strong>
+                <span class="song-saved-artist" *ngIf="s.artist">de {{ s.artist }}</span>
+                <span class="song-saved-hint">(Se incluirá en tu confirmación)</span>
+              </div>
+
+              <button (click)="openModal('music')" class="boton boton--card-action">
+                {{ savedSong() ? '✏️ Modificar canción' : 'Sugerir canción' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 2: Dress Code -->
+          <div class="item-fiesta reveal-on-scroll">
+            <div class="content-item-fiesta">
+              <div class="anim-icono-fiesta">
+                <div class="icono-circulo">👗</div>
+              </div>
+              <h3>Dress Code</h3>
+              <p class="dresscode-resumen">
+                Colores reservados para mí en esta noche:
+              </p>
+              <!-- Muestras de tonos reservados con ✕ -->
+              <div class="swatches-preview">
+                <div class="swatch-item" *ngFor="let c of config.reservedColors" [title]="c.name">
+                  <span class="swatch-dot" [style.background-color]="c.hex">
+                    <span class="swatch-x">✕</span>
+                  </span>
+                  <span class="swatch-label">{{ c.name }}</span>
+                </div>
+              </div>
+              <button (click)="openModal('dresscode')" class="boton boton--card-action">+ Info Vestimenta</button>
+            </div>
+          </div>
+
+          <!-- Item 3: Tips y Notas -->
+          <div class="item-fiesta reveal-on-scroll">
+            <div class="content-item-fiesta">
+              <div class="anim-icono-fiesta">
+                <div class="icono-circulo">✨</div>
+              </div>
+              <h3>Tips para mi Fiesta</h3>
+              <p>Recomendaciones de puntualidad y detalles para disfrutar al máximo.</p>
+              <button (click)="openModal('tips')" class="boton boton--card-action">+ Info</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SECCIÓN REGALOS / LLUVIA DE SOBRES CON ANIMACIÓN DE SOBRES CAYENDO -->
+    <section class="seccion-bloque regalos">
+      <div class="container text-center">
+        <div class="regalos-card reveal-on-scroll">
+          <div class="anim-regalos">
+            <div class="icono-circulo-dorado">✉️</div>
+          </div>
+
+          <h2 class="title">Lluvia de Sobres</h2>
+          <p class="subtitle">Un detalle especial para mí...</p>
+
+          <div class="box-regalo-texto">
+            <p>{{ config.giftMessage }}</p>
+          </div>
+
+          <!-- ANIMACIÓN LLUVIA DE SOBRES CAYENDO -->
+          <div class="cw-sobres__rain" aria-label="Animación lluvia de sobres" aria-hidden="true">
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+            <span class="cw-sobres__envelope"></span>
+          </div>
+
+          <button (click)="openModal('gifts')" class="boton boton--outline">+ Info Detalle</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FOOTER / CIERRE EMOCIONAL REDISEÑADO DE ALTA GAMA -->
+    <section class="seccion-bloque footer-lujo">
+      <div class="container text-center">
+        <div class="footer-card-lujo reveal-on-scroll">
+          
+          <!-- Sello ornamental superior -->
+          <div class="footer-sello" aria-hidden="true">
+            <span class="footer-sello__linea"></span>
+            <span class="footer-sello__icono">❖</span>
+            <span class="footer-sello__linea"></span>
+          </div>
+
+          <p class="cierre-frase">Con todo mi cariño,</p>
+          
+          <h3 class="cierre-invitacion">
+            {{ isGroup() ? '¡Los espero para celebrar mis 15 años!' : '¡Te espero para celebrar mis 15 años!' }}
+          </h3>
+          
+          <p class="cierre-nombre">{{ celebrantName() }}</p>
+
+          <div class="divider-footer-mini" aria-hidden="true"></div>
+
+          <!-- Botones de Acción Elegantes Agrupados -->
+          <div class="acciones-footer-lujo">
+            <button (click)="openRsvpModal(false)" class="footer-btn-pill footer-btn-pill--primary">
+              <span class="footer-btn-icon">💌</span>
+              <span>Confirmar asistencia</span>
+            </button>
+
+            <button (click)="openModal('music')" class="footer-btn-pill">
+              <span class="footer-btn-icon">🎵</span>
+              <span>{{ savedSong() ? 'Canción guardada ✓' : 'Sugerir canción' }}</span>
+            </button>
+
+            <a [href]="googleCalendarUrl()" target="_blank" rel="noopener noreferrer" class="footer-btn-pill">
+              <span class="footer-btn-icon">📅</span>
+              <span>Agendar en mi calendario</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FIRMA OFICIAL TECNOJACK -->
+    <footer class="firma-creditos text-center">
+      <div class="container">
+        <p>Desarrollado con 🧡 por <a href="https://tecnojack.co" target="_blank" rel="noopener noreferrer">TECNOJACK.CO</a></p>
+      </div>
+    </footer>
+
+    <!-- CONTROLADOR FLOTANTE DE MÚSICA -->
+    <div id="controlador-musica" class="controlador-musica-flotante">
+      <button 
+        id="play-pause-music" 
+        class="music-btn" 
+        [class.music-btn--playing]="isMusicPlaying()"
+        (click)="toggleMusic()" 
+        title="Música de fondo"
+        aria-label="Alternar música de fondo">
+        <div class="music-bars" *ngIf="isMusicPlaying()">
+          <span></span><span></span><span></span>
+        </div>
+        <svg *ngIf="!isMusicPlaying()" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<!-- ========================================== -->
+<!-- MODALES INTERACTIVOS (NATIVOS DE ANGULAR) -->
+<!-- ========================================== -->
+
+<!-- Backdrop de modal -->
+<div class="xv-modal-backdrop" *ngIf="activeModal()" (click)="closeModal()" aria-hidden="true"></div>
+
+<!-- MODAL RSVP: CONFIRMACIÓN DE ASISTENCIA CON SELECCIÓN DE INVITADOS -->
+<div class="xv-modal" *ngIf="activeModal() === 'rsvp' && group() as g" role="dialog" aria-modal="true" aria-labelledby="modalRsvpTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalRsvpTitle" class="xv-modal__title">
+        {{ isDecliningRsvp() ? 'Avisar a Isabella que no podré asistir' : 'Confirmar Asistencia' }}
+      </h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+
+    <!-- Vista de confirmar asistencia -->
+    <div class="xv-modal__body" *ngIf="!isDecliningRsvp()">
+      <div class="text-center modal-icon-top">💌</div>
+      
+      <p class="modal-rsvp-lead text-center">
+        <ng-container *ngIf="g.guests.length > 1">
+          ¡Me encantará tenerlos en mi fiesta! Por favor selecciona quiénes de ustedes <strong>asistirán</strong>:
+        </ng-container>
+        <ng-container *ngIf="g.guests.length === 1">
+          ¡Me encantará que me acompañes! ¿Confirmas tu asistencia a mi fiesta de 15 años?
+        </ng-container>
+      </p>
+
+      <!-- Lista interactiva de checkboxes para cada invitado del grupo -->
+      <div class="rsvp-guests-selector" *ngIf="g.guests.length > 1">
+        <div class="rsvp-selector-controls">
+          <button type="button" class="btn-text-action" (click)="selectAllGuests()">Marcar todos</button>
+          <span class="sep">•</span>
+          <button type="button" class="btn-text-action" (click)="deselectAllGuests()">Desmarcar</button>
+        </div>
+
+        <div class="rsvp-guest-checklist">
+          <label class="rsvp-checkbox-card" *ngFor="let guest of g.guests" [class.is-selected]="isGuestSelected(guest)">
+            <input 
+              type="checkbox" 
+              [checked]="isGuestSelected(guest)" 
+              (change)="toggleGuestSelection(guest)" 
+              class="rsvp-check-input">
+            <span class="rsvp-check-custom">
+              <span class="rsvp-check-tick">✓</span>
+            </span>
+            <span class="rsvp-guest-name-lbl">{{ guest }}</span>
+          </label>
+        </div>
+
+        <p class="rsvp-counter-badge text-center">
+          Confirmando <strong>{{ selectedGuests().length }}</strong> de <strong>{{ g.guests.length }}</strong> {{ g.guests.length === 1 ? 'persona' : 'personas' }}
+        </p>
+      </div>
+
+      <!-- Mención singular si es 1 sola persona -->
+      <div class="rsvp-single-guest-box text-center" *ngIf="g.guests.length === 1">
+        <div class="rsvp-single-guest-name">
+          <span>✦ {{ g.guests[0] }} ✦</span>
+        </div>
+      </div>
+
+      <!-- Detalle de canción guardada si existe -->
+      <div class="rsvp-music-attached-box text-center" *ngIf="savedSong() as s">
+        <span class="rsvp-music-tag">🎵 Canción sugerida incluida:</span>
+        <strong class="rsvp-music-name">"{{ s.title }}"</strong>
+        <span class="rsvp-music-artist" *ngIf="s.artist">de {{ s.artist }}</span>
+      </div>
+
+      <div class="modal-form-actions text-center">
+        <a 
+          [href]="whatsAppConfirmUrl()" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="boton boton--confirmacion"
+          (click)="closeModal()"
+          [class.disabled]="selectedGuests().length === 0 && g.guests.length > 1">
+          <span>Confirmar por WhatsApp ✨</span>
+        </a>
+      </div>
+
+      <div class="rsvp-decline-toggle text-center">
+        <button type="button" class="btn-decline-link" (click)="isDecliningRsvp.set(true)">
+          ¿No podrás asistir? Haz clic aquí para avisarle a Isabella
+        </button>
+      </div>
+    </div>
+
+    <!-- Vista de declinar asistencia -->
+    <div class="xv-modal__body text-center" *ngIf="isDecliningRsvp()">
+      <div class="modal-icon-top">🕊️</div>
+      <p class="modal-rsvp-lead">
+        Lamentaré mucho que no puedas acompañarme en mi noche de 15 años, pero comprendo totalmente.
+      </p>
+      <p class="modal-footnote">
+        Puedes enviarme un mensaje por WhatsApp para tenerlo presente en la lista:
+      </p>
+
+      <div class="modal-form-actions text-center">
+        <a 
+          [href]="whatsAppDeclineUrl()" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="boton boton--primary"
+          (click)="closeModal()">
+          <span>Avisar a Isabella por WhatsApp 🌸</span>
+        </a>
+      </div>
+
+      <div class="rsvp-decline-toggle text-center">
+        <button type="button" class="btn-decline-link" (click)="isDecliningRsvp.set(false)">
+          ← Volver a confirmar asistencia
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 1: CÓMO LLEGAR / MAPA -->
+<div class="xv-modal" *ngIf="activeModal() === 'map'" role="dialog" aria-modal="true" aria-labelledby="modalMapTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalMapTitle" class="xv-modal__title">Ubicación de mi Fiesta</h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="xv-modal__body text-center">
+      <p class="xv-modal__venue"><strong>Lugar:</strong> {{ config.venueName }}</p>
+      <p class="xv-modal__address"><strong>Dirección:</strong> {{ config.venueAddress }}</p>
+      <div class="xv-modal__map-container">
+        <iframe 
+          src="https://maps.google.com/maps?q=Aves+de+Jerusalen&hl=es&z=14&output=embed"
+          width="100%" 
+          height="280" 
+          style="border:0; border-radius: 12px;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+    <div class="xv-modal__footer">
+      <a [href]="config.googleMapsUrl" target="_blank" rel="noopener noreferrer" class="boton boton--primary">
+        Abrir en Google Maps / Waze
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: DRESS CODE -->
+<div class="xv-modal" *ngIf="activeModal() === 'dresscode'" role="dialog" aria-modal="true" aria-labelledby="modalDressTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalDressTitle" class="xv-modal__title">Código de Vestimenta</h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="xv-modal__body text-center">
+      <div class="modal-icon-top">👗</div>
+      <p class="modal-alert-box">
+        Les pido amablemente a todos mis invitados <strong>evitar los tonos verde, azul y beige</strong> en la vestimenta, ya que han sido reservados para mi vestido y la temática de mi noche.
+      </p>
+
+      <div class="modal-swatches-grid">
+        <div class="modal-swatch-item" *ngFor="let col of config.reservedColors">
+          <div class="modal-swatch-circle" [style.background-color]="col.hex">
+            <span class="modal-swatch-x">✕</span>
+          </div>
+          <span class="modal-swatch-name">{{ col.name }}</span>
+          <span class="modal-swatch-desc">{{ col.description }}</span>
+        </div>
+      </div>
+      <p class="modal-footnote">*(Por favor no vestir en ninguno de estos tres tonos)*</p>
+    </div>
+    <div class="xv-modal__footer">
+      <button type="button" class="boton boton--primary" (click)="closeModal()">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3: LLUVIA DE SOBRES -->
+<div class="xv-modal" *ngIf="activeModal() === 'gifts'" role="dialog" aria-modal="true" aria-labelledby="modalGiftsTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalGiftsTitle" class="xv-modal__title">Lluvia de Sobres</h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="xv-modal__body text-center">
+      <div class="modal-icon-top">✉️</div>
+      <p class="modal-gift-msg">
+        {{ config.giftMessage }}
+      </p>
+      <div class="modal-gift-note">
+        Habrá un buzón especial dispuesto en la entrada de mi fiesta para recibir tu sobre con tus bendiciones y buenos deseos.
+      </div>
+    </div>
+    <div class="xv-modal__footer">
+      <button type="button" class="boton boton--primary" (click)="closeModal()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4: TIPS Y NOTAS -->
+<div class="xv-modal" *ngIf="activeModal() === 'tips'" role="dialog" aria-modal="true" aria-labelledby="modalTipsTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalTipsTitle" class="xv-modal__title">Tips para mi Fiesta</h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="xv-modal__body">
+      <ul class="modal-tips-list">
+        <li>
+          <span class="tip-num">1</span>
+          <div>
+            <strong>Puntualidad:</strong> Mi fiesta inicia a las <strong>{{ config.timeText }}</strong> en punto. Te recomiendo llegar con anticipación para que no te pierdas mi entrada.
+          </div>
+        </li>
+        <li>
+          <span class="tip-num">2</span>
+          <div>
+            <strong>Pase personal:</strong> Tu invitación es personal e intransferible para los cupos reservados a tu nombre.
+          </div>
+        </li>
+        <li>
+          <span class="tip-num">3</span>
+          <div>
+            <strong>Confirmación:</strong> Recuerda confirmarme por WhatsApp antes del <strong>{{ config.rsvpDeadlineText }}</strong> para organizar los lugares.
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="xv-modal__footer">
+      <button type="button" class="boton boton--primary" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 5: SUGERIR CANCIÓN (GUARDA EN EL MENSAJE FINAL) -->
+<div class="xv-modal" *ngIf="activeModal() === 'music'" role="dialog" aria-modal="true" aria-labelledby="modalMusicTitle">
+  <div class="xv-modal__dialog">
+    <div class="xv-modal__header">
+      <h5 id="modalMusicTitle" class="xv-modal__title">Sugerir Canción para mi Playlist</h5>
+      <button type="button" class="xv-modal__close" (click)="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="xv-modal__body text-center">
+      
+      <p class="modal-music-intro" *ngIf="!songSavedSuccess()">
+        ¡Escribe tu canción favorita! Al guardarla, <strong>se incluirá automáticamente en tu mensaje de confirmación por WhatsApp</strong>.
+      </p>
+
+      <!-- Mensaje de éxito visual cuando se guarda -->
+      <div class="modal-song-success" *ngIf="songSavedSuccess()">
+        <div class="success-icon">✓</div>
+        <h4>¡Canción guardada con éxito!</h4>
+        <p>Se adjuntará automáticamente a tu mensaje de confirmación de asistencia por WhatsApp.</p>
+      </div>
+
+      <form (ngSubmit)="saveSongSuggestion()" class="xv-form" *ngIf="!songSavedSuccess()">
+        <div class="form-group text-left">
+          <label for="songTitle">Canción <span class="req">*</span></label>
+          <input 
+            type="text" 
+            id="songTitle" 
+            class="form-control" 
+            placeholder="Nombre de la canción (ej: Danza Kuduro)" 
+            [ngModel]="songTitle()" 
+            (ngModelChange)="songTitle.set($event)" 
+            name="songTitle" 
+            required>
+        </div>
+
+        <div class="form-group text-left">
+          <label for="songArtist">Artista o Grupo</label>
+          <input 
+            type="text" 
+            id="songArtist" 
+            class="form-control" 
+            placeholder="Nombre del artista (ej: Don Omar)" 
+            [ngModel]="songArtist()" 
+            (ngModelChange)="songArtist.set($event)" 
+            name="songArtist">
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="submit" class="boton boton--primary" [disabled]="!songTitle().trim()">
+            <span>Guardar sugerencia de canción 🎵</span>
+          </button>
+        </div>
+
+        <div class="remove-song-action text-center" *ngIf="savedSong()">
+          <button type="button" class="btn-text-delete" (click)="removeSavedSong()">
+            🗑️ Eliminar sugerencia guardada
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

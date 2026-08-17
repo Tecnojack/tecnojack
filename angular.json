@@ -38,7 +38,15 @@
                         "scripts": [],
                         "allowedCommonJsDependencies": [
                             "lottie-web"
-                        ]
+                        ],
+                        "optimization": {
+                            "scripts": true,
+                            "styles": {
+                                "minify": true,
+                                "inlineCritical": true
+                            },
+                            "fonts": false
+                        }
                     },
                     "configurations": {
                         "production": {
