@@ -1,0 +1,41 @@
+.tj-erp-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stage-tag {
+  color: #ffb800;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.progress-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0097b2;
+
+  .progress-bar {
+    height: 8px;
+    background: #0097b2;
+    border-radius: 999px;
+    min-width: 60px;
+  }
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.tj-erp-btn-sm {
+  background: rgba(0, 151, 178, 0.15);
+  border: 1px solid rgba(0, 151, 178, 0.3);
+  color: #f4fcff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}

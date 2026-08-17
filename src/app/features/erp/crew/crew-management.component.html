@@ -1,0 +1,4 @@
+<section class="tj-erp-page">
+  <header class="tj-erp-page__header"><h1 class="tj-erp-page__title">Equipo</h1><div class="tj-erp-page__actions"><button class="tj-erp-btn tj-erp-btn--primary"><fa-icon [icon]="icons.plus"></fa-icon>Invitar</button></div></header>
+  <div class="crew-grid"><article class="crew-card" *ngFor="let member of crewMembers()"><div class="crew-card__top"><div class="crew-card__avatar">{{ member.name.slice(0,2).toUpperCase() }}</div><div class="crew-card__identity"><h3>{{ member.name }}</h3><span>{{ member.role }}</span></div><span class="availability" [class.availability--busy]="member.status === 'busy'">{{ member.status === 'busy' ? 'Ocupado' : 'Disponible' }}</span></div><div class="crew-card__skills"><span>{{ member.specialty }}</span></div><div class="crew-card__footer"><span>{{ member.eventsCount }} eventos</span><strong>★ {{ member.status === 'active' ? '4.9' : '4.8' }}</strong></div></article></div>
+</section>

@@ -1,0 +1,220 @@
+<section class="production-board" *ngIf="boardMode(); else detailedWorkspace">
+  <header><h1>Board de Producción</h1><div><button class="tj-erp-btn tj-erp-btn--secondary">Call Sheet</button><button class="tj-erp-btn tj-erp-btn--secondary" (click)="boardMode.set(false)">Workspace</button><button class="tj-erp-btn tj-erp-btn--primary"><fa-icon [icon]="icons.plus"></fa-icon>Nueva Tarea</button></div></header>
+  <div class="production-kanban"><section *ngFor="let column of boardColumns"><div class="production-column-title"><i [style.background]="column.color"></i><strong>{{ column.label }}</strong><span>{{ boardCards[column.id].length }}</span></div><div class="production-cards"><article *ngFor="let card of boardCards[column.id]" [class.urgent]="card.urgent"><b *ngIf="card.urgent"><fa-icon [icon]="icons.warning"></fa-icon> URGENTE</b><h2>{{ card.name }}</h2><p>{{ card.client }}</p><div><span>{{ card.type }}</span><small>{{ card.crew }}</small></div></article><button>+ Añadir</button></div></section></div>
+</section>
+<ng-template #detailedWorkspace>
+<section class="tj-erp-page">
+  <button class="board-return" type="button" (click)="boardMode.set(true)">← Volver al board</button>
+  <!-- Header Bar -->
+  <header class="production-header">
+    <div class="production-header__main">
+      <div>
+        <span class="tj-erp-page__badge">{{ production().type }}</span>
+        <h1 class="production-header__title">{{ production().name }}</h1>
+        <p class="production-header__sub">{{ production().client }}</p>
+      </div>
+
+      <div class="production-header__status">
+        <span class="status-tag status-tag--ready">
+          <fa-icon [icon]="icons.check"></fa-icon> Producción Lista
+        </span>
+      </div>
+    </div>
+
+    <!-- Tabs Nav -->
+    <div class="tj-erp-filter-bar__pills">
+      <button
+        *ngFor="let t of tabs"
+        class="tj-erp-pill"
+        [class.tj-erp-pill--active]="activeTab() === t.id"
+        (click)="activeTab.set(t.id)"
+      >
+        {{ t.label }}
+      </button>
+    </div>
+  </header>
+
+  <!-- TAB: Overview -->
+  <div class="workspace-content" *ngIf="activeTab() === 'overview'">
+    <div class="overview-grid">
+      <!-- Left: Details -->
+      <div class="overview-card main-info">
+        <h3 class="overview-card__title">Información de la Producción</h3>
+        <div class="info-grid">
+          <div class="info-group">
+            <label><fa-icon [icon]="icons.calendar"></fa-icon> Fecha y Hora</label>
+            <p class="font-bold">{{ production().date }}</p>
+            <p class="text-muted">{{ production().time }}</p>
+          </div>
+          <div class="info-group">
+            <label><fa-icon [icon]="icons.marker"></fa-icon> Ubicación</label>
+            <p class="font-bold">{{ production().location }}</p>
+          </div>
+          <div class="info-group">
+            <label>Progreso General</label>
+            <div class="progress-wrap">
+              <div class="progress-bar" [style.width.%]="production().progress"></div>
+              <span>{{ production().progress }}% completado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Quick Actions -->
+      <div class="overview-card quick-actions">
+        <h3 class="overview-card__title">Acciones Rápidas</h3>
+        <div class="actions-list">
+          <button class="tj-erp-btn tj-erp-btn--primary">
+            <fa-icon [icon]="icons.checkSquare"></fa-icon> Preparar Rodaje
+          </button>
+          <button class="tj-erp-btn-outline">
+            <fa-icon [icon]="icons.video"></fa-icon> Generar Call Sheet
+          </button>
+          <button class="tj-erp-btn-outline">
+            <fa-icon [icon]="icons.warning"></fa-icon> Validar Retorno de Equipos
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Readiness Indicators -->
+    <div class="readiness-grid">
+      <div class="readiness-card">
+        <div class="readiness-card__head">
+          <fa-icon [icon]="icons.checkSquare" class="text-teal"></fa-icon>
+          <span>Checklist</span>
+        </div>
+        <span class="readiness-card__value">18/20</span>
+        <span class="readiness-card__hint">90% Completo</span>
+      </div>
+      <div class="readiness-card">
+        <div class="readiness-card__head">
+          <fa-icon [icon]="icons.camera" class="text-teal"></fa-icon>
+          <span>Equipos</span>
+        </div>
+        <span class="readiness-card__value">6/6</span>
+        <span class="readiness-card__hint">Todo Asignado</span>
+      </div>
+      <div class="readiness-card">
+        <div class="readiness-card__head">
+          <fa-icon [icon]="icons.users" class="text-teal"></fa-icon>
+          <span>Equipo (Crew)</span>
+        </div>
+        <span class="readiness-card__value">3/3</span>
+        <span class="readiness-card__hint">Confirmados</span>
+      </div>
+      <div class="readiness-card">
+        <div class="readiness-card__head">
+          <fa-icon [icon]="icons.folder" class="text-amber"></fa-icon>
+          <span>Recursos</span>
+        </div>
+        <span class="readiness-card__value">3/3</span>
+        <span class="readiness-card__hint">Archivos Listos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Team -->
+  <div class="workspace-content" *ngIf="activeTab() === 'team'">
+    <div class="tj-erp-table-wrapper">
+      <table class="tj-erp-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Rol Asignado</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of teamMembers()">
+            <td class="font-bold">{{ m.name }}</td>
+            <td>{{ m.role }}</td>
+            <td>{{ m.email }}</td>
+            <td>{{ m.phone }}</td>
+            <td><span class="status-chip status-chip--success">{{ m.status }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: Equipment -->
+  <div class="workspace-content" *ngIf="activeTab() === 'equipment'">
+    <div class="tj-erp-table-wrapper">
+      <table class="tj-erp-table">
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th>Categoría</th>
+            <th>Condición</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assignedEquipment()">
+            <td class="font-bold">{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td><span class="status-chip status-chip--info">{{ item.condition }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: Schedule -->
+  <div class="workspace-content" *ngIf="activeTab() === 'schedule'">
+    <div class="schedule-timeline">
+      <div class="timeline-box" *ngFor="let item of schedule()">
+        <span class="timeline-box__time"><fa-icon [icon]="icons.clock"></fa-icon> {{ item.time }}</span>
+        <h4 class="timeline-box__title">{{ item.title }}</h4>
+        <p class="timeline-box__desc">{{ item.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Deliverables -->
+  <div class="workspace-content" *ngIf="activeTab() === 'deliverables'">
+    <div class="deliverables-grid">
+      <div class="deliverable-card" *ngFor="let d of deliverables()">
+        <div class="deliverable-card__top">
+          <fa-icon [icon]="d.type === 'video' ? icons.film : icons.image" class="text-accent"></fa-icon>
+          <h4>{{ d.name }}</h4>
+        </div>
+        <span class="deliverable-card__fmt">{{ d.format }}</span>
+        <div class="progress-wrap">
+          <div class="progress-bar" [style.width.%]="d.progress"></div>
+          <span>{{ d.progress }}%</span>
+        </div>
+        <span class="deliverable-card__date">Entrega: {{ d.dueDate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Assets -->
+  <div class="workspace-content" *ngIf="activeTab() === 'assets'">
+    <div class="assets-list">
+      <div class="asset-item" *ngFor="let a of assets()">
+        <fa-icon [icon]="icons.folder" class="text-amber"></fa-icon>
+        <div class="asset-item__info">
+          <span class="font-bold">{{ a.name }}</span>
+          <span class="text-muted">{{ a.type }} • {{ a.size }} • {{ a.date }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Notes -->
+  <div class="workspace-content" *ngIf="activeTab() === 'notes'">
+    <div class="notes-container">
+      <h3>Notas del Rodaje</h3>
+      <textarea
+        rows="8"
+        class="notes-textarea"
+        [ngModel]="notesContent()"
+        (ngModelChange)="notesContent.set($event)"
+      ></textarea>
+    </div>
+  </div>
+</section>
+</ng-template>

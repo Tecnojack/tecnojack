@@ -1,0 +1,52 @@
+<section class="tj-erp-page">
+  <header class="tj-erp-page__header">
+    <div class="tj-erp-page__title-area">
+      <h1 class="tj-erp-page__title">Eventos</h1>
+      <p class="tj-erp-page__description">Calendario operacional, logística, locaciones y equipo asignado.</p>
+    </div>
+    <div class="tj-erp-page__actions">
+      <button class="view-button view-button--active" type="button" aria-label="Vista de lista">☷</button>
+      <button class="view-button" type="button" aria-label="Vista de calendario"><fa-icon [icon]="icons.calendar"></fa-icon></button>
+      <button class="tj-erp-btn tj-erp-btn--primary" type="button">
+        <fa-icon [icon]="icons.plus"></fa-icon><span>Nuevo Evento</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="tj-erp-filter-bar events-filters">
+    <div class="tj-erp-filter-bar__search">
+      <fa-icon [icon]="icons.search"></fa-icon>
+      <input type="search" placeholder="Buscar evento, cliente..." [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)" />
+    </div>
+    <div class="tj-erp-filter-bar__pills" aria-label="Filtrar por tipo">
+      <button class="tj-erp-pill" [class.tj-erp-pill--active]="typeFilter() === 'all'" (click)="typeFilter.set('all')">Todos</button>
+      <button class="tj-erp-pill" [class.tj-erp-pill--active]="typeFilter() === 'boda'" (click)="typeFilter.set('boda')">Bodas</button>
+      <button class="tj-erp-pill" [class.tj-erp-pill--active]="typeFilter() === 'preboda'" (click)="typeFilter.set('preboda')">Prebodas</button>
+      <button class="tj-erp-pill" [class.tj-erp-pill--active]="typeFilter() === 'quinces'" (click)="typeFilter.set('quinces')">Quinces</button>
+    </div>
+  </div>
+
+  <div class="events-table-wrap">
+    <table class="events-table">
+      <thead><tr><th>Evento</th><th>Tipo</th><th>Fecha</th><th>Venue</th><th>Estado</th><th>Cliente</th><th>Responsable</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let ev of filteredEvents()">
+          <td><strong>{{ ev.title }}</strong><small>{{ ev.code }}</small></td>
+          <td><span class="type-badge">{{ ev.type | titlecase }}</span></td>
+          <td>{{ ev.date }}</td>
+          <td>{{ ev.venue }}<small>{{ ev.city }}</small></td>
+          <td><span class="status-dot" [class.status-dot--done]="ev.status === 'completed'"><i></i>{{ ev.status === 'completed' ? 'Realizado' : 'Programado' }}</span></td>
+          <td>{{ ev.client }}</td>
+          <td>{{ ev.leadPhotographer }}</td>
+          <td><button class="row-action" type="button" aria-label="Ver evento">→</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="events-mobile-list">
+      <article class="event-mobile" *ngFor="let ev of filteredEvents()">
+        <div><strong>{{ ev.title }}</strong><small>{{ ev.date }} · {{ ev.city }}</small></div>
+        <span class="status-dot" [class.status-dot--done]="ev.status === 'completed'"><i></i>{{ ev.status === 'completed' ? 'Realizado' : 'Programado' }}</span>
+      </article>
+    </div>
+  </div>
+</section>
