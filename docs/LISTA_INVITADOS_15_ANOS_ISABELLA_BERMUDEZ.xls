@@ -41,19 +41,25 @@
   <Style ss:ID="LinkCell">
    <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#1D4ED8" ss:Underline="Single"/>
   </Style>
+  <Style ss:ID="WspMessageCell">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#1E293B"/>
+   <Interior ss:Color="#F8FAF7" ss:Pattern="Solid"/>
+  </Style>
  </Styles>
  <Worksheet ss:Name="Invitaciones XV Isabella">
-  <Table ss:ExpandedColumnCount="7" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="24">
+  <Table ss:ExpandedColumnCount="8" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="75">
    <Column ss:Width="40"/>
-   <Column ss:Width="80"/>
-   <Column ss:Width="50"/>
-   <Column ss:Width="170"/>
-   <Column ss:Width="280"/>
-   <Column ss:Width="140"/>
-   <Column ss:Width="360"/>
+   <Column ss:Width="75"/>
+   <Column ss:Width="45"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="260"/>
+   <Column ss:Width="130"/>
+   <Column ss:Width="320"/>
+   <Column ss:Width="420"/>
 
    <Row ss:Height="40">
-    <Cell ss:MergeAcross="6" ss:StyleID="HeaderTitle"><Data ss:Type="String">LISTA OFICIAL DE INVITACIONES — 15 AÑOS ISABELLA BERMÚDEZ (Total: 98 Pases)</Data></Cell>
+    <Cell ss:MergeAcross="7" ss:StyleID="HeaderTitle"><Data ss:Type="String">LISTA OFICIAL DE INVITACIONES — 15 AÑOS ISABELLA BERMÚDEZ (Total: 98 Pases)</Data></Cell>
    </Row>
 
    <Row ss:Height="28">
@@ -64,8 +70,9 @@
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Invitados Detallados</Data></Cell>
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Nota Especial</Data></Cell>
     <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Enlace Directo de la Invitación Web</Data></Cell>
+    <Cell ss:StyleID="HeaderCol"><Data ss:Type="String">Mensaje de WhatsApp para Enviar (Copiar y Pegar)</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -73,8 +80,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Fiorella Alvarez, Noa Zambrano</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Fiorella Alvarez y Noa Zambrano&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/fiorella-alvarez-noa-zambrano/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">2</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -82,8 +90,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Elizabeth Villada</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elizabeth-villada/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elizabeth-villada/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Elizabeth Villada&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/elizabeth-villada/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -91,8 +100,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valentina Ruiz</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valentina-ruiz/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valentina-ruiz/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Valentina Ruiz&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/valentina-ruiz/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">4</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -100,8 +110,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sofia Fernandez, Emely Fernandez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Sofia Fernandez y Emely Fernandez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/sofia-fernandez-emely-fernandez/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">5</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -109,8 +120,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valeria Requena</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valeria-requena/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valeria-requena/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Valeria Requena&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/valeria-requena/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">6</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -118,8 +130,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Alina Gutierrez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/alina-gutierrez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/alina-gutierrez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Alina Gutierrez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/alina-gutierrez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">7</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -127,8 +140,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Ana Isabel Giraldo</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/ana-isabel-giraldo/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/ana-isabel-giraldo/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Ana Isabel Giraldo&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/ana-isabel-giraldo/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">8</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -136,8 +150,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Mailen Feria</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mailen-feria/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mailen-feria/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Mailen Feria&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/mailen-feria/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">9</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -145,8 +160,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Maria Fernanda Quintero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-quintero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-quintero/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Maria Fernanda Quintero&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-quintero/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">10</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -154,8 +170,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Santiago Deossa</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/santiago-deossa/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/santiago-deossa/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Santiago Deossa&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/santiago-deossa/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">11</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -163,8 +180,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juanes Diaz</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanes-diaz/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanes-diaz/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Juanes Diaz&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/juanes-diaz/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">12</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -172,8 +190,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Lina Soler</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/lina-soler/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/lina-soler/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Lina Soler&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/lina-soler/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">13</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -181,8 +200,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Mariana Osorio</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mariana-osorio/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mariana-osorio/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Mariana Osorio&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/mariana-osorio/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">14</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -190,8 +210,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juanita Torres</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanita-torres/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanita-torres/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Juanita Torres&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/juanita-torres/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">15</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -199,8 +220,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juan Bocanegra</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juan-bocanegra/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juan-bocanegra/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Juan Bocanegra&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/juan-bocanegra/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">16</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -208,8 +230,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Juan Camilo Baquero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juan-camilo-baquero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juan-camilo-baquero/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Juan Camilo Baquero&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/juan-camilo-baquero/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">17</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -217,8 +240,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Juanes Millan, Dana Millan</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/juanes-millan-dana-millan/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/juanes-millan-dana-millan/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Juanes Millan y Dana Millan&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/juanes-millan-dana-millan/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">18</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">4</Data></Cell>
@@ -226,8 +250,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sandra Yepes, John Jairo Bermudez, Samuel Bermudez, Eliana Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sandra-yepes/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sandra-yepes/4</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Sandra Yepes, John Jairo Bermudez, Samuel Bermudez y Eliana Bermudez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/sandra-yepes/4</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">19</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -235,8 +260,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Mariana Garzon, Matias Holguin, Wilson Gómez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Mariana Garzon, Matias Holguin y Wilson Gómez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/mariana-garzon-matias-holguin-wilson-gomez/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">20</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -244,8 +270,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Elvia Elena Yepes, Mateo Garzón</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Elvia Elena Yepes y Mateo Garzón&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/elvia-elena-yepes-mateo-garzon/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">21</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -253,8 +280,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Felipe Garzón, Valentina Martinez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Felipe Garzón y Valentina Martinez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/felipe-garzon-valentina-martinez/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">22</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -262,8 +290,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Arelis Molina, Elkin Barros, Santiago Barros</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Arelis Molina, Elkin Barros y Santiago Barros&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/arelis-molina-elkin-barros-santiago-barros/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">23</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -271,8 +300,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Carolina Arrubla, Diana Rios</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/carolina-arrubla-diana-rios/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/carolina-arrubla-diana-rios/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Carolina Arrubla y Diana Rios&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/carolina-arrubla-diana-rios/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">24</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -280,8 +310,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Elizabeth Cano, Fany Mejia, Dario Ospina</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Elizabeth Cano, Fany Mejia y Dario Ospina&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/elizabeth-cano-fany-mejia-dario-ospina/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">25</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -289,8 +320,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Diana Ospina, Bernabe Bustamante</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Diana Ospina y Bernabe Bustamante&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/diana-ospina-bernabe-bustamante/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">26</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -298,8 +330,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Natalia Ospina</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/natalia-ospina/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/natalia-ospina/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Natalia Ospina&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/natalia-ospina/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">27</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">4</Data></Cell>
@@ -307,8 +340,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Daniel Ospina, Doria Arrieta, Juan Pablo Ospina, Andres Felie Ospina</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/daniel-ospina/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/daniel-ospina/4</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Daniel Ospina, Doria Arrieta, Juan Pablo Ospina y Andres Felie Ospina&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/daniel-ospina/4</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">28</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -316,8 +350,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Socorro Bermudez, Jhon Jairo Giraldo</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Socorro Bermudez y Jhon Jairo Giraldo&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/socorro-bermudez-jhon-jairo-giraldo/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">29</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -325,8 +360,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Mauricio Giraldo, Joan Torres</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Mauricio Giraldo y Joan Torres&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/mauricio-giraldo-joan-torres/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">30</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">4</Data></Cell>
@@ -334,8 +370,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Arlen Restrepo, Tatian Aleman, Jose David Restrepo, Manuela Restrepo</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arlen-restrepo/4"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arlen-restrepo/4</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Arlen Restrepo, Tatian Aleman, Jose David Restrepo y Manuela Restrepo&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/arlen-restrepo/4</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">31</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -343,8 +380,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Jose Bermudez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/jose-bermudez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/jose-bermudez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Jose Bermudez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/jose-bermudez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">32</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -352,8 +390,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Saul Bermudez, Dexcy Coromoto</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Saul Bermudez y Dexcy Coromoto&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/saul-bermudez-dexcy-coromoto/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">33</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -361,8 +400,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Duvan Bermudez, Leidy Zapata</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Duvan Bermudez y Leidy Zapata&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/duvan-bermudez-leidy-zapata/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">34</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -370,8 +410,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Robinson Bermudez, Sandra Castaño, Miguel Angel Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/robinson-bermudez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/robinson-bermudez/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Robinson Bermudez, Sandra Castaño y Miguel Angel Bermudez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/robinson-bermudez/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">35</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -379,8 +420,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Arley Bermudez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/arley-bermudez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/arley-bermudez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Arley Bermudez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/arley-bermudez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">36</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -388,8 +430,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Solangel Londoño, Luz Adriana Bermudez, Jhon Alexander Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/solangel-londono/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/solangel-londono/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Solangel Londoño, Luz Adriana Bermudez y Jhon Alexander Bermudez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/solangel-londono/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">37</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -397,8 +440,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Lina Garcia, Luciana Galeano</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/lina-garcia-luciana-galeano/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/lina-garcia-luciana-galeano/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Lina Garcia y Luciana Galeano&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/lina-garcia-luciana-galeano/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">38</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -406,8 +450,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Carlos Bermudez, Elcy Quiroz, Johana Bermudez</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/carlos-bermudez/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/carlos-bermudez/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Carlos Bermudez, Elcy Quiroz y Johana Bermudez&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/carlos-bermudez/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">39</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">5</Data></Cell>
@@ -415,8 +460,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Xiomara Bermudez, Elkin Angel, Julian Angel, Veronica Angel, Martin Angel</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/xiomara-bermudez/5"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/xiomara-bermudez/5</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Xiomara Bermudez, Elkin Angel, Julian Angel, Veronica Angel y Martin Angel&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/xiomara-bermudez/5</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">40</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -424,8 +470,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Kedwin Gonzalez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/kedwin-gonzalez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/kedwin-gonzalez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Kedwin Gonzalez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/kedwin-gonzalez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">41</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -433,8 +480,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Garcia, Brian Garcia</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sara-garcia-brian-garcia/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sara-garcia-brian-garcia/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Sara Garcia y Brian Garcia&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/sara-garcia-brian-garcia/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">42</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -442,8 +490,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Zapata, Jeferson Orozco</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sara Zapata + (baby)</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sara-zapata/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sara-zapata/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Sara Zapata y Jeferson Orozco&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/sara-zapata/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">43</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -451,8 +500,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Maria Fernanda Horta, Nicolas Useche</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Maria Fernanda Horta y Nicolas Useche&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/maria-fernanda-horta-nicolas-useche/2</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">44</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">3</Data></Cell>
@@ -460,8 +510,9 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Sindy Giraldo, David Rodriguez, Nicolas Castrillon</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/sindy-giraldo/3"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/sindy-giraldo/3</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Sindy Giraldo, David Rodriguez y Nicolas Castrillon&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/sindy-giraldo/3</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">45</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -469,8 +520,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Yesenia Gomez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/yesenia-gomez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/yesenia-gomez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Yesenia Gomez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/yesenia-gomez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">46</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -478,8 +530,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Valentina Aristizabal</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/valentina-aristizabal/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/valentina-aristizabal/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Valentina Aristizabal&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/valentina-aristizabal/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">47</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -487,8 +540,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Camila Arbelaez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/camila-arbelaez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/camila-arbelaez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Camila Arbelaez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/camila-arbelaez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">48</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -496,8 +550,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Michel Rodas</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/michel-rodas/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/michel-rodas/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Michel Rodas&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/michel-rodas/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">49</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -505,8 +560,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Isabel Sierra</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/isabel-sierra/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/isabel-sierra/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Isabel Sierra&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/isabel-sierra/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">50</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -514,8 +570,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Rosa Gomez</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/rosa-gomez/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/rosa-gomez/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Rosa Gomez&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/rosa-gomez/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">51</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -523,8 +580,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Catalina Londoño</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/catalina-londono/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/catalina-londono/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Catalina Londoño&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/catalina-londono/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">52</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -532,8 +590,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Edwar Ospina</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/edwar-ospina/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/edwar-ospina/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Edwar Ospina&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/edwar-ospina/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">53</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -541,8 +600,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Marlon Duque</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/marlon-duque/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/marlon-duque/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Marlon Duque&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/marlon-duque/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">54</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Individual</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">1</Data></Cell>
@@ -550,8 +610,9 @@
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">Daniela Quintero</Data></Cell>
     <Cell ss:StyleID="RowIndividual"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/daniela-quintero/1"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/daniela-quintero/1</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Daniela Quintero&#10;&#10;Quiero celebrar contigo mis 15 años 👸🏽&#10;Guarda la fecha y confírmame tu asistencia&#10;&#10;Tu presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/daniela-quintero/1</Data></Cell>
    </Row>
-   <Row ss:Height="24">
+   <Row ss:Height="75">
     <Cell ss:StyleID="CenterCell"><Data ss:Type="Number">55</Data></Cell>
     <Cell ss:StyleID="CenterCell"><Data ss:Type="String">Grupal</Data></Cell>
     <Cell ss:StyleID="CuposCell"><Data ss:Type="Number">2</Data></Cell>
@@ -559,6 +620,7 @@
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">Nancy Rueda, Alejandro Echeverri</Data></Cell>
     <Cell ss:StyleID="RowGrupal"><Data ss:Type="String">-</Data></Cell>
     <Cell ss:StyleID="LinkCell" ss:HRef="https://tecnojack.co/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2"><Data ss:Type="String">https://tecnojack.co/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2</Data></Cell>
+    <Cell ss:StyleID="WspMessageCell"><Data ss:Type="String">Hola Nancy Rueda y Alejandro Echeverri&#10;&#10;Quiero celebrar con ustedes mis 15 años 👸🏽&#10;Guarden la fecha y confírmenme su asistencia&#10;&#10;Su presencia es muy importante para mí ✨&#10;&#10;https://tecnojack.co/xv/isabella-bermudez/nancy-rueda-alejandro-echeverri/2</Data></Cell>
    </Row>
   </Table>
  </Worksheet>
