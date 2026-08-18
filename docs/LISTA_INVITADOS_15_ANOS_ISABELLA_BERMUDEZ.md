@@ -5,7 +5,7 @@
 **Lugar:** Aves de Jerusalén Eventos, San Jerónimo, Antioquia  
 
 ### Archivos descargables:
-- 📊 **Excel Workbook (.xls):** [`LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.xls`](file:///d:/TECNOJACK/docs/LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.xls)
+- 📊 **Excel Workbook (.xls con columna de mensajes):** [`LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.xls`](file:///d:/TECNOJACK/docs/LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.xls)
 - 📄 **Archivo CSV (.csv):** [`LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.csv`](file:///d:/TECNOJACK/docs/LISTA_INVITADOS_15_ANOS_ISABELLA_BERMUDEZ.csv)
 - 💬 **Mensajes de WhatsApp listos:** [`MENSAJES_WHATSAPP_INVITADOS_ISABELLA.md`](file:///d:/TECNOJACK/docs/MENSAJES_WHATSAPP_INVITADOS_ISABELLA.md)
 
