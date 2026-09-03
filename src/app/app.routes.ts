@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { MEDIA_ADMIN_ROUTES } from './features/media-admin/media-admin.routes';
+import { ERP_ROUTES } from './features/erp/erp.routes';
 
 export const routes: Routes = [
 	{
@@ -9,10 +10,28 @@ export const routes: Routes = [
 		redirectTo: 'brand'
 	},
 	{
+		path: 'app',
+		children: ERP_ROUTES
+	},
+	{
 		path: 'brand',
 		loadComponent: () =>
 			import('./features/brand-mode/brand-mode.component').then(
 				(m) => m.BrandModeComponent
+			)
+	},
+	{
+		path: 'cotizacion',
+		loadComponent: () =>
+			import('./features/quote/graduation-quote-page.component').then(
+				(m) => m.GraduationQuotePageComponent
+			)
+	},
+	{
+		path: 'cotizacion-grados',
+		loadComponent: () =>
+			import('./features/quote/graduation-quote-page.component').then(
+				(m) => m.GraduationQuotePageComponent
 			)
 	},
 	{
