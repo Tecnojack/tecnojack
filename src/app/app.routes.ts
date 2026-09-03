@@ -21,6 +21,20 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'cotizacion',
+		loadComponent: () =>
+			import('./features/quote/graduation-quote-page.component').then(
+				(m) => m.GraduationQuotePageComponent
+			)
+	},
+	{
+		path: 'cotizacion-grados',
+		loadComponent: () =>
+			import('./features/quote/graduation-quote-page.component').then(
+				(m) => m.GraduationQuotePageComponent
+			)
+	},
+	{
 		path: 'portfolio/videos/:package',
 		data: { category: 'videos' },
 		loadComponent: () =>
