@@ -1,17 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { MEDIA_ADMIN_ROUTES } from './features/media-admin/media-admin.routes';
-import { ERP_ROUTES } from './features/erp/erp.routes';
 
 export const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: 'brand'
-	},
-	{
-		path: 'app',
-		children: ERP_ROUTES
 	},
 	{
 		path: 'brand',
@@ -185,20 +180,6 @@ export const routes: Routes = [
 		loadComponent: () =>
 			import('./features/solutions/solutions-page.component').then(
 				(m) => m.SolutionsPageComponent
-			)
-	},
-	{
-		path: 'cotizacion',
-		loadComponent: () =>
-			import('./features/quote/graduation-quote-page.component').then(
-				(m) => m.GraduationQuotePageComponent
-			)
-	},
-	{
-		path: 'cotizacion-grados',
-		loadComponent: () =>
-			import('./features/quote/graduation-quote-page.component').then(
-				(m) => m.GraduationQuotePageComponent
 			)
 	},
 	{
