@@ -1,0 +1,383 @@
+<tj-portfolio-shell [navItems]="navItems">
+  <div class="gq-page">
+    
+    <!-- HERO / PORTADA DE PROPUESTA -->
+    <header class="gq-hero" tjRevealOnScroll>
+      <div class="gq-hero__bg"></div>
+      <div class="gq-container gq-hero__content">
+        <div class="gq-badge">Propuesta Oficial de Servicio</div>
+        <h1 class="gq-hero__title">Fotografía de Grado</h1>
+        <p class="gq-hero__subtitle">
+          Promoción 38 Estudiantes &bull; Sora, Boyacá — 4 de Diciembre
+        </p>
+
+        <div class="gq-hero__meta-grid">
+          <div class="gq-meta-item">
+            <span class="gq-meta-item__icon">📍</span>
+            <div>
+              <strong>Lugar</strong>
+              <span>Sora, Boyacá</span>
+            </div>
+          </div>
+          <div class="gq-meta-item">
+            <span class="gq-meta-item__icon">📅</span>
+            <div>
+              <strong>Fecha</strong>
+              <span>4 de diciembre</span>
+            </div>
+          </div>
+          <div class="gq-meta-item">
+            <span class="gq-meta-item__icon">🎓</span>
+            <div>
+              <strong>Grupo</strong>
+              <span>38 estudiantes</span>
+            </div>
+          </div>
+          <div class="gq-meta-item">
+            <span class="gq-meta-item__icon">📸</span>
+            <div>
+              <strong>Equipo</strong>
+              <span>2 Fotógrafos dedicados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECCIÓN 1: PRESENTACIÓN Y DETALLES DEL SERVICIO -->
+    <section class="gq-section gq-section--about" tjRevealOnScroll>
+      <div class="gq-container">
+        
+        <div class="gq-grid gq-grid--2col">
+          
+          <!-- SOBRE TECNOJACK -->
+          <div class="gq-card gq-card--dark">
+            <div class="gq-card__header">
+              <span class="gq-card__eyebrow">Sobre TECNOJACK</span>
+              <h2 class="gq-card__title">Jackson Palacios</h2>
+            </div>
+            <p class="gq-card__text">
+              Soy Jackson Palacios, fotógrafo y productor audiovisual con más de 10 años de experiencia. Mi trabajo está enfocado en conservar momentos importantes mediante imágenes naturales, cuidadas y profesionales.
+            </p>
+            <p class="gq-card__text">
+              Para este evento se dispondrá de un <strong>equipo de dos fotógrafos</strong>, con el propósito de cubrir la ceremonia y realizar las sesiones individuales, familiares y grupales de manera organizada.
+            </p>
+            <div class="gq-photographers-badge">
+              <span class="gq-photographers-badge__icon">👥</span>
+              <span>2 Fotógrafos continuos durante toda la jornada</span>
+            </div>
+          </div>
+
+          <!-- HORARIOS Y LOGÍSTICA -->
+          <div class="gq-card">
+            <div class="gq-card__header">
+              <span class="gq-card__eyebrow">Logística del día</span>
+              <h2 class="gq-card__title">Horarios de cobertura</h2>
+            </div>
+            
+            <div class="gq-schedule-list">
+              <div class="gq-schedule-item">
+                <div class="gq-schedule-item__time">09:00 a. m. &ndash; 02:00 p. m.</div>
+                <div class="gq-schedule-item__info">
+                  <strong>Ceremonia de Grados</strong>
+                  <p>Entrega de diplomas, actos protocolares, reacciones y fotos de grupo.</p>
+                </div>
+              </div>
+
+              <div class="gq-schedule-item">
+                <div class="gq-schedule-item__time">02:00 p. m. &ndash; 06:00 p. m.</div>
+                <div class="gq-schedule-item__info">
+                  <strong>Sesiones Fotográficas</strong>
+                  <p>Parque principal de Sora. Retratos individuales, fotos familiares y con amigos.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="gq-callout gq-callout--info">
+              💡 <em>El grupo deberá apoyar la organización del cronograma para realizar las sesiones dentro del horario establecido.</em>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE FOTOGRAFÍAS INCLUIDAS -->
+    <section class="gq-section gq-section--photos" tjRevealOnScroll>
+      <div class="gq-container">
+        <div class="gq-section-header">
+          <span class="gq-section-header__eyebrow">Entregables por alumno</span>
+          <h2 class="gq-section-header__title">Fotografías Incluidas</h2>
+          <p class="gq-section-header__desc">
+            Cada estudiante recibirá un <strong>máximo de 10 fotografías finales</strong> procesadas y editadas profesionalmente, distribuidas entre los siguientes momentos:
+          </p>
+        </div>
+
+        <div class="gq-grid gq-grid--3col">
+          <div class="gq-photo-type-card" *ngFor="let photo of photoTypes">
+            <div class="gq-photo-type-card__icon">✨</div>
+            <h3 class="gq-photo-type-card__title">{{ photo.title }}</h3>
+            <p class="gq-photo-type-card__desc">{{ photo.desc }}</p>
+          </div>
+        </div>
+
+        <div class="gq-terms-banner">
+          <div class="gq-terms-banner__item">
+            <span class="gq-terms-banner__icon">🖼️</span>
+            <div>
+              <strong>Edición Profesional</strong>
+              <p>Ajustes de color, iluminación, contraste y encuadre cuidados.</p>
+            </div>
+          </div>
+          <div class="gq-terms-banner__item">
+            <span class="gq-terms-banner__icon">💻</span>
+            <div>
+              <strong>Formato Digital High-Res</strong>
+              <p>Archivos JPG en alta resolución vía galería digital organizada.</p>
+            </div>
+          </div>
+          <div class="gq-terms-banner__item">
+            <span class="gq-terms-banner__icon">⏱️</span>
+            <div>
+              <strong>Tiempo de Entrega Standard</strong>
+              <p>Máximo 30 días calendario (Opción Express en 1 semana disponible).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAQUETES PRINCIPALES -->
+    <section class="gq-section gq-section--packages" id="paquetes" tjRevealOnScroll>
+      <div class="gq-container">
+        <div class="gq-section-header">
+          <span class="gq-section-header__eyebrow">Opciones de Paquetes</span>
+          <h2 class="gq-section-header__title">Propuestas de Cobertura</h2>
+          <p class="gq-section-header__desc">
+            El costo base del servicio fotográfico para todos los paquetes es de <strong>$110.000 por estudiante</strong>. A esta base se le suma el costo del álbum o acabados según las características de cada opción.
+          </p>
+        </div>
+
+        <div class="gq-packages-grid">
+          <div 
+            *ngFor="let pkg of packages" 
+            class="gq-pkg-card" 
+            [class.gq-pkg-card--featured]="pkg.isPopular"
+          >
+            <div class="gq-pkg-card__top" *ngIf="pkg.badge">
+              <span class="gq-pkg-card__badge">{{ pkg.badge }}</span>
+            </div>
+
+            <h3 class="gq-pkg-card__name">{{ pkg.name }}</h3>
+            
+            <div class="gq-pkg-card__price">
+              <span class="gq-pkg-card__amount">{{ pkg.totalPricePerStudent | currency:'COP':'symbol':'1.0-0' }}</span>
+              <span class="gq-pkg-card__unit">/ estudiante</span>
+            </div>
+
+            <p class="gq-pkg-card__desc">{{ pkg.description }}</p>
+
+            <div class="gq-pkg-card__divider"></div>
+
+            <ul class="gq-pkg-card__list">
+              <li *ngFor="let item of pkg.highlights">
+                <span class="gq-pkg-card__check">✓</span>
+                <span>{{ item }}</span>
+              </li>
+            </ul>
+
+            <!-- DESGLOSE DE PRECIOS SIEMPRE CLARO (BASE + ÁLBUM) -->
+            <div class="gq-pkg-card__breakdown">
+              <div class="gq-pkg-card__breakdown-title">Composición del valor:</div>
+              <div class="gq-pkg-card__breakdown-row" *ngFor="let b of pkg.breakdown">
+                <span>{{ b.concept }}</span>
+                <strong>{{ b.value | currency:'COP':'symbol':'1.0-0' }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTA IMPORTANTE DE ÁLBUMES -->
+        <div class="gq-callout gq-callout--warning">
+          📌 <strong>Importante sobre los Álbumes:</strong> Los álbumes (tanto Estándar como Premium) utilizan una selección de las mismas 10 fotografías finales entregadas. Los álbumes mejoran la presentación física, pero <strong>no aumentan la cantidad de imágenes entregadas</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTOS ADICIONALES (INFORMACIÓN PURAMENTE VISUAL) -->
+    <section class="gq-section gq-section--additionals" tjRevealOnScroll>
+      <div class="gq-container">
+        <div class="gq-section-header">
+          <span class="gq-section-header__eyebrow">Catálogo de Opciones y Servicios Adicionales</span>
+          <h2 class="gq-section-header__title">Productos & Servicios Adicionales</h2>
+          <p class="gq-section-header__desc">
+            Estos productos y tiempos de entrega express se pueden adquirir por separado y agregarse a cualquiera de los paquetes propuestos.
+          </p>
+        </div>
+
+        <div class="gq-grid gq-grid--2col">
+          <div class="gq-additional-card" *ngFor="let add of additionals">
+            <div class="gq-additional-card__header">
+              <h3 class="gq-additional-card__title">{{ add.name }}</h3>
+              <span class="gq-additional-card__price" *ngIf="add.price">{{ add.price | currency:'COP':'symbol':'1.0-0' }}</span>
+              <span class="gq-additional-card__badge" *ngIf="add.priceText">{{ add.priceText }}</span>
+            </div>
+
+            <p class="gq-additional-card__desc">{{ add.description }}</p>
+
+            <ul class="gq-additional-card__features">
+              <li *ngFor="let feat of add.features">• {{ feat }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ACLARACIONES DE ADICIONALES -->
+        <div class="gq-info-box">
+          <h4 class="gq-info-box__title">Aclaraciones sobre los adicionales</h4>
+          <ul class="gq-info-box__list">
+            <li>Pueden adquirirse con cualquiera de los tres paquetes.</li>
+            <li>La Entrega Digital Express garantiza el envío de los archivos digitales procesados en máximo 1 semana (7 días calendario) posterior al evento.</li>
+            <li>Los álbumes utilizan las mismas fotografías digitales entregadas. La cantidad de páginas no representa una mayor cantidad de fotos.</li>
+            <li>La elección del paquete y los adicionales deberá informarse dentro del plazo establecido para producción.</li>
+            <li>Los productos físicos entrarán en producción después de seleccionar y aprobar las fotografías. Los tiempos de fabricación dependerán del laboratorio.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMEN / PROYECCIÓN PARA EL REPRESENTANTE DEL GRUPO -->
+    <section class="gq-section gq-section--summary" tjRevealOnScroll>
+      <div class="gq-container">
+        <div class="gq-summary-card">
+          <div class="gq-summary-card__header">
+            <span class="gq-badge">Notificación de Elección del Grupo</span>
+            <h2>Solicitud / Elección del Representante</h2>
+            <p>Una vez presentada esta propuesta al equipo y tomada la decisión, el representante del grupo puede notificar la opción elegida por WhatsApp.</p>
+          </div>
+
+          <div class="gq-summary-grid">
+            <!-- OPCIÓN SELECCIONADA POR EL GRUPO -->
+            <div class="gq-summary-col">
+              <label class="gq-label">1. Paquete Principal Elegido por el Grupo:</label>
+              <div class="gq-radio-group">
+                <label 
+                  *ngFor="let p of packages" 
+                  class="gq-radio-card"
+                  [class.gq-radio-card--selected]="selectedPackage() === p.id"
+                >
+                  <input 
+                    type="radio" 
+                    name="pkgSelect" 
+                    [value]="p.id" 
+                    [checked]="selectedPackage() === p.id" 
+                    (change)="selectedPackage.set(p.id)"
+                  />
+                  <div class="gq-radio-card__info">
+                    <strong>{{ p.name }}</strong>
+                    <span>{{ p.totalPricePerStudent | currency:'COP':'symbol':'1.0-0' }} por alumno</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- CHECKBOX: ¿TODOS USARÁN EL MISMO PAQUETE? -->
+              <div class="gq-checkbox-group">
+                <label class="gq-checkbox-card" (click)="toggleAllSamePackage()">
+                  <input 
+                    type="checkbox" 
+                    [checked]="allSamePackage()"
+                    (change)="$event.stopPropagation()" 
+                  />
+                  <div class="gq-checkbox-card__info">
+                    <strong>¿Todos los estudiantes usarán el mismo paquete?</strong>
+                    <span>{{ allSamePackage() ? 'Sí, el grupo completo unificará esta opción' : 'No, cada estudiante/familia elegirá su paquete individualmente' }}</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- DESGLOSE FINAL Y BOTÓN DE SOLICITAR SERVICIO -->
+            <div class="gq-summary-col gq-summary-col--result">
+              <div class="gq-result-box">
+                <h4 class="gq-result-box__title">Proyección del Servicio:</h4>
+                
+                <div class="gq-result-row">
+                  <span>Opción de referencia ({{ activePackageObj().name }})</span>
+                  <strong>{{ activePackageObj().totalPricePerStudent | currency:'COP':'symbol':'1.0-0' }} / alumno</strong>
+                </div>
+
+                <div class="gq-result-row">
+                  <span>Modalidad de elección</span>
+                  <strong>{{ allSamePackage() ? 'Paquete Unificado' : 'Elección Libre por Estudiante' }}</strong>
+                </div>
+
+                <div class="gq-result-divider"></div>
+
+                <div class="gq-result-row gq-result-row--total">
+                  <span>Inversión total proyectada (38 alumnos)</span>
+                  <strong>{{ groupTotalEstimated() | currency:'COP':'symbol':'1.0-0' }}</strong>
+                </div>
+
+                <!-- BOTÓN PRINCIPAL: SOLICITAR SERVICIO / NOTIFICAR ELECCIÓN -->
+                <div class="gq-result-action">
+                  <a 
+                    [href]="getWhatsappUrl()" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="gq-btn gq-btn--gold gq-btn--full"
+                  >
+                    <span>Solicitar Servicio / Notificar Elección por WhatsApp</span>
+                    <span class="gq-btn__icon">💬</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMA DE PAGO EN 3 HITOS Y CONDICIONES GENERALES -->
+          <div class="gq-payment-terms">
+            <div class="gq-payment-terms__col">
+              <h4>Forma de Pago (3 Hitos)</h4>
+              <ul>
+                <li><strong>40%</strong> para reservar la fecha.</li>
+                <li><strong>40%</strong> una semana antes o, como máximo, el día del evento.</li>
+                <li><strong>20%</strong> al entregar las fotografías digitales.</li>
+                <li>Pago mediante transferencia bancaria o billetera digital.</li>
+                <li>La reserva se confirma con el pago del anticipo del 40% correspondiente al grupo.</li>
+              </ul>
+            </div>
+
+            <div class="gq-payment-terms__col">
+              <h4>Condiciones Generales</h4>
+              <ul>
+                <li>Valores calculados para el grupo de 38 estudiantes.</li>
+                <li>Si cambia la cantidad de participantes, los precios podrán ser recalculados.</li>
+                <li>No se entregan archivos originales o RAW.</li>
+                <li>Los productos físicos se elaborarán después de seleccionar las imágenes.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER CTA FINAL -->
+    <footer class="gq-footer-cta" tjRevealOnScroll>
+      <div class="gq-container">
+        <h3>¿Listos para definir y coordinar el servicio?</h3>
+        <p>El representante del grupo puede escribirnos por WhatsApp para notificar la decisión o resolver dudas.</p>
+        <a 
+          [href]="getWhatsappUrl()" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="gq-btn gq-btn--gold gq-btn--large"
+        >
+          <span>Notificar Decisión a Jackson Palacios por WhatsApp</span>
+          <span class="gq-btn__icon">📲</span>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+</tj-portfolio-shell>
