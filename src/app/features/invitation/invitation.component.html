@@ -19,16 +19,15 @@
                 <h1 class="title hero__title hero__title--photo">{{ wedding.names }}</h1>
                 <div class="frame">
                     <div class="frame__photo frame__photo--hero">
-                        <img class="frame__img frame__img--hero" src="assets/images/fotos/main.jpg" alt="" />
+                        <img class="frame__img frame__img--hero" [src]="currentHeroImage" alt="" />
                     </div>
                 </div>
             </div>
 
             <div class="hero__footer" aria-label="Contador">
                 <p class="hero__quote">
-                    “Cuando te das cuenta de que quieres pasar el resto de tu vida con alguien,
-                    deseas que el resto de tu vida comience lo antes posible”.
-                    <span class="hero__quote-author">— Cuando Harry encontró a Sally</span>
+                    {{ currentQuoteText }}
+                    <span class="hero__quote-author" *ngIf="currentQuoteAuthor">{{ currentQuoteAuthor }}</span>
                 </p>
 
                 <div class="countdown" *ngIf="!isEventDay(); else today">
@@ -65,7 +64,7 @@
             </div>
             <div class="band__media reveal--right" tjRevealOnScroll aria-hidden="true">
                 <div class="frame frame--wide">
-                    <div class="frame__photo frame__photo--a"></div>
+                    <div class="frame__photo frame__photo--a" [style.background-image]="'url(' + currentDestinationImage + ')'"></div>
                 </div>
             </div>
         </div>
@@ -82,7 +81,10 @@
                         <div class="dress__item">
                             <p class="dress__label">Colores reservados</p>
                             <div class="dress__chips" *ngIf="wedding.dressCode.reservedColors?.length">
-                                <span class="chip chip--swatch" *ngFor="let c of wedding.dressCode.reservedColors" [attr.data-color]="c">{{ c }}</span>
+                                <span class="chip chip--swatch" *ngFor="let c of wedding.dressCode.reservedColors">
+                                    <span class="chip__dot" [style.background-color]="colorSwatch(c)"></span>
+                                    <span class="chip__name">{{ c }}</span>
+                                </span>
                             </div>
                             <p class="muted dress__note">Estos tonos están reservados para la novia.</p>
                         </div>
@@ -113,7 +115,7 @@
             </div>
             <div class="band__media reveal--right" tjRevealOnScroll aria-hidden="true">
                 <div class="frame">
-                    <div class="frame__photo frame__photo--b"></div>
+                    <div class="frame__photo frame__photo--b" [style.background-image]="'url(' + currentDressCodeImage + ')'"></div>
                 </div>
             </div>
         </div>

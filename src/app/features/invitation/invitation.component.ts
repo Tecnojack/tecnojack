@@ -113,7 +113,34 @@ export class InvitationComponent {
     return total === 1 ? 'Te damos la bienvenida' : 'Les damos la bienvenida';
   }
 
-  readonly galleryImages: string[] = [
+  @Input() customGalleryImages?: string[];
+  @Input() heroImageUrl?: string;
+  @Input() destinationImageUrl?: string;
+  @Input() dressCodeImageUrl?: string;
+  @Input() quoteText?: string;
+  @Input() quoteAuthor?: string;
+
+  get currentHeroImage(): string {
+    return this.heroImageUrl || 'assets/images/fotos/main.jpg';
+  }
+
+  get currentDestinationImage(): string {
+    return this.destinationImageUrl || 'assets/images/fotos/M&D-6.jpg';
+  }
+
+  get currentDressCodeImage(): string {
+    return this.dressCodeImageUrl || 'assets/images/fotos/M&D-7.jpg';
+  }
+
+  get currentQuoteText(): string {
+    return this.quoteText || '“Cuando te das cuenta de que quieres pasar el resto de tu vida con alguien, deseas que el resto de tu vida comience lo antes posible”.';
+  }
+
+  get currentQuoteAuthor(): string {
+    return this.quoteAuthor || '— Cuando Harry encontró a Sally';
+  }
+
+  readonly defaultGalleryImages: string[] = [
     'assets/images/galery/M&D-3.jpg',
     'assets/images/galery/M&D-4.jpg',
     'assets/images/galery/M&D-5.jpg',
@@ -133,6 +160,12 @@ export class InvitationComponent {
     'assets/images/galery/M&D-30.jpg',
     'assets/images/galery/M&D-32.jpg'
   ];
+
+  get galleryImages(): string[] {
+    return this.customGalleryImages && this.customGalleryImages.length ? this.customGalleryImages : this.defaultGalleryImages;
+  }
+
+
 
   private readonly gallerySizes = signal<Record<string, GallerySize>>({});
 
@@ -204,6 +237,38 @@ export class InvitationComponent {
   }
 
   readonly target = computed(() => new Date(this.wedding?.date ?? Date.now()).getTime());
+
+  colorSwatch(colorName: string): string {
+    const map: Record<string, string> = {
+      'azul rey profundo': '#1e3a8a',
+      'azul rey': '#1e3a8a',
+      'azul': '#1e3a8a',
+      'rosa empolvado': '#d4a5a5',
+      'rosa': '#d4a5a5',
+      'rosado': '#d4a5a5',
+      'terracota': '#c85a32',
+      'terracotta': '#c85a32',
+      'borgoña': '#6b1d2f',
+      'borgona': '#6b1d2f',
+      'vino': '#6b1d2f',
+      'verde salvia': '#879f84',
+      'verde': '#879f84',
+      'salvia': '#879f84',
+      'marfil / blanco': '#fdfbf7',
+      'marfil/blanco': '#fdfbf7',
+      'marfil': '#fdfbf7',
+      'blanco': '#ffffff',
+      'beige': '#e8dfd8'
+    };
+
+    const clean = String(colorName || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+
+    return map[clean] || '#c6a75e';
+  }
 
   readonly isEventDay = computed(() => {
     const diff = this.target() - this.now();

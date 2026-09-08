@@ -1,0 +1,26 @@
+<div class="wedding-page" id="wedding">
+  <div class="stage" [class.stage--opened]="isOpen()">
+    <div class="container stage__passport" *ngIf="!isOpen()">
+      <tj-passport
+        [weddingNames]="weddingData.names"
+        [guestName]="guestData().name"
+        [allowedGuests]="guestData().allowedGuests"
+        [date]="weddingData.date"
+        (opened)="onPassportOpened()"
+      ></tj-passport>
+    </div>
+
+    <div class="stage__invitation" *ngIf="isOpen()">
+      <tj-invitation
+        [wedding]="weddingData"
+        [guest]="guestData()"
+        [customGalleryImages]="cesarRebecaGallery"
+        [heroImageUrl]="heroImage"
+        [destinationImageUrl]="destinationImage"
+        [dressCodeImageUrl]="dressCodeImage"
+        [quoteText]="bibleQuote"
+        [quoteAuthor]="bibleQuoteAuthor"
+      ></tj-invitation>
+    </div>
+  </div>
+</div>
