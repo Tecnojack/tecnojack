@@ -421,7 +421,7 @@
     inset: 0;
     pointer-events: none;
     background:
-        /* Fade en laterales */
+        /* Fade blanco en laterales (arriba del filtro) */
         linear-gradient(90deg,
             var(--surface) 0%,
             color-mix(in srgb, var(--surface) 92%, transparent) 6%,
@@ -429,7 +429,7 @@
             transparent 84%,
             color-mix(in srgb, var(--surface) 92%, transparent) 94%,
             var(--surface) 100%),
-        /* Fade arriba/abajo */
+        /* Fade blanco arriba/abajo (arriba del filtro) */
         linear-gradient(180deg,
             var(--surface) 0%,
             color-mix(in srgb, var(--surface) 96%, transparent) 18%,
@@ -437,11 +437,16 @@
             transparent 60%,
             color-mix(in srgb, var(--surface) 96%, transparent) 82%,
             var(--surface) 100%),
-        /* Refuerzo en esquinas para que no aparezcan bordes */
+        /* Refuerzo blanco en esquinas (arriba del filtro) */
         radial-gradient(220px 220px at 0 0, var(--surface) 0%, transparent 70%),
         radial-gradient(220px 220px at 100% 0, var(--surface) 0%, transparent 70%),
         radial-gradient(220px 220px at 0 100%, var(--surface) 0%, transparent 70%),
-        radial-gradient(220px 220px at 100% 100%, var(--surface) 0%, transparent 70%);
+        radial-gradient(220px 220px at 100% 100%, var(--surface) 0%, transparent 70%),
+        /* Filtro sutil con dominante verde por debajo del difuminado blanco */
+        linear-gradient(180deg,
+            rgba(26, 46, 34, 0.48) 0%,
+            rgba(34, 58, 43, 0.32) 40%,
+            rgba(26, 46, 34, 0.52) 100%);
 }
 
 .frame__photo--a {
@@ -464,6 +469,41 @@
     background-image: url('/assets/images/fotos/M%26D-12.jpg');
     background-position: 44% 54%;
 }
+
+.dress__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px;
+}
+
+.chip--swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    box-shadow: 0 2px 8px color-mix(in srgb, #000 6%, transparent);
+}
+
+.chip__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.chip__name {
+    line-height: 1;
+}
+
 
 .location {
     transition: transform 220ms ease, border-color 220ms ease;
