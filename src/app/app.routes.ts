@@ -205,6 +205,46 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'wedding/cesar-rebeca/:guest/:count',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/cesar-rebeca-invitation/cesar-rebeca-invitation-page.component').then(
+				(m) => m.CesarRebecaInvitationPageComponent
+			)
+	},
+	{
+		path: 'wedding/cesar-rebeca/:guest',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/cesar-rebeca-invitation/cesar-rebeca-invitation-page.component').then(
+				(m) => m.CesarRebecaInvitationPageComponent
+			)
+	},
+	{
+		path: 'invitacion-cesar-rebeca',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/cesar-rebeca-invitation/cesar-rebeca-invitation-page.component').then(
+				(m) => m.CesarRebecaInvitationPageComponent
+			)
+	},
+	{
+		path: 'cesar-rebeca/:guest/:count',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/cesar-rebeca-invitation/cesar-rebeca-invitation-page.component').then(
+				(m) => m.CesarRebecaInvitationPageComponent
+			)
+	},
+	{
+		path: 'cesar-rebeca/:guest',
+		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
+		loadComponent: () =>
+			import('./features/cesar-rebeca-invitation/cesar-rebeca-invitation-page.component').then(
+				(m) => m.CesarRebecaInvitationPageComponent
+			)
+	},
+	{
 		path: 'wedding/marcela-sebastian/:guest/:count',
 		data: { audio: true, hideTravelShell: true, hideAppTitle: true },
 		loadComponent: () =>
