@@ -580,6 +580,177 @@
     }
 }
 
+/* Sección Lluvia de sobres */
+.cw-sobres {
+    position: relative;
+    text-align: center;
+    overflow: clip;
+
+    .band__inner--center,
+    .band__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .band__copy--center,
+    .band__copy {
+        max-width: 68ch;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .section__title {
+        margin: 0 0 14px;
+        text-align: center;
+    }
+
+    .cw-sobres__intro {
+        margin: 0 auto 14px;
+        max-width: 64ch;
+        font-size: clamp(15px, 2.2vw, 17px);
+        line-height: 1.6;
+        color: color-mix(in srgb, var(--text) 82%, transparent);
+        text-align: center;
+
+        strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+    }
+
+    .cw-sobres__rain {
+        position: relative;
+        width: min(100%, 720px);
+        min-height: 190px;
+        margin: 12px auto 0;
+        padding: 10px 8px 10px;
+    }
+
+    .cw-sobres__rain::before {
+        content: '';
+        position: absolute;
+        inset: 10px 10% 10px;
+        background:
+            radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 36%),
+            radial-gradient(circle at 76% 24%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 38%),
+            radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%);
+        filter: blur(10px);
+        pointer-events: none;
+    }
+
+    .cw-sobres__envelope {
+        --cw-rain-tilt-start: -8deg;
+        --cw-rain-tilt-end: 12deg;
+
+        position: absolute;
+        top: -34px;
+        width: 44px;
+        height: 30px;
+        border-radius: 4px;
+        border: 1px solid rgba(119, 130, 79, 0.35);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 246, 234, 0.94));
+        box-shadow:
+            0 14px 20px rgba(66, 75, 39, 0.15),
+            0 5px 10px rgba(66, 75, 39, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.82);
+        animation: cw-envelope-fall 7.5s linear infinite;
+        opacity: 0.96;
+        transform-origin: center center;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+        }
+
+        &::before {
+            inset: 0;
+            border-radius: inherit;
+            background:
+                linear-gradient(135deg, rgba(133, 145, 88, 0.14), rgba(133, 145, 88, 0) 46%),
+                linear-gradient(-135deg, rgba(79, 91, 47, 0.14), rgba(79, 91, 47, 0) 48%);
+            clip-path: polygon(0 100%, 0 22%, 50% 78%, 100% 22%, 100% 100%);
+        }
+
+        &::after {
+            left: 50%;
+            top: 4px;
+            width: 16px;
+            height: 10px;
+            border-left: 1px solid rgba(119, 130, 79, 0.38);
+            border-right: 1px solid rgba(119, 130, 79, 0.38);
+            border-top: 1px solid rgba(119, 130, 79, 0.38);
+            transform: translateX(-50%) rotate(180deg) skewX(2deg);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            background: rgba(139, 154, 99, 0.15);
+        }
+
+        &:nth-child(1) {
+            left: 8%;
+            animation-delay: -1.2s;
+            --cw-rain-tilt-start: -12deg;
+            --cw-rain-tilt-end: 10deg;
+        }
+
+        &:nth-child(2) {
+            left: 24%;
+            animation-delay: -4.1s;
+            --cw-rain-tilt-start: -7deg;
+            --cw-rain-tilt-end: 15deg;
+        }
+
+        &:nth-child(3) {
+            left: 42%;
+            animation-delay: -2.5s;
+            --cw-rain-tilt-start: -10deg;
+            --cw-rain-tilt-end: 8deg;
+        }
+
+        &:nth-child(4) {
+            left: 58%;
+            animation-delay: -5.4s;
+            --cw-rain-tilt-start: -6deg;
+            --cw-rain-tilt-end: 14deg;
+        }
+
+        &:nth-child(5) {
+            left: 74%;
+            animation-delay: -3.3s;
+            --cw-rain-tilt-start: -11deg;
+            --cw-rain-tilt-end: 9deg;
+        }
+
+        &:nth-child(6) {
+            left: 88%;
+            animation-delay: -6.2s;
+            --cw-rain-tilt-start: -9deg;
+            --cw-rain-tilt-end: 13deg;
+        }
+    }
+}
+
+@keyframes cw-envelope-fall {
+    0% {
+        transform: translate3d(0, -10px, 0) rotate(var(--cw-rain-tilt-start)) scale(0.96);
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 0.94;
+    }
+
+    52% {
+        transform: translate3d(12px, 90px, 0) rotate(calc((var(--cw-rain-tilt-start) + var(--cw-rain-tilt-end)) / 2)) scale(1);
+    }
+
+    100% {
+        transform: translate3d(-8px, 180px, 0) rotate(var(--cw-rain-tilt-end)) scale(0.98);
+        opacity: 0;
+    }
+}
+
 @keyframes tjTitleIn {
     from {
         opacity: 0;
@@ -720,6 +891,10 @@
 
 @media (prefers-reduced-motion: reduce) {
     .hero__title {
+        animation: none !important;
+    }
+
+    .cw-sobres__envelope {
         animation: none !important;
     }
 
