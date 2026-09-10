@@ -8,7 +8,7 @@
                     <span class="hero__meta-sep">|</span>
                     <span class="hero__meta-item">{{ wedding.date | date : 'dd.MM.y' }}</span>
                 </div>
-                <p class="kicker">Tu viaje comienza aquí</p>
+                <p class="kicker">{{ journeyKickerText }}</p>
                 <h1 class="title hero__title">{{ wedding.names }}</h1>
                 <div class="divider" aria-hidden="true"></div>
                 <p class="muted hero__welcome">{{ welcomeAboardText }}</p>
@@ -125,7 +125,7 @@
         <div class="band__inner">
             <div class="band__copy reveal--left" tjRevealOnScroll>
                 <h2 class="section__title">Confirmación de asistencia</h2>
-                <p class="muted checkin__intro">Ayúdanos a organizar el itinerario: confirma tu asistencia.</p>
+                <p class="muted checkin__intro">{{ checkinIntroText }}</p>
 
                 <div class="checkin__grid">
                     <div class="card checkin checkin--rsvp">
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="checkin__text">
                                     <p class="checkin__title">Confirmación de asistencia</p>
-                                    <p class="muted checkin__desc">Tu respuesta nos ayuda con el itinerario, logística y reservas.</p>
+                                    <p class="muted checkin__desc">{{ checkinHelpText }}</p>
                                 </div>
                             </div>
                             <span class="checkin__badge" *ngIf="wedding.rsvpDeadline">Antes del {{ wedding.rsvpDeadline }}</span>
@@ -166,10 +166,7 @@
         <div class="band__inner">
             <div class="band__copy reveal--left" tjRevealOnScroll>
                 <h2 class="section__title">Galería</h2>
-                <p class="muted">
-                    Unas postales de nuestro viaje: aquí te mostramos algunas fotos que nos encantan y queremos compartir contigo.
-                    Toca una para verla en grande, desliza para navegar y haz zoom.
-                </p>
+                <p class="muted">{{ galleryIntroText }}</p>
             </div>
             <div class="band__media reveal--right gallery__panel" tjRevealOnScroll aria-label="Galería">
                 <div class="gallery-pswp" #pswpGallery aria-label="Fotos">
@@ -191,20 +188,39 @@
         </div>
     </section>
 
+    <section class="band band--alt cw-sobres" id="sobres" *ngIf="wedding.giftNote">
+        <div class="band__inner band__inner--center">
+            <div class="band__copy band__copy--center reveal--left" tjRevealOnScroll>
+                <h2 class="section__title">Nuestro Regalo</h2>
+                <p class="muted cw-sobres__intro">
+                    {{ giftIntroText }} <strong>{{ wedding.giftNote }}</strong>.
+                </p>
+            </div>
+            <div class="cw-sobres__rain" aria-label="Lluvia de sobres" aria-hidden="true">
+                <span class="cw-sobres__envelope"></span>
+                <span class="cw-sobres__envelope"></span>
+                <span class="cw-sobres__envelope"></span>
+                <span class="cw-sobres__envelope"></span>
+                <span class="cw-sobres__envelope"></span>
+                <span class="cw-sobres__envelope"></span>
+            </div>
+        </div>
+    </section>
+
     <section class="band band--reverse">
         <div class="band__inner">
             <div class="band__copy reveal--left" tjRevealOnScroll>
-                <h2 class="section__title">Tu asiento</h2>
+                <h2 class="section__title">{{ seatTitleText }}</h2>
                 <div class="card seat">
                     <div class="seat__row">
                         <div class="seat__icon-wrap" aria-hidden="true">
                             <img class="seat__icon" src="assets/images/icons/envelope.svg" alt="" />
                         </div>
                         <div class="seat__body">
-                            <p class="seat__kicker muted">Mensaje para tu viaje</p>
+                            <p class="seat__kicker muted">{{ seatKickerText }}</p>
                             <p class="seat__text muted" *ngIf="guest.customMessage && guest.customMessage.trim().length; else seatDefault">{{ guest.customMessage }}</p>
                             <ng-template #seatDefault>
-                                <p class="seat__text muted">Tu asiento será asignado al llegar. ¡Gracias por acompañarnos en este viaje!</p>
+                                <p class="seat__text muted">{{ seatDefaultText }}</p>
                             </ng-template>
                         </div>
                     </div>
