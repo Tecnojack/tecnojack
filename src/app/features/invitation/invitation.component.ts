@@ -95,8 +95,28 @@ export class InvitationComponent {
     return this.childrenCount() > 0;
   }
 
+  isPlural(): boolean {
+    const total = Math.max(1, Number(this.guest?.allowedGuests ?? 1) || 1);
+    if (total > 1) return true;
+    if (this.childrenCount() > 0) return true;
+    const raw = String(this.guest?.name ?? '').trim().toLowerCase();
+    if (
+      raw.startsWith('familia') ||
+      raw.includes(' e hijo') ||
+      raw.includes(' & ') ||
+      raw.includes(' y ') ||
+      raw.includes(' e ')
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   get passengerExclusiveNote(): string {
     const name = this.baseGuestName() || 'Invitado';
+    if (this.isPlural()) {
+      return `${name}, queremos una boda íntima, para que así continúe, esta invitación es exclusiva para ustedes.`;
+    }
     const kids = this.childrenCount();
     const suffix = kids === 1 ? ' y tu hijo' : kids > 1 ? ' y tus hijos' : '';
     return `${name}, queremos una boda íntima, para que así continúe, esta invitación es exclusiva para ti${suffix}.`;
@@ -104,13 +124,56 @@ export class InvitationComponent {
 
   get passengerTotalNote(): string {
     const total = Math.max(1, Number(this.guest?.allowedGuests ?? 1) || 1);
-    if (total === 1) return 'En total, 1 persona puede asistir con tu invitación.';
-    return `En total, ${total} personas pueden asistir con tu invitación.`;
+    if (total === 1) {
+      return 'En total, 1 persona puede asistir con esta invitación.';
+    }
+    return `En total, ${total} personas pueden asistir con esta invitación.`;
   }
 
   get welcomeAboardText(): string {
-    const total = Math.max(1, Number(this.guest?.allowedGuests ?? 1) || 1);
-    return total === 1 ? 'Te damos la bienvenida' : 'Les damos la bienvenida';
+    return this.isPlural() ? 'Les damos la bienvenida' : 'Te damos la bienvenida';
+  }
+
+  get journeyKickerText(): string {
+    return this.isPlural() ? 'Su viaje comienza aquí' : 'Tu viaje comienza aquí';
+  }
+
+  get checkinIntroText(): string {
+    return this.isPlural()
+      ? 'Ayúdennos a organizar el itinerario: confirmen su asistencia.'
+      : 'Ayúdanos a organizar el itinerario: confirma tu asistencia.';
+  }
+
+  get checkinHelpText(): string {
+    return this.isPlural()
+      ? 'Su respuesta nos ayuda con el itinerario, logística y reservas.'
+      : 'Tu respuesta nos ayuda con el itinerario, logística y reservas.';
+  }
+
+  get galleryIntroText(): string {
+    return this.isPlural()
+      ? 'Unas postales de nuestro viaje: aquí les mostramos algunas fotos que nos encantan y queremos compartir con ustedes. Toquen una para verla en grande, deslicen para navegar y hagan zoom.'
+      : 'Unas postales de nuestro viaje: aquí te mostramos algunas fotos que nos encantan y queremos compartir contigo. Toca una para verla en grande, desliza para navegar y haz zoom.';
+  }
+
+  get giftIntroText(): string {
+    return this.isPlural()
+      ? 'Su presencia es nuestro mejor regalo, pero si desean hacernos un presente, les dejamos la opción de'
+      : 'Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente, te dejamos la opción de';
+  }
+
+  get seatTitleText(): string {
+    return this.isPlural() ? 'Sus asientos' : 'Tu asiento';
+  }
+
+  get seatKickerText(): string {
+    return this.isPlural() ? 'Mensaje para su viaje' : 'Mensaje para tu viaje';
+  }
+
+  get seatDefaultText(): string {
+    return this.isPlural()
+      ? 'Sus asientos serán asignados al llegar. ¡Gracias por acompañarnos en este viaje!'
+      : 'Tu asiento será asignado al llegar. ¡Gracias por acompañarnos en este viaje!';
   }
 
   @Input() customGalleryImages?: string[];
@@ -333,10 +396,11 @@ export class InvitationComponent {
             : '')
         : '';
 
+    const isPlural = this.isPlural();
     const message = [
       `Hola ${weddingNames},`,
-      'quiero confirmar mi asistencia.',
-      guestName ? `Soy ${guestName}.` : '',
+      isPlural ? 'queremos confirmar nuestra asistencia.' : 'quiero confirmar mi asistencia.',
+      guestName ? (isPlural ? `Somos ${guestName}.` : `Soy ${guestName}.`) : '',
       passengersText,
       'Gracias.'
     ]
