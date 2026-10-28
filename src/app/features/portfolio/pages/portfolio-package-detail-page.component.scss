@@ -3,6 +3,15 @@
 :host {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+:host-context(body) ::ng-deep .portfolio-float-wa {
+  @media (max-width: 768px) {
+    bottom: 76px !important;
+  }
 }
 
 .package-detail-view {

@@ -6,9 +6,27 @@
 @use './app/features/erp/galleries/gallery-figma-tokens';
 @import 'photoswipe/style.css';
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html, body {
+    width: 100%;
     max-width: 100%;
-    overflow-x: clip;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img, picture, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+table {
+    max-width: 100%;
 }
 :root {
     --primary: #6e7f67;
@@ -433,6 +451,7 @@ body.portfolio-request-modal-open {
     gap: 26px;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     overflow-x: hidden;
     box-sizing: border-box;
 }
@@ -1880,6 +1899,10 @@ body.portfolio-request-modal-open {
 
     .portfolio-page :where(.service-category-packages, .service-category-stories) {
         width: min(1180px, calc(100% - 24px));
+        margin: 0 auto;
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
     }
 
     .portfolio-page .service-category-hero {

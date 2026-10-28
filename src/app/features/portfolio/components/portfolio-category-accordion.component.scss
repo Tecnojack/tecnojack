@@ -457,12 +457,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
     background: var(--tj-surface-hover);
     border-bottom: 1px solid var(--tj-border);
     box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 }
 
@@ -492,11 +494,14 @@
   align-items: center;
   gap: 2px;
   text-align: center;
+  flex: 1 1 auto;
   min-width: 0;
+  overflow: hidden;
+  padding: 0 4px;
 }
 
 .tj-stepper-counter {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -504,13 +509,15 @@
 }
 
 .tj-stepper-title {
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--tj-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 220px;
+  width: 100%;
+  max-width: 100%;
+  display: block;
 }
 
 .tj-stage__media {
