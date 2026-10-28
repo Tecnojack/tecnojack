@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Router } from '@angular/router';
+import { GalleryRepository } from '../galleries/data-access/gallery.repository';
 import { faCamera, faCheckCircle, faClock, faCloudDownloadAlt, faFilePdf, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -11,6 +13,7 @@ import { faCamera, faCheckCircle, faClock, faCloudDownloadAlt, faFilePdf, faGlob
   styleUrl: './client-portal.component.scss'
 })
 export class ClientPortalComponent {
+  readonly galleries = this.galleryRepository.galleries;
   readonly activeTab = signal<'timeline' | 'payments' | 'galleries' | 'support'>('timeline');
   readonly icons = {
     globe: faGlobe,
@@ -31,4 +34,7 @@ export class ClientPortalComponent {
     photosCount: 850,
     videoStatus: 'En Edición'
   });
+
+  constructor(private readonly galleryRepository: GalleryRepository, private readonly router: Router) {}
+  openGallery(id: string): void { void this.router.navigate(['/app/galleries/client', id]); }
 }

@@ -25,7 +25,7 @@
         </ng-template>
 
         <nav class="portfolio-header__nav" aria-label="Secciones del portafolio">
-            <ng-container *ngFor="let item of navItems">
+            <ng-container *ngFor="let item of headerNavItems">
                 <a
                     *ngIf="isInternalRoute(item.href); else externalNavLink"
                     class="portfolio-header__nav-link btn-text"

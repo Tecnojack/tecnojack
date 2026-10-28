@@ -152,7 +152,7 @@ export interface PreweddingPlan {
   featured?: boolean;
 }
 
-export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos' | 'videos';
+export type PortfolioPackageCategory = 'bodas' | 'quinces' | 'grados' | 'preboda' | 'corporativos' | 'videos' | 'sesiones';
 export type PortfolioPackageGroup = 'full-experience' | 'photo-video' | 'photo-only' | 'custom' | 'session';
 
 export interface PortfolioPackageDetailSection {
@@ -459,6 +459,7 @@ export const portfolioNavItems: PortfolioNavItem[] = [
   { label: 'GRADOS', href: '/portfolio/grados' },
   { label: 'VIDEOS', href: '/portfolio/videos' },
   { label: 'CORPORATIVOS', href: '/portfolio/corporativos' },
+  { label: 'SESIONES', href: '/portfolio/sesiones' },
   { label: 'SOLUCIONES', href: '/soluciones' },
   { label: 'OTROS', href: '/otros' },
   { label: 'SOBRE MÍ', href: '/portfolio/sobre-mi' }
@@ -471,6 +472,7 @@ export const portfolioLandingNavItems: PortfolioNavItem[] = [
   { label: 'GRADOS', href: '/portfolio/grados' },
   { label: 'VIDEOS', href: '/portfolio/videos' },
   { label: 'CORPORATIVOS', href: '/portfolio/corporativos' },
+  { label: 'SESIONES', href: '/portfolio/sesiones' },
   { label: 'SOLUCIONES', href: '/soluciones' },
   { label: 'OTROS', href: '/otros' },
   { label: 'SOBRE MÍ', href: '/portfolio/sobre-mi' }
@@ -3307,12 +3309,489 @@ portfolioPackageDetails.push(
   }))
 );
 
+const sessionGeneralAdditionalUpsells = [
+  { label: 'Cuadro en madera 70 cm||Impresión en formato grande sobre madera, ideal para decoración', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Fotobook adicional (5 páginas)||Álbum fotográfico de lujo con diseño personalizado y acabado editorial', priceLabel: '200.000 COP', priceAmountCop: 200000 },
+  { label: '12 fotos impresas||Impresiones físicas en alta calidad para recuerdo', priceLabel: '30.000 COP', priceAmountCop: 30000 },
+  { label: 'Reel para redes sociales||Video corto vertical con momentos destacados de la sesión', priceLabel: '150.000 COP', priceAmountCop: 150000 },
+  { label: 'Video de sesión extendido||Producción y cobertura audiovisual de la sesión', priceLabel: '250.000 COP', priceAmountCop: 250000 },
+  { label: 'Fotos adicionales (paquete de 20)||Selección extra de fotografías con edición profesional', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Edición prioritaria||Entrega más rápida del material final', priceLabel: '80.000 COP', priceAmountCop: 80000 }
+];
+
+const sessionStudioAdditionalUpsells = [
+  { label: 'Hora adicional de estudio||Extiende tu sesión de estudio por 1 hora adicional', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Cuadro en madera 70 cm||Impresión en formato grande sobre madera, ideal para exhibición', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Fotobook adicional (5 páginas)||Álbum fotográfico de lujo con diseño personalizado', priceLabel: '200.000 COP', priceAmountCop: 200000 },
+  { label: '12 fotos impresas||Impresiones físicas en alta calidad para recuerdo', priceLabel: '30.000 COP', priceAmountCop: 30000 },
+  { label: 'Reel para redes sociales||Video corto vertical detrás de cámaras para redes', priceLabel: '150.000 COP', priceAmountCop: 150000 },
+  { label: 'Fotos adicionales (paquete de 20)||Selección extra de fotografías con retoque fino', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Edición prioritaria||Entrega acelerada del material final', priceLabel: '80.000 COP', priceAmountCop: 80000 }
+];
+
+const sessionGenderRevealAdditionalUpsells = [
+  { label: 'Video reel (máx. 2 min)||Video resumen dinámico con edición audiovisual, música y momentos cumbres de la revelación', priceLabel: '250.000 COP', priceAmountCop: 250000 },
+  { label: 'Cuadro en madera 70 cm||Impresión en formato grande sobre madera para la habitación o el hogar', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Fotobook editorial (5 páginas)||Álbum fotográfico de lujo para recordar este hito familiar', priceLabel: '200.000 COP', priceAmountCop: 200000 },
+  { label: '12 fotos impresas||Impresiones físicas en alta calidad para compartir con los abuelos', priceLabel: '30.000 COP', priceAmountCop: 30000 },
+  { label: 'Fotos adicionales (paquete de 20)||Selección extra de fotografías con edición profesional', priceLabel: '50.000 COP', priceAmountCop: 50000 },
+  { label: 'Edición prioritaria||Entrega más rápida del material final', priceLabel: '80.000 COP', priceAmountCop: 80000 }
+];
+
+const sessionConcertsAdditionalUpsells = [
+  { label: 'Hora adicional de concierto||Extiende la cobertura fotográfica del show por 1 hora adicional', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Reel para redes sociales (máx. 1 min)||Video vertical con momentos destacados de la presentación en vivo', priceLabel: '150.000 COP', priceAmountCop: 150000 },
+  { label: 'Cuadro en madera 70 cm||Impresión en madera en gran formato para estudio o sala de ensayo', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Fotobook editorial (5 páginas)||Álbum fotográfico de lujo para portafolio de artista o banda', priceLabel: '200.000 COP', priceAmountCop: 200000 },
+  { label: 'Edición prioritaria||Entrega rápida para notas de prensa y redes', priceLabel: '80.000 COP', priceAmountCop: 80000 }
+];
+
+const sessionRecitalAdditionalUpsells = [
+  { label: 'Registro audiovisual completo||Grabación continua en video del recital con audio sincronizado', priceLabel: '250.000 COP', priceAmountCop: 250000 },
+  { label: 'Reel para redes sociales||Video corto vertical con momentos clave de la interpretación', priceLabel: '150.000 COP', priceAmountCop: 150000 },
+  { label: 'Cuadro en madera 70 cm||Impresión en formato grande en madera para celebrar el logro académico', priceLabel: '100.000 COP', priceAmountCop: 100000 },
+  { label: 'Fotobook editorial (5 páginas)||Álbum fotográfico conmemorativo de titulación', priceLabel: '200.000 COP', priceAmountCop: 200000 },
+  { label: '12 fotos impresas||Impresiones físicas en alta calidad', priceLabel: '30.000 COP', priceAmountCop: 30000 },
+  { label: 'Edición prioritaria||Entrega más rápida del material final', priceLabel: '80.000 COP', priceAmountCop: 80000 }
+];
+
+interface SessionPlanDefinition {
+  slug: string;
+  title: string;
+  group: 'individual' | 'familiar' | 'especial';
+  packageTypeLabel: string;
+  amountCop: number;
+  price: string;
+  lead: string;
+  image: string;
+  sortOrder: number;
+  featured?: boolean;
+  features: string[];
+  deliverables: string[];
+  isStudio?: boolean;
+  customUpsells?: Array<{ label: string; priceLabel: string; priceAmountCop: number }>;
+  notesCustom?: string[];
+}
+
+const sessionPlans: SessionPlanDefinition[] = [
+  // ── Sesiones individuales o generales (5 paquetes, desde 250.000 COP) ──
+  {
+    slug: 'sesion-individual-digital',
+    title: 'Plan Solo Digital',
+    group: 'individual',
+    packageTypeLabel: 'Sesiones individuales',
+    amountCop: 250000,
+    price: '250.000 COP',
+    sortOrder: 1,
+    lead: 'Entrega 100% digital en alta resolución. 50 fotos editadas, dirección de poses y 2 cambios de vestuario en exteriores o locación.',
+    image: 'https://images.pexels.com/photos/18102854/pexels-photo-18102854.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Sesión fotográfica individual profesional (1 a 1.5 horas)',
+      'Locación en exteriores o espacio urbano/natural acordado',
+      'Dirección de poses y asesoría estética personalizada',
+      'Hasta 2 cambios de vestuario',
+      'Iluminación profesional adaptada al entorno',
+      'Selección curada de fotografías de la sesión',
+      'Edición profesional de color, iluminación y encuadre'
+    ],
+    deliverables: [
+      '50 fotografías digitales en alta calidad',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ]
+  },
+  {
+    slug: 'sesion-individual-cuadro',
+    title: 'Plan Digital + Cuadro',
+    group: 'individual',
+    packageTypeLabel: 'Sesiones individuales',
+    amountCop: 350000,
+    price: '350.000 COP',
+    sortOrder: 2,
+    lead: 'Tus fotos digitales en alta calidad más un cuadro fotográfico en madera de 70 cm listo para colgar y exhibir.',
+    image: 'https://images.pexels.com/photos/15760815/pexels-photo-15760815.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Solo Digital',
+      'Sesión fotográfica con enfoque en retrato destacado',
+      'Mayor variedad de encuadres y composiciones',
+      'Hasta 3 cambios de vestuario',
+      'Dirección de poses avanzada para retrato',
+      'Optimización de archivo y retoque fino para impresión de gran formato'
+    ],
+    deliverables: [
+      '50 fotografías digitales en alta calidad',
+      'Cuadro fotográfico en madera de 70 cm',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-individual-fotobook',
+    title: 'Plan Digital + Fotobook',
+    group: 'individual',
+    packageTypeLabel: 'Sesiones individuales',
+    amountCop: 450000,
+    price: '450.000 COP',
+    sortOrder: 3,
+    featured: true,
+    lead: 'Recuerdo digital completo y fotobook impreso de 5 páginas con diseño editorial y acabados de lujo.',
+    image: 'https://images.pexels.com/photos/16974331/pexels-photo-16974331.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Solo Digital',
+      'Sesión fotográfica con narrativa visual completa',
+      'Mayor cantidad de tomas y detalles personales',
+      'Hasta 3 cambios de vestuario',
+      'Diseño y maquetación personalizada del fotobook',
+      'Edición mejorada para impresión fotográfica'
+    ],
+    deliverables: [
+      '70 fotografías digitales en alta calidad',
+      'Fotobook editorial de 5 páginas (acabados de lujo)',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-individual-coleccion',
+    title: 'Plan Colección Completa',
+    group: 'individual',
+    packageTypeLabel: 'Sesiones individuales',
+    amountCop: 530000,
+    price: '530.000 COP',
+    sortOrder: 4,
+    lead: 'Todos los formatos incluidos: fotos digitales en alta calidad, cuadro en madera de 70 cm y fotobook editorial.',
+    image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Solo Digital',
+      'Sesión fotográfica extendida sin prisas',
+      'Cambios de vestuario libres durante la sesión',
+      'Enfoque integral en retrato artístico y marca personal',
+      'Retoque fino y detallado de imágenes seleccionadas'
+    ],
+    deliverables: [
+      '100 fotografías digitales en alta calidad',
+      'Cuadro fotográfico en madera de 70 cm',
+      'Fotobook editorial de 5 páginas',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-individual-estudio',
+    title: 'Plan Estudio (2 Horas)',
+    group: 'individual',
+    packageTypeLabel: 'Sesiones individuales',
+    amountCop: 400000,
+    price: '400.000 COP',
+    sortOrder: 5,
+    isStudio: true,
+    lead: 'Sesión individual o de retrato en estudio cerrado. Máximo 2 horas con iluminación profesional y fondos variados. Hora adicional por 100.000 COP.',
+    image: 'https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Sesión fotográfica en estudio profesional (máximo 2 horas)',
+      'Hora adicional de estudio por 100.000 COP',
+      'Set de estudio cerrado con fondos variados (blanco, negro, colores)',
+      'Esquemas de iluminación profesional de estudio (flashes, softboxes, reflectores)',
+      'Cambios de vestuario ilimitados durante las 2 horas',
+      'Dirección de poses y asesoría estética personalizada',
+      'Ideal para retratos individuales, marca personal o cumpleaños',
+      'Retoque fino de piel y edición profesional de alta gama'
+    ],
+    deliverables: [
+      '50 fotografías digitales en alta resolución con retoque fino',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ]
+  },
+
+  // ── Sesiones familiares (5 paquetes, desde 320.000 COP) ──
+  {
+    slug: 'sesion-familiar-digital',
+    title: 'Plan Digital Familiar',
+    group: 'familiar',
+    packageTypeLabel: 'Sesiones familiares',
+    amountCop: 320000,
+    price: '320.000 COP',
+    sortOrder: 1,
+    lead: 'Entrega 100% digital para toda la familia (hasta 6 integrantes) con fotos espontáneas y grupales en exteriores o locación.',
+    image: 'https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Sesión fotográfica familiar profesional (hasta 6 integrantes)',
+      'Locación en exteriores o espacio familiar acordado',
+      'Dirección amigable de poses e interacciones espontáneas',
+      'Tomas grupales, por parejas, con los niños y retratos familiares',
+      'Iluminación profesional adaptada a grupos',
+      'Selección curada y edición profesional de color y luz'
+    ],
+    deliverables: [
+      '60 fotografías digitales en alta calidad',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ]
+  },
+  {
+    slug: 'sesion-familiar-cuadro',
+    title: 'Plan Digital + Cuadro Familiar',
+    group: 'familiar',
+    packageTypeLabel: 'Sesiones familiares',
+    amountCop: 420000,
+    price: '420.000 COP',
+    sortOrder: 2,
+    lead: 'Tus recuerdos familiares en digital y la foto más emotiva impresa en un cuadro de madera de 70 cm listo para la sala.',
+    image: 'https://images.pexels.com/photos/2253879/pexels-photo-2253879.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Digital Familiar',
+      'Sesión con mayor variedad de dinámicas y retratos familiares',
+      'Composición y encuadre cuidados especialmente para impresión',
+      'Retoque detallado de la fotografía seleccionada para el cuadro'
+    ],
+    deliverables: [
+      '60 fotografías digitales en alta calidad',
+      'Cuadro fotográfico en madera de 70 cm',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-familiar-fotobook',
+    title: 'Plan Digital + Fotobook Familiar',
+    group: 'familiar',
+    packageTypeLabel: 'Sesiones familiares',
+    amountCop: 520000,
+    price: '520.000 COP',
+    sortOrder: 3,
+    featured: true,
+    lead: 'Una hermosa memoria familiar en fotobook impreso de 5 páginas y galería digital completa para compartir con tus seres queridos.',
+    image: 'https://images.pexels.com/photos/1682497/pexels-photo-1682497.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Digital Familiar',
+      'Mayor tiempo de sesión para capturar la espontaneidad familiar',
+      'Diseño y diagramación editorial del fotobook familiar',
+      'Edición cuidada para impresión fotográfica'
+    ],
+    deliverables: [
+      '80 fotografías digitales en alta calidad',
+      'Fotobook familiar de 5 páginas con acabados de primera calidad',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-familiar-coleccion',
+    title: 'Plan Colección Familiar Completa',
+    group: 'familiar',
+    packageTypeLabel: 'Sesiones familiares',
+    amountCop: 600000,
+    price: '600.000 COP',
+    sortOrder: 4,
+    lead: 'La experiencia familiar definitiva: todas las fotografías digitales, el cuadro protagonista en madera y el fotobook de lujo.',
+    image: 'https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Incluye todo lo del Plan Digital Familiar',
+      'Sesión completa para toda la familia sin límite de combinaciones',
+      'Retoque fotográfico de alta gama',
+      'El paquete más completo para la historia visual de la familia'
+    ],
+    deliverables: [
+      '120 fotografías digitales en alta calidad',
+      'Cuadro fotográfico en madera de 70 cm',
+      'Fotobook familiar de 5 páginas',
+      'Entrega final por Google Drive / Galería digital'
+    ]
+  },
+  {
+    slug: 'sesion-familiar-estudio',
+    title: 'Plan Estudio Familiar (2 Horas)',
+    group: 'familiar',
+    packageTypeLabel: 'Sesiones familiares',
+    amountCop: 400000,
+    price: '400.000 COP',
+    sortOrder: 5,
+    isStudio: true,
+    lead: 'Sesión familiar en set cerrado de estudio con iluminación profesional y privacidad. Máximo 2 horas (hora adicional por 100.000 COP).',
+    image: 'https://images.pexels.com/photos/4463953/pexels-photo-4463953.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Sesión familiar en estudio profesional (máximo 2 horas)',
+      'Hora adicional de estudio por 100.000 COP',
+      'Hasta 6 integrantes de la familia',
+      'Set de estudio cerrado con fondos limpios y controlados',
+      'Esquema de iluminación profesional adaptado a familias y grupos',
+      'Tomas grupales, por parejas, con los niños y retratos familiares',
+      'Cambios de vestuario durante las 2 horas',
+      'Dirección cercana y amena para fotos espontáneas y guiadas',
+      'Retoque fino y edición profesional de alta calidad'
+    ],
+    deliverables: [
+      '60 fotografías digitales en alta resolución con retoque fino',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ]
+  },
+
+  // ── Sesiones especiales (3 paquetes) ──
+  {
+    slug: 'sesion-revelacion-genero',
+    title: 'Plan Revelación de Género',
+    group: 'especial',
+    packageTypeLabel: 'Sesiones especiales',
+    amountCop: 350000,
+    price: '350.000 COP',
+    sortOrder: 1,
+    featured: true,
+    lead: 'Cobertura fotográfica profesional para capturar la emoción y el momento cumbre de la revelación de género junto a familiares y amigos.',
+    image: 'https://images.pexels.com/photos/7155527/pexels-photo-7155527.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Cobertura fotográfica completa del momento de la revelación',
+      'Captura de reacciones espontáneas de los futuros padres y familiares',
+      'Fotografías grupales con invitados y retratos íntimos de la pareja',
+      'Acompañamiento y coordinación previa para el momento del humo / globos / pólvora',
+      'Iluminación profesional adaptada a interiores o exteriores',
+      'Selección curada y edición profesional de color y calidez'
+    ],
+    deliverables: [
+      '70 fotografías digitales en alta resolución',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ],
+    customUpsells: sessionGenderRevealAdditionalUpsells,
+    notesCustom: [
+      'Incluye cobertura del momento cumbre y retratos con invitados.',
+      'Puedes sumar el Video Reel (máx. 2 min) por 250.000 COP con edición dinámica y música para redes.',
+      'Los adicionales se confirman al enviar la solicitud.'
+    ]
+  },
+  {
+    slug: 'sesion-conciertos',
+    title: 'Plan Conciertos & En Vivo',
+    group: 'especial',
+    packageTypeLabel: 'Sesiones especiales',
+    amountCop: 280000,
+    price: '280.000 COP',
+    sortOrder: 2,
+    lead: 'Fotografía profesional en vivo para artistas, bandas y presentaciones musicales: 2 horas de servicio y 80 fotos digitales editadas.',
+    image: 'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      '2 horas de servicio de cobertura fotográfica en vivo',
+      'Fotografía de escenario, planos cerrados y dinámica del show',
+      'Captura de momentos en backstage / camerino antes o después del show',
+      'Técnicas avanzadas con iluminación escénica y luces cambiantes',
+      'Hora adicional de concierto por 100.000 COP',
+      'Edición profesional de color, contraste y fuerza visual'
+    ],
+    deliverables: [
+      '80 fotografías digitales en alta calidad',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ],
+    customUpsells: sessionConcertsAdditionalUpsells,
+    notesCustom: [
+      'Incluye 2 horas de servicio y 80 fotos digitales editadas.',
+      'La hora adicional de cobertura tiene un costo de 100.000 COP.',
+      'Apta para solistas, bandas, festivales o recitales en vivo.'
+    ]
+  },
+  {
+    slug: 'sesion-recital-grado',
+    title: 'Plan Recital de Grado',
+    group: 'especial',
+    packageTypeLabel: 'Sesiones especiales',
+    amountCop: 280000,
+    price: '280.000 COP',
+    sortOrder: 3,
+    lead: 'Cobertura fotográfica dedicada para recitales de grado, presentaciones académicas y conciertos de titulación con 50 fotos digitales.',
+    image: 'https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    features: [
+      'Cobertura fotográfica completa del recital de grado',
+      'Fotografía del estudiante en el escenario y su instrumento',
+      'Manejo silencioso y respetuoso durante la interpretación musical',
+      'Fotografías con maestros, jurados evaluadores y familiares al finalizar',
+      'Iluminación profesional adaptada a auditorios y salas de concierto',
+      'Edición y balance de blancos profesional'
+    ],
+    deliverables: [
+      '50 fotografías digitales en alta calidad',
+      'Entrega final por Google Drive / Galería digital',
+      'Entrega en 5 a 8 días hábiles'
+    ],
+    customUpsells: sessionRecitalAdditionalUpsells,
+    notesCustom: [
+      'Empieza desde 280.000 COP con 50 fotos digitales editadas.',
+      'Puedes sumar registro en video continuo por 250.000 COP o reel para redes por 150.000 COP.',
+      'Ideal para graduados de música, artes escénicas y conservatorio.'
+    ]
+  }
+];
+
+portfolioPackageDetails.push(...sessionPlans.map((plan) => normalizePortfolioPackageDetail({
+  category: 'sesiones',
+  slug: plan.slug,
+  categoryLabel: 'Sesiones Fotográficas',
+  categoryHref: '/portfolio/sesiones',
+  title: plan.title,
+  packageTypeLabel: plan.packageTypeLabel,
+  packageGroup: 'session',
+  eyebrow: plan.packageTypeLabel,
+  lead: plan.lead,
+  image: plan.image,
+  priceLines: [plan.price],
+  baseQuoteOptions: [buildBaseQuoteOption(`${plan.slug}-base`, `${plan.title} · ${plan.price}`, plan.amountCop)],
+  featured: plan.featured ?? false,
+  sortOrder: plan.sortOrder,
+  accent: 'gold',
+  sections: [
+    { title: 'Características', items: plan.features },
+    { title: 'Entregables del paquete', items: plan.deliverables }
+  ],
+  requestOptionGroups: [
+    {
+      title: 'Adicionales disponibles',
+      description: plan.isStudio
+        ? 'Suma horas adicionales u opciones impresas para tu sesión de estudio.'
+        : plan.group === 'especial'
+          ? 'Personaliza tu cobertura especial con adicionales de video o impresión.'
+          : 'Suma extras para personalizar tu sesión fotográfica.',
+      selectable: true,
+      options: buildPricedRequestOptions(
+        `${plan.slug}-addon`,
+        plan.customUpsells ?? (plan.isStudio ? sessionStudioAdditionalUpsells : sessionGeneralAdditionalUpsells),
+        false
+      )
+    }
+  ],
+  notes: plan.notesCustom ?? [
+    'Cada paquete parte de una base cerrada para que la elección sea más rápida y clara.',
+    plan.isStudio
+      ? 'La sesión de estudio incluye un máximo de 2 horas. La hora adicional tiene un costo de 100.000 COP.'
+      : 'Las sesiones se realizan en locaciones exteriores o acordadas con el cliente.',
+    'Los adicionales se pueden anexar a cualquier plan y se confirman al enviar la solicitud.'
+  ],
+  whatsappHref: buildPortfolioWhatsappHref(`Hola TECNOJACK, quiero información sobre ${plan.title}.`)
+})));
+
 const portfolioPackageSlugAliases: Partial<Record<PortfolioPackageCategory, Record<string, string>>> = {
   preboda: {
     'plan-sencilla': 'preboda-esencial',
     'plan-completa': 'preboda-completa',
     'plan-especial': 'preboda-editorial',
     'plan-premium': 'preboda-premium',
+  },
+  sesiones: {
+    'sesion-personal-esencial': 'sesion-individual-digital',
+    'sesion-personal-clasico': 'sesion-individual-cuadro',
+    'sesion-personal-premium': 'sesion-individual-fotobook',
+    'sesion-personal-luxury': 'sesion-individual-coleccion',
+    'sesion-individual-esencial': 'sesion-individual-digital',
+    'sesion-individual-marco': 'sesion-individual-cuadro',
+    'sesion-individual-memoria': 'sesion-individual-fotobook',
+    'sesion-individual-legado': 'sesion-individual-coleccion',
+    'sesion-familiar-esencial': 'sesion-familiar-digital',
+    'sesion-familiar-clasico': 'sesion-familiar-cuadro',
+    'sesion-familiar-marco': 'sesion-familiar-cuadro',
+    'sesion-familiar-premium': 'sesion-familiar-fotobook',
+    'sesion-familiar-memoria': 'sesion-familiar-fotobook',
+    'sesion-familiar-luxury': 'sesion-familiar-coleccion',
+    'sesion-familiar-legado': 'sesion-familiar-coleccion',
+    'sesion-estudio': 'sesion-individual-estudio',
+    'sesion-estudio-profesional': 'sesion-individual-estudio',
+    'sesion-revelacion': 'sesion-revelacion-genero',
+    'sesion-genero': 'sesion-revelacion-genero',
+    'sesion-concierto': 'sesion-conciertos',
+    'sesion-recital': 'sesion-recital-grado',
   },
 };
 
@@ -3814,6 +4293,11 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
     storiesTitle: 'Trabajos destacados',
     storiesLead: 'Explora algunas de nuestras producciones audiovisuales.',
     stories: []
+  },
+  sesiones: {
+    category: 'sesiones', label: 'Sesiones Fotográficas', shellSubtitle: 'Sesiones Fotográficas',
+    hero: { eyebrow: 'Sesiones fotográficas', title: 'Fotografía profesional con intención y valor de recuerdo', description: 'Sesiones individuales, familiares y en estudio con dirección cuidada, entrega ágil y formatos digitales e impresos.', backgroundImage: 'assets/images/galery/M&D-23.jpg', highlights: ['Individuales & Generales', 'Familiares & Grupos', 'Estudio profesional', 'Entrega ágil'], whatsappMessage: 'Hola TECNOJACK, quiero información sobre Sesiones Fotográficas.' },
+    packageEyebrow: 'Presentación de paquetes', packageTitle: 'Paquetes de sesiones fotográficas (claros y completos)', packageLead: 'Escoge tu opción base según sea individual, familiar o en estudio, suma adicionales a tu gusto y envíanos fecha para agendar.', storiesTitle: 'Momentos con intención', storiesLead: 'Una sesión pensada para ti, tu familia y la etapa que quieres conservar.', stories: []
   }
 };
 

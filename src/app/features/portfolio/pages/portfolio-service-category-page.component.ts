@@ -189,6 +189,7 @@ export class PortfolioServiceCategoryPageComponent {
     'grados',
     'preboda',
     'corporativos',
+    'sesiones',
   ];
 
   @Input() editable = false;
@@ -354,6 +355,26 @@ export class PortfolioServiceCategoryPageComponent {
       const category = this.categoryState();
       const cards = this.packageCards();
       const prebodaCards = this.prebodaPackageCards();
+
+      if (category === 'sesiones') {
+        return [
+          {
+            title: 'Sesiones individuales y generales',
+            lead: 'Retratos, cumpleaños, marca personal, portafolio y sesiones en exteriores o estudio desde 250.000 COP.',
+            cards: cards.filter((item) => item.detail.packageTypeLabel === 'Sesiones individuales')
+          },
+          {
+            title: 'Sesiones familiares',
+            lead: 'Familia, maternidad, pareja, niños y fechas especiales en exteriores o estudio desde 320.000 COP.',
+            cards: cards.filter((item) => item.detail.packageTypeLabel === 'Sesiones familiares')
+          },
+          {
+            title: 'Sesiones especiales',
+            lead: 'Revelación de género, conciertos en vivo y recitales de grado con cobertura profesional adaptada.',
+            cards: cards.filter((item) => item.detail.packageTypeLabel === 'Sesiones especiales')
+          },
+        ];
+      }
 
       if (category === 'preboda') {
         const postbodaCards = this.postbodaPackageCards();
@@ -1457,6 +1478,10 @@ export class PortfolioServiceCategoryPageComponent {
       return detail.title;
     }
 
+    if (detail.category === 'sesiones') {
+      return detail.title;
+    }
+
     const { tier } = this.splitPlanName(detail.title);
 
     const categoryPrefix = (() => {
@@ -1628,6 +1653,9 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   coverByDetail(detail: PortfolioPackageDetail | null | undefined) {
+    if (detail?.image && (detail.image.startsWith('http://') || detail.image.startsWith('https://'))) {
+      return of(detail.image);
+    }
     return this.mediaPublic.getRealImage(
       resolvePortfolioPackageMediaFolder(detail),
     );
@@ -1642,6 +1670,26 @@ export class PortfolioServiceCategoryPageComponent {
   private inferSortOrder(detail: PortfolioPackageDetail): number {
     const { tier } = this.splitPlanName(detail.title);
     const normalized = (tier ?? '').toLowerCase();
+
+    if (/\bdigital\b/.test(normalized) && !/cuadro|fotobook|colecci/i.test(normalized)) {
+      return 1;
+    }
+
+    if (/\bcuadro\b/.test(normalized) && !/colecci/i.test(normalized)) {
+      return 2;
+    }
+
+    if (/\bfotobook\b/.test(normalized) && !/colecci/i.test(normalized)) {
+      return 3;
+    }
+
+    if (/\bcolecci[oó]n\b/.test(normalized)) {
+      return 4;
+    }
+
+    if (/\bestudio\b/.test(normalized)) {
+      return 5;
+    }
 
     if (/\besencial\b/.test(normalized)) {
       return 1;

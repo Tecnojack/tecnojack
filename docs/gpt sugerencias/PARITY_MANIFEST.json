@@ -1,0 +1,28 @@
+{
+  "source_of_truth": "Figma Make App.tsx via Figma get_design_context",
+  "angular_files": [
+    "galleries-manager.component.html",
+    "galleries-manager.component.scss",
+    "galleries-manager.component.ts",
+    "gallery-builder.component.html",
+    "gallery-builder.component.scss",
+    "gallery-builder.component.ts",
+    "client-gallery.component.html",
+    "client-gallery.component.scss",
+    "client-gallery.component.ts",
+    "gallery.models.ts",
+    "gallery.repository.ts",
+    "gallery-download.service.ts",
+    "gallery-upload.service.ts"
+  ],
+  "new_components": [
+    "gallery-feedback.component.ts",
+    "gallery-state.component.ts",
+    "gallery-figma-tokens.scss"
+  ],
+  "reference_files": [
+    "_figma-reference/GalleriesScreen.figma-reference.tsx",
+    "_figma-reference/GalleryBuilder.figma-reference.tsx",
+    "_figma-reference/ClientGallery.figma-reference.tsx"
+  ]
+}

@@ -1,1 +1,146 @@
-<section class="tj-erp-page galleries-page"><header><h1 class="tj-erp-page__title">Galerías</h1><p class="tj-erp-page__description">Crea, organiza y entrega experiencias fotográficas privadas a tus clientes.</p></header><div class="tj-erp-stats-grid"><article class="tj-erp-stat-card"><span class="tj-erp-stat-card__label">Total</span><strong class="tj-erp-stat-card__value">4</strong></article><article class="tj-erp-stat-card"><span class="tj-erp-stat-card__label">Publicadas</span><strong class="tj-erp-stat-card__value">2</strong></article><article class="tj-erp-stat-card"><span class="tj-erp-stat-card__label">Selección pendiente</span><strong class="tj-erp-stat-card__value">1</strong></article><article class="tj-erp-stat-card"><span class="tj-erp-stat-card__label">Total fotos</span><strong class="tj-erp-stat-card__value">736</strong></article></div><div class="tj-erp-filter-bar"><div class="tj-erp-filter-bar__search"><fa-icon [icon]="icons.search"></fa-icon><input placeholder="Buscar galería, cliente..." /></div><select class="gallery-select"><option>Todos los estados</option><option>Publicadas</option><option>Borrador</option></select><button class="tj-erp-btn tj-erp-btn--primary"><fa-icon [icon]="icons.plus"></fa-icon>Nueva Galería</button></div><div class="galleries-grid"><article class="gallery-card" *ngFor="let item of galleries()"><div class="gallery-cover"><img [src]="item.cover" [alt]="item.title"/><span [class.warning]="item.status === 'Selección requerida'">{{ item.status }}</span><div><h2>{{ item.title }}</h2><small>{{ item.photos }} fotos · {{ item.collections }} colecciones &nbsp; ◉ {{ item.views }}</small></div></div><div class="gallery-body"><div class="gallery-meta"><span>{{ item.date }} · {{ item.type }}</span><span>{{ item.client }}</span></div><div class="gallery-actions"><button class="tj-erp-btn tj-erp-btn--primary">Abrir</button><button class="tj-erp-btn tj-erp-btn--secondary">Vista cliente</button><button class="tj-erp-btn tj-erp-btn--secondary">↗</button></div></div></article></div></section>
+<section class="galleries-page" aria-labelledby="galleries-title">
+  <header class="galleries-page__header">
+    <div class="galleries-page__copy"><h1 id="galleries-title">Galerías</h1><p>Crea, organiza y entrega experiencias fotográficas privadas a tus clientes.</p></div><button type="button" class="tj-erp-btn tj-erp-btn--primary galleries-page__create" (click)="openCreate()">+ Nuevo</button>
+  </header>
+
+  <section class="galleries-kpis">
+    <article>
+      <span>Total</span>
+      <strong>{{ stats().total }}</strong>
+    </article>
+    <article>
+      <span>Publicadas</span>
+      <strong>{{ stats().published }}</strong>
+    </article>
+    <article>
+      <span>Selección pendiente</span>
+      <strong>{{ stats().pending }}</strong>
+    </article>
+    <article>
+      <span>Total fotos</span>
+      <strong>{{ stats().photos }}</strong>
+    </article>
+  </section>
+
+  <section class="galleries-toolbar">
+    <label class="galleries-search">
+      <fa-icon [icon]="icons.search"></fa-icon>
+      <input type="search" [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Buscar galería, cliente..." />
+    </label>
+    <div class="galleries-filters">
+      <select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)"><option value="all">Todos los estados</option><option value="Publicada">Publicadas</option><option value="Borrador">Borrador</option><option value="Selección requerida">Selección requerida</option></select>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary galleries-toolbar__create" (click)="openCreate()">+ Nueva Galería</button>
+    </div>
+  </section>
+
+  <section class="galleries-grid">
+    <article class="gallery-card" *ngFor="let item of filteredGalleries(); trackBy: trackByGalleryId" (click)="selectGallery(item.id)">
+      <div class="gallery-card__cover">
+        <img [src]="item.cover" [alt]="item.title" />
+        <span class="gallery-card__status" [class.warning]="item.status === 'Selección requerida'">{{ item.status }}</span>
+        <div class="gallery-card__title">
+          <h2>{{ item.title }}</h2>
+          <small>{{ item.photos }} fotos · {{ item.collections }} colecciones · {{ item.views }} vistas</small>
+        </div>
+      </div>
+      <div class="gallery-card__body">
+        <div class="gallery-card__meta">
+          <span>{{ item.date }}</span>
+          <span>{{ item.type }}</span>
+          <span>{{ item.client }}</span>
+        </div>
+        <div class="gallery-card__previews" aria-label="Colecciones">
+          <span class="gallery-card__preview" *ngFor="let album of item.albums | slice:0:5; let i = index">
+            <img [src]="getAlbumPreview(item, i)" [alt]="album.name" />
+          </span>
+          <span class="gallery-card__more" *ngIf="item.albums.length > 5">+{{ item.albums.length - 5 }}</span>
+        </div>
+        <div class="gallery-card__actions">
+          <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="openBuilder(item.id); $event.stopPropagation()">Abrir</button>
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="openClient(item.id); $event.stopPropagation()">Vista cliente</button>
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary gallery-card__more-action" aria-label="Más acciones" (click)="toggleMenu(item.id); $event.stopPropagation()">•••</button>
+        </div>
+        <div class="gallery-card__menu" *ngIf="activeMenu() === item.id" (click)="$event.stopPropagation()"><button type="button" (click)="openBuilder(item.id)">Editar</button><button type="button" (click)="duplicateGallery(item.id)">Duplicar</button><button type="button" (click)="copyGalleryLink(item.id)">Copiar enlace</button><button type="button" (click)="item.status === 'Archived' ? restoreGallery(item.id) : archiveGallery(item.id)">{{ item.status === 'Archived' ? 'Restaurar' : 'Archivar' }}</button></div>
+      </div>
+    </article>
+  </section>
+</section>
+
+<div class="galleries-modal-backdrop" *ngIf="createOpen()" (click)="closeCreate()">
+  <div class="galleries-modal" role="dialog" aria-modal="true" aria-labelledby="create-gallery-title" (click)="$event.stopPropagation()">
+    <div class="wizard__header">
+      <div>
+        <span>NUEVA GALERÍA</span>
+        <h2 id="create-gallery-title">Nueva galería</h2>
+      </div>
+      <button type="button" class="wizard__close" (click)="closeCreate()">×</button>
+    </div>
+
+    <div class="wizard__progress">
+      <span [class.active]="createStep() >= 1"></span>
+      <span [class.active]="createStep() >= 2"></span>
+      <span [class.active]="createStep() >= 3"></span>
+      <span [class.active]="createStep() >= 4"></span>
+    </div>
+
+    <div class="wizard__body" [ngSwitch]="createStep()">
+      <ng-container *ngSwitchCase="1">
+        <label><span>Nombre de la galería</span><input [ngModel]="newGallery().title" (ngModelChange)="updateNewGallery('title', $event)" placeholder="Boda Marcela & Andrés" /></label>
+        <div class="wizard__grid">
+          <label><span>Evento relacionado</span><input [ngModel]="newGallery().event" (ngModelChange)="updateNewGallery('event', $event)" /></label>
+          <label><span>Tipo</span><select [ngModel]="newGallery().type" (ngModelChange)="updateNewGallery('type', $event)"><option>Wedding</option><option>Quinceañera</option><option>Corporate</option><option>Music</option></select></label>
+        </div>
+        <label><span>Cliente</span><input [ngModel]="newGallery().client" (ngModelChange)="updateNewGallery('client', $event)" /></label>
+        <label><span>Descripción</span><textarea [ngModel]="newGallery().description" (ngModelChange)="updateNewGallery('description', $event)"></textarea></label>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="2">
+        <div class="wizard__dropzone">
+          <strong>Arrastra una foto aquí</strong>
+          <span>o elige desde Media Library</span>
+        </div>
+        <div class="wizard__preview">
+          <div>16:9 Desktop</div>
+          <div>9:16 Mobile</div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="3">
+        <label><span>Tipo de acceso</span>
+          <select [ngModel]="newGallery().access" (ngModelChange)="updateNewGallery('access', $event)">
+            <option value="Private link">Private link</option>
+            <option value="Password protected">Password protected</option>
+            <option value="Client account">Client account</option>
+            <option value="Public">Public</option>
+          </select>
+        </label>
+        <label *ngIf="newGallery().access === 'Password protected'"><span>contraseña</span><input [ngModel]="newGallery().password" (ngModelChange)="updateNewGallery('password', $event)" /></label>
+        <label><span>Expiración</span><input [ngModel]="newGallery().expiry" (ngModelChange)="updateNewGallery('expiry', $event)" /></label>
+        <label><input type="checkbox" [ngModel]="newGallery().allowDownloads" (ngModelChange)="updateNewGallery('allowDownloads', $event)" /> Permitir descargas</label>
+        <label><input type="checkbox" [ngModel]="newGallery().allowFavorites" (ngModelChange)="updateNewGallery('allowFavorites', $event)" /> Permitir favoritos</label>
+        <label><input type="checkbox" [ngModel]="newGallery().allowSelections" (ngModelChange)="updateNewGallery('allowSelections', $event)" /> Permitir Selección</label>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="4">
+        <div class="wizard__collections">
+          <div *ngFor="let collection of createCollections()">
+            <span>{{ collection.name }}</span>
+            <button type="button" (click)="removeCreateCollection(collection.id)">×</button>
+          </div>
+        </div>
+        <div class="wizard__add">
+          <input [ngModel]="newCollectionName()" (ngModelChange)="newCollectionName.set($event)" placeholder="Nombre de la colección..." />
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="addCreateCollection()">Añadir</button>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="wizard__actions">
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="createStep() === 1 ? closeCreate() : prevCreateStep()">{{ createStep() === 1 ? 'Cancelar' : 'Anterior' }}</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="createStep() < 4 ? nextCreateStep() : submitCreateWizard()">{{ createStep() < 4 ? 'Siguiente' : 'Crear galería' }}</button>
+    </div>
+  </div>
+</div>
+
+
+

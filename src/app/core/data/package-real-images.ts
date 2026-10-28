@@ -257,6 +257,85 @@ export const PACKAGE_REAL_IMAGES: PackageRealImage[] = [
     'photo',
     'surprise session with photographer capturing authentic emotional moment',
   ),
+  // ── Sesiones Fotográficas ──
+  realImage(
+    'servicios/sesiones/sesiones-individuales/sesion-individual-digital',
+    pexelsImage(18102854),
+    'photo',
+    'photo portrait photographer photoshoot outdoor individual natural light',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-individuales/sesion-individual-cuadro',
+    pexelsImage(15760815),
+    'photo',
+    'photo portrait photographer photoshoot outdoor individual artistic',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-individuales/sesion-individual-fotobook',
+    pexelsImage(16974331),
+    'photo',
+    'photo portrait photographer photoshoot outdoor individual editorial',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-individuales/sesion-individual-coleccion',
+    pexelsImage(774909),
+    'photo',
+    'photo portrait photographer photoshoot outdoor individual luxury',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-individuales/sesion-individual-estudio',
+    pexelsImage(3379934),
+    'photo',
+    'photo studio photographer photoshoot lighting backdrop professional',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-familiares/sesion-familiar-digital',
+    pexelsImage(1128318),
+    'photo',
+    'photo family photographer photoshoot outdoor group natural smile',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-familiares/sesion-familiar-cuadro',
+    pexelsImage(2253879),
+    'photo',
+    'photo family photographer photoshoot outdoor group children connection',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-familiares/sesion-familiar-fotobook',
+    pexelsImage(1682497),
+    'photo',
+    'photo family photographer photoshoot outdoor group album memory',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-familiares/sesion-familiar-coleccion',
+    pexelsImage(3768131),
+    'photo',
+    'photo family photographer photoshoot outdoor group complete luxury',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-familiares/sesion-familiar-estudio',
+    pexelsImage(4463953),
+    'photo',
+    'photo studio photographer photoshoot lighting backdrop family group',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-especiales/sesion-revelacion-genero',
+    pexelsImage(7155527),
+    'photo',
+    'photo celebration gender reveal family parents event balloon smoke',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-especiales/sesion-conciertos',
+    pexelsImage(1190297),
+    'photo',
+    'photo concert stage live music performance event lighting band artist',
+  ),
+  realImage(
+    'servicios/sesiones/sesiones-especiales/sesion-recital-grado',
+    pexelsImage(164821),
+    'photo',
+    'photo recital stage piano musical academic event auditorium instrument',
+  ),
 ];
 
 const imageByPath = new Map<string, PackageRealImage>(

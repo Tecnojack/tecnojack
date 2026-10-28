@@ -42,3 +42,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Temporary logs and external references
+.tmp*
+TECNOJACK ERP IA/
+

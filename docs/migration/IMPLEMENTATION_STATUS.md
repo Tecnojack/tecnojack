@@ -1,6 +1,6 @@
 # Estado de implementaci√≥n de la migraci√≥n ERP
 
-√öltima actualizaci√≥n: 2026-08-12.
+√öltima actualizaci√≥n: 2026-10-18.
 
 ## DONE
 
@@ -78,4 +78,34 @@
 
 ## Baseline reproducible
 
+## Galleries ‚Äî fase de consolidaci√≥n
+
+- Creado `GalleryRepository` como fuente frontend compartida para Manager, Builder y Client Gallery.
+- A√±adidos modelos de dominio para Gallery, GalleryCollection, GalleryMediaReference y GallerySettings.
+- Builder y Client Gallery resuelven la galer√≠a principal mediante el repositorio compartido.
+- Pendiente: migrar completamente colecciones, fotos, selecciones, descargas y persistencia del Manager al repositorio.
+
 - Build: `npm.cmd run build` ‚Äî exitoso.
+
+## Sesiones Fotogr√°ficas ‚Äî auditor√≠a e implementaci√≥n inicial
+
+- Auditor√≠a completada sobre cat√°logo de paquetes, patr√≥n de Grados, detalle est√°ndar de Portfolio, tokens p√∫blicos, solicitud y WhatsApp.
+- A√±adida la categor√≠a p√∫blica `/portfolio/sesiones` con dos grupos: Sesiones personales y Sesiones familiares.
+- A√±adidos ocho paquetes centralizados (cuatro por grupo) con precios, beneficios, im√°genes y rutas de detalle `/portfolio/sesiones/:package`.
+- Reutilizado `PortfolioServiceCategoryPageComponent` y `PortfolioPackageDetailPageComponent`; no se cre√≥ un flujo paralelo ni se modificaron referencias React/backend.
+- A√±adidos adicionales configurables de reel, video extendido y dron, con nota de no duplicar dron al seleccionar video extendido.
+- A√±adida la modalidad de estudio como opci√≥n cotizable (m√≠nimo 2 horas, alquiler de 80.000 COP/h y descuento base de 50.000 COP).
+- Validaci√≥n: `npm.cmd run build` exitoso; se mantienen warnings preexistentes de presupuesto de bundle, SCSS de invitaci√≥n y CommonJS `pako`.
+
+## Sesiones Fotogr·ficas ó Fase Completa & Im·genes en LÌnea
+
+- Estructura consolidada en tres grupos y 13 paquetes:
+  1. Sesiones individuales y generales (5 paquetes, desde 250.000 COP, incluye Plan Estudio 400.000 COP).
+  2. Sesiones familiares (5 paquetes, desde 320.000 COP, incluye Plan Estudio Familiar 400.000 COP).
+  3. Sesiones especiales (3 paquetes: RevelaciÛn de GÈnero con opciÛn de Reel, Conciertos & En Vivo 80 fotos, y Recital de Grado 50 fotos).
+- Reglas de negocio y tarifas ajustadas seg˙n especificaciÛn (estudio m·x 2 horas con hora adicional por 100.000 COP; Cuadro 100k, Fotobook 200k con descuento integral sin notas innecesarias al cliente).
+- Sin menciones de preboda ni fallbacks cruzados.
+- Header del portafolio optimizado: Corporativos y Otros solo visibles en el men˙ flotante lateral.
+- Im·genes de referencia reales en lÌnea (URLs Pexels directas en HTTPS) asignadas para todos los paquetes en cat·logo y vistas de detalle.
+- CompilaciÛn de producciÛn: 
+pm.cmd run build ó exitoso (0 errores).

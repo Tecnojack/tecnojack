@@ -184,6 +184,10 @@ export class ErpShellComponent {
 
   triggerCreate(): void {
     const url = this.router.url;
+    if (url.includes('/galleries')) {
+      void this.router.navigate(['/app/galleries'], { queryParams: { create: '1' } });
+      return;
+    }
     const action = url.includes('/pipeline') ? ['Nueva Oportunidad', 'POST /crm/opportunities', 'Crea una oportunidad vinculada a una persona u organización.']
       : url.includes('/quotations') ? ['Nueva Cotización', 'POST /crm/opportunities/:id/quotations', 'Crea una cotización dentro de una oportunidad comercial.']
       : url.includes('/contracts') ? ['Nuevo Contrato', 'POST /contracts', 'Crea un contrato relacionado con un evento.']
@@ -213,6 +217,7 @@ export class ErpShellComponent {
     const button = target?.closest('button') as HTMLButtonElement | null;
     if (!button || button.disabled || !button.closest('.erp-content')) return;
     if (!button.matches('.tj-erp-btn, .tj-erp-btn-sm, .icon-action')) return;
+    if (this.router.url.includes('/galleries')) return;
     const label = button.textContent?.trim() || 'Acción';
     if (/workspace|volver|ver todos|ver pipeline|ver cartera/i.test(label)) return;
     const endpoint = this.endpointForLabel(label);

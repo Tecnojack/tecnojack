@@ -100,6 +100,30 @@ export const ERP_ROUTES: Routes = [
           )
       },
       {
+        path: 'galleries/preview/:id',
+        title: 'Preview de galería | TECNOJACK ERP',
+        loadComponent: () =>
+          import('./galleries/client-gallery.component').then(
+            (m) => m.ClientGalleryComponent
+          )
+      },
+      {
+        path: 'galleries/builder/:id',
+        title: 'Gallery Builder | TECNOJACK ERP',
+        loadComponent: () =>
+          import('./galleries/gallery-builder.component').then(
+            (m) => m.GalleryBuilderComponent
+          )
+      },
+      {
+        path: 'galleries/client/:id',
+        title: 'Client Gallery | TECNOJACK ERP',
+        loadComponent: () =>
+          import('./galleries/client-gallery.component').then(
+            (m) => m.ClientGalleryComponent
+          )
+      },
+      {
         path: 'deliverables',
         title: 'Entregables | TECNOJACK ERP',
         loadComponent: () =>

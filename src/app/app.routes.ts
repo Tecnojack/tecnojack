@@ -35,6 +35,21 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'portfolio/sesiones/:package',
+		data: { category: 'sesiones' },
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-package-detail-page.component').then(
+				(m) => m.PortfolioPackageDetailPageComponent
+			)
+	},
+	{
+		path: 'portfolio/sesiones',
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-sessions-page.component').then(
+				(m) => m.PortfolioSessionsPageComponent
+			)
+	},
+	{
 		path: 'portfolio/videos/:package',
 		data: { category: 'videos' },
 		loadComponent: () =>

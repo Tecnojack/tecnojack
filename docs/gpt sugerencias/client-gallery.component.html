@@ -1,0 +1,131 @@
+<ng-container [ngSwitch]="phase()">
+  <section *ngSwitchCase="'cover'" class="client-cover" [style.backgroundImage]="'url(' + DATA.cover + ')'">
+    <div class="client-cover__overlay"></div>
+    <div class="client-cover__top">
+      <span>TECNOJACK</span>
+      <button type="button" (click)="back()">← ERP</button>
+    </div>
+    <div class="client-cover__center">
+      <div class="client-cover__eyebrow">{{ DATA.subtitle.toUpperCase() }}</div>
+      <h1>{{ DATA.title.toUpperCase() }}</h1>
+      <p>{{ DATA.date }}</p>
+      <ng-container *ngIf="!isExpired() && accessGallery().settings.access !== 'Password protected'; else accessState">
+        <button type="button" class="client-cover__cta" (click)="openGallery()">VER GALERÍA →</button>
+      </ng-container>
+      <ng-template #accessState><div *ngIf="isExpired(); else passwordState" class="client-access-state"><strong>Esta galería ya no está disponible</strong><span>La fecha de expiración ya fue alcanzada.</span></div><ng-template #passwordState><div class="client-password"><strong>Galería privada</strong><input type="password" placeholder="Contraseña" [ngModel]="passwordInput()" (ngModelChange)="passwordInput.set($event)" (keyup.enter)="enterPassword()" /><button type="button" (click)="enterPassword()">Entrar a la galería</button><small *ngIf="accessError()">Contraseña incorrecta</small></div></ng-template></ng-template>
+    </div>
+    <div class="client-cover__scroll">SCROLL</div>
+  </section>
+
+  <section *ngSwitchCase="'gallery'" class="client-page" [class.preview-tablet]="isPreview() && previewDevice() === 'tablet'" [class.preview-mobile]="isPreview() && previewDevice() === 'mobile'">
+    <nav class="client-nav">
+      <span class="client-nav__brand">TECNOJACK</span>
+      <strong class="client-nav__title">{{ DATA.title }}</strong>
+      <div class="client-nav__actions">
+        <button type="button" (click)="showFavoritesOnly.set(!showFavoritesOnly())">♡ Favorites</button>
+        <button type="button" (click)="showSelectionMode.set(!showSelectionMode())">{{ selections().length }}/40</button>
+        <button type="button" (click)="showDownload.set('gallery')">Download</button>
+        <button type="button" (click)="back()">ERP</button>
+      </div>
+    </nav>
+    <div class="preview-device-switcher" *ngIf="isPreview()"><span>Preview</span><button type="button" [class.is-active]="previewDevice() === 'desktop'" (click)="previewDevice.set('desktop')">Desktop</button><button type="button" [class.is-active]="previewDevice() === 'tablet'" (click)="previewDevice.set('tablet')">Tablet</button><button type="button" [class.is-active]="previewDevice() === 'mobile'" (click)="previewDevice.set('mobile')">Mobile</button><button type="button" (click)="back()">Salir</button></div>
+
+    <div class="client-tabs">
+      <button *ngFor="let collection of DATA.collections" type="button" [class.is-active]="activeCollection() === collection.id" (click)="activeCollection.set(collection.id); showFavoritesOnly.set(false)">
+        {{ collection.name }}
+      </button>
+    </div>
+
+    <div class="client-intro" *ngIf="activeCollection() !== 'all' && !showFavoritesOnly()">
+      <div>{{ activeCollectionTitle() }}</div>
+    </div>
+
+    <div class="client-banner" *ngIf="showSelectionMode()">
+      <div>
+        <strong>Seleccionando fotos para tu álbum</strong>
+        <p>{{ selections().length }}/40 seleccionadas</p>
+      </div>
+      <button type="button" class="client-banner__review" (click)="showReview.set(true)">Revisar selección</button>
+    </div>
+
+    <section class="client-grid">
+      <article *ngFor="let photo of visiblePhotos(); let i = index" class="client-photo" (click)="openPhoto(i)">
+        <img [src]="photo.url" alt="" />
+        <button type="button" class="client-photo__fav" [class.is-active]="isFavorite(photo.id)" (click)="toggleFavorite(photo.id); $event.stopPropagation()">{{ isFavorite(photo.id) ? '♥' : '♡' }}</button>
+        <button type="button" class="client-photo__sel" *ngIf="showSelectionMode()" [class.is-active]="isSelected(photo.id)" (click)="toggleSelection(photo.id); $event.stopPropagation()">{{ isSelected(photo.id) ? '✓' : '+' }}</button>
+        <div class="client-photo__selection" *ngIf="isSelected(photo.id)">✓</div>
+      </article>
+    </section>
+
+    <div class="client-lightbox" *ngIf="showLightbox()" (click)="showLightbox.set(false)">
+      <button type="button" class="client-lightbox__close" (click)="showLightbox.set(false)">×</button>
+      <button type="button" class="client-lightbox__nav left" (click)="prev(); $event.stopPropagation()">‹</button>
+      <img [src]="currentPhoto().url" alt="" />
+      <button type="button" class="client-lightbox__nav right" (click)="next(); $event.stopPropagation()">›</button>
+      <div class="client-lightbox__actions" *ngIf="currentPhoto()"><button type="button" (click)="toggleFavorite(currentPhoto().id); $event.stopPropagation()">{{ isFavorite(currentPhoto().id) ? '♥ Favorita' : '♡ Favorito' }}</button><button type="button" (click)="toggleSelection(currentPhoto().id); $event.stopPropagation()">{{ isSelected(currentPhoto().id) ? '✓ Seleccionada' : '+ Seleccionar' }}</button></div>
+      <div class="client-lightbox__counter">{{ lightboxIndex() + 1 }} / {{ visiblePhotos().length }}</div>
+    </div>
+
+    <div class="client-modal" *ngIf="showReview()" (click)="showReview.set(false)">
+      <div class="client-modal__card" (click)="$event.stopPropagation()">
+        <div class="client-modal__header">
+          <div>
+            <h3>Tu selección</h3>
+            <p>{{ selections().length }} de 40 fotografías</p>
+          </div>
+          <button type="button" (click)="showReview.set(false)">×</button>
+        </div>
+        <div class="client-modal__grid">
+          <div *ngFor="let photo of selectedPhotos()">
+            <img [src]="photo.url" alt="" />
+          </div>
+        </div>
+        <div class="client-modal__actions">
+          <button type="button" (click)="showReview.set(false)">Seguir editando</button>
+          <button type="button" (click)="showReview.set(false); showSubmit.set(true)">Enviar selección →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="client-modal" *ngIf="showSubmit()" (click)="showSubmit.set(false)">
+      <div class="client-modal__card" (click)="$event.stopPropagation()">
+        <h3>¿Enviar tu selección?</h3>
+        <p>TECNOJACK recibirá estas {{ selections().length }} fotografías para preparar tu álbum.</p>
+        <div class="client-modal__actions">
+          <button type="button" (click)="showSubmit.set(false)">Cancelar</button>
+          <button type="button" (click)="confirmSubmission()">Enviar selección</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="client-modal" *ngIf="false && showDownload()" (click)="showDownload.set(null)">
+      <div class="client-modal__card" (click)="$event.stopPropagation()">
+        <h3>{{ downloadReady() ? 'Tu descarga está lista' : 'Descargar' }}</h3>
+        <p *ngIf="!downloadReady()">Preparando tus fotografías...</p>
+        <button *ngIf="!downloadReady()" type="button" (click)="startDownload()">Preparar ZIP</button>
+        <button *ngIf="downloadReady()" type="button" (click)="showDownload.set(null); downloadReady.set(false)">Descargar ZIP</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="client-modal" *ngIf="showDownload()" (click)="showDownload.set(null)">
+    <div class="client-modal__card download-modal" (click)="$event.stopPropagation()">
+      <h3>{{ downloadJob()?.status === 'Ready' ? 'Tu descarga está lista' : 'Descargar fotografías' }}</h3>
+      <p *ngIf="!downloadJob()">Prepara una descarga privada de esta galería.</p>
+      <div class="download-options" *ngIf="!downloadJob()"><button type="button" (click)="startDownload('gallery')">Galería completa</button><button type="button" [disabled]="!favorites().length" (click)="startDownload('favorites')">Favoritos ({{ favorites().length }})</button><button type="button" [disabled]="!selections().length" (click)="startDownload('selection')">Selección ({{ selections().length }})</button></div>
+      <p *ngIf="downloadJob()?.status === 'Queued' || downloadJob()?.status === 'Preparing'">Preparando tus fotografías… {{ downloadJob()?.progress }}%</p>
+      <p *ngIf="downloadJob()?.status === 'Ready'">El archivo está listo para descargar.</p>
+      <div class="download-progress" *ngIf="downloadJob() && downloadJob()?.status !== 'Ready'"><span [style.width.%]="downloadJob()?.progress || 0"></span></div>
+      <div class="client-modal__actions"><button type="button" (click)="showDownload.set(null)">Cerrar</button><button type="button" *ngIf="downloadJob()?.status === 'Failed'" (click)="startDownload(downloadJob()?.scope || 'gallery')">Reintentar</button><button type="button" *ngIf="downloadJob()?.status === 'Ready'" (click)="showDownload.set(null)">Descargar ZIP</button></div>
+    </div>
+  </div>
+
+  <section *ngSwitchCase="'submitted'" class="client-submitted">
+    <div class="client-submitted__card">
+      <div class="client-submitted__icon">✓</div>
+      <h2>Selección enviada</h2>
+      <p>{{ selections().length }} fotografías · Enviada el 11 de agosto de 2026</p>
+      <button type="button" (click)="phase.set('gallery')">Volver a la galería</button>
+    </div>
+  </section>
+</ng-container>
