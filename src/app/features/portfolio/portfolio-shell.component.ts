@@ -1,9 +1,18 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, Input, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+  inject,
+  signal
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { PortfolioContactLink, PortfolioNavItem } from './portfolio.data';
 import { PortfolioContentService } from './services/portfolio-content.service';
+import { I18nService } from '../../core/services/i18n.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'tj-portfolio-shell',
@@ -15,6 +24,8 @@ import { PortfolioContentService } from './services/portfolio-content.service';
 })
 export class PortfolioShellComponent {
   private readonly content = inject(PortfolioContentService);
+  readonly i18n = inject(I18nService);
+  readonly theme = inject(ThemeService);
 
   @Input({ required: true }) navItems: PortfolioNavItem[] = [];
 
@@ -23,17 +34,19 @@ export class PortfolioShellComponent {
       (item) => item.href !== '/portfolio/corporativos' && item.href !== '/otros'
     );
   }
+
   @Input() brandHref = '/portfolio';
   @Input() headerCtaHref?: string;
   @Input() headerCtaLabel = 'WhatsApp';
   @Input() headerCtaExternal = true;
-  @Input() subtitle = 'Estudio audiovisual';
+  @Input() subtitle = '';
   @Input() footerText?: string;
   @Input() editable = false;
   @Input() floatWaHref?: string;
   @Input() hideHeader = false;
 
   readonly isMenuOpen = signal(false);
+  readonly isMobileNavOpen = signal(false);
 
   toggleFloatingMenu(): void {
     this.isMenuOpen.update((val) => !val);
@@ -43,10 +56,35 @@ export class PortfolioShellComponent {
     this.isMenuOpen.set(false);
   }
 
+  toggleMobileNav(): void {
+    this.isMobileNavOpen.update((val) => !val);
+    if (this.isMobileNavOpen()) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMobileNav(): void {
+    this.isMobileNavOpen.set(false);
+    document.body.style.overflow = '';
+  }
+
+  toggleTheme(): void {
+    this.theme.toggleTheme();
+  }
+
+  toggleLanguage(): void {
+    this.i18n.toggleLang();
+  }
+
   @HostListener('document:keydown.escape')
   closeOnEscape(): void {
     if (this.isMenuOpen()) {
       this.closeFloatingMenu();
+    }
+    if (this.isMobileNavOpen()) {
+      this.closeMobileNav();
     }
   }
 
@@ -82,6 +120,6 @@ export class PortfolioShellComponent {
   }
 
   useExactMatch(href: string): boolean {
-    return href === '/portfolio';
+    return href === '/portfolio' || href === '/brand';
   }
 }

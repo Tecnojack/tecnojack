@@ -1,46 +1,67 @@
-<section class="portfolio-section hero-section" id="hero">
-    <!-- Responsive Logo Watermark (LogoHW.png) -->
-    <div class="hero-section__watermark" aria-hidden="true">
-        <img src="assets/LogoHW.png" alt="TECNOJACK Logo" />
+<section class="hero-section" id="hero">
+    <!-- Cinematic Full-Bleed Media Background -->
+    <div class="hero-section__backdrop">
+        <img
+            [src]="heroImageUrl"
+            alt="TECNOJACK Fotografía y Cine"
+            class="hero-section__backdrop-img"
+            loading="eager"
+            fetchpriority="high" />
+        <div class="hero-section__vignette"></div>
     </div>
 
-    <div class="hero-section__overlay"></div>
+    <!-- Apple-Style Foreground Content Container -->
+    <div class="hero-section__container">
+        <div class="hero-section__content">
+            <!-- Eyebrow Tag -->
+            <div class="hero-section__eyebrow-wrapper">
+                <span class="hero-section__eyebrow">{{ heroEyebrow }}</span>
+            </div>
 
-    <div class="hero-section__content">
-        <div class="hero-section__copy">
-            <span class="hero-badge">JACKSON PALACIOS · TECNOJACK</span>
+            <!-- Main Headline (Apple-Grade Fluid Typography) -->
+            <h1 class="hero-section__title">
+                <span class="hero-section__title-brand">TECNOJACK</span>
+                <span class="hero-section__title-slogan">{{ i18n.t('brand.tagline', 'El arte de ser un pro.') }}</span>
+            </h1>
 
-            <h1 class="heading-xl hero-section__title">Fotógrafo &amp; Filmmaker</h1>
-            <p class="hero-section__lead text-body text-muted">
-                Cine, fotografía de autor y dirección artística para bodas, eventos, marcas y visiones audiovisuales que trascienden el tiempo.
+            <!-- Editorial Subtitle -->
+            <p class="hero-section__lead">
+                {{ i18n.t('hero.subtitle', 'Historias que merecen ser contadas. Imágenes que merecen ser recordadas.') }}
             </p>
 
-            <div class="hero-section__pills">
-                <span class="hero-pill">📷 Fotografía Editorial &amp; Fine-Art</span>
-                <span class="hero-pill">🎬 Cinematografía 4K &amp; Dron</span>
-                <span class="hero-pill">💍 Bodas &amp; Full Experience</span>
-                <span class="hero-pill">💼 Corporativo &amp; Marcas</span>
+            <!-- Pill Tags / Capabilities -->
+            <div class="hero-section__caps">
+                <span class="hero-cap">Fotografía Editorial</span>
+                <span class="hero-cap-dot">·</span>
+                <span class="hero-cap">Cine de Bodas</span>
+                <span class="hero-cap-dot">·</span>
+                <span class="hero-cap">Sesiones de Autor</span>
+                <span class="hero-cap-dot">·</span>
+                <span class="hero-cap">Estudio &amp; Marcas</span>
             </div>
 
+            <!-- Call To Actions -->
             <div class="hero-section__actions">
-                <a class="hero-btn hero-btn--primary" [href]="whatsappHref" target="_blank" rel="noopener">
-                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="btn-icon" />
-                    Cotizar por WhatsApp
+                <a class="hero-cta-btn hero-cta-btn--primary" [href]="servicesHref">
+                    <span>{{ i18n.t('hero.cta.portfolio', 'Explorar Portafolio') }}</span>
+                    <svg class="hero-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                 </a>
-                <a class="hero-btn hero-btn--ghost" [href]="servicesHref">
-                    Ver Servicios &rarr;
+                <a class="hero-cta-btn hero-cta-btn--secondary" [href]="whatsappHref" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="hero-btn-icon" />
+                    <span>{{ i18n.t('hero.cta.quote', 'Cotizar por WhatsApp') }}</span>
                 </a>
             </div>
 
-            <div class="hero-section__stats">
-                <article class="hero-stat" *ngFor="let stat of stats">
-                    <strong>{{ stat.value }}</strong>
-                    <span>{{ stat.label }}</span>
-                </article>
+            <!-- Minimalist Stats Strip -->
+            <div class="hero-section__stats-strip">
+                <div class="hero-stat-item" *ngFor="let stat of stats">
+                    <span class="hero-stat-value">{{ stat.value }}</span>
+                    <span class="hero-stat-label">{{ stat.label }}</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
-
-
-

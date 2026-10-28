@@ -1,112 +1,245 @@
-<div class="portfolio-page" [class.portfolio-page--editable]="editable">
-    <div class="portfolio-page__aurora" aria-hidden="true"></div>
-    <div class="portfolio-page__grain" aria-hidden="true"></div>
+<div class="portfolio-page" [class.portfolio-page--editable]="editable" [attr.data-theme]="theme.activeTheme()">
+    <!-- Minimalist Apple-grade backdrop -->
+    <div class="portfolio-page__atmosphere" aria-hidden="true"></div>
 
+    <!-- ── Apple-Style Sticky Navigation Header ───────────────────────────── -->
     <header class="portfolio-header" *ngIf="!hideHeader">
-        <a *ngIf="isInternalRoute(brandHref); else brandExternalLink" class="portfolio-header__brand" [routerLink]="brandHref">
-            <span class="portfolio-header__brand-mark" aria-hidden="true">
-                <img src="assets/logo.png" alt="" />
-            </span>
-            <span class="portfolio-header__brand-copy">
-                <span class="portfolio-header__mark">TECNOJACK</span>
-                <span class="portfolio-header__sub" *ngIf="subtitle">{{ subtitle }}</span>
-            </span>
-        </a>
-        <ng-template #brandExternalLink>
-            <a class="portfolio-header__brand" [href]="brandHref">
-                <span class="portfolio-header__brand-mark" aria-hidden="true">
-                    <img src="assets/logo.png" alt="" />
+        <div class="portfolio-header__container">
+            <!-- Brand Mark -->
+            <a *ngIf="isInternalRoute(brandHref); else brandExternalLink" class="portfolio-header__brand" [routerLink]="brandHref">
+                <span class="portfolio-header__logo-wrapper" aria-hidden="true">
+                    <img src="assets/logo.png" alt="TECNOJACK Logo" class="portfolio-header__logo" />
                 </span>
-                <span class="portfolio-header__brand-copy">
-                    <span class="portfolio-header__mark">TECNOJACK</span>
-                    <span class="portfolio-header__sub" *ngIf="subtitle">{{ subtitle }}</span>
+                <span class="portfolio-header__brand-text">
+                    <span class="portfolio-header__brand-title">TECNOJACK</span>
+                    <span class="portfolio-header__brand-sub" *ngIf="subtitle">{{ subtitle }}</span>
                 </span>
             </a>
-        </ng-template>
-
-        <nav class="portfolio-header__nav" aria-label="Secciones del portafolio">
-            <ng-container *ngFor="let item of headerNavItems">
-                <a
-                    *ngIf="isInternalRoute(item.href); else externalNavLink"
-                    class="portfolio-header__nav-link btn-text"
-                    [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
-                    routerLinkActive="portfolio-header__nav-link--active"
-                    [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }"
-                    [routerLink]="item.href">
-                    {{ item.label }}
+            <ng-template #brandExternalLink>
+                <a class="portfolio-header__brand" [href]="brandHref">
+                    <span class="portfolio-header__logo-wrapper" aria-hidden="true">
+                        <img src="assets/logo.png" alt="TECNOJACK Logo" class="portfolio-header__logo" />
+                    </span>
+                    <span class="portfolio-header__brand-text">
+                        <span class="portfolio-header__brand-title">TECNOJACK</span>
+                        <span class="portfolio-header__brand-sub" *ngIf="subtitle">{{ subtitle }}</span>
+                    </span>
                 </a>
-                <ng-template #externalNavLink>
-                    <a
-                        class="portfolio-header__nav-link btn-text"
-                        [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
-                        [href]="item.href">{{ item.label }}</a>
-                </ng-template>
-            </ng-container>
-        </nav>
+            </ng-template>
 
-        <!-- <a
-            class="portfolio-header__cta btn-text"
-            [href]="resolvedHeaderCtaHref"
-            [attr.target]="headerCtaExternal ? '_blank' : null"
-            [attr.rel]="headerCtaExternal ? 'noopener' : null">
-            {{ headerCtaLabel }}
-        </a> -->
+            <!-- Desktop Nav Links -->
+            <nav class="portfolio-header__nav" aria-label="Navegación principal">
+                <ng-container *ngFor="let item of headerNavItems">
+                    <a
+                        *ngIf="isInternalRoute(item.href); else externalNavLink"
+                        class="portfolio-header__nav-link"
+                        [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
+                        routerLinkActive="portfolio-header__nav-link--active"
+                        [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }"
+                        [routerLink]="item.href">
+                        {{ item.label }}
+                    </a>
+                    <ng-template #externalNavLink>
+                        <a
+                            class="portfolio-header__nav-link"
+                            [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
+                            [href]="item.href">{{ item.label }}</a>
+                    </ng-template>
+                </ng-container>
+            </nav>
+
+            <!-- Header Controls & Actions -->
+            <div class="portfolio-header__actions">
+                <!-- Language Switcher (ES / EN) -->
+                <button
+                    type="button"
+                    class="portfolio-header__lang-toggle"
+                    (click)="toggleLanguage()"
+                    [title]="i18n.isEn() ? 'Cambiar a Español' : 'Switch to English'"
+                    [attr.aria-label]="i18n.isEn() ? 'Cambiar a Español' : 'Switch to English'">
+                    <span class="portfolio-header__lang-opt" [class.portfolio-header__lang-opt--active]="i18n.isEs()">ES</span>
+                    <span class="portfolio-header__lang-sep">/</span>
+                    <span class="portfolio-header__lang-opt" [class.portfolio-header__lang-opt--active]="i18n.isEn()">EN</span>
+                </button>
+
+                <!-- Theme Switcher (Dark / Light) -->
+                <button
+                    type="button"
+                    class="portfolio-header__theme-toggle"
+                    (click)="toggleTheme()"
+                    [title]="theme.isDark() ? 'Activar modo claro' : 'Activar modo oscuro'"
+                    [attr.aria-label]="theme.isDark() ? 'Activar modo claro' : 'Activar modo oscuro'">
+                    <svg *ngIf="theme.isDark()" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg *ngIf="theme.isLight()" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <!-- Header CTA Button -->
+                <a
+                    class="portfolio-header__cta-btn"
+                    [href]="resolvedHeaderCtaHref"
+                    [attr.target]="headerCtaExternal ? '_blank' : null"
+                    [attr.rel]="headerCtaExternal ? 'noopener' : null">
+                    <span>{{ i18n.t('nav.cotizar', 'Cotizar') }}</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    type="button"
+                    class="portfolio-header__mobile-toggle"
+                    (click)="toggleMobileNav()"
+                    [attr.aria-expanded]="isMobileNavOpen()"
+                    [attr.aria-label]="isMobileNavOpen() ? 'Cerrar menú' : 'Abrir menú'">
+                    <span class="mobile-burger-line" [class.mobile-burger-line--open1]="isMobileNavOpen()"></span>
+                    <span class="mobile-burger-line" [class.mobile-burger-line--open2]="isMobileNavOpen()"></span>
+                </button>
+            </div>
+        </div>
     </header>
 
+    <!-- ── Apple-Style Mobile Navigation Overlay ────────────────────────── -->
+    <div class="portfolio-mobile-nav" [class.portfolio-mobile-nav--open]="isMobileNavOpen()" role="dialog" aria-modal="true" [attr.aria-hidden]="!isMobileNavOpen()">
+        <div class="portfolio-mobile-nav__backdrop" (click)="closeMobileNav()"></div>
+        <div class="portfolio-mobile-nav__panel">
+            <div class="portfolio-mobile-nav__links">
+                <ng-container *ngFor="let item of navItems; let idx = index">
+                    <a
+                        *ngIf="isInternalRoute(item.href); else mobileExternalLink"
+                        class="portfolio-mobile-nav__link"
+                        [style.--item-order]="idx"
+                        [routerLink]="item.href"
+                        (click)="closeMobileNav()"
+                        routerLinkActive="portfolio-mobile-nav__link--active"
+                        [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }">
+                        {{ item.label }}
+                    </a>
+                    <ng-template #mobileExternalLink>
+                        <a
+                            class="portfolio-mobile-nav__link"
+                            [style.--item-order]="idx"
+                            [href]="item.href"
+                            (click)="closeMobileNav()">
+                            {{ item.label }}
+                        </a>
+                    </ng-template>
+                </ng-container>
+            </div>
+
+            <div class="portfolio-mobile-nav__footer">
+                <div class="portfolio-mobile-nav__toggles">
+                    <button type="button" class="mobile-toggle-chip" (click)="toggleLanguage()">
+                        🌐 {{ i18n.isEn() ? 'English' : 'Español' }}
+                    </button>
+                    <button type="button" class="mobile-toggle-chip" (click)="toggleTheme()">
+                        {{ theme.isDark() ? '☀️ Modo Claro' : '🌙 Modo Oscuro' }}
+                    </button>
+                </div>
+                <a class="portfolio-mobile-nav__cta" [href]="whatsappHref" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+                    <span>Cotizar por WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main Content Area ─────────────────────────────────────────────── -->
     <main class="portfolio-main">
         <ng-content />
     </main>
 
+    <!-- ── Apple-Style Editorial Multi-Column Footer ──────────────────────── -->
     <footer class="portfolio-footer">
-        <div class="portfolio-footer__inner">
-            <div class="portfolio-footer__main">
-                <a *ngIf="isInternalRoute(brandHref); else footerBrandExternal" class="portfolio-footer__brand" [routerLink]="brandHref" aria-label="Ir al inicio">
-                    <span class="portfolio-footer__brand-mark" aria-hidden="true">
-                        <img src="assets/logo.png" alt="" />
-                    </span>
-                    <span class="portfolio-footer__brand-name">TECNOJACK</span>
-                </a>
-                <ng-template #footerBrandExternal>
-                    <a class="portfolio-footer__brand" [href]="brandHref" aria-label="Ir al inicio">
-                        <span class="portfolio-footer__brand-mark" aria-hidden="true">
-                            <img src="assets/logo.png" alt="" />
-                        </span>
+        <div class="portfolio-footer__container">
+            <!-- Top Grid of Columns -->
+            <div class="portfolio-footer__grid">
+                <!-- Col 1: Brand & Promise -->
+                <div class="portfolio-footer__col portfolio-footer__col--brand">
+                    <div class="portfolio-footer__brand-block">
+                        <img src="assets/logo.png" alt="TECNOJACK Logo" class="portfolio-footer__logo" />
                         <span class="portfolio-footer__brand-name">TECNOJACK</span>
-                    </a>
-                </ng-template>
+                    </div>
+                    <p class="portfolio-footer__brand-tagline">
+                        <strong>{{ i18n.t('footer.slogan', 'El arte de ser un pro.') }}</strong><br />
+                        {{ i18n.t('hero.subtitle', 'Historias que merecen ser contadas. Imágenes que merecen ser recordadas.') }}
+                    </p>
+                    <div class="portfolio-footer__social-row">
+                        <a
+                            class="portfolio-footer__social-btn"
+                            *ngFor="let link of contactLinks"
+                            [href]="link.href"
+                            target="_blank"
+                            rel="noopener"
+                            [title]="link.title"
+                            [attr.aria-label]="link.title">
+                            <img *ngIf="link.iconSrc" [src]="link.iconSrc" alt="" aria-hidden="true" />
+                        </a>
+                    </div>
+                </div>
 
-                <div class="portfolio-footer__social-icons" aria-label="Redes sociales">
-                    <a
-                        class="footer-social-icon"
-                        *ngFor="let link of contactLinks"
-                        [href]="link.href"
-                        target="_blank"
-                        rel="noopener"
-                        [title]="link.title"
-                        [attr.aria-label]="link.title">
-                        <img *ngIf="link.iconSrc" [src]="link.iconSrc" alt="" aria-hidden="true" />
+                <!-- Col 2: Services -->
+                <div class="portfolio-footer__col">
+                    <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.services', 'Servicios') }}</h4>
+                    <ul class="portfolio-footer__col-list">
+                        <li><a routerLink="/portfolio/bodas">Fotografía & Cine de Bodas</a></li>
+                        <li><a routerLink="/portfolio/quinces">Fotografía & Video 15 Años</a></li>
+                        <li><a routerLink="/portfolio/grados">Grados Académicos & Titulaciones</a></li>
+                        <li><a routerLink="/portfolio/sesiones">Sesiones Individuales, Familiares & Estudio</a></li>
+                        <li><a routerLink="/portfolio/corporativos">Eventos & Video Corporativo</a></li>
+                        <li><a routerLink="/portfolio/videos">Producción Audiovisual & Cine</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Experiences & Links -->
+                <div class="portfolio-footer__col">
+                    <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.experience', 'Experiencias') }}</h4>
+                    <ul class="portfolio-footer__col-list">
+                        <li><a routerLink="/portfolio/preboda">Sesiones Preboda & Postboda</a></li>
+                        <li><a routerLink="/portfolio/sobre-mi">Sobre Jackson Palacios</a></li>
+                        <li><a routerLink="/cotizacion">Cotizador Interactivo de Grados</a></li>
+                        <li><a routerLink="/contratar">Firma Digital de Contratos</a></li>
+                        <li><a routerLink="/app">Acceso Portal Clientes / ERP</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Direct Contact -->
+                <div class="portfolio-footer__col">
+                    <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.legal', 'Contacto & Cobertura') }}</h4>
+                    <p class="portfolio-footer__col-text">
+                        Colombia & Cobertura en Destino Internacional.<br />
+                        Atención personalizada vía WhatsApp y asesoría estética para tu proyecto.
+                    </p>
+                    <a class="portfolio-footer__cta-link" [href]="whatsappHref" target="_blank" rel="noopener">
+                        <span>Iniciar conversación WhatsApp →</span>
                     </a>
                 </div>
             </div>
 
-            <div class="portfolio-footer__sub">
-                <div class="portfolio-footer__links">
-                    <a class="footer-link" routerLink="/terminos-y-condiciones">Términos y Condiciones</a>
-                    <span class="footer-dot">•</span>
-                    <a *ngIf="isInternalRoute(brandHref); else footerExternalLink" class="footer-link" [routerLink]="brandHref">Volver arriba ↑</a>
-                    <ng-template #footerExternalLink>
-                        <a class="footer-link" [href]="brandHref">Volver arriba ↑</a>
-                    </ng-template>
+            <!-- Bottom Legal Bar -->
+            <div class="portfolio-footer__bottom">
+                <div class="portfolio-footer__legal-links">
+                    <span>© {{ '2026' }} TECNOJACK. {{ i18n.t('footer.rights', 'Todos los derechos reservados.') }}</span>
+                    <a routerLink="/terminos-y-condiciones">{{ i18n.t('footer.terms', 'Términos y Condiciones') }}</a>
+                    <a routerLink="/brand">Brand Profile</a>
                 </div>
-
-                <span class="portfolio-footer__credit">Por <strong>Jackson Palacios</strong></span>
+                <div class="portfolio-footer__attribution">
+                    <span>Fotografía y Dirección por <strong>Jackson Palacios</strong></span>
+                </div>
             </div>
         </div>
     </footer>
 
-
-
-    <!-- Floating Navigation Menu (Speed-dial Stack above WhatsApp) -->
+    <!-- ── Floating Actions (Speed-Dial Stack & WhatsApp) ──────────────────── -->
     <aside class="portfolio-float-menu" [class.portfolio-float-menu--open]="isMenuOpen()">
         <div class="portfolio-float-menu__backdrop" *ngIf="isMenuOpen()" (click)="closeFloatingMenu()"></div>
 
@@ -150,15 +283,15 @@
     </aside>
 
     <a
-        class="portfolio-float-wa btn-text"
+        class="portfolio-float-wa"
         [href]="whatsappHref"
         target="_blank"
         rel="noopener"
         aria-label="Escribir por WhatsApp a TECNOJACK">
         <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
-        <span>WhatsApp</span>
+        <span class="portfolio-float-wa__text">WhatsApp</span>
     </a>
 
+    <!-- Overlay slot for modals / lightbox -->
     <ng-content select="[portfolioOverlay]"></ng-content>
 </div>
-

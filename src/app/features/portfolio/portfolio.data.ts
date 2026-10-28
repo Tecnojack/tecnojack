@@ -558,6 +558,15 @@ export const portfolioServices: PortfolioService[] = [
     points: ['Dirección creativa', 'Sesión exterior', 'Contenido emocional']
   },
   {
+    id: 'sesiones',
+    title: 'Sesiones Fotográficas',
+    description: 'Retratos individuales, sesiones familiares y fotografía en estudio profesional con iluminación y dirección de poses.',
+    image: 'https://images.pexels.com/photos/18102854/pexels-photo-18102854.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    href: '/portfolio/sesiones',
+    ctaLabel: 'Ver paquetes',
+    points: ['Individuales & Generales', 'Familiares & Grupos', 'Estudio profesional (2h)', 'Entrega digital en alta calidad']
+  },
+  {
     id: 'videos',
     title: 'Videos',
     description: 'Producción de video musical, corporativo y creativo con enfoque narrativo.',

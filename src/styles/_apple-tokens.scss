@@ -1,0 +1,141 @@
+// ─── TECNOJACK Apple-Inspired Design Tokens ──────────────────────────────────
+
+:root {
+  // Fluid typography scale
+  --tj-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --tj-font-hero: clamp(2.5rem, 6.2vw, 5.25rem);
+  --tj-font-display: clamp(2rem, 4.4vw, 3.75rem);
+  --tj-font-h1: clamp(1.75rem, 3.2vw, 2.75rem);
+  --tj-font-h2: clamp(1.35rem, 2.2vw, 2rem);
+  --tj-font-h3: clamp(1.15rem, 1.6vw, 1.45rem);
+  --tj-font-lead: clamp(1.05rem, 1.35vw, 1.25rem);
+  --tj-font-body: 1rem;
+  --tj-font-small: 0.875rem;
+  --tj-font-micro: 0.75rem;
+
+  // Spacing & Border Radius
+  --tj-radius-xs: 8px;
+  --tj-radius-sm: 12px;
+  --tj-radius-md: 18px;
+  --tj-radius-lg: 26px;
+  --tj-radius-xl: 36px;
+  --tj-radius-full: 9999px;
+
+  // Transitions
+  --tj-transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-normal: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-smooth: 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-theme: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+
+  // Navigation dimensions
+  --tj-header-height: 52px;
+  --tj-header-z: 1000;
+  --tj-modal-z: 2000;
+}
+
+// ─── Dark Mode (Default) ──────────────────────────────────────────────────────
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --tj-bg: #050505;
+  --tj-bg-secondary: #0e0e11;
+  --tj-surface: #141417;
+  --tj-surface-hover: #1c1c21;
+  --tj-surface-active: #24242b;
+  --tj-surface-glass: rgba(18, 18, 22, 0.72);
+
+  --tj-text: #F5F5F7;
+  --tj-text-secondary: #86868B;
+  --tj-text-tertiary: #545458;
+  --tj-text-inverted: #000000;
+
+  --tj-border: rgba(255, 255, 255, 0.08);
+  --tj-border-strong: rgba(255, 255, 255, 0.16);
+
+  --tj-accent: #00A3C4;
+  --tj-accent-hover: #00BDE3;
+  --tj-accent-soft: rgba(0, 163, 196, 0.12);
+  --tj-accent-border: rgba(0, 163, 196, 0.28);
+
+  --tj-gold: #E5B842;
+  --tj-gold-soft: rgba(229, 184, 66, 0.12);
+
+  --tj-glass-bg: rgba(10, 10, 12, 0.82);
+  --tj-glass-border: rgba(255, 255, 255, 0.1);
+  --tj-glass-blur: blur(20px) saturate(180%);
+
+  --tj-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --tj-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --tj-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+
+  // Overrides for legacy portfolio variables to ensure instant harmonious theming
+  --portfolio-bg: var(--tj-bg);
+  --portfolio-surface: var(--tj-surface);
+  --portfolio-surface-strong: var(--tj-surface-hover);
+  --portfolio-text: var(--tj-text);
+  --portfolio-muted: var(--tj-text-secondary);
+  --portfolio-line: var(--tj-border);
+  --portfolio-brand: var(--tj-accent);
+  --portfolio-brand-soft: var(--tj-accent-soft);
+  --portfolio-accent: var(--tj-gold);
+}
+
+// ─── Light Mode ───────────────────────────────────────────────────────────────
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --tj-bg: #FFFFFF;
+  --tj-bg-secondary: #F5F5F7;
+  --tj-surface: #FFFFFF;
+  --tj-surface-hover: #F2F2F7;
+  --tj-surface-active: #E5E5EA;
+  --tj-surface-glass: rgba(255, 255, 255, 0.84);
+
+  --tj-text: #1D1D1F;
+  --tj-text-secondary: #6E6E73;
+  --tj-text-tertiary: #86868B;
+  --tj-text-inverted: #FFFFFF;
+
+  --tj-border: rgba(0, 0, 0, 0.08);
+  --tj-border-strong: rgba(0, 0, 0, 0.16);
+
+  --tj-accent: #00829B;
+  --tj-accent-hover: #006C81;
+  --tj-accent-soft: rgba(0, 130, 155, 0.08);
+  --tj-accent-border: rgba(0, 130, 155, 0.22);
+
+  --tj-gold: #C69A28;
+  --tj-gold-soft: rgba(198, 154, 40, 0.1);
+
+  --tj-glass-bg: rgba(255, 255, 255, 0.85);
+  --tj-glass-border: rgba(0, 0, 0, 0.08);
+  --tj-glass-blur: blur(20px) saturate(180%);
+
+  --tj-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --tj-shadow-md: 0 8px 26px rgba(0, 0, 0, 0.07);
+  --tj-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.1);
+
+  // Overrides for legacy portfolio variables in light mode
+  --portfolio-bg: var(--tj-bg);
+  --portfolio-surface: var(--tj-surface);
+  --portfolio-surface-strong: var(--tj-surface-hover);
+  --portfolio-text: var(--tj-text);
+  --portfolio-muted: var(--tj-text-secondary);
+  --portfolio-line: var(--tj-border);
+  --portfolio-brand: var(--tj-accent);
+  --portfolio-brand-soft: var(--tj-accent-soft);
+  --portfolio-accent: var(--tj-gold);
+}
+
+// ─── Reduced Motion ───────────────────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

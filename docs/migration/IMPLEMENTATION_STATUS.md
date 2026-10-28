@@ -109,3 +109,29 @@
 - Imágenes de referencia reales en línea (URLs Pexels directas en HTTPS) asignadas para todos los paquetes en catálogo y vistas de detalle.
 - Compilación de producción: 
 pm.cmd run build — exitoso (0 errores).
+
+## Rediseño Web Premium TECNOJACK (Rama rediseño)
+
+- Rama creada: ediseño.
+- Sistema de diseño inspirado en Apple implementado:
+  - Tokens globales de color para modo oscuro (#050505 base) y modo claro (#FFFFFF base) en src/styles/_apple-tokens.scss.
+  - Escala tipográfica fluida con clamp(), priorizando Inter, -apple-system y system-ui.
+  - Supresión de adornos y neones excesivos, otorgando protagonismo radical a la fotografía y el video.
+- Motor de Temas (ThemeService):
+  - Soporte reactivo con Signals para dark, light y system.
+  - Detección de prefers-color-scheme, sincronización en localStorage y prevención de FOUC en index.html.
+- Motor de Internacionalización (I18nService):
+  - Soporte completo para Español e Inglés (es y en) con selector en el Header.
+  - Diccionario tipado para navegación, hero, servicios, paquetes, entregables, CTA y footer.
+- Header y Navegación Premium:
+  - Barra sticky de 52px con efecto translúcido (ackdrop-filter: blur(20px) saturate(180%)).
+  - Selectores integrados de idioma (ES / EN) y tema (?? / ??).
+  - Menú móvil desplegable con desenfoque de cristal y animaciones escalonadas.
+- Experiencia de Páginas y Secciones:
+  - Hero cinematográfico con "TECNOJACK — El arte de ser un pro.", subtítulo editorial y botones CTA de alto impacto.
+  - Cuadrícula editorial de servicios con imágenes de gran formato y puntos clave.
+  - Tarjetas de catálogo y acordeones (PortfolioCategoryAccordionComponent) con diseño refinado tipo producto Apple, preservando el 100% de los precios, entregables y paquetes.
+  - Perfil de marca / Linktree (/brand) transformado en ficha técnica Apple Pro.
+  - Pie de página editorial de cuatro columnas.
+- Compilación de producción: 
+pm.cmd run build — 100% exitoso (0 errores).

@@ -66,12 +66,11 @@
 .package-notes,
 .package-missing,
 .package-proposal {
-    border-radius: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background:
-        radial-gradient(circle at top right, var(--package-accent-glow), transparent 32%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+    border-radius: var(--tj-radius-xl, 32px);
+    border: 1px solid var(--tj-border);
+    background: var(--tj-surface);
+    box-shadow: var(--tj-shadow-sm);
+    transition: var(--tj-transition-fast);
 }
 
 .package-hero {

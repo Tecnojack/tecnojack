@@ -1,3 +1,4 @@
+@use './styles/apple-tokens';
 @use './app/themes/travel-theme';
 @use './styles/erp-theme';
 @use './styles/erp-tokens';
@@ -146,12 +147,14 @@ body.portfolio-route::-webkit-scrollbar-thumb:hover,
 
 body {
     margin: 0;
-    background: var(--background);
-    color: var(--text);
-    font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--tj-bg, var(--background));
+    color: var(--tj-text, var(--text));
+    font-family: var(--tj-font-family);
+    letter-spacing: -0.011em;
     text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: var(--tj-transition-theme);
 }
 
 .tj-image-frame {
@@ -644,8 +647,10 @@ body.portfolio-request-modal-open {
     padding: 0 var(--portfolio-button-padding-x);
     border-radius: var(--portfolio-button-radius);
     border: 0;
-    background: linear-gradient(135deg, #ffb800, #d18b00);
-    color: #120d07;
+    background: var(--tj-text, #ffffff);
+    color: var(--tj-text-inverted, #000000);
+    font-weight: 600;
+    letter-spacing: -0.01em;
     text-decoration: none;
     cursor: pointer;
     transition: transform 220ms ease, filter 220ms ease, border-color 220ms ease, background 220ms ease;
@@ -772,13 +777,11 @@ body.portfolio-request-modal-open {
     grid-template-rows: auto 1fr;
     height: 100%;
     overflow: hidden;
-    border-radius: 34px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background:
-        radial-gradient(circle at top right, var(--portfolio-brand-soft), transparent 28%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-    box-shadow: var(--portfolio-shadow);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    border-radius: var(--tj-radius-lg, 24px);
+    border: 1px solid var(--tj-border);
+    background: var(--tj-surface);
+    box-shadow: var(--tj-shadow-sm);
+    transition: transform var(--tj-transition-fast), border-color var(--tj-transition-fast), box-shadow var(--tj-transition-fast);
 }
 
 .portfolio-page .service-package-card--luxury {
@@ -1979,11 +1982,13 @@ body.portfolio-request-modal-open {
     }
 }
 
-h1,
-h2,
-h3,
-.title {
+:where(.invitation-page, .wedding-page, .travel-page) :is(h1, h2, h3, .title) {
     font-family: 'Playfair Display', ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+:where(.portfolio-page, .portfolio-package-detail, .brand-linktree-wrapper) :is(h1, h2, h3, h4, .title) {
+    font-family: var(--tj-font-family);
+    letter-spacing: -0.025em;
 }
 
 * {
