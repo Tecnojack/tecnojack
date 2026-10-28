@@ -1,4 +1,8 @@
 @use './app/themes/travel-theme';
+@use './styles/erp-theme';
+@use './styles/erp-tokens';
+@use './styles/erp-components';
+@use './app/features/erp/galleries/gallery-figma-tokens';
 @import 'photoswipe/style.css';
 :root {
     --primary: #6e7f67;

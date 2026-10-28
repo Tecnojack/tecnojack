@@ -1,0 +1,187 @@
+<section class="builder-shell">
+  <header class="builder-topbar">
+    <button type="button" class="builder-back" (click)="back()"><fa-icon [icon]="icons.back"></fa-icon>Galerías</button>
+    <span class="builder-title">{{ gallery().title }}</span>
+    <span class="builder-badge" [class.is-live]="published() || gallery().status === 'Published'">{{ published() ? 'Published' : 'Draft' }}</span>
+    <div class="builder-actions">
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="openPreview()"><fa-icon [icon]="icons.eye"></fa-icon>Preview</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="copyLink()"><fa-icon [icon]="icons.share"></fa-icon>Compartir</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="togglePublished()"><fa-icon [icon]="icons.globe"></fa-icon>{{ published() || gallery().status === 'Published' ? 'Despublicar' : 'Publicar' }}</button>
+    </div>
+  </header>
+  <div class="builder-feedback" *ngIf="feedback()">{{ feedback() }}</div>
+
+  <div class="builder-grid">
+    <aside class="builder-sidebar" *ngIf="sidebarVisible()">
+      <div class="builder-section-title">Colecciones</div>
+      <button type="button" class="collection-item collection-item--all" [class.is-active]="!activeCollection()" (click)="activeCollection.set(null)">
+        <span>Todas las fotos</span><strong>{{ gallery().totalPhotos }}</strong>
+      </button>
+      <button type="button" class="collection-item" *ngFor="let collection of visibleCollections()" [class.is-active]="activeCollection() === collection.id" (click)="activeCollection.set(collection.id)">
+        <span>◌ {{ collection.name }}</span><strong>{{ collection.count }}</strong>
+        <small class="collection-item__meta" *ngIf="collection.tagline">{{ collection.tagline }}</small>
+      </button>
+      <div class="collection-create-inline">
+        <input
+          type="text"
+          [ngModel]="newCollectionName()"
+          (ngModelChange)="updateNewCollectionName($event)"
+          placeholder="Nueva colección..."
+        />
+        <button type="button" class="collection-create-inline__button" (click)="createCollection()"><fa-icon [icon]="icons.plus"></fa-icon></button>
+      </div>
+    </aside>
+
+    <main class="builder-canvas">
+      <div class="builder-canvas__header">
+        <div>
+          <h2>{{ activeCollectionName() }}</h2>
+          <p>{{ visiblePhotos().length }} fotografías</p>
+        </div>
+        <div class="builder-canvas__toolbar">
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="showUpload.set(true)"><fa-icon [icon]="icons.upload"></fa-icon>Añadir fotos</button>
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="openReview()">Revisar selección</button>
+        </div>
+      </div>
+
+      <div class="selection-toolbar" *ngIf="selected().length"><strong>{{ selected().length }} seleccionadas</strong><button type="button" class="tj-erp-btn tj-erp-btn--secondary" *ngFor="let collection of visibleCollections()" (click)="moveSelectedTo(collection.id)">Mover a {{ collection.name }}</button><button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="selected.set([])">Limpiar</button></div>
+      <div class="selection-banner" *ngIf="selectedSubmitted()">
+        <div>
+          <strong>Selección enviada</strong>
+          <p>40 fotografías · enviada el 11 agosto 2026</p>
+        </div>
+        <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="openReview()">Ver revisión</button>
+      </div>
+
+      <div class="photo-grid">
+        <article class="photo-tile" *ngFor="let photo of visiblePhotos()" (click)="toggleSelection(photo.id)">
+          <img [src]="photo.url" alt="" />
+          <div class="photo-tile__selected" *ngIf="selected().includes(photo.id)"><fa-icon [icon]="icons.check"></fa-icon></div>
+          <div class="photo-tile__actions">
+            <button type="button" (click)="$event.stopPropagation(); setCover(photo.id)">Portada</button>
+            <button type="button" (click)="$event.stopPropagation(); toggleSelection(photo.id)">Seleccionar</button>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <aside class="builder-inspector" *ngIf="inspectorVisible()">
+      <div class="builder-section-title">Inspector</div>
+      <div class="inspector-tabs">
+        <button type="button" [class.is-active]="inspectorTab() === 'general'" (click)="inspectorTab.set('general')">General</button>
+        <button type="button" [class.is-active]="inspectorTab() === 'access'" (click)="inspectorTab.set('access')">Access</button>
+        <button type="button" [class.is-active]="inspectorTab() === 'delivery'" (click)="inspectorTab.set('delivery')">Delivery</button>
+      </div>
+      <div class="inspector-panel" [ngSwitch]="inspectorTab()">
+        <ng-container *ngSwitchCase="'general'">
+          <div class="info-row"><span>Nombre</span><strong>{{ gallery().title }}</strong></div>
+          <div class="info-row"><span>Cliente</span><strong>{{ gallery().client }}</strong></div>
+          <div class="info-row"><span>Evento</span><strong>{{ gallery().event }}</strong></div>
+          <div class="info-row"><span>Fotos</span><strong>{{ gallery().totalPhotos }}</strong></div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'access'">
+          <div class="info-row"><span>Acceso</span><strong>{{ gallery().access }}</strong></div>
+          <div class="info-row"><span>Expira</span><strong>{{ gallery().expiry }}</strong></div>
+          <div class="info-row"><span>Selección</span><strong>{{ gallery().selectionTarget }} fotos</strong></div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'delivery'">
+          <div class="info-row"><span>Enlace</span><strong>tecnojack.co/g/{{ gallery().id }}</strong></div>
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="openClient()"><fa-icon [icon]="icons.copy"></fa-icon>Copiar enlace</button>
+          <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="downloadReady.set(true)"><fa-icon [icon]="icons.download"></fa-icon>Descargar ZIP</button>
+        </ng-container>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div class="modal-backdrop" *ngIf="showUpload()" (click)="showUpload.set(false)">
+  <div class="modal-card modal-card--wide" (click)="$event.stopPropagation()">
+    <h3>Añadir fotografías</h3>
+    <p>Arrastra tus fotografías aquí o pega una URL. La imagen se agrega al grid y a la selección local.</p>
+    <div class="dropzone" (dragover)="$event.preventDefault()" (drop)="onDropFiles($event)">
+      <fa-icon [icon]="icons.upload"></fa-icon>
+      <strong>Arrastra fotografías aquí</strong>
+      <span>JPG, WEBP, PNG · Múltiples archivos</span>
+    </div>
+    <div class="modal-divider">— o —</div>
+    <button type="button" class="tj-erp-btn tj-erp-btn--secondary modal-library" (click)="showMediaPicker.set(true)"><fa-icon [icon]="icons.folder"></fa-icon>Elegir de Media Library</button>
+    <label class="modal-field">
+      <span>URL de imagen</span>
+      <input type="text" [ngModel]="newPhotoUrl()" (ngModelChange)="updateNewPhotoUrl($event)" placeholder="https://..." />
+    </label>
+    <div class="upload-list">
+      <div class="upload-row" *ngFor="let upload of uploadQueue()"><img [src]="upload.preview" alt="" /><strong>{{ upload.file.name }}</strong><span>{{ (upload.file.size / 1048576).toFixed(1) }} MB</span><em>{{ upload.status }}</em><small>{{ upload.progress }}%</small><button type="button" (click)="uploadService.remove(upload.id)">×</button></div>
+      <div class="upload-row"><strong>DSC_0412.jpg</strong><span>4.2 MB</span><em>Ready</em></div>
+      <div class="upload-row"><strong>DSC_0413.jpg</strong><span>3.8 MB</span><em>Uploading</em></div>
+      <div class="upload-row"><strong>DSC_0414.jpg</strong><span>5.1 MB</span><em>Queued</em></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="showUpload.set(false)">Cancelar</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary" [disabled]="!canConfirmUploads()" (click)="confirmUploads()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showMediaPicker()" (click)="showMediaPicker.set(false)">
+  <div class="modal-card modal-card--wide media-picker" (click)="$event.stopPropagation()">
+    <h3>Elegir de Media Library</h3>
+    <p>Selecciona referencias existentes para agregarlas a esta colección.</p>
+    <input class="modal-field" type="search" placeholder="Buscar archivos..." [ngModel]="mediaSearch()" (ngModelChange)="mediaSearch.set($event)" />
+    <div class="media-picker__grid">
+      <button type="button" *ngFor="let asset of filteredMediaAssets()" [class.is-selected]="selectedMedia().includes(asset.id)" (click)="toggleMediaAsset(asset.id)">
+        <img [src]="asset.url" [alt]="asset.filename" /><span>{{ asset.filename }}</span><b *ngIf="selectedMedia().includes(asset.id)">✓</b>
+      </button>
+    </div>
+    <div class="modal-actions"><button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="showMediaPicker.set(false)">Cancelar</button><button type="button" class="tj-erp-btn tj-erp-btn--primary" [disabled]="!selectedMedia().length" (click)="confirmMediaSelection()">Añadir seleccionadas</button></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPublish()" (click)="showPublish.set(false)">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h3>Publicar galería</h3>
+    <p>{{ gallery().title }} · {{ gallery().totalPhotos }} fotografías</p>
+    <div class="publish-summary">
+      <div><span>Acceso</span><strong>{{ gallery().access }}</strong></div>
+      <div><span>Descargas</span><strong>{{ gallery().access === 'Password' ? 'Protegidas' : 'Alta resolución' }}</strong></div>
+      <div><span>Favoritos</span><strong>Activados</strong></div>
+      <div><span>Selección</span><strong>Activada</strong></div>
+    </div>
+    <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="publish()">Publicar galería</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showReview()" (click)="showReview.set(false)">
+  <div class="modal-card modal-card--wide" (click)="$event.stopPropagation()">
+    <h3>Revisión de selección</h3>
+    <p>{{ selected().length }} fotografías seleccionadas</p>
+    <div class="review-grid">
+      <article *ngFor="let photo of reviewPhotos()">
+        <img [src]="photo.url" alt="" />
+        <button type="button" (click)="toggleSelection(photo.id)">×</button>
+      </article>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="requestChanges()">Pedir cambios</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="approveSelection()">Aprobar selección</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showSubmit()" (click)="showSubmit.set(false)">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h3>¿Enviar tu selección?</h3>
+    <p>TECNOJACK recibirá estas {{ selected().length }} fotografías para preparar tu álbum.</p>
+    <div class="modal-actions">
+      <button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="showSubmit.set(false)">Cancelar</button>
+      <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="showSubmit.set(false); selectedSubmitted.set(true)">Enviar selección</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="downloadReady()" (click)="downloadReady.set(false)">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h3>Tu descarga está lista</h3>
+    <p>Descarga preparada para {{ gallery().title }}</p>
+    <button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="downloadReady.set(false)">Descargar ZIP</button>
+  </div>
+</div>

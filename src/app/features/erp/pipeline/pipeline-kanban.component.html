@@ -1,0 +1,104 @@
+<section class="tj-erp-page">
+  <header class="tj-erp-page__header">
+    <div class="tj-erp-page__title-area">
+      <span class="tj-erp-page__badge">Comercial</span>
+      <h1 class="tj-erp-page__title">Pipeline de Ventas (CRM)</h1>
+      <p class="tj-erp-page__description">
+        Embudo comercial de oportunidades y seguimiento de clientes potenciales.
+      </p>
+    </div>
+
+    <div class="tj-erp-page__actions">
+      <button class="tj-erp-btn tj-erp-btn--primary">
+        <fa-icon [icon]="icons.plus"></fa-icon>
+        <span>Nueva Oportunidad</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="tj-erp-stats-grid">
+    <div class="tj-erp-stat-card">
+      <span class="tj-erp-stat-card__label">Valor Total del Pipeline</span>
+      <span class="tj-erp-stat-card__value">$ {{ totalPipelineValue() | number:'1.0-0' }}</span>
+      <span class="tj-erp-stat-card__hint">6 oportunidades activas</span>
+    </div>
+    <div class="tj-erp-stat-card">
+      <span class="tj-erp-stat-card__label">Propuestas Pendientes</span>
+      <span class="tj-erp-stat-card__value">2</span>
+      <span class="tj-erp-stat-card__hint">$ 13.000.000 COP proyectados</span>
+    </div>
+    <div class="tj-erp-stat-card">
+      <span class="tj-erp-stat-card__label">Tasa de Conversión</span>
+      <span class="tj-erp-stat-card__value">68%</span>
+      <span class="tj-erp-stat-card__hint">+12% este mes</span>
+    </div>
+  </div>
+
+  <div class="tj-erp-filter-bar">
+    <div class="tj-erp-filter-bar__search">
+      <fa-icon [icon]="icons.search"></fa-icon>
+      <input
+        type="text"
+        placeholder="Buscar por cliente o tipo de evento..."
+        [ngModel]="searchFilter()"
+        (ngModelChange)="searchFilter.set($event)"
+      />
+    </div>
+  </div>
+
+  <div class="kanban-board">
+    <div class="kanban-column" *ngFor="let col of columns">
+      <div class="kanban-column__header" [style.border-top-color]="col.color">
+        <div class="kanban-column__title-wrap">
+          <h3 class="kanban-column__title">{{ col.title }}</h3>
+          <span class="kanban-column__count">{{ dealsByStage()[col.id].length }}</span>
+        </div>
+      </div>
+
+      <div class="kanban-column__cards">
+        <div class="deal-card" *ngFor="let deal of dealsByStage()[col.id]">
+          <div class="deal-card__top">
+            <span class="deal-card__badge">{{ deal.eventType }}</span>
+            <button class="deal-card__more"><fa-icon [icon]="icons.more"></fa-icon></button>
+          </div>
+
+          <h4 class="deal-card__name">{{ deal.clientName }}</h4>
+          <div class="deal-card__price">$ {{ deal.value | number:'1.0-0' }}</div>
+
+          <div class="deal-card__meta">
+            <span><fa-icon [icon]="icons.user"></fa-icon> {{ deal.assignedTo }}</span>
+            <span><fa-icon [icon]="icons.calendar"></fa-icon> {{ deal.expectedDate }}</span>
+          </div>
+
+          <div class="deal-card__actions" *ngIf="col.id !== 'won'">
+            <button
+              class="deal-card__btn"
+              *ngIf="col.id === 'lead'"
+              (click)="moveStage(deal.id, 'contacted')"
+            >
+              Contactar →
+            </button>
+            <button
+              class="deal-card__btn"
+              *ngIf="col.id === 'contacted'"
+              (click)="moveStage(deal.id, 'proposal')"
+            >
+              Enviar Propuesta →
+            </button>
+            <button
+              class="deal-card__btn deal-card__btn--success"
+              *ngIf="col.id === 'proposal'"
+              (click)="moveStage(deal.id, 'won')"
+            >
+              Ganado ✓
+            </button>
+          </div>
+        </div>
+
+        <div class="kanban-column__empty" *ngIf="dealsByStage()[col.id].length === 0">
+          Sin oportunidades
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

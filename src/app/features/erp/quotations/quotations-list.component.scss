@@ -1,0 +1,57 @@
+.tj-erp-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.status-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  &--sent {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  &--accepted {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  &--expired {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+}
+
+.font-mono {
+  font-family: monospace;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-accent {
+  color: #0097b2;
+}
+
+.tj-erp-btn-sm {
+  background: rgba(0, 151, 178, 0.15);
+  border: 1px solid rgba(0, 151, 178, 0.3);
+  color: #f4fcff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 151, 178, 0.3);
+  }
+}

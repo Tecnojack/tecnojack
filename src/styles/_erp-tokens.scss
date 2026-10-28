@@ -1,0 +1,31 @@
+$erp-font-display: 'Montserrat', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$erp-font-body: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+@mixin orbit-token-scope {
+    --erp-surface-app: #041217;
+    --erp-surface-sidebar: #063a45;
+    --erp-surface-default: #0b191e;
+    --erp-surface-raised: #17272d;
+    --erp-surface-hover: #1e3038;
+    --erp-text-primary: #eaf0f2;
+    --erp-text-secondary: #a8b6bb;
+    --erp-text-muted: #83949b;
+    --erp-text-subtle: #60737a;
+    --erp-brand: #0097b2;
+    --erp-brand-highlight: #39bdd1;
+    --erp-accent: #ffb800;
+    --erp-success: #2ead6b;
+    --erp-warning: #e7a522;
+    --erp-danger: #e25555;
+    --erp-info: #3d9be9;
+    --erp-border: rgba(57, 189, 209, 0.12);
+    --erp-border-strong: rgba(57, 189, 209, 0.24);
+    --erp-focus: 0 0 0 3px rgba(57, 189, 209, 0.28);
+    --erp-radius-sm: 8px;
+    --erp-radius-md: 12px;
+    --erp-radius-lg: 16px;
+    --erp-radius-xl: 20px;
+    --erp-sidebar-width: 212px;
+    --erp-sidebar-collapsed-width: 56px;
+    --erp-topbar-height: 56px;
+}

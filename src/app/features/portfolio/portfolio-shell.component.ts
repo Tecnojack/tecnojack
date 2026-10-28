@@ -17,6 +17,12 @@ export class PortfolioShellComponent {
   private readonly content = inject(PortfolioContentService);
 
   @Input({ required: true }) navItems: PortfolioNavItem[] = [];
+
+  get headerNavItems(): PortfolioNavItem[] {
+    return this.navItems.filter(
+      (item) => item.href !== '/portfolio/corporativos' && item.href !== '/otros'
+    );
+  }
   @Input() brandHref = '/portfolio';
   @Input() headerCtaHref?: string;
   @Input() headerCtaLabel = 'WhatsApp';

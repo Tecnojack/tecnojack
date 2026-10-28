@@ -13,7 +13,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
@@ -128,6 +128,9 @@ export class PortfolioPackageDetailPageComponent {
     if (!detail) {
       return this.placeholderImage;
     }
+    if (detail.image && (detail.image.startsWith('http://') || detail.image.startsWith('https://'))) {
+      return detail.image;
+    }
     const folder = resolvePortfolioPackageMediaFolder(detail);
     const realImage = getRealImageUrlByPath(folder);
     return realImage || detail.image || this.placeholderImage;
@@ -143,6 +146,9 @@ export class PortfolioPackageDetailPageComponent {
     }
     if (detail.category === 'preboda') {
       return 'Sesiones de preboda';
+    }
+    if (detail.category === 'sesiones') {
+      return 'Sesiones fotográficas';
     }
     if (detail.category === 'quinces') {
       return 'Paquetes de quinceañeros';
@@ -204,7 +210,9 @@ export class PortfolioPackageDetailPageComponent {
       ? 'Foto y video coordinados en una sola cobertura, con el mismo criterio visual.'
       : type.includes('video')
         ? 'Video con dirección clara para narrar el día sin perder lo esencial.'
-        : type.includes('preboda')
+        : (type.includes('sesion') || type.includes('sesión'))
+          ? 'Sesión fotográfica con dirección clara, entrega ágil y formatos digitales e impresos.'
+          : type.includes('preboda')
           ? 'Sesión pensada para conectar antes del gran día, con dirección y entrega definida.'
           : 'Fotografía con dirección para capturar lo importante y entregarlo ordenado.';
 
@@ -270,11 +278,20 @@ export class PortfolioPackageDetailPageComponent {
       return [];
     }
 
-    return detail.requestOptionGroups
+    const options = detail.requestOptionGroups
       .filter((group) => group.selectable)
       .flatMap((group) =>
         group.options.filter((option) => selected[option.id]),
       );
+
+    if (detail.category !== 'sesiones') {
+      return options;
+    }
+
+    const hasExtendedVideo = options.some((option) => option.id.endsWith('-video'));
+    return hasExtendedVideo
+      ? options.filter((option) => !option.id.endsWith('-drone'))
+      : options;
   });
 
   readonly selectedIncludedOptions = computed(() => {
@@ -519,6 +536,9 @@ export class PortfolioPackageDetailPageComponent {
   }
 
   coverByDetail(detail: PortfolioPackageDetail | null | undefined) {
+    if (detail?.image && (detail.image.startsWith('http://') || detail.image.startsWith('https://'))) {
+      return of(detail.image);
+    }
     return this.mediaPublic.getRealImage(
       resolvePortfolioPackageMediaFolder(detail),
     );

@@ -1,0 +1,21 @@
+.tj-erp-page { display:flex; flex-direction:column; gap:18px; }
+.kanban-board { display:flex; gap:12px; overflow-x:auto; padding:0 0 12px; scrollbar-color:#45575e #0b191e; }
+.kanban-column { flex:0 0 250px; min-height:420px; overflow:hidden; display:flex; flex-direction:column; background:#0b191e; border:1px solid rgba(57,189,209,.12); border-radius:10px; }
+.kanban-column__header { padding:11px 12px; border-top:3px solid transparent; border-bottom:1px solid rgba(57,189,209,.1); }
+.kanban-column__title-wrap { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.kanban-column__title { margin:0; color:#eaf0f2; font-size:11px; font-weight:700; }
+.kanban-column__count { min-width:20px; padding:2px 6px; color:#83949b; background:#17272d; border-radius:999px; font-size:10px; text-align:center; }
+.kanban-column__cards { flex:1; display:flex; flex-direction:column; gap:8px; padding:8px; }
+.kanban-column__empty { padding:28px 8px; color:#45575e; font-size:11px; text-align:center; }
+.deal-card { display:flex; flex-direction:column; gap:8px; padding:11px; background:#17272d; border:1px solid rgba(57,189,209,.1); border-radius:8px; transition:border-color .15s ease,transform .15s ease; }
+.deal-card:hover { transform:translateY(-1px); border-color:rgba(57,189,209,.28); }
+.deal-card__top { display:flex; align-items:center; justify-content:space-between; }
+.deal-card__badge { max-width:180px; overflow:hidden; padding:2px 6px; color:#ffb800; background:rgba(255,184,0,.1); border-radius:4px; font-size:9px; font-weight:700; text-overflow:ellipsis; text-transform:uppercase; white-space:nowrap; }
+.deal-card__more { color:#83949b; background:none; border:0; cursor:pointer; }
+.deal-card__name { margin:0; color:#eaf0f2; font-size:12px; font-weight:700; }
+.deal-card__price { color:#ffb800; font-size:13px; font-weight:800; }
+.deal-card__meta { display:flex; flex-direction:column; gap:3px; color:#83949b; font-size:10px; }
+.deal-card__meta span { display:flex; align-items:center; gap:5px; }
+.deal-card__actions { padding-top:7px; border-top:1px solid rgba(57,189,209,.08); text-align:right; }
+.deal-card__btn { padding:4px 8px; color:#39bdd1; background:rgba(57,189,209,.08); border:1px solid rgba(57,189,209,.18); border-radius:5px; font-size:10px; font-weight:600; cursor:pointer; }
+.deal-card__btn--success { color:#2ead6b; background:rgba(46,173,107,.08); border-color:rgba(46,173,107,.2); }
