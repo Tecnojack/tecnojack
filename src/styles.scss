@@ -5,6 +5,11 @@
 @use './styles/erp-components';
 @use './app/features/erp/galleries/gallery-figma-tokens';
 @import 'photoswipe/style.css';
+
+html, body {
+    max-width: 100%;
+    overflow-x: clip;
+}
 :root {
     --primary: #6e7f67;
     --primary-dark: #3f4f44;
@@ -426,8 +431,10 @@ body.portfolio-request-modal-open {
 .portfolio-page .service-category-page {
     display: grid;
     gap: 26px;
-    max-width: 100vw;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .portfolio-page .service-category-hero {

@@ -72,6 +72,28 @@
         <section class="tj-selector__stage" *ngIf="selectedPackage() as active" aria-live="polite">
           <ng-container *ngIf="((coverByDetail(active.detail) | async | tjImageFallback) ?? '') as activeImg">
             <div class="tj-stage">
+              <!-- Mobile Step Bar (Visible on mobile/tablet) -->
+              <div class="tj-stage__mobile-stepper" *ngIf="packages.length > 1">
+                <button
+                  type="button"
+                  class="tj-stepper-btn"
+                  (click)="prevPackage()"
+                  aria-label="Paquete anterior">
+                  ←
+                </button>
+                <div class="tj-stepper-info">
+                  <span class="tj-stepper-counter">{{ selectedIndex() + 1 }} de {{ packages.length }}</span>
+                  <strong class="tj-stepper-title">{{ active.displayName }}</strong>
+                </div>
+                <button
+                  type="button"
+                  class="tj-stepper-btn"
+                  (click)="nextPackage()"
+                  aria-label="Siguiente paquete">
+                  →
+                </button>
+              </div>
+
               <!-- Edge-to-Edge Visual Banner -->
               <div class="tj-stage__media">
                 <tj-lazy-img

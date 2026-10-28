@@ -110,6 +110,20 @@ export class PortfolioCategoryAccordionComponent {
     this.selectedIndex.set(index);
   }
 
+  prevPackage(): void {
+    const list = this.packages;
+    if (!list || list.length <= 1) return;
+    const current = this.selectedIndex();
+    this.selectedIndex.set((current - 1 + list.length) % list.length);
+  }
+
+  nextPackage(): void {
+    const list = this.packages;
+    if (!list || list.length <= 1) return;
+    const current = this.selectedIndex();
+    this.selectedIndex.set((current + 1) % list.length);
+  }
+
   requestOpenPackage(slug: string, imageUrl: string): void {
     this.openPackage.emit({ slug, imageUrl });
   }
