@@ -218,6 +218,14 @@
   border: 1px solid var(--tj-border);
   border-radius: var(--tj-radius-lg);
   box-shadow: var(--tj-shadow-sm);
+  @media (max-width: 600px) {
+    gap: 16px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    border-radius: var(--tj-radius-sm);
+  }
 }
 
 .hero-stat-item {

@@ -1,1656 +1,1137 @@
+@use '../../../../styles/apple-tokens' as *;
+
 :host {
-    display: block;
+  display: block;
+  width: 100%;
 }
 
-.package-request-option--linked {
+.package-detail-view {
+  width: 100%;
+  color: var(--tj-text);
+  background-color: var(--tj-background);
+  transition: filter 240ms ease, opacity 240ms ease;
+
+  &--modal-open {
+    filter: blur(8px) brightness(0.85);
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+// ============================================================================
+// 1. CINEMATIC HERO STAGE
+// ============================================================================
+.pkg-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 64px) 24px clamp(48px, 6vw, 80px);
+}
+
+.pkg-hero__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.pkg-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--tj-text-secondary);
+  text-decoration: none;
+  transition: color var(--tj-transition-fast), transform var(--tj-transition-fast);
+
+  &:hover {
+    color: var(--tj-text);
+    transform: translateX(-3px);
+  }
+}
+
+.pkg-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pkg-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-surface-hover);
+  border: 1px solid var(--tj-border);
+  color: var(--tj-text);
+
+  &--recommended {
+    background: var(--tj-text);
+    color: var(--tj-background);
+    border-color: var(--tj-text);
+  }
+
+  &--exclusive {
+    background: #1a1505;
+    color: #e5b85a;
+    border: 1px solid rgba(229, 184, 90, 0.4);
+  }
+}
+
+.pkg-hero__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+
+  @media (max-width: 1023px) {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
 
-.package-request-option--linked label {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 12px;
-    cursor: pointer;
+.pkg-hero__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.package-request-option--linked a {
-    margin-left: 30px;
-    color: var(--package-accent);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none;
+.pkg-hero__kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
 }
 
-.package-request-option--linked a:hover,
-.package-request-option--linked a:focus-visible {
-    text-decoration: underline;
+.pkg-hero__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail {
-    --package-accent: var(--portfolio-accent);
-    --package-brand: var(--portfolio-brand, #0097b2);
-    --package-accent-soft: rgba(255, 184, 0, 0.14);
-    --package-accent-border: rgba(255, 184, 0, 0.28);
-    --package-accent-glow: rgba(0, 151, 178, 0.2);
-    --package-hero-button-height: var(--portfolio-button-height, 46px);
-    --package-hero-button-padding-x: var(--portfolio-button-padding-x, 18px);
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 12px 0;
+.pkg-hero__lead {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
+  max-width: 58ch;
 }
 
-.portfolio-package-detail > :not(.package-request-modal) {
-    transition: filter 220ms ease, opacity 220ms ease, transform 220ms ease;
+.pkg-hero__destination {
+  padding: 0.5rem 0;
 }
 
-.portfolio-package-detail--modal-open > :not(.package-request-modal) {
-    filter: blur(7px) saturate(0.85);
-    opacity: 0.42;
-    transform: scale(0.992);
-    pointer-events: none;
-    user-select: none;
+.pkg-hero__pricing {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--tj-border);
+  border-bottom: 1px solid var(--tj-border);
 }
 
-.portfolio-package-detail--rose {
-    --package-accent: #ffb800;
-    --package-accent-soft: rgba(255, 184, 0, 0.14);
-    --package-accent-border: rgba(255, 184, 0, 0.28);
-    --package-accent-glow: rgba(0, 151, 178, 0.18);
+.pkg-price-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.package-hero,
-.package-section-card,
-.package-extras,
-.package-related,
-.package-visuals,
-.package-notes,
-.package-missing,
-.package-proposal {
-    border-radius: var(--tj-radius-xl, 32px);
-    border: 1px solid var(--tj-border);
-    background: var(--tj-surface);
-    box-shadow: var(--tj-shadow-sm);
-    transition: var(--tj-transition-fast);
+.pkg-price-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
 }
 
-.package-hero {
-    display: grid;
-    gap: 18px;
-    overflow: hidden;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+.pkg-price-value {
+  font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--tj-text);
+  line-height: 1.1;
 }
 
-.package-hero__copy {
-    display: grid;
-    gap: 18px;
-    padding: 28px;
-    justify-items: center;
-    text-align: center;
+.pkg-price-secondary {
+  font-size: 0.88rem;
+  color: var(--tj-text-secondary);
 }
 
-.package-hero__back,
-.package-hero__secondary,
-.package-missing a {
-    color: var(--portfolio-text);
-    text-decoration: none;
+.pkg-hero__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
 }
 
-.package-hero__back {
-    justify-self: center;
-    color: var(--package-accent);
-    font-size: 0.92rem;
+.pkg-highlight-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  color: var(--tj-text);
+  font-weight: 500;
 }
 
-.package-hero__eyebrow,
-.package-section-card p,
-.package-visuals__head p,
-.package-missing p {
-    margin: 0;
-    color: var(--package-accent);
-    font-family: var(--portfolio-font-display);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+.highlight-bullet {
+  color: var(--tj-accent);
+  font-weight: 800;
 }
 
-.package-hero h1,
-.package-visuals__head h2,
-.package-missing h1 {
-    margin: 0;
-    font-family: var(--portfolio-font-display);
-    line-height: 1.06;
-    letter-spacing: -0.04em;
-}
-
-.package-hero h1 {
-    max-width: 26ch;
-    font-size: clamp(1.85rem, 3vw, 2.85rem);
-}
-
-.package-hero__lead,
-.package-notes p {
-    margin: 0;
-    color: var(--portfolio-muted);
-    max-width: 64ch;
-    line-height: 1.68;
-}
-
-.package-hero__prices {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 12px;
-    width: min(100%, 520px);
-    margin-inline: auto;
-}
-
-.package-hero__price-card,
-.package-hero__estimate {
-    display: grid;
-    gap: 6px;
-    padding: 16px 18px;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)),
-        var(--package-accent-soft);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.package-hero__price-card span,
-.package-hero__estimate span {
-    color: var(--package-accent);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-}
-
-.package-hero__price-card strong,
-.package-hero__estimate strong {
-    color: var(--portfolio-text);
-    font-size: clamp(1.08rem, 2vw, 1.52rem);
-    line-height: 1.08;
-}
-
-.package-hero__estimate {
-    width: fit-content;
-    min-width: min(100%, 280px);
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
-        rgba(255, 255, 255, 0.03);
-}
-
-.package-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-}
-
-.package-hero__primary,
-.package-hero__secondary,
-.package-missing a,
-.package-request-modal__ghost,
-.package-request-modal__submit,
-.package-request-modal__close,
-.package-request-modal__backdrop {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font: inherit;
-    width: fit-content;
-    flex: 0 0 auto;
-    transition: transform 220ms ease, border-color 220ms ease, filter 220ms ease;
-}
-
-.package-hero__primary,
-.package-missing a {
-    min-height: var(--package-hero-button-height);
-    padding: 0 var(--package-hero-button-padding-x);
-    border: 0;
-    border-radius: var(--portfolio-button-radius, 999px);
-    background: linear-gradient(135deg, #ffb800, #d18b00);
-    color: #120d07;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 0.96rem;
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: 0.01em;
-}
-
-.portfolio-package-detail--rose .package-hero__primary {
-    background: linear-gradient(135deg, #ffb800, #d18b00);
-    color: #140d0e;
-}
-
-.package-hero__secondary {
-    min-height: var(--package-hero-button-height);
-    padding: 0 var(--package-hero-button-padding-x);
-    border-radius: var(--portfolio-button-radius, 999px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.06);
-    font-size: 0.96rem;
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: 0.01em;
-}
-
-.package-hero__primary:hover,
-.package-hero__secondary:hover,
-.package-missing a:hover {
-    transform: translateY(-2px);
-}
-
-.package-hero__media {
-    min-height: 320px;
-    position: relative;
-}
-
-.package-hero__visual-frame {
-    height: 100%;
-    min-height: 320px;
-}
-
-.package-hero__media img,
-.package-hero__visual-frame img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-}
-
-.package-hero__visual-meta,
-.package-hero__stats,
-.package-proposal,
-.package-section-card__headline {
-    display: none;
-}
-
-.package-section-card__accent {
-    display: none;
-}
-
-.package-section-card__content {
-    display: grid;
-    gap: 14px;
-}
-
-.package-list-marker {
-    display: none;
-}
-
-.package-media-status:empty {
-    display: none;
-}
-
-.package-sections {
-    display: grid;
-    gap: 16px;
-    margin-top: 20px;
-}
-
-.package-section-card {
-    display: grid;
-    gap: 14px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-}
-
-.package-section-card ul {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.package-section-card li {
-    padding: 12px 14px;
-    border-radius: 18px;
-    color: var(--portfolio-muted);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    line-height: 1.62;
-}
-
-.package-destination {
-    margin-top: 20px;
-}
-
-.package-extras,
-.package-related {
-    display: grid;
-    gap: 24px;
-    margin-top: 20px;
-    padding: clamp(22px, 4vw, 38px);
-}
-
-.package-editorial-head {
-    display: grid;
-    gap: 8px;
-    max-width: 720px;
-}
-
-.package-editorial-head p {
-    margin: 0;
-    color: var(--package-accent);
-    font-family: var(--portfolio-font-display);
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
-
-.package-editorial-head h2 {
-    margin: 0;
-    font-family: var(--portfolio-font-display);
-}
-
-.package-editorial-head > span,
-.package-extras__group-head span,
-.package-related__stage-head span,
-.package-extra-card span {
-    color: var(--portfolio-muted);
-    line-height: 1.6;
-}
-
-.package-extras__groups,
-.package-related__stages,
-.package-extras__group,
-.package-related__stage {
-    display: grid;
-    gap: 16px;
-}
-
-.package-extras__group + .package-extras__group,
-.package-related__stage + .package-related__stage {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.package-extras__group-head,
-.package-related__stage-head {
-    display: grid;
-    gap: 5px;
-}
-
-.package-extras__group-head > strong,
-.package-related__stage-head > strong {
-    color: var(--portfolio-text);
-    font-family: var(--portfolio-font-display);
-    font-size: 1.1rem;
-}
-
-.package-extras__grid,
-.package-related__links {
-    display: grid;
-    gap: 10px;
-}
-
-.package-extra-card,
-.package-related__links a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    min-height: 82px;
-    padding: 16px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.035);
-}
-
-.package-extra-card > div,
-.package-related__links a {
-    min-width: 0;
-}
-
-.package-extra-card > div {
-    display: grid;
-    gap: 4px;
-}
-
-.package-extra-card small,
-.package-related__links a > strong {
-    flex: 0 0 auto;
-    color: var(--package-accent);
-    font-weight: 700;
-}
-
-.package-related__links a {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    color: var(--portfolio-text);
-    text-decoration: none;
-    transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
-}
-
-.package-related__links a:hover,
-.package-related__links a:focus-visible {
-    transform: translateY(-2px);
-    border-color: var(--package-accent-border);
-    background: var(--package-accent-soft);
-}
-
-.package-related__links a > small {
-    color: var(--portfolio-muted);
-}
-
-.package-visuals {
-    margin-top: 20px;
-    padding: 24px;
-}
-
-.package-visuals__head {
-    display: grid;
-    gap: 8px;
-    margin-bottom: 18px;
-}
-
-.package-visuals__grid {
-    display: block;
-    height: min(72vh, 900px);
-}
-
-.package-visual-card {
-    overflow: hidden;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.package-visual-card__media {
-    aspect-ratio: 4 / 3;
-}
-
-.package-visual-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.package-visual-card__media tj-lazy-img {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.package-visual-card strong {
-    display: block;
-    padding: 14px;
-    line-height: 1.5;
-}
-
-.package-notes {
-    display: grid;
-    gap: 10px;
-    margin-top: 20px;
-    padding: 20px 22px;
-}
-
-.portfolio-package-detail--missing {
-    padding-top: 32px;
-}
-
-.package-missing {
-    display: grid;
-    gap: 16px;
-    justify-items: start;
-    padding: 28px;
-}
-
-@media (min-width: 980px) {
-    .package-hero {
-        grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
-        align-items: stretch;
-    }
-
-    .package-sections {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .package-visuals__grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-
-    .portfolio-package-detail--featured .package-hero {
-        border-color: var(--package-accent-border);
-    }
-}
-
-@media (max-width: 979px) {
-    .portfolio-package-detail {
-        width: min(1180px, calc(100% - 24px));
-    }
-
-    .package-hero {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        border-radius: 24px;
-    }
-
-    .package-hero__copy {
-        padding: 20px;
-        justify-items: start;
-        text-align: left;
-    }
-
-    .package-hero__back,
-    .package-hero__actions {
-        justify-self: start;
-    }
-
-    .package-hero__prices {
-        width: 100%;
-    }
-
-    .package-hero__primary,
-    .package-hero__secondary {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .package-section-card,
-    .package-extras,
-    .package-related,
-    .package-visuals,
-    .package-notes,
-    .package-missing,
-    .package-proposal {
-        border-radius: 24px;
-    }
-}
-
-@media (max-width: 640px) {
-    .package-section-card,
-    .package-extras,
-    .package-related,
-    .package-visuals,
-    .package-notes,
-    .package-missing,
-    .package-proposal {
-        padding: 16px;
-        border-radius: 20px;
-    }
-
-    .package-hero__copy {
-        padding: 16px;
-        gap: 14px;
-    }
-
-    .package-visuals__grid {
-        grid-template-columns: 1fr;
-    }
-
-    .package-extra-card {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .package-related__links a {
-        grid-template-columns: 1fr;
-        gap: 6px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .package-hero__primary,
-    .package-hero__secondary,
-    .package-missing a,
-    .package-request-modal__close,
-    .package-request-modal__ghost,
-    .package-request-modal__submit {
-        transition: none;
-    }
-}
-
-.package-request-terms {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.package-request-terms__checkbox {
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-}
-
-.package-request-terms__label {
-    margin: 0;
-    line-height: 1.5;
-}
-
-.package-request-terms__link {
-    color: var(--portfolio-text);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-.package-request-modal__submit.is-disabled {
-    opacity: 0.45;
-    pointer-events: none;
-    filter: saturate(0.8);
-}
-
-/* ==================== WEDDING PROPOSAL ==================== */
-.portfolio-package-detail--wedding {
-    --line: rgba(170, 225, 245, 0.22);
-    --soft: #9ec1d1;
-    --text: #eaf6ff;
-    --text-muted: #c7deea;
-    --surface: rgba(12, 31, 43, 0.72);
-    --surface-2: rgba(9, 24, 34, 0.88);
-    --accent: #62d9ff;
-    --warm: #ffc784;
-    --warm-dark: #f0a63a;
-    --package-accent: var(--warm);
-    width: min(1120px, calc(100% - 36px));
-    margin: 0 auto;
-    padding: 8px 0 48px;
-    display: grid;
-    gap: 28px;
-    color: var(--text);
-}
-
-.portfolio-package-detail--wedding .text-accent {
-    color: var(--accent);
-    font-weight: 700;
-}
-
-.portfolio-package-detail--wedding .text-warm {
-    color: var(--warm);
-    font-weight: 700;
-}
-
-.portfolio-package-detail--wedding .pkg-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 22px;
-    border-radius: 999px;
-    font: inherit;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease;
-}
-
-.portfolio-package-detail--wedding .pkg-btn--primary {
-    border: 0;
-    background: linear-gradient(135deg, var(--warm), var(--warm-dark));
-    color: #1b1308;
-    box-shadow: 0 4px 16px rgba(255, 199, 132, 0.28);
-}
-
-.portfolio-package-detail--wedding .pkg-btn--primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 199, 132, 0.42);
-}
-
-.portfolio-package-detail--wedding .pkg-btn--ghost {
-    border: 2px solid var(--line);
-    background: transparent;
-    color: var(--text);
-}
-
-.portfolio-package-detail--wedding .pkg-btn--ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(98, 217, 255, 0.08);
-    transform: translateY(-2px);
-}
+.pkg-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
 
-.portfolio-package-detail--wedding .pkg-offer {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 28px;
+  @media (max-width: 600px) {
+    flex-direction: column;
     align-items: stretch;
-    padding: 20px 0 32px;
-    border-bottom: 1px solid var(--line);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-offer__copy {
-    display: grid;
-    gap: 16px;
-    align-content: center;
-}
+.pkg-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.05rem 2.25rem;
+  border-radius: var(--tj-radius-full);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--tj-transition-fast), opacity var(--tj-transition-fast);
 
-.portfolio-package-detail--wedding .pkg-offer__back {
-    width: fit-content;
-    color: var(--soft);
-    text-decoration: none;
-    font-size: 0.84rem;
-}
+  &:hover {
+    transform: translateY(-2px);
+  }
 
-.portfolio-package-detail--wedding .pkg-offer__back:hover {
-    color: var(--accent);
-}
+  &--primary {
+    background: var(--tj-text);
+    color: var(--tj-background);
+    border: 1px solid var(--tj-text);
 
-.portfolio-package-detail--wedding .pkg-offer__eyebrow {
-    margin: 0;
-    color: var(--soft);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
+    &:hover {
+      opacity: 0.92;
+    }
+  }
 
-.portfolio-package-detail--wedding .pkg-offer__title {
-    margin: 0;
-    max-width: 18ch;
-    font-family: var(--portfolio-font-display, 'Fraunces', Georgia, serif);
-    font-size: clamp(2.2rem, 4.2vw, 3.5rem);
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -0.04em;
-    color: var(--text);
-}
+  &--wa {
+    background: var(--tj-surface);
+    color: var(--tj-text);
+    border: 1px solid var(--tj-border-strong);
 
-.portfolio-package-detail--wedding .pkg-offer__lead {
-    margin: 0;
-    max-width: 48ch;
-    color: var(--text-muted);
-    font-size: clamp(1rem, 1.2vw, 1.12rem);
-    line-height: 1.7;
-}
+    &:hover {
+      background: var(--tj-surface-hover);
+    }
+  }
 
-.portfolio-package-detail--wedding .pkg-offer__price {
-    display: grid;
-    gap: 4px;
-    width: fit-content;
-    min-width: min(100%, 280px);
-    padding: 16px 18px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 199, 132, 0.28);
-    background: linear-gradient(135deg, rgba(255, 199, 132, 0.1), rgba(98, 217, 255, 0.05));
-}
-
-.portfolio-package-detail--wedding .pkg-offer__price span,
-.portfolio-package-detail--wedding .pkg-close__price span {
-    color: var(--soft);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__price strong,
-.portfolio-package-detail--wedding .pkg-close__price strong {
-    color: var(--text);
-    font-size: clamp(1.45rem, 2.4vw, 1.9rem);
-    line-height: 1.1;
-    font-weight: 800;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__price small {
-    color: var(--text-muted);
-    font-size: 0.82rem;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__highlights {
-    display: grid;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__highlights li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.45;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__highlights li::before {
-    content: '✓';
-    color: var(--accent);
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 4px;
-}
-
-.portfolio-package-detail--wedding .pkg-offer__visual {
-    position: relative;
-    min-height: 420px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background:
-        radial-gradient(circle at 20% 20%, rgba(98, 217, 255, 0.12), transparent 55%),
-        radial-gradient(circle at 80% 80%, rgba(255, 199, 132, 0.1), transparent 55%);
-}
-
-.portfolio-package-detail--wedding .pkg-offer__visual img {
+  @media (max-width: 600px) {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-media-status {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.9rem;
+.pkg-btn-arrow {
+  width: 16px;
+  height: 16px;
 }
 
-.portfolio-package-detail--wedding .pkg-media-status:empty {
-    display: none;
+.wa-icon {
+  width: 18px;
+  height: 18px;
 }
 
-.portfolio-package-detail--wedding .pkg-why,
-.portfolio-package-detail--wedding .pkg-includes,
-.portfolio-package-detail--wedding .pkg-more,
-.portfolio-package-detail--wedding .pkg-notes,
-.portfolio-package-detail--wedding .pkg-close {
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: linear-gradient(135deg, var(--surface), var(--surface-2));
+.pkg-hero__media {
+  width: 100%;
 }
 
-.portfolio-package-detail--wedding .pkg-why {
-    display: grid;
-    gap: 22px;
-    padding: clamp(24px, 4vw, 36px);
+.pkg-hero__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--tj-radius-sm);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--tj-border);
+
+  @media (max-width: 1023px) {
+    aspect-ratio: 16 / 9;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-why__head,
-.portfolio-package-detail--wedding .pkg-includes__head {
-    display: grid;
-    gap: 8px;
-    max-width: 720px;
+.pkg-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.portfolio-package-detail--wedding .pkg-why__head p,
-.portfolio-package-detail--wedding .pkg-includes__head p,
-.portfolio-package-detail--wedding .pkg-close__copy > p:first-child,
-.portfolio-package-detail--wedding .pkg-include > p {
-    margin: 0;
-    color: var(--soft);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+.pkg-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.5) 100%);
 }
 
-.portfolio-package-detail--wedding .pkg-why__head h2,
-.portfolio-package-detail--wedding .pkg-includes__head h2,
-.portfolio-package-detail--wedding .pkg-close__copy h2 {
-    margin: 0;
-    font-family: var(--portfolio-font-display, 'Fraunces', Georgia, serif);
-    font-size: clamp(1.55rem, 2.6vw, 2.2rem);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: var(--text);
+.pkg-hero__media-tag {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--tj-radius-full);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
 }
 
-.portfolio-package-detail--wedding .pkg-includes__head > span {
-    color: var(--text-muted);
-    line-height: 1.6;
+// ============================================================================
+// 2. EDITORIAL PILLARS SECTION (POR QUÉ ESTE PAQUETE)
+// ============================================================================
+.pkg-pillars {
+  width: 100%;
+  border-top: 1px solid var(--tj-border);
+  padding: clamp(70px, 9vw, 120px) 24px;
+  background: var(--tj-surface);
 }
 
-.portfolio-package-detail--wedding .pkg-why__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+.pkg-section-header {
+  max-width: 820px;
+  margin: 0 auto clamp(40px, 5vw, 64px) auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
 }
 
-.portfolio-package-detail--wedding .pkg-why__grid article {
-    display: grid;
-    gap: 8px;
-    padding: 18px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: rgba(98, 217, 255, 0.04);
+.pkg-section-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
 }
 
-.portfolio-package-detail--wedding .pkg-why__grid strong {
-    color: var(--warm);
-    font-size: 1rem;
+.pkg-section-title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-why__grid p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.55;
+.pkg-section-lead {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
 }
 
-.portfolio-package-detail--wedding .pkg-includes {
-    display: grid;
-    gap: 24px;
-    padding: clamp(24px, 4vw, 36px);
+.pkg-pillars__row {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+
+  @media (max-width: 840px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-includes__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+.pkg-pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.portfolio-package-detail--wedding .pkg-includes__grid--duo {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.pkg-pillar__num {
+  font-family: var(--tj-font-mono, monospace);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--tj-accent);
 }
 
-.portfolio-package-detail--wedding .pkg-include {
-    display: grid;
-    gap: 12px;
-    align-content: start;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: rgba(9, 24, 34, 0.55);
+.pkg-pillar__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-include[data-role='deliverables'] {
-    border-color: rgba(255, 199, 132, 0.28);
-    background: rgba(255, 199, 132, 0.05);
+.pkg-pillar__text {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
 }
 
-.portfolio-package-detail--wedding .pkg-include[data-role='moments'] {
-    border-color: rgba(98, 217, 255, 0.28);
-    background: rgba(98, 217, 255, 0.05);
+// ============================================================================
+// 3. DETAILED INCLUSIONS (QUÉ INCLUYE ESTA EXPERIENCIA)
+// ============================================================================
+.pkg-includes {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(70px, 9vw, 120px) 24px;
 }
 
-.portfolio-package-detail--wedding .pkg-include h3 {
-    margin: 0;
-    color: var(--text);
-    font-size: 1.12rem;
-    font-weight: 750;
-    line-height: 1.25;
+.pkg-includes__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-include ul {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.pkg-include-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-top: 1px solid var(--tj-border);
+  padding-top: 1.75rem;
 }
 
-.portfolio-package-detail--wedding .pkg-include li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10px;
-    color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.5;
+.pkg-include-block__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.portfolio-package-detail--wedding .pkg-include li span {
-    color: var(--accent);
-    font-weight: 700;
+.pkg-include-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
 }
 
-.portfolio-package-detail--wedding .pkg-more {
-    display: grid;
-    gap: 10px;
-    padding: 12px;
+.pkg-include-title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel {
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: rgba(9, 24, 34, 0.45);
-    overflow: hidden;
+.pkg-include-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 14px 16px;
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
+.pkg-include-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary::-webkit-details-marker {
-    display: none;
+.pkg-check {
+  color: var(--tj-accent);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary > span {
-    display: grid;
-    gap: 2px;
+// ============================================================================
+// 4. OPTIONAL EXTRAS & UPSELLS
+// ============================================================================
+.pkg-extras {
+  width: 100%;
+  border-top: 1px solid var(--tj-border);
+  padding: clamp(70px, 9vw, 120px) 24px;
+  background: var(--tj-surface);
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary strong {
-    color: var(--text);
-    font-size: 0.98rem;
+.pkg-extras__container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  & + & {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--tj-border);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary small {
-    color: var(--text-muted);
-    font-size: 0.82rem;
+.pkg-extras__group-title {
+  margin: 0 0 1.25rem;
+  font-family: var(--tj-font-family);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary em {
-    flex: 0 0 auto;
-    color: var(--soft);
-    font-style: normal;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+.pkg-extras__chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel summary::after {
-    content: '+';
-    color: var(--accent);
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1;
+.pkg-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--tj-radius-sm);
+  background: var(--tj-background);
+  border: 1px solid var(--tj-border);
+  transition: border-color var(--tj-transition-fast), background-color var(--tj-transition-fast);
+
+  &.is-added {
+    border-color: var(--tj-accent);
+    background: var(--tj-surface-hover);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__panel[open] summary::after {
-    content: '−';
+.pkg-chip__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
-.portfolio-package-detail--wedding .pkg-more__body {
-    display: grid;
-    gap: 14px;
-    padding: 0 16px 16px;
-    border-top: 1px solid rgba(170, 225, 245, 0.12);
+.pkg-chip__name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--tj-text);
+  line-height: 1.3;
 }
 
-.portfolio-package-detail--wedding .pkg-more__chips {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding-top: 12px;
+.pkg-chip__price {
+  font-size: 0.82rem;
+  color: var(--tj-accent);
+  font-weight: 700;
 }
 
-.portfolio-package-detail--wedding .pkg-more__group-label {
-    grid-column: 1 / -1;
-    margin: 0;
-    color: var(--soft);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+.pkg-chip__link {
+  font-size: 0.78rem;
+  color: var(--tj-text-secondary);
+  text-decoration: underline;
+  margin-top: 0.2rem;
+
+  &:hover {
+    color: var(--tj-text);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    min-height: 56px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: rgba(98, 217, 255, 0.04);
-    color: var(--text);
+.pkg-chip__btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--tj-radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--tj-border-strong);
+  background: transparent;
+  color: var(--tj-text);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--tj-transition-fast);
+
+  &:hover {
+    background: var(--tj-surface-active);
+  }
+
+  &.is-selected {
+    background: var(--tj-text);
+    color: var(--tj-background);
+    border-color: var(--tj-text);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip--added {
-    border-color: rgba(255, 199, 132, 0.45);
-    background: rgba(255, 199, 132, 0.08);
+// ============================================================================
+// 5. IMPORTANT NOTES
+// ============================================================================
+.pkg-notes {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 24px 4rem 24px;
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-copy {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
+.pkg-notes__container {
+  padding: 1.75rem 2rem;
+  border-radius: var(--tj-radius-sm);
+  background: var(--tj-surface);
+  border: 1px solid var(--tj-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-copy strong {
+.pkg-notes__title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+}
+
+.pkg-notes__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
     font-size: 0.88rem;
-    font-weight: 650;
-    line-height: 1.3;
+    line-height: 1.5;
+    color: var(--tj-text-secondary);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-copy small {
-    color: var(--warm);
-    font-size: 0.78rem;
-    font-weight: 700;
+// ============================================================================
+// 6. SMART ACTION HUD / BOTTOM BAR
+// ============================================================================
+.pkg-hud {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--tj-glass-bg);
+  backdrop-filter: var(--tj-glass-blur);
+  -webkit-backdrop-filter: var(--tj-glass-blur);
+  border-top: 1px solid var(--tj-border-strong);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  transition: transform var(--tj-transition-normal);
+
+  &.is-hidden {
+    transform: translateY(100%);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-link {
-    color: var(--accent);
-    font-size: 0.75rem;
-    font-weight: 650;
-    text-decoration: none;
+.pkg-hud__bar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.9rem 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  @media (max-width: 600px) {
+    padding: 0.75rem 16px;
+    gap: 1rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-link:hover {
-    text-decoration: underline;
+.pkg-hud__summary {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  cursor: pointer;
+
+  @media (max-width: 600px) {
+    gap: 0.75rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-action {
-    flex: 0 0 auto;
-    min-height: 34px;
-    padding: 0 12px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: transparent;
-    color: var(--text);
-    font: inherit;
-    font-size: 0.78rem;
-    font-weight: 700;
-    cursor: pointer;
+.pkg-hud__count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-surface-hover);
+  color: var(--tj-text);
+  border: 1px solid var(--tj-border);
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip--added .pkg-more__chip-action {
-    border-color: rgba(255, 199, 132, 0.5);
-    color: var(--warm);
+.pkg-hud__totals {
+  display: flex;
+  flex-direction: column;
 }
 
-.portfolio-package-detail--wedding .pkg-more__chip-action:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+.pkg-hud__total-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+  font-weight: 600;
 }
 
-.portfolio-package-detail--wedding .pkg-cart {
-    position: fixed;
-    right: 18px;
-    bottom: 86px;
-    z-index: 6;
-    width: min(340px, calc(100vw - 28px));
-    display: grid;
-    gap: 8px;
+.pkg-hud__total-amount {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--tj-text);
+  letter-spacing: -0.02em;
+
+  @media (max-width: 600px) {
+    font-size: 1rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart--hidden {
-    opacity: 0;
-    pointer-events: none;
+.pkg-hud__expand-indicator {
+  font-size: 0.75rem;
+  color: var(--tj-text-secondary);
+  font-weight: 500;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart__toggle {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    min-height: 58px;
-    padding: 10px 14px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 199, 132, 0.35);
-    background: linear-gradient(135deg, rgba(12, 31, 43, 0.96), rgba(9, 24, 34, 0.98));
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    color: var(--text);
-    cursor: pointer;
-    font: inherit;
-    text-align: left;
+.pkg-hud__cta {
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-text);
+  color: var(--tj-background);
+  border: 1px solid var(--tj-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity var(--tj-transition-fast);
+
+  &:hover {
+    opacity: 0.92;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart__badge {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, var(--warm), var(--warm-dark));
-    color: #1b1308;
-    font-size: 0.82rem;
-    font-weight: 800;
+.pkg-hud__drawer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 24px 2rem;
+  border-top: 1px solid var(--tj-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
-.portfolio-package-detail--wedding .pkg-cart__toggle-copy {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
-}
+.pkg-hud__drawer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
 
-.portfolio-package-detail--wedding .pkg-cart__toggle-copy small {
-    color: var(--soft);
+  .item-tag {
     font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
     text-transform: uppercase;
-}
+    color: var(--tj-text-tertiary);
+    display: block;
+  }
 
-.portfolio-package-detail--wedding .pkg-cart__toggle-copy strong {
-    font-size: 0.95rem;
-    line-height: 1.2;
-}
+  .item-name {
+    color: var(--tj-text);
+  }
 
-.portfolio-package-detail--wedding .pkg-cart__toggle em {
-    color: var(--accent);
-    font-style: normal;
-    font-size: 0.78rem;
+  .item-price {
     font-weight: 700;
-}
+    color: var(--tj-text);
+  }
 
-.portfolio-package-detail--wedding .pkg-cart__panel {
-    display: grid;
-    gap: 10px;
-    max-height: min(52vh, 420px);
-    overflow: auto;
-    padding: 14px;
-    border-radius: 16px;
-    border: 1px solid var(--line);
-    background: rgba(8, 20, 28, 0.96);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(170, 225, 245, 0.12);
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item > div {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item span {
-    color: var(--soft);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item strong {
-    font-size: 0.88rem;
-    line-height: 1.3;
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item > small,
-.portfolio-package-detail--wedding .pkg-cart__item-side small {
-    color: var(--warm);
-    font-size: 0.8rem;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.portfolio-package-detail--wedding .pkg-cart__item-side {
+  .item-action-col {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
+    gap: 0.75rem;
+  }
 
-.portfolio-package-detail--wedding .pkg-cart__item-side button {
-    width: 26px;
-    height: 26px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
+  .item-remove {
     background: transparent;
-    color: var(--text-muted);
+    border: 0;
+    color: var(--tj-text-secondary);
+    font-size: 1.2rem;
     cursor: pointer;
-    font-size: 1rem;
-    line-height: 1;
+
+    &:hover {
+      color: #ff453a;
+    }
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart__empty {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.84rem;
-    line-height: 1.5;
+.pkg-hud__drawer-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid var(--tj-border);
+  font-size: 1.1rem;
+
+  strong {
+    font-weight: 800;
+    color: var(--tj-text);
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart__total {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    padding-top: 4px;
+.pkg-hud__empty {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--tj-text-secondary);
 }
 
-.portfolio-package-detail--wedding .pkg-cart__total span {
-    color: var(--soft);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+// ============================================================================
+// 7. REQUEST MODAL DIALOG
+// ============================================================================
+.pkg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  @media (max-width: 600px) {
+    padding: 12px;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-cart__total strong {
-    font-size: 1.1rem;
+.pkg-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0;
 }
 
-.portfolio-package-detail--wedding .pkg-cart__cta {
+.pkg-modal__panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 880px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--tj-radius-md);
+  background: var(--tj-surface);
+  border: 1px solid var(--tj-border-strong);
+  box-shadow: var(--tj-shadow-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.pkg-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border-bottom: 1px solid var(--tj-border);
+
+  @media (max-width: 600px) {
+    padding: 1.25rem 1.25rem;
+  }
+}
+
+.pkg-modal__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
+}
+
+.pkg-modal__title {
+  margin: 0.2rem 0 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: var(--tj-text);
+}
+
+.pkg-modal__close-btn {
+  background: var(--tj-surface-hover);
+  border: 1px solid var(--tj-border);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tj-radius-full);
+  color: var(--tj-text);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--tj-transition-fast);
+
+  &:hover {
+    background: var(--tj-surface-active);
+  }
+}
+
+.pkg-modal__body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 1.25rem;
+    gap: 1.5rem;
+  }
+}
+
+.pkg-modal__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.pkg-modal__section-heading {
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tj-text);
+}
+
+.pkg-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pkg-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  span {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--tj-text-secondary);
+  }
+
+  input,
+  textarea {
     width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--tj-radius-xs);
+    background: var(--tj-background);
+    border: 1px solid var(--tj-border);
+    color: var(--tj-text);
+    font-family: inherit;
+    font-size: 0.92rem;
+    transition: border-color var(--tj-transition-fast);
+
+    &:focus {
+      outline: none;
+      border-color: var(--tj-text);
+    }
+  }
+
+  &--full {
+    grid-column: 1 / -1;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-checkout {
-    display: grid;
-    gap: 18px;
-    padding: 8px 22px 6px;
+.pkg-summary-box {
+  padding: 1.25rem;
+  border-radius: var(--tj-radius-sm);
+  background: var(--tj-background);
+  border: 1px solid var(--tj-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.portfolio-package-detail--wedding .pkg-checkout__pricing {
-    display: grid;
-    gap: 10px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: rgba(98, 217, 255, 0.05);
+.pkg-summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: var(--tj-text-secondary);
+
+  strong {
+    color: var(--tj-text);
+  }
+
+  &--total {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--tj-border);
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    strong {
+      color: var(--tj-text);
+      font-size: 1.2rem;
+    }
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-checkout__pricing > div {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: baseline;
-}
+.pkg-summary-extras {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-.portfolio-package-detail--wedding .pkg-checkout__pricing span {
-    color: var(--soft);
+  .extras-label {
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
     text-transform: uppercase;
-}
+    color: var(--tj-text-tertiary);
+  }
 
-.portfolio-package-detail--wedding .pkg-checkout__total {
-    padding-top: 10px;
-    border-top: 1px solid var(--line);
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__total strong {
-    font-size: 1.25rem;
-    color: var(--warm);
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__summary {
-    display: grid;
-    gap: 10px;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__summary > p {
-    margin: 0;
-    color: var(--soft);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__summary > ul {
+  .extras-list {
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 8px;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__summary > ul > li {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: rgba(9, 24, 34, 0.55);
-}
+    flex-direction: column;
+    gap: 0.4rem;
 
-.portfolio-package-detail--wedding .pkg-checkout__summary > ul > li strong {
-    font-size: 0.9rem;
-}
+    li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--tj-text-secondary);
 
-.portfolio-package-detail--wedding .pkg-checkout__summary > ul > li small {
-    color: var(--warm);
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__includes {
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: rgba(9, 24, 34, 0.4);
-    padding: 0 12px 12px;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__includes summary {
-    cursor: pointer;
-    padding: 12px 0;
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.88rem;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__includes > div {
-    display: grid;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.portfolio-package-detail--wedding .pkg-checkout__includes ul {
-    margin: 0;
-    padding-left: 18px;
-    color: var(--text-muted);
-    display: grid;
-    gap: 4px;
-}
-
-.portfolio-package-detail .package-request-modal__panel--checkout,
-.portfolio-package-detail .package-request-modal__panel--simple {
-    width: min(780px, calc(100vw - 24px));
-    max-height: min(90vh, 840px);
-}
-
-.pkg-simple-modal {
-    display: grid;
-    gap: 20px;
-    padding: 12px 22px 22px;
-    overflow-y: auto;
-}
-
-.pkg-simple-modal__grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
-}
-
-.pkg-simple-modal__title {
-    margin: 0 0 14px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--soft, #aae1f5);
-}
-
-.pkg-simple-modal__col {
-    display: grid;
-    gap: 12px;
-}
-
-.pkg-simple-modal__footer {
-    display: grid;
-    gap: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line, rgba(255, 255, 255, 0.1));
-}
-
-.pkg-simple-modal__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-}
-
-@media (max-width: 768px) {
-    .pkg-simple-modal__grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+      strong {
+        color: var(--tj-text);
+      }
     }
+  }
 }
 
-.portfolio-package-detail .package-request-modal__actions--checkout {
-    display: grid;
-    gap: 12px;
+.pkg-modal__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--tj-border);
 }
 
-.portfolio-package-detail--wedding .pkg-close {
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
-    gap: 22px;
-    align-items: center;
-    padding: clamp(26px, 4vw, 40px);
+.pkg-modal__submit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-close__accent {
-    position: absolute;
-    width: 340px;
-    height: 340px;
-    border-radius: 50%;
-    filter: blur(60px);
+.pkg-terms {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--tj-text-secondary);
+  cursor: pointer;
+
+  a {
+    color: var(--tj-text);
+    text-decoration: underline;
+  }
+}
+
+.pkg-submit-btn {
+  padding: 0.95rem 2rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-text);
+  color: var(--tj-background);
+  border: 1px solid var(--tj-text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--tj-transition-fast);
+
+  &:hover {
+    opacity: 0.92;
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
     pointer-events: none;
-    opacity: 0.16;
-    background: radial-gradient(circle, var(--warm), transparent 70%);
-    top: -140px;
-    right: -60px;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 }
 
-.portfolio-package-detail--wedding .pkg-close__copy,
-.portfolio-package-detail--wedding .pkg-close__side {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 14px;
+// ============================================================================
+// 8. PACKAGE MISSING FALLBACK
+// ============================================================================
+.package-missing {
+  max-width: 640px;
+  margin: 6rem auto;
+  padding: 3rem 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
 }
 
-.portfolio-package-detail--wedding .pkg-close__lead {
-    margin: 0;
-    max-width: 52ch;
-    color: var(--text-muted);
-    line-height: 1.7;
+.package-missing__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
 }
 
-.portfolio-package-detail--wedding .pkg-close__price {
-    display: grid;
-    gap: 2px;
+.package-missing__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--tj-text);
 }
 
-.portfolio-package-detail--wedding .pkg-close__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+.package-missing__desc {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--tj-text-secondary);
 }
 
-.portfolio-package-detail--wedding .pkg-notes {
-    display: grid;
-    gap: 8px;
-    padding: 18px 20px;
-}
-
-.portfolio-package-detail--wedding .pkg-notes p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.88rem;
-    line-height: 1.55;
-}
-
-@media (max-width: 979px) {
-    .portfolio-package-detail--wedding {
-        width: min(1120px, calc(100% - 24px));
-        gap: 20px;
-    }
-
-    .portfolio-package-detail--wedding .pkg-offer {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        padding-top: 8px;
-    }
-
-    .portfolio-package-detail--wedding .pkg-offer__visual {
-        order: -1;
-        min-height: 280px;
-    }
-
-    .portfolio-package-detail--wedding .pkg-offer__title {
-        max-width: none;
-    }
-
-    .portfolio-package-detail--wedding .pkg-why__grid,
-    .portfolio-package-detail--wedding .pkg-includes__grid,
-    .portfolio-package-detail--wedding .pkg-includes__grid--duo,
-    .portfolio-package-detail--wedding .pkg-close {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-package-detail--wedding .pkg-more__chips {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-package-detail--wedding .pkg-btn {
-        width: 100%;
-    }
-
-    .portfolio-package-detail--wedding .pkg-cart {
-        right: 12px;
-        bottom: 78px;
-        width: min(320px, calc(100vw - 24px));
-    }
-}
-
-@media (max-width: 640px) {
-    .portfolio-package-detail--wedding .pkg-offer__highlights li,
-    .portfolio-package-detail--wedding .pkg-include li {
-        font-size: 0.88rem;
-    }
-
-    .portfolio-package-detail--wedding .pkg-more__panel summary {
-        align-items: flex-start;
-    }
-
-    .portfolio-package-detail--wedding .pkg-more__chip {
-        flex-wrap: wrap;
-    }
-
-    .portfolio-package-detail--wedding .pkg-more__chip-action {
-        width: 100%;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .portfolio-package-detail--wedding .pkg-btn {
-        transition: none;
-    }
-}
-
-:host ::ng-deep {
-    .pkg-offer__highlights a,
-    .pkg-include a,
-    .package-section-card__content a {
-        color: inherit;
-        text-decoration: none;
-        border-bottom: 1px dotted rgba(255, 255, 255, 0.4);
-        transition: all 0.2s ease;
-        
-        &:hover,
-        &:focus-visible {
-            color: var(--package-accent, #0097b2);
-            border-bottom-style: solid;
-            border-bottom-color: var(--package-accent, #0097b2);
-        }
-    }
+.package-missing__btn {
+  display: inline-flex;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-text);
+  color: var(--tj-background);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 0.5rem;
 }
