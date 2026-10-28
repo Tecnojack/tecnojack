@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 
 import { MEDIA_ADMIN_ROUTES } from './features/media-admin/media-admin.routes';
+import { ERP_ROUTES } from './features/erp/erp.routes';
 
 export const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: 'brand'
+	},
+	{
+		path: 'app',
+		children: ERP_ROUTES
 	},
 	{
 		path: 'brand',
@@ -27,6 +32,21 @@ export const routes: Routes = [
 		loadComponent: () =>
 			import('./features/quote/graduation-quote-page.component').then(
 				(m) => m.GraduationQuotePageComponent
+			)
+	},
+	{
+		path: 'portfolio/sesiones/:package',
+		data: { category: 'sesiones' },
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-package-detail-page.component').then(
+				(m) => m.PortfolioPackageDetailPageComponent
+			)
+	},
+	{
+		path: 'portfolio/sesiones',
+		loadComponent: () =>
+			import('./features/portfolio/pages/portfolio-sessions-page.component').then(
+				(m) => m.PortfolioSessionsPageComponent
 			)
 	},
 	{

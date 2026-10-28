@@ -1,0 +1,61 @@
+@use 'erp-tokens' as tokens;
+
+html.erp-route,
+body.erp-route {
+    min-width: 320px;
+    min-height: 100%;
+    background: #041217;
+    color-scheme: dark;
+}
+
+body.erp-route {
+    margin: 0;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 82% 0%, rgba(0, 151, 178, 0.09), transparent 28rem),
+        #041217;
+}
+
+.tj-erp {
+    @include tokens.orbit-token-scope;
+    min-height: 100dvh;
+    background: var(--erp-surface-app);
+    color: var(--erp-text-primary);
+    font-family: tokens.$erp-font-body;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+.tj-erp,
+.tj-erp * {
+    box-sizing: border-box;
+}
+
+.tj-erp :where(button, input, select, textarea) {
+    font: inherit;
+}
+
+.tj-erp :where(button, a):focus-visible {
+    outline: none;
+    box-shadow: var(--erp-focus);
+}
+
+.tj-erp :where(h1, h2, h3, p) {
+    margin: 0;
+}
+
+.tj-erp :where(h1, h2, h3) {
+    font-family: tokens.$erp-font-display;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tj-erp *,
+    .tj-erp *::before,
+    .tj-erp *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+

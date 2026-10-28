@@ -1,0 +1,69 @@
+<div class="tj-erp erp-shell" [class.erp-shell--collapsed]="sidebarCollapsed()">
+  <button *ngIf="sidebarOpen()" type="button" class="erp-shell__scrim" aria-label="Cerrar navegación" (click)="closeSidebar()"></button>
+
+  <aside class="erp-sidebar" [class.erp-sidebar--open]="sidebarOpen()" aria-label="Navegación principal ERP">
+    <div class="erp-sidebar__brand">
+      <span class="erp-sidebar__logo" aria-hidden="true">TJ</span>
+      <strong>TECNOJACK</strong>
+      <button type="button" class="erp-icon-button erp-sidebar__close" aria-label="Cerrar menú" (click)="closeSidebar()"><fa-icon [icon]="icons.xmark" /></button>
+    </div>
+
+    <nav class="erp-sidebar__nav">
+      <section *ngFor="let group of navigation" class="erp-nav-group">
+        <h2>{{ group.label }}</h2>
+        <a *ngFor="let item of group.items" class="erp-nav-item" [routerLink]="item.route" routerLinkActive="erp-nav-item--active" [routerLinkActiveOptions]="{ exact: true }" [attr.title]="sidebarCollapsed() ? item.label : null" (click)="closeSidebar()">
+          <fa-icon [icon]="item.icon" aria-hidden="true" />
+          <span>{{ item.label }}</span>
+        </a>
+      </section>
+    </nav>
+
+    <div class="erp-sidebar__footer">
+      <button type="button" class="erp-sidebar__utility" (click)="toggleNotifications()">
+        <fa-icon [icon]="icons.bell" /><span>Notificaciones</span><i aria-label="2 notificaciones sin leer">2</i>
+      </button>
+      <button type="button" class="erp-sidebar__utility" (click)="toggleSidebarCollapsed()">
+        <fa-icon [icon]="icons.chevronLeft" /><span>Contraer</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="erp-shell__main">
+    <header class="erp-topbar">
+      <button type="button" class="erp-icon-button erp-topbar__menu" aria-label="Abrir navegación" [attr.aria-expanded]="sidebarOpen()" (click)="toggleSidebar()"><fa-icon [icon]="icons.bars" /></button>
+      <h1>{{ currentSection() }}</h1>
+      <button type="button" class="erp-command-button" (click)="openCommand()"><fa-icon [icon]="icons.magnifyingGlass" /><span>Buscar</span><kbd>Ctrl K</kbd></button>
+      <button type="button" class="erp-create-button" (click)="triggerCreate()"><fa-icon [icon]="icons.plus" />Nuevo</button>
+      <select class="erp-role-select" [value]="role()" (change)="setRole(roleSelect.value)" #roleSelect aria-label="Rol activo">
+        <option>Owner</option><option>Sales</option><option>Finance</option><option>Producer</option><option>Photographer</option><option>Editor</option><option>Admin</option>
+      </select>
+      <div class="erp-topbar__profile">
+        <span class="erp-avatar" aria-hidden="true">{{ initials() }}</span>
+        <div><strong>{{ identity.session()?.displayName || 'Usuario TECNOJACK' }}</strong><span>{{ role() }}</span></div>
+      </div>
+
+      <aside *ngIf="notificationsOpen()" class="erp-notification-panel" aria-label="Centro de notificaciones">
+        <div><strong>Notificaciones</strong><span>Vista preliminar</span></div>
+        <p>El centro de notificaciones se conectará cuando comience su fase de dominio.</p>
+      </aside>
+    </header>
+
+    <main class="erp-content" id="erp-content"><p *ngIf="actionResult()" class="erp-action-result">{{ actionResult() }}<button type="button" (click)="actionResult.set('')">×</button></p><router-outlet /></main>
+
+    <nav class="erp-mobile-nav" aria-label="Navegación móvil ERP">
+      <a routerLink="/app/dashboard" routerLinkActive="erp-mobile-nav__item--active" [routerLinkActiveOptions]="{ exact: true }" class="erp-mobile-nav__item"><fa-icon [icon]="icons.house" />Inicio</a>
+      <a routerLink="/app/events" routerLinkActive="erp-mobile-nav__item--active" class="erp-mobile-nav__item"><fa-icon [icon]="navigation[2].items[0].icon" />Agenda</a>
+      <button type="button" class="erp-mobile-nav__primary" aria-label="Crear" (click)="triggerCreate()"><fa-icon [icon]="icons.plus" /></button>
+      <a routerLink="/app/production" routerLinkActive="erp-mobile-nav__item--active" class="erp-mobile-nav__item"><fa-icon [icon]="icons.listCheck" />Tareas</a>
+      <button type="button" class="erp-mobile-nav__item" (click)="toggleSidebar()"><fa-icon [icon]="icons.ellipsis" />Más</button>
+    </nav>
+  </div>
+
+  <div *ngIf="commandOpen()" class="erp-dialog-backdrop" (click)="closeCommand()">
+    <section class="erp-command-dialog" role="dialog" aria-modal="true" aria-label="Buscar en TECNOJACK" (click)="$event.stopPropagation()"><div class="erp-dialog-search"><fa-icon [icon]="icons.magnifyingGlass"></fa-icon><input autofocus placeholder="Buscar módulo..." [value]="commandQuery()" (input)="commandQuery.set(commandInput.value)" #commandInput><button type="button" (click)="closeCommand()">×</button></div><button *ngFor="let item of commandItems()" type="button" class="erp-command-result" (click)="navigateFromCommand(item)"><fa-icon [icon]="item.icon"></fa-icon><span>{{ item.label }}</span><small>{{ item.route }}</small></button></section>
+  </div>
+
+  <div *ngIf="actionDialog() as action" class="erp-dialog-backdrop" (click)="closeAction()">
+    <section class="erp-action-dialog" role="dialog" aria-modal="true" [attr.aria-label]="action.title" (click)="$event.stopPropagation()"><header><div><small>Flujo funcional</small><h2>{{ action.title }}</h2></div><button type="button" (click)="closeAction()">×</button></header><p>{{ action.description }}</p><code>{{ action.endpoint }}</code><div class="erp-action-dialog__notice">La API NestJS está desconectada. La confirmación no enviará datos fuera del navegador.</div><footer><button type="button" class="tj-erp-btn tj-erp-btn--secondary" (click)="closeAction()">Cancelar</button><button type="button" class="tj-erp-btn tj-erp-btn--primary" (click)="confirmLocalAction()">Preparar borrador</button></footer></section>
+  </div>
+</div>

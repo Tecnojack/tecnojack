@@ -1,0 +1,43 @@
+<section class="tj-erp-dashboard">
+  <header class="dashboard-header">
+    <div>
+      <h1>Buen día, Jackson</h1>
+      <p>{{ currentDate }}</p>
+    </div>
+    <div class="dashboard-header__actions">
+      <button class="tj-erp-btn tj-erp-btn--secondary" type="button">Exportar</button>
+      <button class="tj-erp-btn tj-erp-btn--primary" type="button" (click)="navigateTo('events')"><fa-icon [icon]="icons.plus"></fa-icon> Nuevo Evento</button>
+    </div>
+  </header>
+
+  <button class="overdue-alert" type="button" *ngIf="overduePayments.length" (click)="navigateTo('payments')">
+    <fa-icon [icon]="icons.warning"></fa-icon>
+    <span><strong>Atención:</strong> {{ overduePayments.length }} pago vencido por $ {{ overdueTotal | number:'1.0-0' }} — acción requerida</span>
+    <fa-icon [icon]="icons.arrowRight"></fa-icon>
+  </button>
+
+  <div class="kpi-grid">
+    <button class="kpi" type="button" (click)="navigateTo('payments')"><span class="kpi__icon kpi__icon--cyan"><fa-icon [icon]="icons.dollar"></fa-icon></span><span class="kpi__label">Ingresos del Mes</span><strong>$35,4M</strong><small>Agosto 2026 · +23%</small></button>
+    <button class="kpi" type="button" (click)="navigateTo('events')"><span class="kpi__icon kpi__icon--gold"><fa-icon [icon]="icons.calendar"></fa-icon></span><span class="kpi__label">Eventos Activos</span><strong>{{ upcomingEvents().length }}</strong><small>{{ upcomingEvents().length - 1 }} confirmados</small></button>
+    <button class="kpi" type="button" (click)="navigateTo('payments')"><span class="kpi__icon kpi__icon--danger"><fa-icon [icon]="icons.clock"></fa-icon></span><span class="kpi__label">Por Cobrar</span><strong>$ {{ pendingTotal | number:'1.0-0' }}</strong><small>{{ pendingPayments().length }} facturas</small></button>
+    <button class="kpi" type="button" (click)="navigateTo('pipeline')"><span class="kpi__icon kpi__icon--success"><fa-icon [icon]="icons.bullseye"></fa-icon></span><span class="kpi__label">Pipeline</span><strong>$ {{ pipelineTotal | number:'1.0-0' }}</strong><small>{{ hotPipeline().length }} oportunidades · +15%</small></button>
+  </div>
+
+  <div class="analytics-grid">
+    <article class="dashboard-card revenue-card">
+      <div class="card-heading"><div><h2>Ingresos vs Meta 2026</h2><small>COP — millones</small></div><span class="success-badge">+23% vs 2025</span></div>
+      <div class="chart" aria-label="Gráfico de ingresos versus meta">
+        <div class="chart__line chart__line--one"></div><div class="chart__line chart__line--two"></div><div class="chart__line chart__line--three"></div>
+        <div class="chart__bars"><i style="height:28%"></i><i style="height:42%"></i><i style="height:38%"></i><i style="height:55%"></i><i style="height:62%"></i><i style="height:74%"></i><i style="height:68%"></i><i style="height:86%"></i></div>
+      </div>
+    </article>
+    <article class="dashboard-card type-card"><h2>Eventos por Tipo</h2><div class="donut"></div><ul><li><i class="cyan"></i>Bodas <strong>45%</strong></li><li><i class="gold"></i>Corporativo <strong>25%</strong></li><li><i class="blue"></i>Quinces <strong>18%</strong></li><li><i class="green"></i>Otros <strong>12%</strong></li></ul></article>
+  </div>
+
+  <div class="lists-grid">
+    <article class="dashboard-card"><div class="card-heading"><h2>Próximos Eventos</h2><button (click)="navigateTo('events')">Ver todos →</button></div><div class="compact-list"><button *ngFor="let ev of upcomingEvents()" (click)="navigateTo('events')"><span class="list-icon"><fa-icon [icon]="icons.calendar"></fa-icon></span><span><strong>{{ ev.name }}</strong><small>{{ ev.date }}</small></span><em>{{ ev.status }}</em></button></div></article>
+    <article class="dashboard-card"><div class="card-heading"><h2>Pipeline Caliente</h2><button (click)="navigateTo('pipeline')">Ver pipeline →</button></div><div class="pipeline-list"><button *ngFor="let op of hotPipeline()" (click)="navigateTo('pipeline')"><span><strong>{{ op.title }}</strong><small>{{ op.stage }}</small></span><span><b>$ {{ op.value | number:'1.0-0' }}</b><small>{{ op.prob }}%</small></span></button></div></article>
+  </div>
+
+  <article class="dashboard-card"><div class="card-heading"><h2>Pagos Pendientes</h2><button (click)="navigateTo('payments')">Ver cartera →</button></div><div class="payments-list"><button *ngFor="let payment of pendingPayments()" (click)="navigateTo('payments')"><span class="payment-icon" [class.payment-icon--danger]="payment.status === 'Vencido'"><fa-icon [icon]="payment.status === 'Vencido' ? icons.warning : icons.clock"></fa-icon></span><span><strong>{{ payment.event }}</strong><small>{{ payment.client }} · Vence {{ payment.dueDate }}</small></span><span><b [class.danger-text]="payment.status === 'Vencido'">$ {{ payment.pendingAmount | number:'1.0-0' }}</b><small>{{ payment.status }}</small></span></button></div></article>
+</section>

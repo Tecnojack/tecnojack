@@ -1,0 +1,26 @@
+:host { display: block; }
+
+@media (max-width: 980px) {
+  :host ::ng-deep .service-category-packages__grid,
+  :host ::ng-deep .service-category-package-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  :host ::ng-deep .service-category-packages,
+  :host ::ng-deep .service-category-hero {
+    padding-inline: 16px;
+  }
+
+  :host ::ng-deep .service-category-packages__grid,
+  :host ::ng-deep .service-category-package-groups,
+  :host ::ng-deep .service-category-hero__layout,
+  :host ::ng-deep .service-category-hero__facts {
+    grid-template-columns: 1fr;
+  }
+
+  :host ::ng-deep .service-package-card__cta {
+    width: 100%;
+  }
+}

@@ -60,6 +60,9 @@ export class AppComponent implements OnInit {
     this.documentRef.documentElement.classList.toggle('portfolio-route', isPortfolio);
     this.documentRef.body.classList.toggle('media-admin-route', isAdmin);
     this.documentRef.documentElement.classList.toggle('media-admin-route', isAdmin);
+    const isErp = this.isErpRoute(url);
+    this.documentRef.body.classList.toggle('erp-route', isErp);
+    this.documentRef.documentElement.classList.toggle('erp-route', isErp);
 
     const isMarcelaInvitationRoute = this.isMarcelaInvitationRoute(url);
     this.showAudioToggle = isMarcelaInvitationRoute;
@@ -95,6 +98,11 @@ export class AppComponent implements OnInit {
   private isMediaAdminRoute(url: string): boolean {
     const normalized = String(url ?? '').split('?')[0]?.split('#')[0] ?? '';
     return normalized === '/media-admin' || normalized.startsWith('/media-admin/');
+  }
+
+  private isErpRoute(url: string): boolean {
+    const normalized = String(url ?? '').split('?')[0]?.split('#')[0] ?? '';
+    return normalized === '/app' || normalized.startsWith('/app/');
   }
 
   private getRouteParams(): { wedding: string; guest: string } {
