@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -7,10 +7,10 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 @Component({
   selector: 'tj-professional-profile-section',
   standalone: true,
-  imports: [NgFor, RevealOnScrollDirective],
+  imports: [NgFor, NgIf, RevealOnScrollDirective],
   templateUrl: './professional-profile-section.component.html',
   styleUrl: './professional-profile-section.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfessionalProfileSectionComponent {
   private readonly content = inject(PortfolioContentService);

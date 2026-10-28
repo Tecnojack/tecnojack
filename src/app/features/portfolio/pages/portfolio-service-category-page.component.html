@@ -187,109 +187,74 @@
 
         <ng-template #groupedPackages>
             <div class="service-category-package-groups">
-                <section
-                    class="service-category-package-group"
+                <tj-portfolio-category-accordion
                     *ngFor="let group of packageCardGroups(); let groupIndex = index"
-                    tjRevealOnScroll>
-                    <div class="service-category-package-group__head">
-                        <p>{{ group.title }}</p>
-                        <span>{{ group.lead }}</span>
-                    </div>
-
-                    <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="group.cards.length === 2">
-                        <article
-                            class="service-package-card"
-                            *ngFor="let item of group.cards; let index = index"
-                            [class.service-package-card--featured]="item.detail.featured"
-                            [class.service-package-card--luxury]="item.detail.slug.includes('luxury')"
-                            [class.reveal--left]="(index + groupIndex) % 2 === 0"
-                            [class.reveal--right]="(index + groupIndex) % 2 !== 0">
-                            <div class="service-package-card__media">
-                                <tj-lazy-img
-                                    [src]="(coverByDetail(item.detail) | async | tjImageFallback) ?? ''"
-                                    [alt]="item.detail.title"
-                                    aspectRatio="16 / 11"></tj-lazy-img>
-                                <div class="service-package-card__media-badges">
-                                    <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                                    <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
-                                    <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
-                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
-                                </div>
-                            </div>
-
-                            <div class="service-package-card__body">
-                                <div class="service-package-card__headline">
-                                    <div class="service-package-card__title-row">
-                                        <div class="service-package-card__title-stack">
-                                            <h3 class="heading-md">{{ item.displayName }}</h3>
-                                            <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="service-package-card__price-block">
-                                        <span class="service-package-card__price-label">Inversión</span>
-                                        <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
-                                    </div>
-                                </div>
-
-                                <div class="service-package-card__copy">
-                                    <p class="text-body text-muted">{{ item.detail.lead }}</p>
-                                </div>
-
-                                <ul class="service-package-card__list">
-                                    <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
-                                </ul>
-
-                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug, item.detail.image)">
-                                    Ver detalle
-                                </button>
-                            </div>
-                        </article>
-                    </div>
-                </section>
+                    [title]="group.title"
+                    [lead]="group.lead"
+                    [packages]="group.cards"
+                    [initiallyOpen]="groupIndex === 0"
+                    (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
+                </tj-portfolio-category-accordion>
             </div>
         </ng-template>
     </section>
 
     <section class="portfolio-section service-category-stories">
-        <div class="service-category-stories__head" tjRevealOnScroll>
-            <p>Clientes / galerías</p>
+        <header class="service-category-stories__head" tjRevealOnScroll>
+            <div class="stories-head-eyebrow">
+                <span class="stories-badge">EXHIBICIÓN DE TRABAJOS</span>
+                <span class="stories-eyebrow">CLIENTES &amp; HISTORIAS REALES</span>
+            </div>
             <h2 class="heading-lg">{{ config.storiesTitle }}</h2>
             <p class="service-category-stories__lead text-body text-muted">{{ config.storiesLead }}</p>
-        </div>
+        </header>
 
-        <div class="service-category-stories__grid" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
+        <div class="tj-editorial-exhibition" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
             <button
-                class="story-card"
+                class="tj-exhibit-entry"
                 type="button"
                 *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId"
                 tjRevealOnScroll
-                [class.story-card--empty]="story.images.length === 0"
+                [class.tj-exhibit-entry--empty]="story.images.length === 0"
+                [class.tj-exhibit-entry--feature]="index % 4 === 0"
+                [class.tj-exhibit-entry--tall]="index % 4 === 1 || index % 4 === 2"
                 [disabled]="story.images.length === 0"
                 (click)="openStoryModal(index)">
-                <span class="story-card__service-badge">{{ story.title }}</span>
-                <div class="story-card__preview">
-                    <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
-                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
-                    </figure>
+                
+                <div class="tj-exhibit-entry__media">
+                    <ng-container *ngIf="getStoryPreviewImages(story)[0] as heroImg; else noImageSlot">
+                        <tj-lazy-img
+                            [src]="optimizeImage(heroImg.src, 800)"
+                            [alt]="heroImg.alt"
+                            [aspectRatio]="index % 4 === 0 ? '16 / 9' : (index % 4 === 1 || index % 4 === 2 ? '4 / 5' : '1 / 1')"></tj-lazy-img>
+                    </ng-container>
+                    <ng-template #noImageSlot>
+                        <div class="tj-exhibit-entry__placeholder">
+                            <span>Próximamente fotos publicadas</span>
+                        </div>
+                    </ng-template>
 
-                    <figure class="story-card__tile story-card__tile--empty" *ngFor="let _slot of getStoryEmptySlots(story)">
-                        <span>Sin imágenes</span>
-                    </figure>
+                    <div class="tj-exhibit-entry__scrim"></div>
+                    <span class="tj-exhibit-entry__badge">{{ story.title }}</span>
+                    <span class="tj-exhibit-entry__action">Explorar galería →</span>
                 </div>
 
-                <div class="story-card__copy">
-                    <strong class="heading-md">{{ story.clientName }}</strong>
-                    <span class="story-card__meta text-body text-muted">
-                        <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
-                        <span class="story-card__meta-dot" *ngIf="story.location">•</span>
-                        <span>{{ story.location }}</span>
-                    </span>
+                <div class="tj-exhibit-entry__caption">
+                    <strong class="tj-exhibit-entry__client">{{ story.clientName }}</strong>
+                    <div class="tj-exhibit-entry__meta text-muted">
+                        <span class="tj-exhibit-entry__date">{{ story.subtitle || 'Sesión Documental' }}</span>
+                        <span class="tj-exhibit-entry__dot" *ngIf="story.location">·</span>
+                        <span class="tj-exhibit-entry__location" *ngIf="story.location">{{ story.location }}</span>
+                    </div>
                 </div>
             </button>
 
-            <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
-                Cargar más
-            </button>
+            <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
+                <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
+                    <span>Cargar más historias</span>
+                    <span aria-hidden="true">↓</span>
+                </button>
+            </div>
         </div>
 
         <ng-template #mobileStoriesAccordions>
@@ -308,13 +273,13 @@
                     </summary>
 
                     <div class="story-accordion__body" *ngIf="story.images.length > 0; else storyAccordionEmpty">
-                        <div class="story-accordion__preview">
-                            <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
-                                <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                        <div class="story-accordion__preview" *ngIf="getStoryPreviewImages(story)[0] as heroImg">
+                            <figure class="story-card__tile">
+                                <tj-lazy-img [src]="optimizeImage(heroImg.src, 600)" [alt]="heroImg.alt" aspectRatio="16 / 9"></tj-lazy-img>
                             </figure>
                         </div>
                         <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
-                            Ver galería
+                            Ver galería completa
                         </button>
                     </div>
 
@@ -325,9 +290,12 @@
                     </ng-template>
                 </details>
 
-                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
-                    Cargar más
-                </button>
+                <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
+                    <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
+                        <span>Cargar más historias</span>
+                        <span aria-hidden="true">↓</span>
+                    </button>
+                </div>
             </div>
         </ng-template>
     </section>

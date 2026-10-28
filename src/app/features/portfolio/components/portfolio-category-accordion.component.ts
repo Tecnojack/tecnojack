@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -24,6 +25,7 @@ import { TjImageFallbackPipe } from '../../../shared/media/tj-image-fallback.pip
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 import { PortfolioPackageDetail } from '../portfolio.data';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
+import { PortfolioContentService } from '../services/portfolio-content.service';
 
 export type PortfolioPackageCardViewModel = {
   detail: PortfolioPackageDetail;
@@ -67,12 +69,13 @@ export type PortfolioPackageCardViewModel = {
           overflow: 'hidden',
         }),
       ),
-      transition('collapsed <=> expanded', [animate('220ms ease-in-out')]),
+      transition('collapsed <=> expanded', [animate('300ms cubic-bezier(0.16, 1, 0.3, 1)')]),
     ]),
   ],
 })
 export class PortfolioCategoryAccordionComponent {
   private readonly mediaPublic = inject(MediaPublicService);
+  private readonly content = inject(PortfolioContentService);
 
   @Input({ required: true }) title = '';
   @Input() lead = '';
@@ -82,6 +85,14 @@ export class PortfolioCategoryAccordionComponent {
   @Output() openPackage = new EventEmitter<{ slug: string; imageUrl: string }>();
 
   readonly openState = signal(false);
+  readonly selectedIndex = signal(0);
+
+  readonly selectedPackage = computed(() => {
+    const list = this.packages;
+    if (!list || list.length === 0) return null;
+    const idx = this.selectedIndex();
+    return list[idx] ?? list[0];
+  });
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);
@@ -93,6 +104,10 @@ export class PortfolioCategoryAccordionComponent {
 
   toggle(): void {
     this.openState.update((value) => !value);
+  }
+
+  selectPackage(index: number): void {
+    this.selectedIndex.set(index);
   }
 
   requestOpenPackage(slug: string, imageUrl: string): void {
@@ -110,5 +125,10 @@ export class PortfolioCategoryAccordionComponent {
     return this.mediaPublic.getRealImage(
       resolvePortfolioPackageMediaFolder(detail),
     );
+  }
+
+  getWhatsAppBookingHref(item: PortfolioPackageCardViewModel): string {
+    const text = `Hola TECNOJACK, me interesa reservar o recibir asesoría para el paquete "${item.displayName}" (${item.displayPrice}). ¿Podemos agendar?`;
+    return this.content.buildWhatsappHref(text);
   }
 }

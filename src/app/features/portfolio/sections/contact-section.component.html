@@ -1,25 +1,39 @@
-<section class="portfolio-section contact-section" id="contact">
-    <div class="contact-card" tjRevealOnScroll>
-        <div class="contact-card__content">
-            <span class="contact-badge">¿LISTO PARA COMENZAR?</span>
-            <h2 class="contact-title">Hagamos realidad tu próximo proyecto audiovisual</h2>
-            <p class="contact-lead">
-                Cuéntame las fechas y detalles de tu boda, evento o marca. Te responderé directamente por WhatsApp con una propuesta a tu medida.
-            </p>
+<section class="minimal-contact-section" id="contact" tjRevealOnScroll>
+  <div class="minimal-contact-section__container">
+    <div class="minimal-contact">
+      <div class="minimal-contact__header">
+        <span class="minimal-contact__badge">DISPONIBILIDAD &amp; ASESORÍA PERSONALIZADA</span>
+        <h2 class="minimal-contact__title">Hagamos realidad una historia inolvidable</h2>
+        <p class="minimal-contact__lead">
+          {{ lead }}
+        </p>
+      </div>
 
-            <div class="contact-actions">
-                <a class="contact-btn-wa" [href]="whatsappHref" target="_blank" rel="noopener">
-                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="btn-icon" />
-                    Cotizar por WhatsApp
-                </a>
+      <div class="minimal-contact__actions">
+        <a class="minimal-contact__wa-btn" [href]="whatsappHref" target="_blank" rel="noopener">
+          <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-btn-icon" />
+          <span>Iniciar conversación en WhatsApp</span>
+        </a>
 
-                <div class="contact-socials">
-                    <a class="social-icon-btn" *ngFor="let item of getSocialLinks()" [href]="item.href" target="_blank" rel="noopener" [title]="item.title">
-                        <fa-icon [icon]="icons[item.platform]"></fa-icon>
-                    </a>
-                </div>
-            </div>
+        <div class="minimal-contact__channels">
+          <span class="minimal-contact__channels-label">O síguenos en redes:</span>
+          <div class="minimal-contact__socials">
+            <a
+              class="minimal-contact__social-link"
+              *ngFor="let item of getSocialLinks()"
+              [href]="item.href"
+              target="_blank"
+              rel="noopener"
+              [title]="item.title">
+              <fa-icon [icon]="icons[item.platform]"></fa-icon>
+            </a>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
 
+      <div class="minimal-contact__meta">
+        <span>📍 Base en Medellín · Cobertura en toda Colombia y producciones internacionales</span>
+      </div>
+    </div>
+  </div>
+</section>

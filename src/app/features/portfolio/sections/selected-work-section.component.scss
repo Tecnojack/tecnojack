@@ -1,0 +1,209 @@
+@use '../../../../styles/apple-tokens' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.selected-work-section {
+  width: 100%;
+  padding: clamp(80px, 10vw, 150px) 24px;
+  background-color: var(--tj-background);
+  color: var(--tj-text);
+  border-top: 1px solid var(--tj-border);
+}
+
+.selected-work-section__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.selected-work-section__header {
+  margin-bottom: clamp(48px, 6vw, 72px);
+  max-width: 840px;
+}
+
+.selected-work-section__eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.selected-work-section__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-surface-hover);
+  border: 1px solid var(--tj-border);
+  color: var(--tj-text-secondary);
+}
+
+.selected-work-section__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+}
+
+.selected-work-section__title {
+  margin: 0 0 16px;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2rem, 3.8vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--tj-text);
+}
+
+.selected-work-section__lead {
+  margin: 0;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
+}
+
+// ─── Selected Work Grid ──────────────────────────────────────────────────────
+.selected-work-grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 3vw, 3.5rem);
+}
+
+.work-item {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: var(--tj-radius-sm);
+  background: #000;
+  border: 1px solid var(--tj-border);
+  cursor: pointer;
+
+  &:hover {
+    .work-item__img {
+      transform: scale(1.03);
+    }
+    .work-item__link {
+      color: var(--tj-accent);
+      transform: translateX(4px);
+    }
+  }
+
+  &--full {
+    aspect-ratio: 16 / 9;
+    min-height: 480px;
+
+    @media (max-width: 768px) {
+      aspect-ratio: 4 / 3;
+      min-height: 380px;
+    }
+  }
+
+  &--half {
+    aspect-ratio: 4 / 5;
+    min-height: 460px;
+
+    @media (max-width: 768px) {
+      aspect-ratio: 1 / 1;
+      min-height: 340px;
+    }
+  }
+
+  &--wide {
+    aspect-ratio: 21 / 9;
+    min-height: 420px;
+
+    @media (max-width: 768px) {
+      aspect-ratio: 16 / 9;
+      min-height: 300px;
+    }
+  }
+}
+
+.work-item-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 3vw, 3.5rem);
+
+  @media (max-width: 840px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.work-item__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.work-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-item__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+}
+
+.work-item__caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+  color: #fff;
+}
+
+.work-item__category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
+}
+
+.work-item__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.work-item__subtitle {
+  margin: 0;
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 55ch;
+}
+
+.work-item__link {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  padding-top: 0.5rem;
+  display: inline-block;
+  transition: color var(--tj-transition-fast), transform var(--tj-transition-fast);
+}

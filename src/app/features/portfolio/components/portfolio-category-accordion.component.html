@@ -1,73 +1,159 @@
-<section class="service-category-package-group" tjRevealOnScroll>
+<section class="tj-accordion" tjRevealOnScroll>
+  <!-- Section Toggle Header -->
   <button
-    class="service-category-package-group__head service-category-package-group__head--toggle"
+    class="tj-accordion__trigger"
     type="button"
     (click)="toggle()"
     [attr.aria-expanded]="isOpen()"
-    [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Abrir') + ' categoría ' + title">
-    <div class="service-category-package-group__head-copy">
-      <p>{{ title }}</p>
-      <span *ngIf="lead">{{ lead }}</span>
+    [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Explorar') + ' categoría ' + title">
+    <div class="tj-accordion__header-main">
+      <div class="tj-accordion__badge-row">
+        <span class="tj-accordion__badge">EXPERIENCIA</span>
+        <span class="tj-accordion__count" *ngIf="packages.length">{{ packages.length }} colecciones</span>
+      </div>
+      <h3 class="tj-accordion__title">{{ title }}</h3>
+      <p class="tj-accordion__lead" *ngIf="lead">{{ lead }}</p>
     </div>
 
-    <span class="service-category-package-group__chevron" aria-hidden="true"></span>
+    <div class="tj-accordion__action">
+      <span class="tj-accordion__action-label">{{ isOpen() ? 'Contraer' : 'Explorar opciones' }}</span>
+      <span class="tj-accordion__chevron" [class.is-open]="isOpen()" aria-hidden="true"></span>
+    </div>
   </button>
 
-  <div class="service-category-package-group__content" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
-    <div class="service-category-package-group__panel">
+  <!-- Expanded Content Body -->
+  <div class="tj-accordion__collapse" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
+    <div class="tj-accordion__panel">
       <tj-destination-service *ngIf="showDestinationNotice" [serviceContext]="title"></tj-destination-service>
 
-      <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="packages.length === 2" *ngIf="packages.length; else emptyState">
-        <article
-          class="service-package-card"
-          *ngFor="let item of packages; let index = index"
-          [class.service-package-card--featured]="item.detail.featured"
-          [class.service-package-card--luxury]="item.detail.slug.includes('luxury')">
-          <ng-container *ngIf="((coverByDetail(item.detail) | async | tjImageFallback) ?? '') as resolvedImg">
-            <div class="service-package-card__media">
-              <tj-lazy-img
-                [src]="resolvedImg"
-                [alt]="item.detail.title"
-                aspectRatio="16 / 11"></tj-lazy-img>
-              <div class="service-package-card__media-badges">
-                <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
-                <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
-                <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
-              </div>
-            </div>
+      <!-- TWO-COLUMN MASTER-DETAIL EXPERIENCE SELECTOR -->
+      <div class="tj-selector" *ngIf="packages.length; else emptyCategory">
+        
+        <!-- Master Column: Interactive List of Packages -->
+        <nav class="tj-selector__nav" aria-label="Selección de paquetes">
+          <div class="tj-selector__nav-head">
+            <span class="tj-selector__nav-title">Colecciones disponibles</span>
+            <span class="tj-selector__nav-indicator">Selecciona para comparar</span>
+          </div>
 
-            <div class="service-package-card__body">
-              <div class="service-package-card__headline">
-                <div class="service-package-card__title-row">
-                  <div class="service-package-card__title-stack">
-                    <h3 class="heading-md">{{ item.displayName }}</h3>
-                    <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
+          <div class="tj-selector__list" role="tablist" [attr.aria-label]="title">
+            <button
+              *ngFor="let item of packages; let i = index"
+              type="button"
+              role="tab"
+              class="tj-selector__item"
+              [class.is-active]="selectedIndex() === i"
+              [class.is-featured]="item.detail.featured"
+              [class.is-luxury]="item.detail.slug.includes('luxury')"
+              [attr.aria-selected]="selectedIndex() === i"
+              (click)="selectPackage(i)">
+              
+              <div class="tj-selector__item-left">
+                <span class="tj-selector__item-index">0{{ i + 1 }}</span>
+                <div class="tj-selector__item-details">
+                  <div class="tj-selector__item-headline">
+                    <strong class="tj-selector__item-name">{{ item.displayName }}</strong>
+                    <span class="tj-badge-pill tj-badge-pill--recommended" *ngIf="item.detail.slug.includes('premium')">Recomendado</span>
+                    <span class="tj-badge-pill tj-badge-pill--luxury" *ngIf="item.detail.slug.includes('luxury')">Exclusivo</span>
+                  </div>
+                  <span class="tj-selector__item-type">{{ item.displayTypeLabel }}</span>
+                </div>
+              </div>
+
+              <div class="tj-selector__item-right">
+                <span class="tj-selector__item-price">{{ item.displayPrice }}</span>
+                <span class="tj-selector__item-arrow" aria-hidden="true">→</span>
+              </div>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Detail Stage Column: Immersive Luxury Showcase Pane -->
+        <section class="tj-selector__stage" *ngIf="selectedPackage() as active" aria-live="polite">
+          <ng-container *ngIf="((coverByDetail(active.detail) | async | tjImageFallback) ?? '') as activeImg">
+            <div class="tj-stage">
+              <!-- Edge-to-Edge Visual Banner -->
+              <div class="tj-stage__media">
+                <tj-lazy-img
+                  [src]="activeImg"
+                  [alt]="active.displayName"
+                  aspectRatio="16 / 9"></tj-lazy-img>
+                <div class="tj-stage__vignette"></div>
+
+                <!-- Floating Tags -->
+                <div class="tj-stage__tags">
+                  <span class="tj-tag tj-tag--type">{{ active.displayTypeLabel }}</span>
+                  <span class="tj-tag tj-tag--premium" *ngIf="active.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
+                  <span class="tj-tag tj-tag--luxury" *ngIf="active.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
+                  <span class="tj-tag tj-tag--featured" *ngIf="active.detail.featured && !active.detail.slug.includes('premium') && !active.detail.slug.includes('luxury')">DESTACADO</span>
+                </div>
+              </div>
+
+              <!-- Showcase Body -->
+              <div class="tj-stage__body">
+                <!-- Header: Title, Tagline, Investment Block -->
+                <div class="tj-stage__header">
+                  <div class="tj-stage__title-stack">
+                    <span class="tj-stage__eyebrow">Detalles de la experiencia</span>
+                    <h4 class="tj-stage__title">{{ active.displayName }}</h4>
+                    <p class="tj-stage__tagline" *ngIf="active.tagline">{{ active.tagline }}</p>
+                  </div>
+
+                  <div class="tj-stage__pricing">
+                    <span class="tj-stage__price-label">Inversión</span>
+                    <strong class="tj-stage__price-amount">{{ active.displayPrice }}</strong>
                   </div>
                 </div>
-                <div class="service-package-card__price-block">
-                  <span class="service-package-card__price-label">Inversión</span>
-                  <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
+
+                <!-- Narrative Lead -->
+                <p class="tj-stage__lead">{{ active.detail.lead }}</p>
+
+                <!-- Inclusions & Deliverables List -->
+                <div class="tj-stage__deliverables" *ngIf="active.highlights?.length">
+                  <h5 class="tj-stage__deliverables-heading">Entregables y especificaciones clave:</h5>
+                  <ul class="tj-stage__deliverables-list">
+                    <li *ngFor="let item of active.highlights" class="tj-stage__deliverable-item">
+                      <span class="tj-stage__check" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <span>{{ item }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Action Footer -->
+                <div class="tj-stage__actions">
+                  <button
+                    class="tj-stage-btn tj-stage-btn--primary"
+                    type="button"
+                    (click)="requestOpenPackage(active.detail.slug, activeImg)">
+                    <span>Ver desglose completo de coberturas</span>
+                    <svg class="tj-stage-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+
+                  <a
+                    class="tj-stage-btn tj-stage-btn--wa"
+                    [href]="getWhatsAppBookingHref(active)"
+                    target="_blank"
+                    rel="noopener">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="tj-stage-btn__wa-icon" />
+                    <span>Consultar disponibilidad</span>
+                  </a>
                 </div>
               </div>
-
-              <div class="service-package-card__copy">
-                <p class="text-body text-muted">{{ item.detail.lead }}</p>
-              </div>
-
-              <ul class="service-package-card__list">
-                <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
-              </ul>
-
-              <button class="service-package-card__cta btn-text" type="button" (click)="requestOpenPackage(item.detail.slug, resolvedImg)">Ver detalle</button>
             </div>
           </ng-container>
-        </article>
+        </section>
       </div>
 
-      <ng-template #emptyState>
-        <div class="service-category-package-group__empty">
-          <p class="text-body text-muted">Próximamente estaremos agregando paquetes para este servicio</p>
+      <ng-template #emptyCategory>
+        <div class="tj-accordion__empty">
+          <p>Próximamente estaremos publicando nuevas opciones para este servicio.</p>
         </div>
       </ng-template>
     </div>

@@ -1,70 +1,139 @@
 <section class="services-section" id="services">
-    <div class="services-section__container">
-        <!-- Section Header -->
-        <header class="services-section__header" tjRevealOnScroll>
-            <span class="services-section__eyebrow">{{ i18n.t('services.eyebrow', 'Especialidades Audiovisuales') }}</span>
-            <h2 class="services-section__title">{{ i18n.t('services.title', 'Servicios audiovisuales creados para trascender.') }}</h2>
-            <p class="services-section__lead">
-                {{ i18n.t('services.lead', 'Desde la emoción íntima de una boda hasta campañas de marca de gran formato, cada producción se ejecuta con dirección estética meticulosa.') }}
-            </p>
-        </header>
+  <div class="services-section__container">
+    <!-- Editorial Section Header -->
+    <header class="services-section__header" tjRevealOnScroll>
+      <div class="services-section__eyebrow-stack">
+        <span class="services-section__badge">CATÁLOGO EDITORIAL</span>
+        <span class="services-section__eyebrow">{{ i18n.t('services.eyebrow', 'Disciplinas y Especialidades') }}</span>
+      </div>
+      <h2 class="services-section__title">{{ i18n.t('services.title', 'Servicios audiovisuales creados para trascender.') }}</h2>
+      <p class="services-section__lead">
+        {{ i18n.t('services.lead', 'Desde la emoción íntima de una boda hasta campañas de marca de gran formato, cada producción se ejecuta con dirección estética meticulosa.') }}
+      </p>
+    </header>
 
-        <!-- Apple-Inspired Editorial Grid -->
-        <div class="services-section__grid">
-            <article
-                class="service-card"
-                *ngFor="let service of services; let index = index"
-                tjRevealOnScroll>
-                <!-- Card Visual / Cover -->
-                <div class="service-card__media">
-                    <img
-                        [src]="service.image"
-                        [alt]="service.title"
-                        loading="lazy"
-                        decoding="async"
-                        class="service-card__img" />
-                    <div class="service-card__gradient"></div>
-                    <span class="service-card__index">0{{ index + 1 }}</span>
-                </div>
+    <!-- DESKTOP INTERACTIVE EDITORIAL SERVICE INDEX (>= 1024px) -->
+    <div class="services-index" tjRevealOnScroll>
+      <!-- Left: Sleek Typographic Service List -->
+      <nav class="services-index__nav" aria-label="Lista de servicios">
+        <button
+          *ngFor="let service of services; let idx = index"
+          type="button"
+          class="services-index__item"
+          [class.is-active]="activeIndex() === idx"
+          (mouseenter)="setActive(idx)"
+          (focus)="setActive(idx)"
+          (click)="setActive(idx)">
+          
+          <div class="services-index__item-left">
+            <span class="services-index__num">0{{ idx + 1 }}</span>
+            <span class="services-index__name">{{ service.title }}</span>
+          </div>
 
-                <!-- Card Body -->
-                <div class="service-card__body">
-                    <div class="service-card__meta">
-                        <h3 class="service-card__title">{{ service.title }}</h3>
-                        <p class="service-card__desc">{{ service.description }}</p>
-                    </div>
+          <div class="services-index__item-right">
+            <span class="services-index__arrow" aria-hidden="true">→</span>
+          </div>
+        </button>
+      </nav>
 
-                    <!-- Points / Highlights -->
-                    <div class="service-card__points" *ngIf="service.points?.length">
-                        <span class="service-point-pill" *ngFor="let point of service.points">
-                            <span class="pill-dot">·</span> {{ point }}
-                        </span>
-                    </div>
+      <!-- Right: Immersive Full-Height Visual Showcase Stage -->
+      <div class="services-index__showcase" *ngIf="activeService() as active">
+        <div class="services-showcase">
+          <!-- Background Cover with Subtle Zoom on Change -->
+          <div class="services-showcase__media">
+            <img
+              [src]="active.image"
+              [alt]="active.title"
+              loading="lazy"
+              decoding="async"
+              class="services-showcase__img" />
+            <div class="services-showcase__vignette"></div>
+          </div>
 
-                    <!-- CTA Action -->
-                    <div class="service-card__action">
-                        <a
-                            *ngIf="isInternalLink(service.href); else externalAction"
-                            class="service-card__btn"
-                            [routerLink]="service.href">
-                            <span>{{ service.ctaLabel || i18n.t('services.explore', 'Ver paquetes') }}</span>
-                            <svg class="service-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                        <ng-template #externalAction>
-                            <a class="service-card__btn" [href]="service.href">
-                                <span>{{ service.ctaLabel || i18n.t('services.explore', 'Ver paquetes') }}</span>
-                                <svg class="service-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </ng-template>
-                    </div>
-                </div>
-            </article>
+          <!-- Showcase Content Overlay -->
+          <div class="services-showcase__content">
+            <div class="services-showcase__meta">
+              <span class="services-showcase__tag">DISCIPLINA 0{{ activeIndex() + 1 }}</span>
+              <h3 class="services-showcase__title">{{ active.title }}</h3>
+              <p class="services-showcase__desc">{{ active.description }}</p>
+            </div>
+
+            <!-- Deliverable Highlights / Points -->
+            <div class="services-showcase__points" *ngIf="active.points?.length">
+              <span class="services-showcase__point" *ngFor="let point of active.points">
+                <span class="point-bullet" aria-hidden="true">·</span> {{ point }}
+              </span>
+            </div>
+
+            <!-- Primary Action -->
+            <div class="services-showcase__action">
+              <a
+                *ngIf="isInternalLink(active.href); else externalAction"
+                class="services-showcase__btn"
+                [routerLink]="active.href">
+                <span>{{ active.ctaLabel || i18n.t('services.explore', 'Explorar colecciones') }}</span>
+                <svg class="services-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <ng-template #externalAction>
+                <a class="services-showcase__btn" [href]="active.href">
+                  <span>{{ active.ctaLabel || i18n.t('services.explore', 'Explorar colecciones') }}</span>
+                  <svg class="services-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </ng-template>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+
+    <!-- MOBILE VERTICAL EDITORIAL PANELS (< 1024px, NO SMALL BOX CARDS!) -->
+    <div class="services-mobile-flow">
+      <article
+        class="services-mobile-panel"
+        *ngFor="let service of services; let idx = index"
+        tjRevealOnScroll>
+        <div class="services-mobile-panel__media">
+          <img
+            [src]="service.image"
+            [alt]="service.title"
+            loading="lazy"
+            decoding="async"
+            class="services-mobile-panel__img" />
+          <div class="services-mobile-panel__vignette"></div>
+        </div>
+
+        <div class="services-mobile-panel__body">
+          <span class="services-mobile-panel__num">0{{ idx + 1 }}</span>
+          <h3 class="services-mobile-panel__title">{{ service.title }}</h3>
+          <p class="services-mobile-panel__desc">{{ service.description }}</p>
+
+          <div class="services-mobile-panel__points" *ngIf="service.points?.length">
+            <span class="services-mobile-panel__pill" *ngFor="let point of service.points">
+              · {{ point }}
+            </span>
+          </div>
+
+          <a
+            *ngIf="isInternalLink(service.href); else externalMobileAction"
+            class="services-mobile-panel__link"
+            [routerLink]="service.href">
+            <span>{{ service.ctaLabel || i18n.t('services.explore', 'Ver colecciones') }}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <ng-template #externalMobileAction>
+            <a class="services-mobile-panel__link" [href]="service.href">
+              <span>{{ service.ctaLabel || i18n.t('services.explore', 'Ver colecciones') }}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </ng-template>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>

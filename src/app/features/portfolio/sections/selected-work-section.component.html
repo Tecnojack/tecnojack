@@ -1,0 +1,109 @@
+<section class="selected-work-section" id="work" tjRevealOnScroll>
+  <div class="selected-work-section__container">
+    <header class="selected-work-section__header">
+      <div class="selected-work-section__eyebrow-row">
+        <span class="selected-work-section__badge">CAMPAÑAS DESTACADAS</span>
+        <span class="selected-work-section__eyebrow">OBRA SELECCIONADA</span>
+      </div>
+      <h2 class="selected-work-section__title">Fotografía y cine con intención editorial.</h2>
+      <p class="selected-work-section__lead">
+        Una cuidada selección de proyectos donde cada encuadre responde a una visión artística deliberada y atemporal.
+      </p>
+    </header>
+
+    <div class="selected-work-grid">
+      <!-- 1. Full-Width Lead Campaign -->
+      <a
+        class="work-item work-item--full"
+        [routerLink]="campaigns[0].href"
+        tjRevealOnScroll>
+        <div class="work-item__media">
+          <img
+            [src]="campaigns[0].image"
+            [alt]="campaigns[0].title"
+            loading="lazy"
+            decoding="async"
+            class="work-item__img" />
+          <div class="work-item__scrim"></div>
+        </div>
+
+        <div class="work-item__caption">
+          <span class="work-item__category">{{ campaigns[0].category }}</span>
+          <h3 class="work-item__title">{{ campaigns[0].title }}</h3>
+          <p class="work-item__subtitle">{{ campaigns[0].subtitle }}</p>
+          <span class="work-item__link">Ver proyecto completo →</span>
+        </div>
+      </a>
+
+      <!-- 2 & 3. Asymmetric Duo (Sessions & Quinces) -->
+      <div class="work-item-duo">
+        <a
+          class="work-item work-item--half"
+          [routerLink]="campaigns[1].href"
+          tjRevealOnScroll>
+          <div class="work-item__media">
+            <img
+              [src]="campaigns[1].image"
+              [alt]="campaigns[1].title"
+              loading="lazy"
+              decoding="async"
+              class="work-item__img" />
+            <div class="work-item__scrim"></div>
+          </div>
+
+          <div class="work-item__caption">
+            <span class="work-item__category">{{ campaigns[1].category }}</span>
+            <h3 class="work-item__title">{{ campaigns[1].title }}</h3>
+            <p class="work-item__subtitle">{{ campaigns[1].subtitle }}</p>
+            <span class="work-item__link">Explorar sesiones →</span>
+          </div>
+        </a>
+
+        <a
+          class="work-item work-item--half"
+          [routerLink]="campaigns[2].href"
+          tjRevealOnScroll>
+          <div class="work-item__media">
+            <img
+              [src]="campaigns[2].image"
+              [alt]="campaigns[2].title"
+              loading="lazy"
+              decoding="async"
+              class="work-item__img" />
+            <div class="work-item__scrim"></div>
+          </div>
+
+          <div class="work-item__caption">
+            <span class="work-item__category">{{ campaigns[2].category }}</span>
+            <h3 class="work-item__title">{{ campaigns[2].title }}</h3>
+            <p class="work-item__subtitle">{{ campaigns[2].subtitle }}</p>
+            <span class="work-item__link">Explorar 15 años →</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Wide Panorama (Cinema) -->
+      <a
+        class="work-item work-item--wide"
+        [routerLink]="campaigns[3].href"
+        tjRevealOnScroll>
+        <div class="work-item__media">
+          <img
+            [src]="campaigns[3].image"
+            [alt]="campaigns[3].title"
+            loading="lazy"
+            decoding="async"
+            class="work-item__img" />
+          <div class="work-item__scrim"></div>
+        </div>
+
+        <div class="work-item__caption">
+          <span class="work-item__category">{{ campaigns[3].category }}</span>
+          <h3 class="work-item__title">{{ campaigns[3].title }}</h3>
+          <p class="work-item__subtitle">{{ campaigns[3].subtitle }}</p>
+          <span class="work-item__link">Ver producciones de video →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

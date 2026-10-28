@@ -1,5 +1,12 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -12,7 +19,7 @@ import { I18nService } from '../../../core/services/i18n.service';
   imports: [NgFor, NgIf, RouterLink, RevealOnScrollDirective],
   templateUrl: './services-section.component.html',
   styleUrl: './services-section.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesSectionComponent {
   private readonly content = inject(PortfolioContentService);
@@ -20,8 +27,20 @@ export class ServicesSectionComponent {
 
   @Input() editable = false;
 
+  readonly activeIndex = signal(0);
+
   get services() {
     return this.content.services();
+  }
+
+  readonly activeService = computed(() => {
+    const list = this.services;
+    const idx = this.activeIndex();
+    return list[idx] ?? list[0];
+  });
+
+  setActive(index: number): void {
+    this.activeIndex.set(index);
   }
 
   isInternalLink(href: string): boolean {

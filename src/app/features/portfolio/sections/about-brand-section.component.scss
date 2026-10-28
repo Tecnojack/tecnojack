@@ -1,84 +1,118 @@
+@use '../../../../styles/apple-tokens' as *;
+
 :host {
   display: block;
   width: 100%;
 }
 
-.about-brand-section {
-  position: relative;
+.brand-statement-section {
   width: 100%;
-  max-width: 1320px;
+  padding: clamp(90px, 12vw, 160px) 24px;
+  background-color: var(--tj-background);
+  color: var(--tj-text);
+  border-top: 1px solid var(--tj-border);
+}
+
+.brand-statement-section__container {
+  max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(60px, 8vw, 110px) 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(64px, 8vw, 100px);
 }
 
-.about-brand-section__intro {
-  max-width: 800px;
-  margin: 0 auto clamp(40px, 6vw, 64px);
-  text-align: center;
-
-  p:first-child {
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--tj-accent);
-    margin: 0 0 14px;
-  }
-
-  h2 {
-    font-size: var(--tj-font-display);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    color: var(--tj-text);
-    margin: 0 0 18px;
-  }
+// ─── Massive Typographic Statement ───────────────────────────────────────────
+.brand-statement-section__hero {
+  max-width: 1020px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
 }
 
-.about-brand-section__lead {
-  font-size: var(--tj-font-lead);
-  line-height: 1.6;
-  color: var(--tj-text-secondary);
+.brand-statement-section__badge-wrap {
+  display: flex;
+}
+
+.brand-statement-section__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+}
+
+.brand-statement-section__quote {
   margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: var(--tj-text);
 }
 
-.about-brand-section__grid {
+.brand-statement-section__quote-em {
+  display: block;
+  color: var(--tj-accent);
+}
+
+.brand-statement-section__lead {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.65;
+  color: var(--tj-text-secondary);
+  max-width: 70ch;
+  font-weight: 400;
+}
+
+// ─── Editorial Horizontal Pillars (NO CARDS!) ────────────────────────────────
+.brand-statement-section__pillars {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 3vw, 32px);
+  gap: clamp(2rem, 4vw, 4rem);
+  border-top: 1px solid var(--tj-border);
+  padding-top: 3.5rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 2.5rem;
   }
 }
 
-.about-brand-card {
-  background-color: var(--tj-surface);
-  border: 1px solid var(--tj-border);
-  border-radius: var(--tj-radius-lg);
-  padding: clamp(28px, 4vw, 36px);
+.brand-pillar {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: transform var(--tj-transition-normal), border-color var(--tj-transition-normal);
+  gap: 1.25rem;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    border-color: var(--tj-border-strong);
-  }
+.brand-pillar__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
-  h3 {
-    font-size: var(--tj-font-h3);
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--tj-text);
-    margin: 0;
-  }
+.brand-pillar__index {
+  font-family: var(--tj-font-mono, monospace);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--tj-accent);
+}
 
-  p {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--tj-text-secondary);
-    margin: 0;
-  }
+.brand-pillar__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tj-text);
+  line-height: 1.25;
+}
+
+.brand-pillar__text {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
 }
