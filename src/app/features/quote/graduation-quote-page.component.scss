@@ -1,19 +1,19 @@
 /* ESTILOS DE LA PÁGINA DE COTIZACIÓN DE FOTOGRAFÍA DE GRADOS - TECNOJACK.CO */
 /* ACOPLADO CON EL DESIGN SYSTEM ORBIT / PORTFOLIO DEL PROYECTO */
 
-$color-bg: #041217;
-$color-surface: rgba(8, 25, 31, 0.82);
-$color-surface-strong: rgba(10, 29, 36, 0.94);
-$color-brand: #0097b2;
-$color-brand-glow: rgba(0, 151, 178, 0.22);
-$color-gold: #ffb800;
-$color-gold-hover: #ffc833;
-$color-gold-soft: rgba(255, 184, 0, 0.16);
-$color-gold-border: rgba(255, 184, 0, 0.32);
-$color-text: #f4fcff;
-$color-text-muted: #9bb4bc;
-$color-border: rgba(0, 151, 178, 0.22);
-$color-border-light: rgba(255, 255, 255, 0.1);
+$color-bg: var(--tj-bg);
+$color-surface: var(--tj-surface);
+$color-surface-strong: var(--tj-surface-hover);
+$color-brand: var(--tj-accent);
+$color-brand-glow: var(--tj-accent-soft);
+$color-gold: var(--tj-gold);
+$color-gold-hover: var(--tj-gold);
+$color-gold-soft: var(--tj-gold-soft);
+$color-gold-border: var(--tj-border-strong);
+$color-text: var(--tj-text);
+$color-text-muted: var(--tj-text-secondary);
+$color-border: var(--tj-border);
+$color-border-light: var(--tj-border);
 $color-whatsapp: #25d366;
 
 :host {
