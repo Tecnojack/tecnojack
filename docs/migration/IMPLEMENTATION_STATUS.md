@@ -204,3 +204,23 @@ pm.cmd run build exitosa (cÃ³digo 0).
 - **Validación**:
   - Verificación en Google Chrome Headless CDP comprobando el avance automático del contador `01` a `02` tras 5.5s y la desaparición natural del indicador.
   - Compilación de producción `npm.cmd run build` exitosa con código 0.
+
+### Slider Híbrido Web (2–3 Paquetes) / Mobile (100%), Cápsula Unificada & Modo Claro Marfil (Rama rediseño)
+- **Slider Adaptativo según Dispositivo**:
+  - **Móvil (< 768px)**: Mantiene 1 solo paquete activo que ocupa el 100% del ancho del contenedor (`flex: 0 0 100%; width: 100%`) para garantizar lectura y usabilidad vertical completa sin desbordamiento.
+  - **Escritorio Web (>= 768px / >= 1100px)**: Muestra de **2 a 3 paquetes visibles simultáneamente** (`cardsVisible: ~2.75` a 1200px) con el paquete activo en primer plano y los adyacentes a los lados con escala y opacidad sutil (`0.68 -> 1.0`), permitiendo navegar tanto por deslizamiento, clic en tarjetas laterales o con el nuevo controlador.
+- **Cambiador de Slider en Cápsula Unificada (Fiel a Referencia)**:
+  - Diseño en píldora flotante integrada (`.tj-slider-capsule`) inspirada en la referencia provista:
+    - Botón circular izquierdo (`44x44px`) con flecha `←`.
+    - Fila de puntos con indicador activo en forma de píldora alargada naranja brillante (`#FF4D00`, `32x11px`) con sutil resplandor cálido (`box-shadow: 0 0 14px rgba(255, 77, 0, 0.75)`).
+    - Botón circular derecho (`44x44px`) con flecha `→`.
+    - Cápsula en cristal esmerilado con borde fino translúcido, ubicada en posición central ergonómica bajo el carrusel.
+- **Rediseño del Modo Claro (Anti-Glare / Warm Editorial Alabaster)**:
+  - Sustitución del blanco puro chillón `#FFFFFF` de fondo de página por un tono marfil/alabastro cálido (`--tj-bg: #F7F6F2`, `--portfolio-bg: #F7F6F2`), inspirado en diseño editorial y alta gama Apple.
+  - El blanco puro `#FFFFFF` se reserva exclusivamente para las tarjetas y paneles elevados, creando jerarquía visual y profundidad natural.
+  - Paneles interiores de acordeones en tono anidado suave (`#FAF9F5`), eliminando la sensación plana y monótona.
+  - Transición suave del degradado en el Hero en modo claro, integrándose sin cortes ni contrastes turbios.
+  - Textos en carbón profundo (`#171718` y `#48484B`) y acento dorado de alto contraste (`#8E5A00`).
+- **Validación Automatizada y Compilación**:
+  - Capturas y mediciones en Google Chrome Headless CDP confirmando `cardsVisible: 2.75` en 1200px y `100%` en 390px, con activación de cápsula unificada.
+  - Compilación de producción `npm.cmd run build` 100% exitosa (código 0).

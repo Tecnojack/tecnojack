@@ -43,28 +43,7 @@
               <span class="tj-apple-slider__divider">/</span>
               <span class="tj-apple-slider__total">0{{ packages.length }}</span>
             </span>
-            <span class="tj-apple-slider__hint">Desliza para ver más opciones</span>
-          </div>
-
-          <div class="tj-apple-slider__arrows">
-            <button
-              type="button"
-              class="tj-apple-nav-btn tj-apple-nav-btn--prev"
-              (click)="prevSlide()"
-              aria-label="Colección anterior">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-            <button
-              type="button"
-              class="tj-apple-nav-btn tj-apple-nav-btn--next"
-              (click)="nextSlide()"
-              aria-label="Siguiente colección">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
+            <span class="tj-apple-slider__hint">Desliza o usa el control para explorar</span>
           </div>
         </div>
 
@@ -106,7 +85,8 @@
             class="tj-apple-card"
             [class.is-active]="activeSlideIndex() === i"
             [class.is-featured]="item.detail.featured"
-            [class.is-luxury]="item.detail.slug.includes('luxury')">
+            [class.is-luxury]="item.detail.slug.includes('luxury')"
+            (click)="onCardClick(i)">
             
             <ng-container *ngIf="((coverByDetail(item.detail) | async | tjImageFallback) ?? '') as itemImg">
               <!-- Visual Hero Banner -->
@@ -167,7 +147,7 @@
                   <button
                     class="tj-apple-btn tj-apple-btn--primary"
                     type="button"
-                    (click)="requestOpenPackage(item.detail.slug, itemImg)">
+                    (click)="requestOpenPackage(item.detail.slug, itemImg); $event.stopPropagation()">
                     <span>Ver desglose completo</span>
                     <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -179,7 +159,8 @@
                     class="tj-apple-btn tj-apple-btn--wa"
                     [href]="getWhatsAppBookingHref(item)"
                     target="_blank"
-                    rel="noopener">
+                    rel="noopener"
+                    (click)="$event.stopPropagation()">
                     <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="tj-apple-btn__wa-icon" />
                     <span>Reservar por WhatsApp</span>
                   </a>
@@ -189,16 +170,47 @@
           </article>
         </div>
 
-        <!-- Apple-Style Pagination Dots Indicator -->
-        <div class="tj-apple-slider__dots" *ngIf="packages.length > 1">
-          <button
-            *ngFor="let item of packages; let idx = index"
-            type="button"
-            class="tj-apple-dot"
-            [class.is-active]="activeSlideIndex() === idx"
-            (click)="scrollToSlide(idx)"
-            [attr.aria-label]="'Ir al paquete ' + (idx + 1) + ': ' + item.displayName">
-          </button>
+        <!-- UNIFIED PILL CONTROLLER (Apple / Editorial Capsule from Image) -->
+        <div class="tj-slider-capsule-wrapper" *ngIf="packages.length > 1">
+          <div class="tj-slider-capsule" role="toolbar" aria-label="Controles del carrusel">
+            <!-- Prev Button -->
+            <button
+              type="button"
+              class="tj-capsule-btn tj-capsule-btn--prev"
+              (click)="prevSlide(); $event.stopPropagation()"
+              aria-label="Colección anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+
+            <!-- Dots / Active Orange Pill -->
+            <div class="tj-capsule-dots" role="tablist" aria-label="Seleccionar paquete">
+              <button
+                *ngFor="let item of packages; let idx = index"
+                type="button"
+                class="tj-capsule-dot"
+                [class.is-active]="activeSlideIndex() === idx"
+                (click)="scrollToSlide(idx); $event.stopPropagation()"
+                [attr.aria-label]="'Ir a ' + item.displayName"
+                [attr.aria-selected]="activeSlideIndex() === idx"
+                role="tab">
+              </button>
+            </div>
+
+            <!-- Next Button -->
+            <button
+              type="button"
+              class="tj-capsule-btn tj-capsule-btn--next"
+              (click)="nextSlide(); $event.stopPropagation()"
+              aria-label="Siguiente colección">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 

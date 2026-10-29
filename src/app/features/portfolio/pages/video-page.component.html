@@ -89,28 +89,7 @@
                         <span class="tj-apple-slider__divider">/</span>
                         <span class="tj-apple-slider__total">0{{ videoPackages.length }}</span>
                     </span>
-                    <span class="tj-apple-slider__hint">Desliza para ver más opciones</span>
-                </div>
-
-                <div class="tj-apple-slider__arrows">
-                    <button
-                        type="button"
-                        class="tj-apple-nav-btn tj-apple-nav-btn--prev"
-                        (click)="prevVideoSlide()"
-                        aria-label="Paquete anterior">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <button
-                        type="button"
-                        class="tj-apple-nav-btn tj-apple-nav-btn--next"
-                        (click)="nextVideoSlide()"
-                        aria-label="Siguiente paquete">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
+                    <span class="tj-apple-slider__hint">Desliza o usa el control para explorar</span>
                 </div>
             </div>
 
@@ -148,7 +127,8 @@
                 <article
                     class="tj-apple-card"
                     *ngFor="let pkg of videoPackages; let index = index"
-                    [class.is-active]="activeVideoSlideIndex() === index">
+                    [class.is-active]="activeVideoSlideIndex() === index"
+                    (click)="onVideoCardClick(index)">
                     <div class="tj-apple-card__media">
                         <div class="tj-apple-card__badges">
                             <span class="tj-apple-badge tj-apple-badge--type" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
@@ -193,7 +173,10 @@
                         </div>
 
                         <div class="tj-apple-card__actions">
-                            <button class="tj-apple-btn tj-apple-btn--primary" type="button" (click)="openVideoPackage(pkg)">
+                            <button
+                                class="tj-apple-btn tj-apple-btn--primary"
+                                type="button"
+                                (click)="openVideoPackage(pkg); $event.stopPropagation()">
                                 <span>Ver detalle</span>
                                 <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -205,16 +188,47 @@
                 </article>
             </div>
 
-            <!-- Apple-Style Pagination Dots for Video Packages -->
-            <div class="tj-apple-slider__dots" *ngIf="videoPackages.length > 1">
-                <button
-                    *ngFor="let pkg of videoPackages; let idx = index"
-                    type="button"
-                    class="tj-apple-dot"
-                    [class.is-active]="activeVideoSlideIndex() === idx"
-                    (click)="scrollToVideoSlide(idx)"
-                    [attr.aria-label]="'Ir al paquete ' + (idx + 1) + ': ' + pkg.name">
-                </button>
+            <!-- UNIFIED PILL CONTROLLER (Apple / Editorial Capsule from Image) -->
+            <div class="tj-slider-capsule-wrapper" *ngIf="videoPackages.length > 1">
+                <div class="tj-slider-capsule" role="toolbar" aria-label="Controles del carrusel de video">
+                    <!-- Prev Button -->
+                    <button
+                        type="button"
+                        class="tj-capsule-btn tj-capsule-btn--prev"
+                        (click)="prevVideoSlide(); $event.stopPropagation()"
+                        aria-label="Paquete anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Dots / Active Orange Pill -->
+                    <div class="tj-capsule-dots" role="tablist" aria-label="Seleccionar paquete de video">
+                        <button
+                            *ngFor="let pkg of videoPackages; let idx = index"
+                            type="button"
+                            class="tj-capsule-dot"
+                            [class.is-active]="activeVideoSlideIndex() === idx"
+                            (click)="scrollToVideoSlide(idx); $event.stopPropagation()"
+                            [attr.aria-label]="'Ir a ' + pkg.name"
+                            [attr.aria-selected]="activeVideoSlideIndex() === idx"
+                            role="tab">
+                        </button>
+                    </div>
+
+                    <!-- Next Button -->
+                    <button
+                        type="button"
+                        class="tj-capsule-btn tj-capsule-btn--next"
+                        (click)="nextVideoSlide(); $event.stopPropagation()"
+                        aria-label="Siguiente paquete">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>

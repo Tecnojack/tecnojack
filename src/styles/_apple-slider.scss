@@ -104,17 +104,24 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 6px 0 20px;
+  padding: 8px 2px 20px;
   margin: 0;
   box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    gap: 24px;
+    padding: 14px 12px 28px;
+    scroll-padding: 0 12px;
+  }
 
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
-// ─── Apple Product Card (Single Active Card Taking 100% Width) ───────────────
+// ─── Apple Product Card (Responsive: 100% on Mobile; 2 to 3 Visible on Web) ──
 .tj-apple-card {
+  // Mobile default: 1 single package active occupying 100% width
   flex: 0 0 100%;
   width: 100%;
   max-width: 100%;
@@ -127,20 +134,107 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
   box-sizing: border-box;
 
-  @media (min-width: 768px) {
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
+  // Tablet: 2 packages visible with peek of 3rd
+  @media (min-width: 768px) and (max-width: 1099px) {
+    flex: 0 0 calc((100% - 24px) / 2.18);
+    width: calc((100% - 24px) / 2.18);
+    max-width: 480px;
+    min-width: 320px;
     scroll-snap-align: center;
+    opacity: 0.68;
+    transform: scale(0.96);
+    cursor: pointer;
+
+    &.is-active {
+      opacity: 1;
+      transform: scale(1);
+      border-color: var(--tj-border-strong);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+      cursor: default;
+    }
+
+    &:hover:not(.is-active) {
+      opacity: 0.92;
+      transform: scale(0.98);
+    }
+  }
+
+  // Desktop Web: 2 to 3 packages visible (1 active in center, others at sides)
+  @media (min-width: 1100px) and (max-width: 1439px) {
+    flex: 0 0 calc((100% - 40px) / 2.75);
+    width: calc((100% - 40px) / 2.75);
+    max-width: 440px;
+    min-width: 340px;
+    scroll-snap-align: center;
+    opacity: 0.68;
+    transform: scale(0.96);
+    cursor: pointer;
+
+    &.is-active {
+      opacity: 1;
+      transform: scale(1);
+      border-color: var(--tj-border-strong);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24);
+      cursor: default;
+    }
+
+    &:hover:not(.is-active) {
+      opacity: 0.92;
+      transform: scale(0.98);
+    }
+  }
+
+  // Large Desktop: 3 packages visible in balanced composition
+  @media (min-width: 1440px) {
+    flex: 0 0 calc((100% - 48px) / 3.08);
+    width: calc((100% - 48px) / 3.08);
+    max-width: 420px;
+    min-width: 330px;
+    scroll-snap-align: center;
+    opacity: 0.68;
+    transform: scale(0.96);
+    cursor: pointer;
+
+    &.is-active {
+      opacity: 1;
+      transform: scale(1);
+      border-color: var(--tj-border-strong);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+      cursor: default;
+    }
+
+    &:hover:not(.is-active) {
+      opacity: 0.92;
+      transform: scale(0.98);
+    }
+  }
+
+  // Light Mode Refinements (Soft Warm Editorial Paper Feel)
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+
+    &.is-active {
+      border-color: rgba(0, 0, 0, 0.18);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+    }
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+    }
   }
 
   &:hover {
     border-color: var(--tj-border-strong);
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
   }
 
   &.is-featured {
@@ -437,7 +531,142 @@
   height: 18px;
 }
 
-// ─── Apple-Style Pagination Dots ─────────────────────────────────────────────
+// ─── UNIFIED CAPSULE CONTROLLER (Apple / Editorial Capsule from Image) ────────
+.tj-slider-capsule-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.tj-slider-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 9999px;
+  background: rgba(18, 20, 24, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+}
+
+.tj-capsule-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.06);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &--prev:hover svg {
+    transform: translateX(-2px);
+  }
+
+  &--next:hover svg {
+    transform: translateX(2px);
+  }
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #171718;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.09);
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.tj-capsule-dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.tj-capsule-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4E525E;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              border-radius 0.3s ease,
+              box-shadow 0.3s ease;
+
+  &:hover:not(.is-active) {
+    background: #797E8C;
+  }
+
+  &.is-active {
+    width: 32px;
+    height: 11px;
+    border-radius: 9999px;
+    background: #FF4D00;
+    box-shadow: 0 0 14px rgba(255, 77, 0, 0.75), 0 0 3px rgba(255, 77, 0, 0.9);
+  }
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: #B6B3AA;
+
+    &:hover:not(.is-active) {
+      background: #868278;
+    }
+
+    &.is-active {
+      background: #FF4D00;
+      box-shadow: 0 0 12px rgba(255, 77, 0, 0.6);
+    }
+  }
+}
+
+// ─── Apple-Style Pagination Dots (Legacy / Fallback) ─────────────────────────
 .tj-apple-slider__dots {
   display: flex;
   align-items: center;

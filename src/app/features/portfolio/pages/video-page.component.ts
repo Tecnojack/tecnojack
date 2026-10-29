@@ -542,6 +542,13 @@ export class VideoPageComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
+  onVideoCardClick(index: number): void {
+    if (this.activeVideoSlideIndex() !== index) {
+      this.scrollToVideoSlide(index);
+      this.resetVideoAutoplay();
+    }
+  }
+
   scrollToVideoSlide(index: number): void {
     if (!this.videoSliderTrack?.nativeElement) return;
     const track = this.videoSliderTrack.nativeElement;

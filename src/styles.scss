@@ -499,25 +499,36 @@ body.portfolio-request-modal-open {
     }
 }
 
-:root[data-theme='light'] .portfolio-page .service-category-hero {
+:root[data-theme='light'] .portfolio-page .service-category-hero,
+html[data-theme='light'] .portfolio-page .service-category-hero,
+body[data-theme='light'] .portfolio-page .service-category-hero {
     background:
         linear-gradient(180deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.38) 25%,
-            rgba(255, 255, 255, 0.72) 55%,
-            rgba(255, 255, 255, 0.95) 80%,
-            var(--portfolio-bg, #ffffff) 100%
+            rgba(247, 246, 242, 0.22) 0%,
+            rgba(247, 246, 242, 0.45) 25%,
+            rgba(247, 246, 242, 0.76) 55%,
+            rgba(247, 246, 242, 0.94) 80%,
+            var(--portfolio-bg, #F7F6F2) 100%
         ),
         var(--category-hero-image) center top / cover no-repeat;
 
     &::after {
         background: linear-gradient(to bottom,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.35) 30%,
-            rgba(255, 255, 255, 0.85) 75%,
-            var(--portfolio-bg, #ffffff) 100%
+            rgba(247, 246, 242, 0) 0%,
+            rgba(247, 246, 242, 0.35) 30%,
+            rgba(247, 246, 242, 0.85) 75%,
+            var(--portfolio-bg, #F7F6F2) 100%
         );
     }
+}
+
+:root[data-theme='light'] .portfolio-page .service-category-hero__backdrop,
+html[data-theme='light'] .portfolio-page .service-category-hero__backdrop,
+body[data-theme='light'] .portfolio-page .service-category-hero__backdrop {
+    background:
+        radial-gradient(circle at 18% 20%, rgba(0, 119, 153, 0.08), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(245, 200, 66, 0.08), transparent 24%),
+        linear-gradient(90deg, rgba(247, 246, 242, 0.6), rgba(247, 246, 242, 0.15));
 }
 
 .portfolio-page .service-category-hero__backdrop {

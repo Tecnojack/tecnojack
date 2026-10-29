@@ -192,6 +192,13 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
+  onCardClick(index: number): void {
+    if (this.activeSlideIndex() !== index) {
+      this.scrollToSlide(index);
+      this.resetAutoplay();
+    }
+  }
+
   scrollToSlide(index: number): void {
     if (!this.sliderTrack?.nativeElement) return;
     const track = this.sliderTrack.nativeElement;
