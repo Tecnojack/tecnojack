@@ -3,44 +3,63 @@
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
         <div class="service-category-hero__content" tjRevealOnScroll>
-            <div class="service-category-hero__layout">
-                <div class="service-category-hero__copy">
-                    <p class="service-category-hero__eyebrow">Portafolio audiovisual</p>
-                    <h1 class="heading-xl">Producción audiovisual con enfoque cinéfilo.</h1>
-                    <p class="service-category-hero__lead text-body text-muted">
-                        Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.
-                    </p>
+            <div class="service-category-hero__editorial">
+                <!-- Eyebrow Tag -->
+                <div class="service-category-hero__eyebrow-wrapper">
+                    <span class="hero-editorial-pill">Portafolio audiovisual</span>
                 </div>
 
-                <aside class="service-category-hero__meta" aria-label="Información rápida">
-                    <div class="service-category-hero__facts" aria-label="Datos clave">
-                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
-                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
-                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
-                        </article>
+                <!-- Main Editorial Headline -->
+                <h1 class="service-category-hero__title heading-xl">Producción audiovisual con enfoque cinéfilo.</h1>
+
+                <!-- Curated Description Lead -->
+                <p class="service-category-hero__lead text-body">
+                    Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.
+                </p>
+
+                <!-- Capability Badges -->
+                <div class="service-category-hero__tags" aria-label="Especialidades">
+                    <span class="hero-tag-item">Videos musicales</span>
+                    <span class="hero-tag-item">Bodas &amp; eventos</span>
+                    <span class="hero-tag-item">Cortometrajes</span>
+                    <span class="hero-tag-item">Contenido para redes</span>
+                    <span class="hero-tag-item">Dirección creativa</span>
+                    <span class="hero-tag-item">Color grading profesional</span>
+                </div>
+
+                <!-- Sleek Minimalist Metric Strip -->
+                <div class="service-category-hero__metric-strip" aria-label="Datos clave del servicio">
+                    <div class="hero-metric-cell" *ngFor="let fact of heroFacts()">
+                        <span class="hero-metric-cell__label">{{ fact.label }}</span>
+                        <strong class="hero-metric-cell__value">{{ fact.value }}</strong>
+                    </div>
+                </div>
+
+                <!-- Action CTA Bar & Social Links -->
+                <div class="service-category-hero__actions-row">
+                    <div class="hero-cta-btns">
+                        <a class="hero-action-btn hero-action-btn--primary" href="#paquetes">
+                            <span>Explorar paquetes de video</span>
+                            <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
+                        </a>
+                        <a class="hero-action-btn hero-action-btn--wa" [href]="headerCtaHref" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="hero-action-btn__wa-icon" />
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
                     </div>
 
-                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                    <nav class="service-category-hero__social-nav" aria-label="Redes sociales">
                         <a
-                            class="service-category-hero__social-link"
+                            class="service-category-hero__social-circle"
                             *ngFor="let link of heroSocialLinks()"
                             [href]="link.href"
                             target="_blank"
                             rel="noopener"
                             [attr.aria-label]="link.title">
                             <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
-                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                            <span *ngIf="!link.iconSrc">{{ link.title }}</span>
                         </a>
                     </nav>
-                </aside>
-
-                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
-                    <span>Videos musicales</span>
-                    <span>Bodas &amp; eventos</span>
-                    <span>Cortometrajes</span>
-                    <span>Contenido para redes</span>
-                    <span>Dirección creativa</span>
-                    <span>Color grading profesional</span>
                 </div>
             </div>
         </div>
@@ -54,50 +73,65 @@
             </p>
         </div>
 
-        <div class="service-category-packages__grid">
-            <article class="service-package-card" *ngFor="let pkg of videoPackages; let index = index"
-                [class.reveal--left]="index % 2 === 0"
-                [class.reveal--right]="index % 2 !== 0">
-                <div class="service-package-card__media">
-                    <div class="service-package-card__media-badges">
-                        <span class="service-package-card__tag" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
-                        <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="pkg.isBasePrice">Desde</span>
+        <!-- Apple-Style Slider for Video Packages (90% width with next-card peek) -->
+        <div class="tj-apple-slider">
+            <div class="tj-apple-slider__track">
+                <article class="tj-apple-card" *ngFor="let pkg of videoPackages; let index = index">
+                    <div class="tj-apple-card__media">
+                        <div class="tj-apple-card__badges">
+                            <span class="tj-apple-badge tj-apple-badge--type" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
+                            <span class="tj-apple-badge tj-apple-badge--premium" *ngIf="pkg.isBasePrice">DESDE</span>
+                        </div>
+                        <tj-lazy-img
+                            [src]="(videoPackageCover$(pkg) | async) ?? ''"
+                            [alt]="pkg.name"
+                            aspectRatio="16 / 9"></tj-lazy-img>
+                        <div class="tj-apple-card__vignette"></div>
                     </div>
-                    <tj-lazy-img
-                        [src]="(videoPackageCover$(pkg) | async) ?? ''"
-                        [alt]="pkg.name"
-                        aspectRatio="16 / 11"></tj-lazy-img>
-                </div>
 
-                <div class="service-package-card__body">
-                    <div class="service-package-card__headline">
-                        <div class="service-package-card__title-row">
-                            <div class="service-package-card__title-stack">
-                                <h3 class="heading-md">{{ pkg.name }}</h3>
-                                <p class="service-package-card__tagline text-body text-muted" *ngIf="pkg.tagline">{{ pkg.tagline }}</p>
+                    <div class="tj-apple-card__body">
+                        <div class="tj-apple-card__header">
+                            <span class="tj-apple-card__index">Paquete 0{{ index + 1 }}</span>
+                            <h3 class="tj-apple-card__title">{{ pkg.name }}</h3>
+                            <p class="tj-apple-card__tagline" *ngIf="pkg.tagline">{{ pkg.tagline }}</p>
+                        </div>
+
+                        <div class="tj-apple-card__price-panel">
+                            <div class="tj-apple-card__price-meta">
+                                <span class="tj-apple-card__price-label">Inversión</span>
+                                <strong class="tj-apple-card__price-amount">{{ priceLabel(pkg) }}</strong>
                             </div>
+                            <span class="tj-apple-card__tax-note">Tarifa personalizada</span>
                         </div>
-                        <div class="service-package-card__price-block">
-                            <span class="service-package-card__price-label">Inversión</span>
-                            <strong class="service-package-card__price">{{ priceLabel(pkg) }}</strong>
+
+                        <p class="tj-apple-card__lead">{{ pkg.description }}</p>
+
+                        <div class="tj-apple-card__deliverables" *ngIf="packageHighlights(pkg)?.length">
+                            <h5 class="tj-apple-card__deliverables-title">Entregables:</h5>
+                            <ul class="tj-apple-card__deliverables-list">
+                                <li *ngFor="let item of packageHighlights(pkg)" class="tj-apple-card__deliverable-item">
+                                    <span class="tj-apple-check" aria-hidden="true">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    <span>{{ item }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tj-apple-card__actions">
+                            <button class="tj-apple-btn tj-apple-btn--primary" type="button" (click)="openVideoPackage(pkg)">
+                                <span>Ver detalle</span>
+                                <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="service-package-card__copy">
-                        <p class="text-body text-muted">{{ pkg.description }}</p>
-                    </div>
-
-                    <p class="service-package-card__type">Entregables</p>
-
-                    <ul class="service-package-card__list">
-                        <li *ngFor="let item of packageHighlights(pkg)">{{ item }}</li>
-                    </ul>
-
-                    <button class="service-package-card__cta btn-text" type="button" (click)="openVideoPackage(pkg)">
-                        Ver detalle
-                    </button>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
     </section>
 

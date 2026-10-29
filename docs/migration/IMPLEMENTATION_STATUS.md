@@ -157,3 +157,18 @@ pm.cmd run build � 100% exitoso (0 errores).
   - Resultado: 99/99 pruebas superadas con 0 píxeles de scroll horizontal y 0 elementos desbordados.
   - Compilación de producción: 
 pm.cmd run build 100% exitosa (código 0).
+
+### Rediseño de Hero Integral & Apple Product Slider en Acordeones (Rama rediseño)
+- **Rediseño del Hero en todas las vistas**:
+  - Imagen de fondo completamente sin redondear (order-radius: 0 !important;) y de ancho completo edge-to-edge (width: 100vw;).
+  - Degradado inferior multinivel (linear-gradient(to bottom, ...)) con transición suave y continua hacia el fondo de página (ar(--tj-bg)), eliminando bordes duros o encuadres de tarjeta.
+  - Reordenamiento editorial Apple de la información: píldora de categoría, gran título editorial balanceado, lead curado, insignias de capacidad, franja horizontal minimalista de métricas, botones de llamada a la acción y barra de redes sociales con íconos circulares uniformes.
+- **Slider de Paquetes Apple Pro dentro de Acordeones (PortfolioCategoryAccordionComponent)**:
+  - Reemplazo de vistas rígidas por un carrusel táctil fluido inspirado en Apple Store / Apple Keynotes.
+  - Tarjetas ocupando el **90% del ancho del contenedor** (lex: 0 0 90%) permitiendo que la siguiente tarjeta asome sutilmente en el margen derecho como estímulo visual.
+  - Fotografía 16:9 con badges de autor, título y lema editorial, caja de inversión transparente, lista de entregables con marcas de verificación Apple, y botones de acción rápida.
+  - Controles de navegación Apple: botones circulares translúcidos con desenfoque de cristal [ ‹ ] y [ › ], y fila de puntos de paginación interactivos con expansión activa tipo píldora.
+- **Validación Automatizada**:
+  - 99/99 pruebas de viewport en Google Chrome Headless CDP superadas sin overflow horizontal (320px–1440px).
+  - Compilación de producción: 
+pm.cmd run build exitosa (código 0).

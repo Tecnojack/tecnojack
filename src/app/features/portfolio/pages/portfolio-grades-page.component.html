@@ -1,44 +1,64 @@
 <tj-portfolio-shell [navItems]="navItems" [subtitle]="pageConfig.shellSubtitle" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
     <section class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
+
         <div class="service-category-hero__content" tjRevealOnScroll>
-            <div class="service-category-hero__layout">
-                <div class="service-category-hero__copy">
-                    <p class="service-category-hero__eyebrow">{{ pageConfig.hero.eyebrow }}</p>
-                    <h1 class="heading-xl">{{ pageConfig.hero.title }}</h1>
-                    <p class="service-category-hero__lead text-body text-muted">{{ pageConfig.hero.description }}</p>
+            <div class="service-category-hero__editorial">
+                <!-- Eyebrow Tag -->
+                <div class="service-category-hero__eyebrow-wrapper">
+                    <span class="hero-editorial-pill">{{ pageConfig.hero.eyebrow }}</span>
                 </div>
 
-                <aside class="service-category-hero__meta" aria-label="Información rápida">
-                    <div class="service-category-hero__facts" aria-label="Datos clave">
-                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
-                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
-                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
-                        </article>
+                <!-- Main Editorial Headline -->
+                <h1 class="service-category-hero__title heading-xl">{{ pageConfig.hero.title }}</h1>
+
+                <!-- Curated Description Lead -->
+                <p class="service-category-hero__lead text-body">{{ pageConfig.hero.description }}</p>
+
+                <!-- Capability Badges -->
+                <div class="service-category-hero__tags" aria-label="Especialidades" *ngIf="pageConfig.hero.highlights?.length">
+                    <span class="hero-tag-item" *ngFor="let item of pageConfig.hero.highlights">{{ item }}</span>
+                </div>
+
+                <!-- Sleek Minimalist Metric Strip -->
+                <div class="service-category-hero__metric-strip" aria-label="Datos clave del servicio">
+                    <div class="hero-metric-cell" *ngFor="let fact of heroFacts()">
+                        <span class="hero-metric-cell__label">{{ fact.label }}</span>
+                        <strong class="hero-metric-cell__value">{{ fact.value }}</strong>
+                    </div>
+                </div>
+
+                <!-- Action CTA Bar & Social Links -->
+                <div class="service-category-hero__actions-row">
+                    <div class="hero-cta-btns">
+                        <a class="hero-action-btn hero-action-btn--primary" href="#service-packages">
+                            <span>Ver opciones de grado</span>
+                            <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
+                        </a>
+                        <a class="hero-action-btn hero-action-btn--wa" [href]="headerCtaHref" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="hero-action-btn__wa-icon" />
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
                     </div>
 
-                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                    <nav class="service-category-hero__social-nav" aria-label="Redes sociales">
                         <a
-                            class="service-category-hero__social-link"
+                            class="service-category-hero__social-circle"
                             *ngFor="let link of heroSocialLinks()"
                             [href]="link.href"
                             target="_blank"
                             rel="noopener"
                             [attr.aria-label]="link.title">
                             <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
-                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                            <span *ngIf="!link.iconSrc">{{ link.title }}</span>
                         </a>
                     </nav>
-                </aside>
-
-                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
-                    <span *ngFor="let item of pageConfig.hero.highlights">{{ item }}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="portfolio-section service-category-packages grades-modes" aria-label="Grados: estudiantes e instituciones">
+    <section class="portfolio-section service-category-packages grades-modes" id="service-packages" aria-label="Grados: estudiantes e instituciones">
         <div class="service-category-packages__head">
             <h2 class="heading-md service-category-packages__title">{{ pageConfig.packageTitle }}</h2>
             <p class="service-category-packages__body text-body text-muted">{{ pageConfig.packageLead }}</p>
@@ -190,8 +210,6 @@
                             <span>Notas</span>
                             <textarea [value]="notes()" (input)="notes.set(($any($event.target).value ?? '').toString())" placeholder="Horario, lugar, tipo de ceremonia, etc."></textarea>
                         </label>
-
-
 
                         <label class="service-package-request__option service-package-request__terms service-package-request__field--full">
                             <input type="checkbox" [checked]="hasAcceptedTerms()" (change)="hasAcceptedTerms.set($any($event.target).checked)" />

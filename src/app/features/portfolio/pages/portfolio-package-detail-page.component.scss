@@ -266,10 +266,23 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: var(--tj-radius-sm);
+  border-radius: 0 !important;
   overflow: hidden;
   background: #000;
-  border: 1px solid var(--tj-border);
+  border: none !important;
+
+  // Natural bottom gradient fade
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(5, 5, 5, 0.4) 40%, var(--tj-bg, #050505) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
 
   @media (max-width: 1023px) {
     aspect-ratio: 16 / 9;

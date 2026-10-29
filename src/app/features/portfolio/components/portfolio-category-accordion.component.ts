@@ -2,9 +2,11 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
+  ViewChild,
   computed,
   inject,
   signal,
@@ -77,6 +79,8 @@ export class PortfolioCategoryAccordionComponent {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly content = inject(PortfolioContentService);
 
+  @ViewChild('sliderTrack', { static: false }) sliderTrack?: ElementRef<HTMLDivElement>;
+
   @Input({ required: true }) title = '';
   @Input() lead = '';
   @Input() packages: PortfolioPackageCardViewModel[] = [];
@@ -85,15 +89,7 @@ export class PortfolioCategoryAccordionComponent {
   @Output() openPackage = new EventEmitter<{ slug: string; imageUrl: string }>();
 
   readonly openState = signal(false);
-  readonly selectedIndex = signal(0);
-  readonly mobileListOpen = signal(false);
-
-  readonly selectedPackage = computed(() => {
-    const list = this.packages;
-    if (!list || list.length === 0) return null;
-    const idx = this.selectedIndex();
-    return list[idx] ?? list[0];
-  });
+  readonly activeSlideIndex = signal(0);
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);
@@ -107,31 +103,53 @@ export class PortfolioCategoryAccordionComponent {
     this.openState.update((value) => !value);
   }
 
-  selectPackage(index: number): void {
-    this.selectedIndex.set(index);
+  scrollToSlide(index: number): void {
+    if (!this.sliderTrack?.nativeElement) return;
+    const track = this.sliderTrack.nativeElement;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards || !cards[index]) return;
+    const targetCard = cards[index];
+    const targetLeft = targetCard.offsetLeft - (track.clientWidth - targetCard.clientWidth) / 2;
+    track.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth',
+    });
+    this.activeSlideIndex.set(index);
   }
 
-  toggleMobileList(): void {
-    this.mobileListOpen.update((v) => !v);
+  prevSlide(): void {
+    const nextIdx = Math.max(0, this.activeSlideIndex() - 1);
+    this.scrollToSlide(nextIdx);
   }
 
-  selectAndCloseMobileList(index: number): void {
-    this.selectedIndex.set(index);
-    this.mobileListOpen.set(false);
+  nextSlide(): void {
+    const nextIdx = Math.min(this.packages.length - 1, this.activeSlideIndex() + 1);
+    this.scrollToSlide(nextIdx);
   }
 
-  prevPackage(): void {
-    const list = this.packages;
-    if (!list || list.length <= 1) return;
-    const current = this.selectedIndex();
-    this.selectedIndex.set((current - 1 + list.length) % list.length);
-  }
+  onTrackScroll(): void {
+    if (!this.sliderTrack?.nativeElement) return;
+    const track = this.sliderTrack.nativeElement;
+    const scrollLeft = track.scrollLeft;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards || cards.length === 0) return;
 
-  nextPackage(): void {
-    const list = this.packages;
-    if (!list || list.length <= 1) return;
-    const current = this.selectedIndex();
-    this.selectedIndex.set((current + 1) % list.length);
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const centerPoint = scrollLeft + track.clientWidth / 2;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    if (this.activeSlideIndex() !== closestIndex) {
+      this.activeSlideIndex.set(closestIndex);
+    }
   }
 
   requestOpenPackage(slug: string, imageUrl: string): void {
