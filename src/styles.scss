@@ -1,4 +1,5 @@
 @use './styles/apple-tokens';
+@use './styles/apple-slider';
 @use './app/themes/travel-theme';
 @use './styles/erp-theme';
 @use './styles/erp-tokens';
@@ -229,12 +230,12 @@ body {
 .portfolio-page {
     --portfolio-font-display: 'Montserrat', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --portfolio-font-body: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --portfolio-brand: #0097b2;
+    --portfolio-brand: var(--tj-accent);
     --portfolio-brand-deep: #063a45;
-    --portfolio-brand-soft: rgba(0, 151, 178, 0.18);
-    --portfolio-brand-glow: rgba(0, 151, 178, 0.22);
-    --portfolio-accent: #ffb800;
-    --portfolio-accent-soft: rgba(255, 184, 0, 0.16);
+    --portfolio-brand-soft: var(--tj-accent-soft);
+    --portfolio-brand-glow: var(--tj-accent-border);
+    --portfolio-accent: var(--tj-gold);
+    --portfolio-accent-soft: var(--tj-gold-soft);
 
     font-family: var(--portfolio-font-body);
     text-rendering: optimizeLegibility;
@@ -562,8 +563,8 @@ body.portfolio-request-modal-open {
     gap: 8px;
     padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--tj-surface-glass);
+    border: 1px solid var(--tj-border);
     color: var(--portfolio-accent);
     font-size: 0.76rem;
     font-weight: 700;
@@ -586,7 +587,7 @@ body.portfolio-request-modal-open {
     margin: 0;
     font-size: clamp(1rem, 1.8vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(246, 241, 232, 0.88);
+    color: var(--portfolio-muted, var(--tj-text-secondary));
     max-width: 680px;
 }
 
@@ -602,8 +603,8 @@ body.portfolio-request-modal-open {
     align-items: center;
     padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--tj-surface-glass);
+    border: 1px solid var(--tj-border);
     color: var(--portfolio-text);
     font-size: 0.82rem;
     font-weight: 500;
@@ -618,8 +619,8 @@ body.portfolio-request-modal-open {
     gap: clamp(16px, 3.5vw, 36px);
     padding: 16px 22px;
     border-radius: var(--tj-radius-sm, 14px);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: var(--tj-surface-glass);
+    border: 1px solid var(--tj-border);
     backdrop-filter: blur(12px);
     margin: 6px 0;
     width: 100%;
@@ -638,7 +639,7 @@ body.portfolio-request-modal-open {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: rgba(246, 241, 232, 0.65);
+    color: var(--tj-text-tertiary);
 }
 
 .portfolio-page .hero-metric-cell__value {
@@ -694,14 +695,14 @@ body.portfolio-request-modal-open {
     }
 
     &--wa {
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: var(--tj-surface-glass);
+        border: 1px solid var(--tj-border);
         color: var(--portfolio-text);
         padding: 0 20px;
         backdrop-filter: blur(8px);
 
         &:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--tj-surface-hover);
             border-color: #25d366;
             color: #25d366;
             transform: translateY(-2px);
@@ -732,8 +733,8 @@ body.portfolio-request-modal-open {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--tj-surface-glass);
+    border: 1px solid var(--tj-border);
     color: var(--portfolio-text);
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -747,10 +748,18 @@ body.portfolio-request-modal-open {
     }
 
     &:hover {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.28);
+        background: var(--tj-surface-hover);
+        border-color: var(--tj-border-strong);
         transform: translateY(-2px);
     }
+}
+
+:root[data-theme='light'] .portfolio-page .service-category-hero__social-circle img,
+.portfolio-page[data-theme='light'] .service-category-hero__social-circle img,
+:root[data-theme='light'] .portfolio-page .service-category-hero__social-link img,
+.portfolio-page[data-theme='light'] .service-category-hero__social-link img {
+    filter: brightness(0) !important;
+    opacity: 0.85;
 }
 
 // ─── Legacy Fallback Selectors (Preserving Integrity) ────────────────────────
@@ -777,14 +786,14 @@ body.portfolio-request-modal-open {
 .portfolio-page .service-category-hero__fact {
     padding: 12px 14px;
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--tj-border);
+    background: var(--tj-surface-glass);
     display: grid;
     gap: 6px;
 }
 
 .portfolio-page .service-category-hero__fact-label {
-    color: rgba(246, 241, 232, 0.74);
+    color: var(--tj-text-tertiary);
     font-size: 0.78rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -812,8 +821,8 @@ body.portfolio-request-modal-open {
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--tj-border);
+    background: var(--tj-surface-glass);
     color: var(--portfolio-text);
     text-decoration: none;
     transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, opacity 220ms ease;
@@ -821,8 +830,8 @@ body.portfolio-request-modal-open {
 
 .portfolio-page .service-category-hero__social-link:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 184, 0, 0.28);
-    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--tj-border-strong);
+    background: var(--tj-surface-hover);
 }
 
 .portfolio-page .service-category-hero__social-link img {
@@ -866,7 +875,7 @@ body.portfolio-request-modal-open {
 .portfolio-page .service-category-hero__lead {
     max-width: 40ch;
     margin: 0;
-    color: rgba(246, 241, 232, 0.86);
+    color: var(--portfolio-muted, var(--tj-text-secondary));
 }
 
 .portfolio-page .service-category-hero__highlights {
@@ -879,8 +888,8 @@ body.portfolio-request-modal-open {
 .portfolio-page .service-category-hero__highlights span {
     padding: 10px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--tj-border);
+    background: var(--tj-surface-glass);
     color: var(--portfolio-text);
     font-size: 0.92rem;
 }
@@ -1008,7 +1017,7 @@ body.portfolio-request-modal-open {
     letter-spacing: 0;
     font-size: clamp(0.92rem, 0.9vw, 1rem);
     line-height: 1.7;
-    color: rgba(246, 241, 232, 0.82);
+    color: var(--portfolio-muted, var(--tj-text-secondary));
 }
 
 .portfolio-page .service-category-packages__grid {
@@ -1262,7 +1271,7 @@ body.portfolio-request-modal-open {
 
 .portfolio-page .service-package-card__price {
     font-size: clamp(1rem, 1.35vw, 1.18rem);
-    color: rgba(246, 241, 232, 0.82);
+    color: var(--portfolio-text);
     letter-spacing: -0.01em;
     font-weight: 600;
 }

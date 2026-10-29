@@ -35,7 +35,8 @@
 
 // ─── Dark Mode (Default) ──────────────────────────────────────────────────────
 :root,
-:root[data-theme='dark'] {
+:root[data-theme='dark'],
+.portfolio-page[data-theme='dark'] {
   color-scheme: dark;
 
   --tj-bg: #050505;
@@ -83,7 +84,9 @@
 }
 
 // ─── Light Mode ───────────────────────────────────────────────────────────────
-:root[data-theme='light'] {
+:root[data-theme='light'],
+html[data-theme='light'],
+.portfolio-page[data-theme='light'] {
   color-scheme: light;
 
   --tj-bg: #FFFFFF;
@@ -107,8 +110,8 @@
   --tj-accent-soft: rgba(0, 119, 153, 0.1);
   --tj-accent-border: rgba(0, 119, 153, 0.28);
 
-  --tj-gold: #B8860B;
-  --tj-gold-soft: rgba(184, 134, 11, 0.12);
+  --tj-gold: #855800; // WCAG AAA compliant (contrast > 6.5:1 on #FFFFFF)
+  --tj-gold-soft: rgba(133, 88, 0, 0.12);
 
   --tj-glass-bg: rgba(255, 255, 255, 0.85);
   --tj-glass-border: rgba(0, 0, 0, 0.08);

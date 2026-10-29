@@ -36,7 +36,7 @@
 .prewedding-packages-section__lead {
     margin: 16px auto 0;
     max-width: 64ch;
-    color: rgba(246, 241, 232, 0.75);
+    color: var(--portfolio-muted, var(--tj-text-secondary));
     line-height: 1.68;
 }
 
