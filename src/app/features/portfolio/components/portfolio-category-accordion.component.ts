@@ -94,7 +94,6 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   readonly activeSlideIndex = signal(0);
   readonly showSwipeCue = signal(false);
 
-  private autoplayTimer: ReturnType<typeof setInterval> | null = null;
   private isInteracting = false;
 
   ngOnInit(): void {
@@ -111,30 +110,16 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
         this.showSwipeCue.set(true);
       }
     }
-
-    if (this.initiallyOpen) {
-      this.startAutoplay();
-    }
   }
 
-  ngOnDestroy(): void {
-    this.stopAutoplay();
-  }
+  ngOnDestroy(): void {}
 
   isOpen(): boolean {
     return this.openState();
   }
 
   toggle(): void {
-    this.openState.update((value) => {
-      const next = !value;
-      if (next) {
-        setTimeout(() => this.startAutoplay(), 350);
-      } else {
-        this.stopAutoplay();
-      }
-      return next;
-    });
+    this.openState.update((value) => !value);
   }
 
   dismissSwipeCue(): void {
@@ -146,30 +131,6 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
         } catch {}
       }
     }
-  }
-
-  startAutoplay(): void {
-    this.stopAutoplay();
-    if (this.packages.length <= 1) return;
-
-    this.autoplayTimer = setInterval(() => {
-      if (this.isInteracting || !this.isOpen() || this.packages.length <= 1) return;
-      const nextIdx = (this.activeSlideIndex() + 1) % this.packages.length;
-      this.scrollToSlide(nextIdx);
-      this.dismissSwipeCue();
-    }, 5000);
-  }
-
-  stopAutoplay(): void {
-    if (this.autoplayTimer) {
-      clearInterval(this.autoplayTimer);
-      this.autoplayTimer = null;
-    }
-  }
-
-  resetAutoplay(): void {
-    this.dismissSwipeCue();
-    this.startAutoplay();
   }
 
   onSliderMouseEnter(): void {
@@ -186,17 +147,85 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   }
 
   onSliderTouchEnd(): void {
+    this.isInteracting = false;
+  }
+
+  // Mouse drag-to-scroll state
+  private isMouseDown = false;
+  private startMouseX = 0;
+  private startScrollLeft = 0;
+  private hasDragged = false;
+
+  onTrackMouseDown(e: MouseEvent): void {
+    if (e.button !== 0 || !this.sliderTrack?.nativeElement) return;
+    this.isMouseDown = true;
+    this.hasDragged = false;
+    this.isInteracting = true;
+    this.startMouseX = e.pageX;
+    this.startScrollLeft = this.sliderTrack.nativeElement.scrollLeft;
+    this.sliderTrack.nativeElement.style.cursor = 'grabbing';
+    this.sliderTrack.nativeElement.style.scrollBehavior = 'auto';
+    this.sliderTrack.nativeElement.style.scrollSnapType = 'none';
+  }
+
+  onTrackMouseMove(e: MouseEvent): void {
+    if (!this.isMouseDown || !this.sliderTrack?.nativeElement) return;
+    const deltaX = e.pageX - this.startMouseX;
+    if (Math.abs(deltaX) > 6) {
+      this.hasDragged = true;
+      this.dismissSwipeCue();
+    }
+    this.sliderTrack.nativeElement.scrollLeft = this.startScrollLeft - deltaX;
+  }
+
+  onTrackMouseUp(e: MouseEvent): void {
+    if (!this.isMouseDown) return;
+    this.isMouseDown = false;
+    if (this.sliderTrack?.nativeElement) {
+      this.sliderTrack.nativeElement.style.cursor = 'grab';
+      this.sliderTrack.nativeElement.style.scrollBehavior = 'smooth';
+      this.sliderTrack.nativeElement.style.scrollSnapType = 'x mandatory';
+    }
     setTimeout(() => {
+      this.snapToClosestCard();
       this.isInteracting = false;
-      this.resetAutoplay();
-    }, 2000);
+    }, 40);
+  }
+
+  onTrackMouseLeave(e: MouseEvent): void {
+    if (this.isMouseDown) {
+      this.onTrackMouseUp(e);
+    }
+    this.onSliderMouseLeave();
+  }
+
+  snapToClosestCard(): void {
+    if (!this.sliderTrack?.nativeElement) return;
+    const track = this.sliderTrack.nativeElement;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards.length) return;
+    const centerPoint = track.scrollLeft + track.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    this.scrollToSlide(closestIndex);
   }
 
   onCardClick(index: number): void {
-    if (this.activeSlideIndex() !== index) {
-      this.scrollToSlide(index);
-      this.resetAutoplay();
+    if (this.hasDragged) {
+      this.hasDragged = false;
+      return;
     }
+    this.scrollToSlide(index);
   }
 
   scrollToSlide(index: number): void {
@@ -205,28 +234,63 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
     const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
     if (!cards || !cards[index]) return;
     const targetCard = cards[index];
-    const targetLeft = targetCard.offsetLeft - (track.clientWidth - targetCard.clientWidth) / 2;
-    track.scrollTo({
-      left: Math.max(0, targetLeft),
-      behavior: 'smooth',
-    });
+
+    // Scroll target card into view if needed
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = targetCard.getBoundingClientRect();
+    const isVisible = cardRect.left >= trackRect.left - 4 && cardRect.right <= trackRect.right + 4;
+    if (!isVisible) {
+      track.scrollTo({
+        left: targetCard.offsetLeft,
+        behavior: 'smooth',
+      });
+    }
     this.activeSlideIndex.set(index);
+    this.dismissSwipeCue();
   }
 
   prevSlide(): void {
     const total = this.packages.length;
     if (total <= 1) return;
     const nextIdx = this.activeSlideIndex() === 0 ? total - 1 : this.activeSlideIndex() - 1;
-    this.scrollToSlide(nextIdx);
-    this.resetAutoplay();
+    if (nextIdx === total - 1) {
+      if (this.sliderTrack?.nativeElement) {
+        const cards = this.sliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          this.sliderTrack.nativeElement.scrollTo({ left: cards[nextIdx].offsetLeft, behavior: 'smooth' });
+        }
+      }
+      this.activeSlideIndex.set(nextIdx);
+    } else {
+      this.scrollToSlide(nextIdx);
+    }
   }
 
   nextSlide(): void {
     const total = this.packages.length;
     if (total <= 1) return;
     const nextIdx = (this.activeSlideIndex() + 1) % total;
-    this.scrollToSlide(nextIdx);
-    this.resetAutoplay();
+    if (nextIdx === 0) {
+      if (this.sliderTrack?.nativeElement) {
+        this.sliderTrack.nativeElement.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+      this.activeSlideIndex.set(0);
+    } else {
+      if (this.sliderTrack?.nativeElement) {
+        const cards = this.sliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          const track = this.sliderTrack.nativeElement;
+          const card = cards[nextIdx];
+          const trackRect = track.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+          if (cardRect.right > trackRect.right + 4 || cardRect.left < trackRect.left - 4) {
+            track.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+          }
+        }
+      }
+      this.activeSlideIndex.set(nextIdx);
+    }
+    this.dismissSwipeCue();
   }
 
   onTrackScroll(): void {

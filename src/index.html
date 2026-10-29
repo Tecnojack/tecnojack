@@ -10,10 +10,10 @@
     <script>
         (function() {
             try {
-                var savedTheme = localStorage.getItem('tj_color_theme');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var savedTheme = localStorage.getItem('tj_theme_v2');
                 var theme = savedTheme === 'light' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.colorScheme = theme;
 
                 var savedLang = localStorage.getItem('tj_language_pref');
                 if (savedLang === 'en' || savedLang === 'es') {

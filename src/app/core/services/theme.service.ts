@@ -5,7 +5,7 @@ type ThemeVars = Record<string, string>;
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly storageKey = 'tj_color_theme';
+  private readonly storageKey = 'tj_theme_v2';
   readonly themeMode = signal<ColorThemeMode>(this.getInitialThemeMode());
   readonly systemPrefersDark = signal<boolean>(this.checkSystemPrefersDark());
 

@@ -71,6 +71,11 @@
   --tj-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
   --tj-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
 
+  // Modern Minimalist Scrollbar Tokens
+  --tj-scrollbar-track: rgba(255, 255, 255, 0.04);
+  --tj-scrollbar-thumb: rgba(255, 255, 255, 0.22);
+  --tj-scrollbar-thumb-hover: rgba(0, 210, 255, 0.6);
+
   // Overrides for legacy portfolio variables to ensure instant harmonious theming
   --portfolio-bg: var(--tj-bg);
   --portfolio-surface: var(--tj-surface);
@@ -122,6 +127,11 @@ body[data-theme='light'],
   --tj-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
   --tj-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
   --tj-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.08);
+
+  // Modern Minimalist Scrollbar Tokens (Light Mode)
+  --tj-scrollbar-track: rgba(0, 0, 0, 0.04);
+  --tj-scrollbar-thumb: rgba(0, 0, 0, 0.22);
+  --tj-scrollbar-thumb-hover: rgba(0, 119, 153, 0.6);
 
   // Overrides for legacy portfolio variables in light mode
   --portfolio-bg: var(--tj-bg);

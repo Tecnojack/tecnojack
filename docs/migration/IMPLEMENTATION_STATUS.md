@@ -224,3 +224,30 @@ pm.cmd run build exitosa (cÃ³digo 0).
 - **Validación Automatizada y Compilación**:
   - Capturas y mediciones en Google Chrome Headless CDP confirmando `cardsVisible: 2.75` en 1200px y `100%` en 390px, con activación de cápsula unificada.
   - Compilación de producción `npm.cmd run build` 100% exitosa (código 0).
+
+### Corrección de Superposición de Texto, Layout Web 3 Paquetes Iniciales y Movilidad a Elección del Usuario (Rama rediseño)
+- **Corrección Definitiva de Superposición (+ viáticos vs INVERSIÓN)**:
+  - Reestructuración de `.tj-apple-card__price-panel` organizando la etiqueta `INVERSIÓN` como encabezado superior (`.tj-apple-card__price-label`, tipografía monoespaciada en mayúsculas, tracking amplio).
+  - Colocación del monto de inversión y la píldora flotante `+ viáticos` (`.tj-viaticos-pill`, tono ámbar con borde luminoso) en una fila dedicada (`.tj-apple-card__price-row`) con flujo natural `flex-wrap: wrap` y separación garantizada de `gap: 10px`.
+  - Verificación milimétrica por CDP comprobando `overlap: false` con distancia vertical de 44px entre etiqueta y monto, garantizando cero superposición en móvil, tablet y escritorio.
+- **Vista Web Inicial con Mínimo 3 Paquetes (Izquierda, Centro, Derecha)**:
+  - Configuración responsive de tarjetas en desktop (`@media (min-width: 1024px)`): `--tj-slider-card-w: calc((100% - 48px) / 3)` con `gap: 24px`.
+  - En la carga inicial de cada carrusel con 3 o más colecciones, se presentan de forma visible y balanceada los 3 primeros paquetes:
+    - Primer paquete ubicado a la izquierda (`x = 73px`).
+    - Segundo paquete centrado (`x = 452px`).
+    - Tercer paquete ubicado a la derecha (`x = 832px`).
+    - Paquetes adicionales (`04`, `05`...) esperando fuera del margen listos para ser explorados.
+  - Se eliminaron márgenes ficticios que forzaban una sola tarjeta en el centro, permitiendo que la composición editorial aproveche todo el contenedor con máxima legibilidad (opacidad al 100% en las 3 tarjetas visibles).
+- **Movilidad a Elección del Usuario (Sin Avance Automático Forzado)**:
+  - Se removió el temporizador de avance automático forzado para permitir una lectura tranquila y sin interrupciones del contenido comercial.
+  - La interacción queda 100% en manos del usuario mediante:
+    - Desplazamiento táctil fluido (swipe en móvil y tablet).
+    - Arrastre natural con cursor (`cursor: grab / grabbing`).
+    - Clic directo en cualquiera de las tarjetas visibles.
+    - Botones de navegación circular (`←` y `→`) y selector de píldoras en la cápsula.
+- **Cápsula Flotante de Control con Resplandor Neón Naranja**:
+  - Píldora activa con resplandor neón difuso (`box-shadow: 0 0 16px rgba(255, 77, 0, 0.85), 0 0 30px rgba(255, 77, 0, 0.45)`) idéntico a la referencia visual entregada.
+  - Espaciado ergonómico (`padding: 0 16px; gap: 12px`) entre los botones circulares y los puntos indicadores.
+- **Validación Automatizada y Compilación**:
+  - Auditoría de Chrome Headless CDP validando el despliegue de 3 tarjetas a 1280px y 0 solapamientos en 390px, 768px y 1280px.
+  - Compilación de producción `npm.cmd run build` exitosa con código 0.

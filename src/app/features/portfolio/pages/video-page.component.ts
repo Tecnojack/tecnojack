@@ -123,7 +123,6 @@ export class VideoPageComponent implements OnInit, OnDestroy {
   readonly activeVideoSlideIndex = signal(0);
   readonly showVideoSwipeCue = signal(false);
 
-  private videoAutoplayTimer: ReturnType<typeof setInterval> | null = null;
   private isVideoInteracting = false;
 
   private readonly title = inject(Title);
@@ -480,12 +479,9 @@ export class VideoPageComponent implements OnInit, OnDestroy {
         this.showVideoSwipeCue.set(true);
       }
     }
-    this.startVideoAutoplay();
   }
 
-  ngOnDestroy(): void {
-    this.stopVideoAutoplay();
-  }
+  ngOnDestroy(): void {}
 
   dismissVideoSwipeCue(): void {
     if (this.showVideoSwipeCue()) {
@@ -496,30 +492,6 @@ export class VideoPageComponent implements OnInit, OnDestroy {
         } catch {}
       }
     }
-  }
-
-  startVideoAutoplay(): void {
-    this.stopVideoAutoplay();
-    if (this.videoPackages.length <= 1) return;
-
-    this.videoAutoplayTimer = setInterval(() => {
-      if (this.isVideoInteracting || this.videoPackages.length <= 1) return;
-      const nextIdx = (this.activeVideoSlideIndex() + 1) % this.videoPackages.length;
-      this.scrollToVideoSlide(nextIdx);
-      this.dismissVideoSwipeCue();
-    }, 5000);
-  }
-
-  stopVideoAutoplay(): void {
-    if (this.videoAutoplayTimer) {
-      clearInterval(this.videoAutoplayTimer);
-      this.videoAutoplayTimer = null;
-    }
-  }
-
-  resetVideoAutoplay(): void {
-    this.dismissVideoSwipeCue();
-    this.startVideoAutoplay();
   }
 
   onVideoSliderMouseEnter(): void {
@@ -536,17 +508,85 @@ export class VideoPageComponent implements OnInit, OnDestroy {
   }
 
   onVideoSliderTouchEnd(): void {
+    this.isVideoInteracting = false;
+  }
+
+  // Mouse drag-to-scroll state for video slider
+  private isVideoMouseDown = false;
+  private startVideoMouseX = 0;
+  private startVideoScrollLeft = 0;
+  private hasVideoDragged = false;
+
+  onVideoTrackMouseDown(e: MouseEvent): void {
+    if (e.button !== 0 || !this.videoSliderTrack?.nativeElement) return;
+    this.isVideoMouseDown = true;
+    this.hasVideoDragged = false;
+    this.isVideoInteracting = true;
+    this.startVideoMouseX = e.pageX;
+    this.startVideoScrollLeft = this.videoSliderTrack.nativeElement.scrollLeft;
+    this.videoSliderTrack.nativeElement.style.cursor = 'grabbing';
+    this.videoSliderTrack.nativeElement.style.scrollBehavior = 'auto';
+    this.videoSliderTrack.nativeElement.style.scrollSnapType = 'none';
+  }
+
+  onVideoTrackMouseMove(e: MouseEvent): void {
+    if (!this.isVideoMouseDown || !this.videoSliderTrack?.nativeElement) return;
+    const deltaX = e.pageX - this.startVideoMouseX;
+    if (Math.abs(deltaX) > 6) {
+      this.hasVideoDragged = true;
+      this.dismissVideoSwipeCue();
+    }
+    this.videoSliderTrack.nativeElement.scrollLeft = this.startVideoScrollLeft - deltaX;
+  }
+
+  onVideoTrackMouseUp(e: MouseEvent): void {
+    if (!this.isVideoMouseDown) return;
+    this.isVideoMouseDown = false;
+    if (this.videoSliderTrack?.nativeElement) {
+      this.videoSliderTrack.nativeElement.style.cursor = 'grab';
+      this.videoSliderTrack.nativeElement.style.scrollBehavior = 'smooth';
+      this.videoSliderTrack.nativeElement.style.scrollSnapType = 'x mandatory';
+    }
     setTimeout(() => {
+      this.snapToClosestVideoCard();
       this.isVideoInteracting = false;
-      this.resetVideoAutoplay();
-    }, 2000);
+    }, 40);
+  }
+
+  onVideoTrackMouseLeave(e: MouseEvent): void {
+    if (this.isVideoMouseDown) {
+      this.onVideoTrackMouseUp(e);
+    }
+    this.onVideoSliderMouseLeave();
+  }
+
+  snapToClosestVideoCard(): void {
+    if (!this.videoSliderTrack?.nativeElement) return;
+    const track = this.videoSliderTrack.nativeElement;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards.length) return;
+    const centerPoint = track.scrollLeft + track.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    this.scrollToVideoSlide(closestIndex);
   }
 
   onVideoCardClick(index: number): void {
-    if (this.activeVideoSlideIndex() !== index) {
-      this.scrollToVideoSlide(index);
-      this.resetVideoAutoplay();
+    if (this.hasVideoDragged) {
+      this.hasVideoDragged = false;
+      return;
     }
+    this.scrollToVideoSlide(index);
   }
 
   scrollToVideoSlide(index: number): void {
@@ -555,28 +595,62 @@ export class VideoPageComponent implements OnInit, OnDestroy {
     const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
     if (!cards || !cards[index]) return;
     const targetCard = cards[index];
-    const targetLeft = targetCard.offsetLeft - (track.clientWidth - targetCard.clientWidth) / 2;
-    track.scrollTo({
-      left: Math.max(0, targetLeft),
-      behavior: 'smooth',
-    });
+
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = targetCard.getBoundingClientRect();
+    const isVisible = cardRect.left >= trackRect.left - 4 && cardRect.right <= trackRect.right + 4;
+    if (!isVisible) {
+      track.scrollTo({
+        left: targetCard.offsetLeft,
+        behavior: 'smooth',
+      });
+    }
     this.activeVideoSlideIndex.set(index);
+    this.dismissVideoSwipeCue();
   }
 
   prevVideoSlide(): void {
     const total = this.videoPackages.length;
     if (total <= 1) return;
     const nextIdx = this.activeVideoSlideIndex() === 0 ? total - 1 : this.activeVideoSlideIndex() - 1;
-    this.scrollToVideoSlide(nextIdx);
-    this.resetVideoAutoplay();
+    if (nextIdx === total - 1) {
+      if (this.videoSliderTrack?.nativeElement) {
+        const cards = this.videoSliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          this.videoSliderTrack.nativeElement.scrollTo({ left: cards[nextIdx].offsetLeft, behavior: 'smooth' });
+        }
+      }
+      this.activeVideoSlideIndex.set(nextIdx);
+    } else {
+      this.scrollToVideoSlide(nextIdx);
+    }
   }
 
   nextVideoSlide(): void {
     const total = this.videoPackages.length;
     if (total <= 1) return;
     const nextIdx = (this.activeVideoSlideIndex() + 1) % total;
-    this.scrollToVideoSlide(nextIdx);
-    this.resetVideoAutoplay();
+    if (nextIdx === 0) {
+      if (this.videoSliderTrack?.nativeElement) {
+        this.videoSliderTrack.nativeElement.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+      this.activeVideoSlideIndex.set(0);
+    } else {
+      if (this.videoSliderTrack?.nativeElement) {
+        const cards = this.videoSliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          const track = this.videoSliderTrack.nativeElement;
+          const card = cards[nextIdx];
+          const trackRect = track.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+          if (cardRect.right > trackRect.right + 4 || cardRect.left < trackRect.left - 4) {
+            track.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+          }
+        }
+      }
+      this.activeVideoSlideIndex.set(nextIdx);
+    }
+    this.dismissVideoSwipeCue();
   }
 
   onVideoTrackScroll(): void {

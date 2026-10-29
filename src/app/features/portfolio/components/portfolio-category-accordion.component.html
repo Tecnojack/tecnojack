@@ -72,11 +72,15 @@
           </div>
         </div>
 
-        <!-- Horizontal Scroll Track (Occupying 90% card width with peek effect) -->
+        <!-- Horizontal Scroll Track (Always Centering Active Card with Mouse Drag & Swipe) -->
         <div
           #sliderTrack
           class="tj-apple-slider__track"
           (scroll)="onTrackScroll()"
+          (mousedown)="onTrackMouseDown($event)"
+          (mousemove)="onTrackMouseMove($event)"
+          (mouseup)="onTrackMouseUp($event)"
+          (mouseleave)="onTrackMouseLeave($event)"
           role="region"
           aria-label="Carrusel de paquetes">
           
@@ -115,13 +119,13 @@
                   <p class="tj-apple-card__tagline" *ngIf="item.tagline">{{ item.tagline }}</p>
                 </div>
 
-                <!-- Investment Price Display -->
+                <!-- Investment Price Display with Floating Viáticos Pill (Zero Overlap Guaranteed) -->
                 <div class="tj-apple-card__price-panel">
-                  <div class="tj-apple-card__price-meta">
-                    <span class="tj-apple-card__price-label">Inversión completa</span>
+                  <span class="tj-apple-card__price-label">Inversión</span>
+                  <div class="tj-apple-card__price-row">
                     <strong class="tj-apple-card__price-amount">{{ item.displayPrice }}</strong>
+                    <span class="tj-viaticos-pill">+ viáticos</span>
                   </div>
-                  <span class="tj-apple-card__tax-note">Tarifa transparente</span>
                 </div>
 
                 <!-- Narrative Lead -->
@@ -148,7 +152,7 @@
                     class="tj-apple-btn tj-apple-btn--primary"
                     type="button"
                     (click)="requestOpenPackage(item.detail.slug, itemImg); $event.stopPropagation()">
-                    <span>Ver desglose completo</span>
+                    <span>Ver detalles</span>
                     <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>

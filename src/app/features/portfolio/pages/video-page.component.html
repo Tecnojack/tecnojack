@@ -122,6 +122,10 @@
                 #videoSliderTrack
                 class="tj-apple-slider__track"
                 (scroll)="onVideoTrackScroll()"
+                (mousedown)="onVideoTrackMouseDown($event)"
+                (mousemove)="onVideoTrackMouseMove($event)"
+                (mouseup)="onVideoTrackMouseUp($event)"
+                (mouseleave)="onVideoTrackMouseLeave($event)"
                 role="region"
                 aria-label="Carrusel de paquetes de video">
                 <article
@@ -149,11 +153,11 @@
                         </div>
 
                         <div class="tj-apple-card__price-panel">
-                            <div class="tj-apple-card__price-meta">
-                                <span class="tj-apple-card__price-label">Inversión</span>
+                            <span class="tj-apple-card__price-label">Inversión</span>
+                            <div class="tj-apple-card__price-row">
                                 <strong class="tj-apple-card__price-amount">{{ priceLabel(pkg) }}</strong>
+                                <span class="tj-viaticos-pill">+ viáticos</span>
                             </div>
-                            <span class="tj-apple-card__tax-note">Tarifa personalizada</span>
                         </div>
 
                         <p class="tj-apple-card__lead">{{ pkg.description }}</p>
@@ -177,7 +181,7 @@
                                 class="tj-apple-btn tj-apple-btn--primary"
                                 type="button"
                                 (click)="openVideoPackage(pkg); $event.stopPropagation()">
-                                <span>Ver detalle</span>
+                                <span>Ver detalles</span>
                                 <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>

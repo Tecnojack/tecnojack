@@ -47,16 +47,12 @@ html {
     scroll-behavior: smooth;
 }
 
-html.portfolio-route,
-body.portfolio-route,
-.portfolio-page .service-package-modal__panel,
-.portfolio-page .story-gallery-modal__panel,
-.portfolio-page .package-request-modal__panel {
-    --scrollbar-track: rgba(6, 29, 35, 0.9);
-    --scrollbar-thumb: #0b7f96;
-    --scrollbar-thumb-hover: #d7a42a;
+// ─── Modern Apple-Grade Global Scrollbar ─────────────────────────────────────
+html,
+body,
+* {
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-color: var(--tj-scrollbar-thumb) var(--tj-scrollbar-track);
 }
 
 html.media-admin-route,
@@ -134,39 +130,28 @@ body.media-admin-route .text-muted {
     color: rgba(244, 252, 255, 0.72);
 }
 
-html.portfolio-route::-webkit-scrollbar,
-body.portfolio-route::-webkit-scrollbar,
-.portfolio-page .service-package-modal__panel::-webkit-scrollbar,
-.portfolio-page .story-gallery-modal__panel::-webkit-scrollbar,
-.portfolio-page .package-request-modal__panel::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+// Global Webkit Custom Scrollbars
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
 }
 
-html.portfolio-route::-webkit-scrollbar-track,
-body.portfolio-route::-webkit-scrollbar-track,
-.portfolio-page .service-package-modal__panel::-webkit-scrollbar-track,
-.portfolio-page .story-gallery-modal__panel::-webkit-scrollbar-track,
-.portfolio-page .package-request-modal__panel::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
+::-webkit-scrollbar-track {
+    background: var(--tj-scrollbar-track, rgba(255, 255, 255, 0.04));
 }
 
-html.portfolio-route::-webkit-scrollbar-thumb,
-body.portfolio-route::-webkit-scrollbar-thumb,
-.portfolio-page .service-package-modal__panel::-webkit-scrollbar-thumb,
-.portfolio-page .story-gallery-modal__panel::-webkit-scrollbar-thumb,
-.portfolio-page .package-request-modal__panel::-webkit-scrollbar-thumb {
-    border: 2px solid var(--scrollbar-track);
-    border-radius: 999px;
-    background: linear-gradient(180deg, var(--scrollbar-thumb), color-mix(in srgb, var(--scrollbar-thumb) 56%, #02232a));
+::-webkit-scrollbar-thumb {
+    background: var(--tj-scrollbar-thumb, rgba(255, 255, 255, 0.22));
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.2s ease;
 }
 
-html.portfolio-route::-webkit-scrollbar-thumb:hover,
-body.portfolio-route::-webkit-scrollbar-thumb:hover,
-.portfolio-page .service-package-modal__panel::-webkit-scrollbar-thumb:hover,
-.portfolio-page .story-gallery-modal__panel::-webkit-scrollbar-thumb:hover,
-.portfolio-page .package-request-modal__panel::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--scrollbar-thumb-hover), var(--scrollbar-thumb));
+::-webkit-scrollbar-thumb:hover {
+    background: var(--tj-scrollbar-thumb-hover, rgba(0, 210, 255, 0.6));
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 body {
@@ -1397,13 +1382,19 @@ body[data-theme='light'] .portfolio-page .service-category-hero__backdrop {
     width: min(1240px, 100%);
     max-height: min(90vh, 980px);
     overflow: auto;
-    border-radius: 34px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background:
-        radial-gradient(circle at top right, rgba(0, 151, 178, 0.15), transparent 28%),
-        radial-gradient(circle at 84% 12%, rgba(255, 184, 0, 0.1), transparent 22%),
-        linear-gradient(180deg, rgba(11, 12, 18, 0.98), rgba(18, 18, 24, 0.96));
-    box-shadow: 0 34px 110px rgba(0, 0, 0, 0.6);
+    border-radius: var(--tj-radius-xl, 34px);
+    border: 1px solid var(--tj-border-strong);
+    background: var(--tj-surface);
+    color: var(--tj-text);
+    box-shadow: 0 34px 110px rgba(0, 0, 0, 0.65);
+
+    :root[data-theme='light'] &,
+    html[data-theme='light'] &,
+    body[data-theme='light'] & {
+        background: #FFFFFF;
+        border-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+    }
 }
 
 .portfolio-page :where(
