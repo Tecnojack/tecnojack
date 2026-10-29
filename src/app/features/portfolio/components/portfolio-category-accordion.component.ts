@@ -5,6 +5,8 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
   computed,
@@ -75,7 +77,7 @@ export type PortfolioPackageCardViewModel = {
     ]),
   ],
 })
-export class PortfolioCategoryAccordionComponent {
+export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly content = inject(PortfolioContentService);
 
@@ -90,9 +92,33 @@ export class PortfolioCategoryAccordionComponent {
 
   readonly openState = signal(false);
   readonly activeSlideIndex = signal(0);
+  readonly showSwipeCue = signal(false);
+
+  private autoplayTimer: ReturnType<typeof setInterval> | null = null;
+  private isInteracting = false;
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);
+
+    // Show first-time swipe invitation cue if not seen in current session
+    if (typeof window !== 'undefined') {
+      try {
+        const seen = sessionStorage.getItem('tj_swipe_cue_seen');
+        if (!seen) {
+          this.showSwipeCue.set(true);
+        }
+      } catch {
+        this.showSwipeCue.set(true);
+      }
+    }
+
+    if (this.initiallyOpen) {
+      this.startAutoplay();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoplay();
   }
 
   isOpen(): boolean {
@@ -100,7 +126,70 @@ export class PortfolioCategoryAccordionComponent {
   }
 
   toggle(): void {
-    this.openState.update((value) => !value);
+    this.openState.update((value) => {
+      const next = !value;
+      if (next) {
+        setTimeout(() => this.startAutoplay(), 350);
+      } else {
+        this.stopAutoplay();
+      }
+      return next;
+    });
+  }
+
+  dismissSwipeCue(): void {
+    if (this.showSwipeCue()) {
+      this.showSwipeCue.set(false);
+      if (typeof window !== 'undefined') {
+        try {
+          sessionStorage.setItem('tj_swipe_cue_seen', 'true');
+        } catch {}
+      }
+    }
+  }
+
+  startAutoplay(): void {
+    this.stopAutoplay();
+    if (this.packages.length <= 1) return;
+
+    this.autoplayTimer = setInterval(() => {
+      if (this.isInteracting || !this.isOpen() || this.packages.length <= 1) return;
+      const nextIdx = (this.activeSlideIndex() + 1) % this.packages.length;
+      this.scrollToSlide(nextIdx);
+      this.dismissSwipeCue();
+    }, 5000);
+  }
+
+  stopAutoplay(): void {
+    if (this.autoplayTimer) {
+      clearInterval(this.autoplayTimer);
+      this.autoplayTimer = null;
+    }
+  }
+
+  resetAutoplay(): void {
+    this.dismissSwipeCue();
+    this.startAutoplay();
+  }
+
+  onSliderMouseEnter(): void {
+    this.isInteracting = true;
+  }
+
+  onSliderMouseLeave(): void {
+    this.isInteracting = false;
+  }
+
+  onSliderTouchStart(): void {
+    this.isInteracting = true;
+    this.dismissSwipeCue();
+  }
+
+  onSliderTouchEnd(): void {
+    setTimeout(() => {
+      this.isInteracting = false;
+      this.resetAutoplay();
+    }, 2000);
   }
 
   scrollToSlide(index: number): void {
@@ -118,13 +207,19 @@ export class PortfolioCategoryAccordionComponent {
   }
 
   prevSlide(): void {
-    const nextIdx = Math.max(0, this.activeSlideIndex() - 1);
+    const total = this.packages.length;
+    if (total <= 1) return;
+    const nextIdx = this.activeSlideIndex() === 0 ? total - 1 : this.activeSlideIndex() - 1;
     this.scrollToSlide(nextIdx);
+    this.resetAutoplay();
   }
 
   nextSlide(): void {
-    const nextIdx = Math.min(this.packages.length - 1, this.activeSlideIndex() + 1);
+    const total = this.packages.length;
+    if (total <= 1) return;
+    const nextIdx = (this.activeSlideIndex() + 1) % total;
     this.scrollToSlide(nextIdx);
+    this.resetAutoplay();
   }
 
   onTrackScroll(): void {
@@ -149,6 +244,7 @@ export class PortfolioCategoryAccordionComponent {
 
     if (this.activeSlideIndex() !== closestIndex) {
       this.activeSlideIndex.set(closestIndex);
+      this.dismissSwipeCue();
     }
   }
 

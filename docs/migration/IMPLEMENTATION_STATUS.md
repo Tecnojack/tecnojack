@@ -189,3 +189,18 @@ pm.cmd run build exitosa (cÃ³digo 0).
   - Auditoría de contraste ejecutada sobre todas las rutas principales (`/portfolio`, `/portfolio/bodas`, `/portfolio/sesiones`, `/portfolio/video`, `/portfolio/grados`, `/portfolio/paquetes/...`).
   - 100% de rutas aprobadas con 0 elementos de bajo contraste detectados.
   - Compilación de producción `npm.cmd run build` exitosa con código 0.
+
+### Swipe Automático Cada 5s & Indicador Visual de Primera Visita (Rama rediseño)
+- **Desplazamiento Automático (Autoplay) cada 5 segundos**:
+  - Implementación de temporizador de 5000ms en los sliders de paquetes (`PortfolioCategoryAccordionComponent` y `VideoPageComponent`).
+  - Navegación circular fluida: al llegar al último paquete, el slider vuelve automáticamente al primero sin interrupción.
+  - Pausa inteligente en interacciones: se congela cuando el usuario posa el ratón encima (`mouseenter`), toca la pantalla (`touchstart`) o desliza manualmente, reanudando suavemente tras 2 segundos de inactividad para no interrumpir la lectura.
+  - Pausa automática al colapsar el acordeón o salir de la pestaña del navegador para optimizar el rendimiento de la CPU.
+- **Indicador Visual de Bienvenida para Invitación al Swipe**:
+  - Píldora de diseño Apple con efecto de cristal esmerilado (`.tj-apple-swipe-cue`), ícono animado de mano deslizante (`tjSwipeHandShake`), flechas flotantes laterales y microcopy *"Desliza para explorar paquetes"*.
+  - Barra de progreso temporal de 5 segundos (`.tj-apple-swipe-cue__progress`) que muestra visualmente la cuenta regresiva antes de que el slider avance solo.
+  - Gestión de estado en sesión (`sessionStorage.getItem('tj_swipe_cue_seen')`): se presenta al primer ingreso y se desvanece suavemente tan pronto el usuario desliza, interactúa o transcurre el primer ciclo, garantizando una experiencia limpia y nada invasiva.
+  - Accesibilidad garantizada con soporte de `prefers-reduced-motion: reduce`.
+- **Validación**:
+  - Verificación en Google Chrome Headless CDP comprobando el avance automático del contador `01` a `02` tras 5.5s y la desaparición natural del indicador.
+  - Compilación de producción `npm.cmd run build` exitosa con código 0.

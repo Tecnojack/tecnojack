@@ -73,10 +73,82 @@
             </p>
         </div>
 
-        <!-- Apple-Style Slider for Video Packages (90% width with next-card peek) -->
-        <div class="tj-apple-slider">
-            <div class="tj-apple-slider__track">
-                <article class="tj-apple-card" *ngFor="let pkg of videoPackages; let index = index">
+        <!-- Apple-Style Slider for Video Packages (100% Single Active Card) -->
+        <div
+            class="tj-apple-slider"
+            (mouseenter)="onVideoSliderMouseEnter()"
+            (mouseleave)="onVideoSliderMouseLeave()"
+            (touchstart)="onVideoSliderTouchStart()"
+            (touchend)="onVideoSliderTouchEnd()">
+            
+            <!-- Slider Header Controls -->
+            <div class="tj-apple-slider__header" *ngIf="videoPackages.length > 1">
+                <div class="tj-apple-slider__info">
+                    <span class="tj-apple-slider__counter">
+                        <strong class="tj-apple-slider__current">0{{ activeVideoSlideIndex() + 1 }}</strong>
+                        <span class="tj-apple-slider__divider">/</span>
+                        <span class="tj-apple-slider__total">0{{ videoPackages.length }}</span>
+                    </span>
+                    <span class="tj-apple-slider__hint">Desliza para ver más opciones</span>
+                </div>
+
+                <div class="tj-apple-slider__arrows">
+                    <button
+                        type="button"
+                        class="tj-apple-nav-btn tj-apple-nav-btn--prev"
+                        (click)="prevVideoSlide()"
+                        aria-label="Paquete anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        class="tj-apple-nav-btn tj-apple-nav-btn--next"
+                        (click)="nextVideoSlide()"
+                        aria-label="Siguiente paquete">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- First-Time Swipe Invitation Cue with 5-Second Auto Progress -->
+            <div
+                class="tj-apple-swipe-cue"
+                *ngIf="showVideoSwipeCue() && videoPackages.length > 1"
+                (click)="dismissVideoSwipeCue()"
+                role="status"
+                aria-live="polite">
+                <div class="tj-apple-swipe-cue__inner">
+                    <span class="tj-apple-swipe-cue__hand" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                            <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                            <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                        </svg>
+                    </span>
+                    <span class="tj-apple-swipe-cue__arrows" aria-hidden="true">
+                        <svg class="tj-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span class="tj-apple-swipe-cue__text">Desliza para explorar paquetes</span>
+                        <svg class="tj-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </span>
+                    <span class="tj-apple-swipe-cue__progress" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div
+                #videoSliderTrack
+                class="tj-apple-slider__track"
+                (scroll)="onVideoTrackScroll()"
+                role="region"
+                aria-label="Carrusel de paquetes de video">
+                <article
+                    class="tj-apple-card"
+                    *ngFor="let pkg of videoPackages; let index = index"
+                    [class.is-active]="activeVideoSlideIndex() === index">
                     <div class="tj-apple-card__media">
                         <div class="tj-apple-card__badges">
                             <span class="tj-apple-badge tj-apple-badge--type" *ngIf="pkg.categoryTag">{{ pkg.categoryTag }}</span>
@@ -131,6 +203,18 @@
                         </div>
                     </div>
                 </article>
+            </div>
+
+            <!-- Apple-Style Pagination Dots for Video Packages -->
+            <div class="tj-apple-slider__dots" *ngIf="videoPackages.length > 1">
+                <button
+                    *ngFor="let pkg of videoPackages; let idx = index"
+                    type="button"
+                    class="tj-apple-dot"
+                    [class.is-active]="activeVideoSlideIndex() === idx"
+                    (click)="scrollToVideoSlide(idx)"
+                    [attr.aria-label]="'Ir al paquete ' + (idx + 1) + ': ' + pkg.name">
+                </button>
             </div>
         </div>
     </section>

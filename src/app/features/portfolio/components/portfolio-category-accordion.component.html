@@ -27,7 +27,13 @@
       <tj-destination-service *ngIf="showDestinationNotice" [serviceContext]="title"></tj-destination-service>
 
       <!-- APPLE-STYLE PRODUCT SLIDER -->
-      <div class="tj-apple-slider" *ngIf="packages.length; else emptyCategory">
+      <div
+        class="tj-apple-slider"
+        *ngIf="packages.length; else emptyCategory"
+        (mouseenter)="onSliderMouseEnter()"
+        (mouseleave)="onSliderMouseLeave()"
+        (touchstart)="onSliderTouchStart()"
+        (touchend)="onSliderTouchEnd()">
         
         <!-- Slider Header Controls -->
         <div class="tj-apple-slider__header" *ngIf="packages.length > 1">
@@ -44,7 +50,6 @@
             <button
               type="button"
               class="tj-apple-nav-btn tj-apple-nav-btn--prev"
-              [disabled]="activeSlideIndex() === 0"
               (click)="prevSlide()"
               aria-label="Colección anterior">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -54,13 +59,37 @@
             <button
               type="button"
               class="tj-apple-nav-btn tj-apple-nav-btn--next"
-              [disabled]="activeSlideIndex() === packages.length - 1"
               (click)="nextSlide()"
               aria-label="Siguiente colección">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
+          </div>
+        </div>
+
+        <!-- First-Time Swipe Invitation Cue with 5-Second Auto Progress -->
+        <div
+          class="tj-apple-swipe-cue"
+          *ngIf="showSwipeCue() && packages.length > 1"
+          (click)="dismissSwipeCue()"
+          role="status"
+          aria-live="polite">
+          <div class="tj-apple-swipe-cue__inner">
+            <span class="tj-apple-swipe-cue__hand" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+              </svg>
+            </span>
+            <span class="tj-apple-swipe-cue__arrows" aria-hidden="true">
+              <svg class="tj-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span class="tj-apple-swipe-cue__text">Desliza para explorar paquetes</span>
+              <svg class="tj-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </span>
+            <span class="tj-apple-swipe-cue__progress" aria-hidden="true"></span>
           </div>
         </div>
 
