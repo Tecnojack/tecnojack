@@ -67,6 +67,75 @@
                 </div>
             </div>
 
+            <!-- Mobile 1-Column Interactive Plan Comparator (< 768px) -->
+            <div class="tj-comparison-mobile" aria-label="Comparador móvil de planes de boda">
+                <div class="tj-compare-pills" role="tablist">
+                    <button
+                        *ngFor="let plan of weddingPlansComparison; let idx = index"
+                        type="button"
+                        role="tab"
+                        class="tj-compare-pill"
+                        [class.is-active]="mobileComparePlanIndex() === idx"
+                        [attr.aria-selected]="mobileComparePlanIndex() === idx"
+                        (click)="setMobileComparePlan(idx)">
+                        <span class="tj-compare-pill__name">{{ plan.name }}</span>
+                    </button>
+                </div>
+
+                <div class="tj-compare-card" *ngIf="weddingPlansComparison[mobileComparePlanIndex()] as activePlan">
+                    <div class="tj-compare-card__header">
+                        <div>
+                            <span class="tj-compare-card__badge" *ngIf="activePlan.badge">{{ activePlan.badge }}</span>
+                            <h3 class="tj-compare-card__title">{{ activePlan.name }}</h3>
+                        </div>
+                        <span class="tj-compare-card__price">{{ activePlan.price }}</span>
+                    </div>
+
+                    <dl class="tj-compare-card__specs">
+                        <div class="tj-spec-row">
+                            <dt>Horas de Cobertura</dt>
+                            <dd>{{ activePlan.hours }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Equipo Humano</dt>
+                            <dd>{{ activePlan.team }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Fotografías Editadas</dt>
+                            <dd>{{ activePlan.photos }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Entregables Video</dt>
+                            <dd>{{ activePlan.video }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Dron Aéreo</dt>
+                            <dd>{{ activePlan.drone }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Álbum Físico</dt>
+                            <dd>{{ activePlan.album }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Sesión Preboda</dt>
+                            <dd>{{ activePlan.preboda }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Reels para Redes</dt>
+                            <dd>{{ activePlan.reels }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Galería Online</dt>
+                            <dd>{{ activePlan.gallery }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Viáticos Colombia</dt>
+                            <dd>{{ activePlan.viaticos }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
             <div class="tj-comparison-table-wrapper">
                 <table class="tj-comparison-table">
                     <thead>

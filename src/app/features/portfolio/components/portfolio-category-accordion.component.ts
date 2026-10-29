@@ -86,6 +86,7 @@ export class PortfolioCategoryAccordionComponent {
 
   readonly openState = signal(false);
   readonly selectedIndex = signal(0);
+  readonly mobileListOpen = signal(false);
 
   readonly selectedPackage = computed(() => {
     const list = this.packages;
@@ -108,6 +109,15 @@ export class PortfolioCategoryAccordionComponent {
 
   selectPackage(index: number): void {
     this.selectedIndex.set(index);
+  }
+
+  toggleMobileList(): void {
+    this.mobileListOpen.update((v) => !v);
+  }
+
+  selectAndCloseMobileList(index: number): void {
+    this.selectedIndex.set(index);
+    this.mobileListOpen.set(false);
   }
 
   prevPackage(): void {

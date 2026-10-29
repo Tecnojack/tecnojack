@@ -11,6 +11,11 @@
   background-color: var(--tj-background);
   color: var(--tj-text);
   border-top: 1px solid var(--tj-border);
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    padding: clamp(48px, 8vw, 80px) 16px;
+  }
 }
 
 .selected-work-section__container {
@@ -101,7 +106,9 @@
 
     @media (max-width: 768px) {
       aspect-ratio: 4 / 3;
-      min-height: 380px;
+      min-height: 0;
+      width: 100%;
+      max-width: 100%;
     }
   }
 
@@ -110,8 +117,10 @@
     min-height: 460px;
 
     @media (max-width: 768px) {
-      aspect-ratio: 1 / 1;
-      min-height: 340px;
+      aspect-ratio: 4 / 5;
+      min-height: 0;
+      width: 100%;
+      max-width: 100%;
     }
   }
 
@@ -121,7 +130,9 @@
 
     @media (max-width: 768px) {
       aspect-ratio: 16 / 9;
-      min-height: 300px;
+      min-height: 0;
+      width: 100%;
+      max-width: 100%;
     }
   }
 }

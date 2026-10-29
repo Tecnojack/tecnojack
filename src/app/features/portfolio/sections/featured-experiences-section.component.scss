@@ -80,11 +80,84 @@
   box-sizing: border-box;
 
   @media (max-width: 1023px) {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    overflow: hidden;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
+}
+
+// ─── Mobile Segmented Tabs (< 1024px) ────────────────────────────────────────
+.feat-mobile-tabs {
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: 1023px) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 4px;
+    background: var(--tj-surface);
+    border: 1px solid var(--tj-border);
+    border-radius: var(--tj-radius-sm);
+  }
+}
+
+.feat-mobile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0.65rem 0.35rem;
+  border-radius: var(--tj-radius-xs);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--tj-text-secondary);
+  cursor: pointer;
+  min-width: 0;
+  transition: all var(--tj-transition-fast);
+
+  &.is-active {
+    background: var(--tj-surface-hover);
+    border-color: var(--tj-border-strong);
+    color: var(--tj-text);
+
+    .feat-mobile-tab__num {
+      color: var(--tj-accent);
+    }
+
+    .feat-mobile-tab__name {
+      color: var(--tj-text);
+      font-weight: 700;
+    }
+  }
+
+  &:active {
+    background: var(--tj-surface-active);
+  }
+}
+
+.feat-mobile-tab__num {
+  font-family: var(--tj-font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--tj-text-tertiary);
+}
+
+.feat-mobile-tab__name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .feat-selector__nav {
@@ -100,20 +173,7 @@
   box-sizing: border-box;
 
   @media (max-width: 1023px) {
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 0.65rem;
-    padding: 2px 2px 8px 2px;
-    border: none;
-    background: transparent;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    display: none !important;
   }
 }
 

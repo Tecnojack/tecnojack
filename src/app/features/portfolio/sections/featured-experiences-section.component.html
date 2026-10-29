@@ -13,7 +13,22 @@
 
     <!-- Master-Detail Experience Selector (Flat, No Card Grids) -->
     <div class="feat-selector">
-      <!-- Master List (Left Column) -->
+      <!-- Mobile Native Segmented Tabs (< 1024px) -->
+      <div class="feat-mobile-tabs" role="tablist" aria-label="Seleccionar experiencia insignia">
+        <button
+          *ngFor="let exp of experiences; let i = index"
+          type="button"
+          role="tab"
+          class="feat-mobile-tab"
+          [class.is-active]="activeIdx() === i"
+          [attr.aria-selected]="activeIdx() === i"
+          (click)="selectExperience(i)">
+          <span class="feat-mobile-tab__num">{{ exp.num }}</span>
+          <span class="feat-mobile-tab__name">{{ exp.category }}</span>
+        </button>
+      </div>
+
+      <!-- Master List (Left Column, Desktop >= 1024px) -->
       <nav class="feat-selector__nav" aria-label="Experiencias insignia">
         <button
           *ngFor="let exp of experiences; let i = index"

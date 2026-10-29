@@ -167,12 +167,14 @@ export class VideoPageComponent implements OnInit {
       instagram: 'assets/images/icons/instagram.svg',
       facebook: 'assets/images/icons/facebook.svg',
       tiktok: 'assets/images/icons/tiktok.svg',
+      youtube: 'assets/images/icons/youtube.svg',
     };
     const order = new Map<string, number>([
       ['whatsapp', 1],
       ['instagram', 2],
       ['tiktok', 3],
       ['facebook', 4],
+      ['youtube', 5],
     ]);
     return links
       .map((link) => ({

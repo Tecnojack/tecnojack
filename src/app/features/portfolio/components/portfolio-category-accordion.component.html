@@ -72,26 +72,62 @@
         <section class="tj-selector__stage" *ngIf="selectedPackage() as active" aria-live="polite">
           <ng-container *ngIf="((coverByDetail(active.detail) | async | tjImageFallback) ?? '') as activeImg">
             <div class="tj-stage">
-              <!-- Mobile Step Bar (Visible on mobile/tablet) -->
-              <div class="tj-stage__mobile-stepper" *ngIf="packages.length > 1">
-                <button
-                  type="button"
-                  class="tj-stepper-btn"
-                  (click)="prevPackage()"
-                  aria-label="Paquete anterior">
-                  ←
-                </button>
-                <div class="tj-stepper-info">
-                  <span class="tj-stepper-counter">{{ selectedIndex() + 1 }} de {{ packages.length }}</span>
-                  <strong class="tj-stepper-title">{{ active.displayName }}</strong>
+              <!-- Mobile Native Control Bar (< 1024px) -->
+              <div class="tj-stage__mobile-header" *ngIf="packages.length > 1">
+                <div class="tj-stage__mobile-stepper">
+                  <button
+                    type="button"
+                    class="tj-stepper-btn"
+                    (click)="prevPackage()"
+                    aria-label="Paquete anterior">
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-stepper-info-btn"
+                    (click)="toggleMobileList()"
+                    [attr.aria-expanded]="mobileListOpen()"
+                    aria-label="Ver todas las colecciones">
+                    <span class="tj-stepper-counter">{{ selectedIndex() + 1 }} de {{ packages.length }}</span>
+                    <span class="tj-stepper-title-row">
+                      <strong class="tj-stepper-title">{{ active.displayName }}</strong>
+                      <span class="tj-stepper-chevron" [class.is-open]="mobileListOpen()" aria-hidden="true">▾</span>
+                    </span>
+                    <span class="tj-stepper-price">{{ active.displayPrice }}</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="tj-stepper-btn"
+                    (click)="nextPackage()"
+                    aria-label="Siguiente paquete">
+                    →
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  class="tj-stepper-btn"
-                  (click)="nextPackage()"
-                  aria-label="Siguiente paquete">
-                  →
-                </button>
+
+                <!-- Expandable Drawer for Mobile Package Selection -->
+                <div class="tj-stage__mobile-drawer" *ngIf="mobileListOpen()">
+                  <div class="tj-drawer-head">
+                    <span class="tj-drawer-title">Colecciones disponibles ({{ packages.length }})</span>
+                    <button type="button" class="tj-drawer-close" (click)="toggleMobileList()" aria-label="Cerrar lista">✕</button>
+                  </div>
+                  <div class="tj-drawer-list">
+                    <button
+                      *ngFor="let item of packages; let idx = index"
+                      type="button"
+                      class="tj-drawer-item"
+                      [class.is-active]="selectedIndex() === idx"
+                      (click)="selectAndCloseMobileList(idx)">
+                      <div class="tj-drawer-item__left">
+                        <span class="tj-drawer-item__num">0{{ idx + 1 }}</span>
+                        <div class="tj-drawer-item__info">
+                          <strong class="tj-drawer-item__name">{{ item.displayName }}</strong>
+                          <span class="tj-drawer-item__type">{{ item.displayTypeLabel }}</span>
+                        </div>
+                      </div>
+                      <strong class="tj-drawer-item__price">{{ item.displayPrice }}</strong>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <!-- Edge-to-Edge Visual Banner -->

@@ -768,12 +768,22 @@ body.portfolio-request-modal-open {
 
 .portfolio-page .service-category-package-groups {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     gap: 26px;
+    box-sizing: border-box;
 }
 
 .portfolio-page .service-category-package-group {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     gap: 18px;
+    box-sizing: border-box;
 }
 
 .portfolio-page .service-category-package-group__head {

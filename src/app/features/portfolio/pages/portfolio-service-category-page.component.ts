@@ -128,6 +128,94 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
   readonly categoryState = signal<PortfolioPackageCategory>('bodas');
+  readonly mobileComparePlanIndex = signal(2); // Default to Premium
+
+  readonly weddingPlansComparison = [
+    {
+      name: 'Esencial',
+      price: "$1'900.000 COP",
+      featured: false,
+      badge: '',
+      hours: 'Hasta 6 horas',
+      viaticos: 'Por separado',
+      team: '1 Fotógrafo + 1 Videógrafo',
+      photos: 'Hasta 180 fotos editadas',
+      video: 'Highlight Film (4-6 min)',
+      drone: 'Opcional',
+      album: 'Opcional',
+      preboda: 'No incluida',
+      reels: 'Opcional',
+      gallery: 'Galería online privada',
+    },
+    {
+      name: 'Completo',
+      price: "$2'800.000 COP",
+      featured: false,
+      badge: '',
+      hours: 'Hasta 8 horas',
+      viaticos: 'Por separado',
+      team: '1 Fotógrafo + 1 Videógrafo + Asistente',
+      photos: 'Hasta 300 fotos editadas',
+      video: 'Highlight Film (6-8 min) + Documental (15-25 min)',
+      drone: 'Sí (cuando sea posible)',
+      album: 'Opcional',
+      preboda: 'No incluida',
+      reels: '1 Reel para redes',
+      gallery: 'Galería online privada',
+    },
+    {
+      name: 'Premium',
+      price: "$3'900.000 COP",
+      featured: true,
+      badge: 'MÁS RECOMENDADO',
+      hours: 'Hasta 10 horas',
+      viaticos: 'Por separado',
+      team: 'Fotógrafo Principal + Videógrafo Principal + Asistente',
+      photos: 'Hasta 450 fotos editadas',
+      video: 'Trailer (1 min) + Highlight (8-12 min) + Doc (25-40 min)',
+      drone: '✔ Dron aéreo incluido',
+      album: '✔ Álbum fotográfico impreso',
+      preboda: '✔ Sesión Preboda estándar',
+      reels: '✔ 2 Reels para redes',
+      gallery: '✔ Galería VIP de por vida',
+    },
+    {
+      name: 'Luxury',
+      price: "$6'100.000 COP",
+      featured: false,
+      badge: 'EXCLUSIVO',
+      hours: 'Hasta 12 horas',
+      viaticos: 'Por separado',
+      team: '2 Fotógrafos + 2 Videógrafos + Asistente',
+      photos: 'Más de 600 fotos editadas',
+      video: 'Trailer + Wedding Film + Documental (45-75 min)',
+      drone: '✔ Dron cinematográfico dedicado',
+      album: '✔ Álbum Premium XL + Caja',
+      preboda: '✔ Sesión Preboda Premium',
+      reels: '✔ 3 Reels para redes',
+      gallery: '✔ Galería VIP permanente',
+    },
+    {
+      name: 'Full Exp.',
+      price: "$11'300.000 COP",
+      featured: false,
+      badge: 'PRODUCCIÓN VIP',
+      hours: 'Cobertura Ilimitada',
+      viaticos: '✔ Cubiertos en Colombia',
+      team: 'Crew completo de cine y foto',
+      photos: 'Fotos ilimitadas editadas',
+      video: 'Largometraje documental + Trailer + Highlight',
+      drone: '✔ Dron cine ilimitado',
+      album: '✔ Álbum artesanal XL grabado + Caja VIP',
+      preboda: '✔ Preboda VIP en destino',
+      reels: '✔ Cobertura completa para redes',
+      gallery: '✔ Galería VIP y entrega física en cofre',
+    },
+  ];
+
+  setMobileComparePlan(index: number): void {
+    this.mobileComparePlanIndex.set(index);
+  }
 
   /** URL CSS de la imagen hero de categoría leída desde Firebase, o null si usa el fallback estático. */
   readonly heroCategoryHeroImage$: Observable<string | null> = toObservable(
@@ -622,6 +710,7 @@ export class PortfolioServiceCategoryPageComponent {
       instagram: 'assets/images/icons/instagram.svg',
       facebook: 'assets/images/icons/facebook.svg',
       tiktok: 'assets/images/icons/tiktok.svg',
+      youtube: 'assets/images/icons/youtube.svg',
     };
 
     const mapped = links.map((link) => ({
@@ -637,6 +726,7 @@ export class PortfolioServiceCategoryPageComponent {
       ['instagram', 2],
       ['tiktok', 3],
       ['facebook', 4],
+      ['youtube', 5],
     ]);
 
     return mapped.sort(

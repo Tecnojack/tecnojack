@@ -135,3 +135,25 @@ pm.cmd run build � exitoso (0 errores).
   - Pie de p�gina editorial de cuatro columnas.
 - Compilaci�n de producci�n: 
 pm.cmd run build � 100% exitoso (0 errores).
+
+### Reconstrucción Responsive Mobile First (Rama rediseño)
+- **Diagnóstico y Corrección de Overflow Global**:
+  - Restablecimiento estricto de límites en src/styles.scss: *, *::before, *::after { box-sizing: border-box; }, html, body { width: 100%; max-width: 100%; overflow-x: hidden; }, y confinamiento minmax(0, 1fr) en CSS grids.
+  - Corrección de spect-ratio acoplado a min-height que provocaba tarjetas de 340px forzadas en viewports de 320px.
+- **Selector de Paquetes Mobile-First Bespoke (PortfolioCategoryAccordionComponent)**:
+  - Sustitución del carrusel horizontal estrecho en móviles (< 1024px) por un controlador táctil nativo tipo reproductor/stepper ([ ← ] y [ → ], 40x40px).
+  - Cajón desplegable vertical (.tj-stage__mobile-drawer) para navegación directa con 1 toque entre todos los planes de la categoría.
+  - Escenario activo a ancho 100% con fotografía 16:9, lista de entregables en 1 columna y botones de reserva apilados a ancho completo.
+- **Comparador Interactivo de 1 Columna (PortfolioServiceCategoryPageComponent)**:
+  - Sustitución de la tabla horizontal saturada por un comparador móvil con selector de pastillas deslizables (Esencial, Completo, Premium, Luxury, Full Exp.) y tarjeta vertical de especificaciones.
+- **Saneamiento de Header y Flotantes (PortfolioShellComponent)**:
+  - Reubicación y compactación de botón flotante WhatsApp (46x46px) para evitar colisiones con menús inferiores.
+  - Ocultamiento de botón duplicado "Páginas" en pantallas móviles (< 768px).
+  - Eliminación de overflow en cabecera para pantallas de 320px–360px.
+  - Soporte de ícono oficial SVG para YouTube en todas las vistas de redes.
+- **Verificación Automatizada Completa en Google Chrome Headless CDP**:
+  - 9 rutas evaluadas (/portfolio, /portfolio/bodas, /portfolio/sesiones, /portfolio/videos, /portfolio/corporativos, /portfolio/quinces, /portfolio/grados, /portfolio/otros, /portfolio/bodas/hibrida-esencial).
+  - 11 anchos auditados: 320, 360, 375, 390, 414, 430, 600, 768, 1024, 1280, 1440 px.
+  - Resultado: 99/99 pruebas superadas con 0 píxeles de scroll horizontal y 0 elementos desbordados.
+  - Compilación de producción: 
+pm.cmd run build 100% exitosa (código 0).

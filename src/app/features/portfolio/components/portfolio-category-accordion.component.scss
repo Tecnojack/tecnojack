@@ -174,16 +174,16 @@
   min-width: 0;
   box-sizing: border-box;
 
-  @media (max-width: 1024px) {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    overflow: hidden;
+  @media (max-width: 1023px) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 }
 
 // ----------------------------------------------------------------------------
-// MASTER LIST (DESKTOP VERTICAL / MOBILE HORIZONTAL SWIPE)
+// MASTER LIST (DESKTOP ONLY - REPLACED BY NATIVE STAGE + SWITCHER ON MOBILE)
 // ----------------------------------------------------------------------------
 .tj-selector__nav {
   display: flex;
@@ -197,10 +197,8 @@
   min-width: 0;
   box-sizing: border-box;
 
-  @media (max-width: 1024px) {
-    border: none;
-    background: transparent;
-    overflow: hidden;
+  @media (max-width: 1023px) {
+    display: none !important;
   }
 }
 
@@ -449,46 +447,57 @@
   box-sizing: border-box;
 }
 
-// Mobile Stepper Toolbar (Visible only on < 1024px)
-.tj-stage__mobile-stepper {
+// Native Mobile Control Bar & Drawer (< 1024px)
+.tj-stage__mobile-header {
   display: none;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  background: var(--tj-surface-hover);
+  border-bottom: 1px solid var(--tj-border);
+  position: relative;
 
-  @media (max-width: 1024px) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.65rem 0.85rem;
-    background: var(--tj-surface-hover);
-    border-bottom: 1px solid var(--tj-border);
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+  @media (max-width: 1023px) {
+    display: block;
   }
 }
 
+.tj-stage__mobile-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .tj-stepper-btn {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--tj-radius-full);
   background: var(--tj-surface);
-  border: 1px solid var(--tj-border);
+  border: 1px solid var(--tj-border-strong);
   color: var(--tj-text);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  transition: background-color var(--tj-transition-fast), transform var(--tj-transition-fast);
 
   &:active {
+    transform: scale(0.95);
     background: var(--tj-surface-active);
   }
 }
 
-.tj-stepper-info {
+.tj-stepper-info-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -497,7 +506,17 @@
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
-  padding: 0 4px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--tj-radius-xs);
+  transition: background-color var(--tj-transition-fast);
+
+  &:hover,
+  &:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
 }
 
 .tj-stepper-counter {
@@ -508,16 +527,159 @@
   color: var(--tj-accent);
 }
 
+.tj-stepper-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .tj-stepper-title {
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--tj-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.tj-stepper-chevron {
+  font-size: 0.75rem;
+  color: var(--tj-accent);
+  transition: transform var(--tj-transition-fast);
+
+  &.is-open {
+    transform: rotate(180deg);
+  }
+}
+
+.tj-stepper-price {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--tj-text);
+}
+
+// Mobile Plan Selection Drawer
+.tj-stage__mobile-drawer {
+  padding: 0.75rem 0.85rem 1rem;
+  border-top: 1px solid var(--tj-border);
+  background: var(--tj-surface);
+  animation: drawerSlideDown 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes drawerSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tj-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  padding: 0 0.25rem;
+}
+
+.tj-drawer-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tj-text-secondary);
+}
+
+.tj-drawer-close {
+  background: transparent;
+  border: 0;
+  color: var(--tj-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.tj-drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.tj-drawer-item {
   width: 100%;
-  max-width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--tj-radius-xs);
+  border: 1px solid var(--tj-border);
+  background: var(--tj-surface-hover);
+  color: var(--tj-text);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--tj-transition-fast), border-color var(--tj-transition-fast);
+
+  &.is-active {
+    border-color: var(--tj-accent);
+    background: var(--tj-surface-active);
+
+    .tj-drawer-item__num {
+      color: var(--tj-accent);
+    }
+  }
+
+  &:active {
+    background: var(--tj-surface-active);
+  }
+}
+
+.tj-drawer-item__left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.tj-drawer-item__num {
+  font-family: var(--tj-font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--tj-text-secondary);
+}
+
+.tj-drawer-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.tj-drawer-item__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tj-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tj-drawer-item__type {
+  font-size: 0.72rem;
+  color: var(--tj-text-secondary);
+}
+
+.tj-drawer-item__price {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--tj-text);
+  flex-shrink: 0;
 }
 
 .tj-stage__media {
