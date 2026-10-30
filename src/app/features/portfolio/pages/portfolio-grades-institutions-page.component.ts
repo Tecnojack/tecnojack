@@ -34,7 +34,7 @@ export class PortfolioGradesInstitutionsPageComponent {
   readonly heroLead =
     'Cubrimos ceremonias de grado con un modelo organizado, escalable y enfocado en entregar recuerdos de alta calidad para cada estudiante.';
 
-  readonly heroBackgroundImage = 'assets/images/galery/M&D-5.jpg';
+  readonly heroBackgroundImage = 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-legado%2Fcover.jpg?alt=media&token=3b86940a-9861-41db-82cb-33d3b7330089';
   readonly heroBackgroundImage$: Observable<string | null> = this.mediaPublic
     .getCoverByFolder('servicios/grados/instituciones')
     .pipe(

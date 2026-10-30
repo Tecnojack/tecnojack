@@ -49,7 +49,7 @@ export class OtrosPageComponent implements OnInit {
   readonly allServices = SIMPLE_SERVICES_MOCK;
   readonly categories = SERVICE_CATEGORIES;
   readonly categoryLabels = SERVICE_CATEGORY_LABELS;
-  readonly heroBackgroundImage = 'assets/images/galery/M&D-23.jpg';
+  readonly heroBackgroundImage = 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195';
   readonly heroCategoryHeroImage$: Observable<string | null> = this.mediaPublic
     .getCoverByFolder('servicios/otros')
     .pipe(

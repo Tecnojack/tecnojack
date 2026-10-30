@@ -57,7 +57,7 @@ export class FeaturedExperiencesSectionComponent {
         'Video resumen en 4K y reels para Instagram/TikTok',
         'Álbum fotográfico de alta gama',
       ],
-      image: 'assets/images/galery/M&D-15.jpg',
+      image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0',
       href: '/portfolio/quinces',
     },
     {
@@ -87,7 +87,7 @@ export class FeaturedExperiencesSectionComponent {
         'Fotografía de producto y retratos corporativos',
         'Entrega en formatos multicanal (16:9, 9:16, 1:1)',
       ],
-      image: 'assets/images/galery/M&D-23.jpg',
+      image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
       href: '/portfolio/corporativos',
     },
   ];

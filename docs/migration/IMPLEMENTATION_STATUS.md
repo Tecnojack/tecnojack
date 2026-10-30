@@ -39,6 +39,18 @@
 
 ## ALINEACIÃ“N VISUAL REACT / FIGMA MAKE
 
+- Migración y aislamiento de imágenes de clientes de invitaciones (`M&D-*`):
+  - 100% de las imágenes privadas de la invitación María & Daniel eliminadas de vistas de portafolio público, paquetes y perfiles.
+  - Reemplazo completo por imágenes oficiales de Firebase Storage (`servicios/bodas/...`, `servicios/quinces/...`, `servicios/grados/...`, `servicios/video/...`, `servicios/prebodas/...`).
+  - Fotografía de perfil del autor Jackson Palacios actualizada con la imagen profesional oficial (`assets/images/profile/Jackson Palacios.jpg`).
+  - 0 fugas de imágenes de invitación en rutas de portafolio verificadas con tests automatizados y auditoría CDP en vivo.
+- Slider de paquetes estilo Apple:
+  - Soporte de 3 tarjetas visibles simultáneas en desktop con la activa centrada.
+  - Visualización 1 a 1 fluida en mobile (375-430px) con swipe táctil y navegación por gestos.
+  - Indicador flotante "+ VIÁTICOS" y precio en una sola línea sin solapamiento de textos.
+  - Modo oscuro activado por defecto con alto contraste y scrollbar estilizado.
+  - Modales (incluyendo Destination Modal) adaptados a la nueva identidad visual.
+
 - Tokens Orbit, shell compacto de 212 px, topbar, controles, tablas, filtros y tarjetas compartidas alineados con el proyecto React de referencia.
 - Dashboard recompuesto con la jerarquÃ­a del referente: saludo, alerta de cartera, KPIs, analÃ­tica, eventos, pipeline y pagos.
 - Eventos migrado de tarjetas sobredimensionadas a una tabla operacional responsive.

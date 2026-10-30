@@ -33,7 +33,7 @@ export class HeroSectionComponent {
   }
 
   get heroImageUrl(): string {
-    return this.content.heroImageUrl() || 'assets/images/galery/M&D-23.jpg';
+    return this.content.heroImageUrl() || 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5';
   }
 
   get whatsappHref() {
