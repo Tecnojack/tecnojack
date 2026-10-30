@@ -1,0 +1,158 @@
+// ─── TECNOJACK Apple-Inspired Design Tokens ──────────────────────────────────
+
+:root {
+  // Fluid typography scale
+  --tj-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --tj-font-hero: clamp(2.5rem, 6.2vw, 5.25rem);
+  --tj-font-display: clamp(2rem, 4.4vw, 3.75rem);
+  --tj-font-h1: clamp(1.75rem, 3.2vw, 2.75rem);
+  --tj-font-h2: clamp(1.35rem, 2.2vw, 2rem);
+  --tj-font-h3: clamp(1.15rem, 1.6vw, 1.45rem);
+  --tj-font-lead: clamp(1.05rem, 1.35vw, 1.25rem);
+  --tj-font-body: 1rem;
+  --tj-font-small: 0.875rem;
+  --tj-font-micro: 0.75rem;
+
+  // Spacing & Border Radius
+  --tj-radius-xs: 8px;
+  --tj-radius-sm: 12px;
+  --tj-radius-md: 18px;
+  --tj-radius-lg: 26px;
+  --tj-radius-xl: 36px;
+  --tj-radius-full: 9999px;
+
+  // Transitions
+  --tj-transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-normal: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-smooth: 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  --tj-transition-theme: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+
+  // Navigation dimensions
+  --tj-header-height: 52px;
+  --tj-header-z: 1000;
+  --tj-modal-z: 2000;
+}
+
+// ─── Dark Mode (Default) ──────────────────────────────────────────────────────
+:root,
+:root[data-theme='dark'],
+.portfolio-page[data-theme='dark'] {
+  color-scheme: dark;
+
+  --tj-bg: #050505;
+  --tj-background: #050505;
+  --tj-bg-secondary: #0e0e11;
+  --tj-surface: #141417;
+  --tj-surface-hover: #1c1c21;
+  --tj-surface-active: #24242b;
+  --tj-surface-glass: rgba(18, 18, 22, 0.72);
+
+  --tj-text: #FFFFFF;
+  --tj-text-secondary: #D1D1D6;
+  --tj-text-tertiary: #A1A1A6;
+  --tj-text-inverted: #000000;
+
+  --tj-border: rgba(255, 255, 255, 0.12);
+  --tj-border-strong: rgba(255, 255, 255, 0.24);
+
+  --tj-accent: #00D2FF;
+  --tj-accent-hover: #33DCFF;
+  --tj-accent-soft: rgba(0, 210, 255, 0.14);
+  --tj-accent-border: rgba(0, 210, 255, 0.35);
+
+  --tj-gold: #F5C842;
+  --tj-gold-soft: rgba(245, 200, 66, 0.15);
+
+  --tj-glass-bg: rgba(10, 10, 12, 0.82);
+  --tj-glass-border: rgba(255, 255, 255, 0.1);
+  --tj-glass-blur: blur(20px) saturate(180%);
+
+  --tj-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --tj-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --tj-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+
+  // Modern Minimalist Scrollbar Tokens
+  --tj-scrollbar-track: rgba(255, 255, 255, 0.04);
+  --tj-scrollbar-thumb: rgba(255, 255, 255, 0.22);
+  --tj-scrollbar-thumb-hover: rgba(0, 210, 255, 0.6);
+
+  // Overrides for legacy portfolio variables to ensure instant harmonious theming
+  --portfolio-bg: var(--tj-bg);
+  --portfolio-surface: var(--tj-surface);
+  --portfolio-surface-strong: var(--tj-surface-hover);
+  --portfolio-text: var(--tj-text);
+  --portfolio-muted: var(--tj-text-secondary);
+  --portfolio-line: var(--tj-border);
+  --portfolio-brand: var(--tj-accent);
+  --portfolio-brand-soft: var(--tj-accent-soft);
+  --portfolio-accent: var(--tj-gold);
+}
+
+// ─── Light Mode ───────────────────────────────────────────────────────────────
+:root[data-theme='light'],
+html[data-theme='light'],
+body[data-theme='light'],
+.portfolio-page[data-theme='light'] {
+  color-scheme: light;
+
+  // Warm luxury alabaster / soft cream foundation (anti-glare, high-end editorial)
+  --tj-bg: #F7F6F2;
+  --tj-background: #F7F6F2;
+  --tj-bg-secondary: #ECE9E2;
+  --tj-surface: #FFFFFF;
+  --tj-surface-hover: #F2EFE8;
+  --tj-surface-active: #E6E2D8;
+  --tj-surface-glass: rgba(247, 246, 242, 0.88);
+
+  --tj-text: #171718;
+  --tj-text-secondary: #48484B;
+  --tj-text-tertiary: #6E6E73;
+  --tj-text-inverted: #FFFFFF;
+
+  --tj-border: rgba(0, 0, 0, 0.08);
+  --tj-border-strong: rgba(0, 0, 0, 0.16);
+
+  --tj-accent: #007799;
+  --tj-accent-hover: #005F7A;
+  --tj-accent-soft: rgba(0, 119, 153, 0.08);
+  --tj-accent-border: rgba(0, 119, 153, 0.24);
+
+  --tj-gold: #8E5A00; // WCAG AAA compliant rich warm gold
+  --tj-gold-soft: rgba(142, 90, 0, 0.1);
+
+  --tj-glass-bg: rgba(247, 246, 242, 0.88);
+  --tj-glass-border: rgba(0, 0, 0, 0.08);
+  --tj-glass-blur: blur(20px) saturate(180%);
+
+  --tj-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --tj-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --tj-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.08);
+
+  // Modern Minimalist Scrollbar Tokens (Light Mode)
+  --tj-scrollbar-track: rgba(0, 0, 0, 0.04);
+  --tj-scrollbar-thumb: rgba(0, 0, 0, 0.22);
+  --tj-scrollbar-thumb-hover: rgba(0, 119, 153, 0.6);
+
+  // Overrides for legacy portfolio variables in light mode
+  --portfolio-bg: var(--tj-bg);
+  --portfolio-surface: var(--tj-surface);
+  --portfolio-surface-strong: var(--tj-surface-hover);
+  --portfolio-text: var(--tj-text);
+  --portfolio-muted: var(--tj-text-secondary);
+  --portfolio-line: var(--tj-border);
+  --portfolio-brand: var(--tj-accent);
+  --portfolio-brand-soft: var(--tj-accent-soft);
+  --portfolio-accent: var(--tj-gold);
+}
+
+// ─── Reduced Motion ───────────────────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

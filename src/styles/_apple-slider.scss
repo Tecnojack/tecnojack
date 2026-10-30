@@ -1,0 +1,825 @@
+// ─── TECNOJACK Apple-Style Product Slider & Card System ──────────────────────
+
+.tj-apple-slider {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 16px;
+  box-sizing: border-box;
+  --tj-slider-card-w: 100%;
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    --tj-slider-card-w: calc((100% - 20px) / 2);
+  }
+
+  // Web / Desktop: At least 3 packages visible by default (Left, Center, Right)
+  @media (min-width: 1024px) {
+    --tj-slider-card-w: calc((100% - 48px) / 3);
+  }
+}
+
+.tj-apple-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 4px 6px;
+}
+
+.tj-apple-slider__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tj-apple-slider__counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  font-family: var(--tj-font-mono, monospace);
+  font-size: 0.88rem;
+  letter-spacing: -0.02em;
+}
+
+.tj-apple-slider__current {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--tj-text);
+}
+
+.tj-apple-slider__divider {
+  color: var(--tj-text-tertiary);
+  font-weight: 400;
+}
+
+.tj-apple-slider__total {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tj-text-secondary);
+}
+
+.tj-apple-slider__hint {
+  font-size: 0.78rem;
+  color: var(--tj-text-tertiary);
+  display: none;
+
+  @media (min-width: 600px) {
+    display: inline-block;
+  }
+}
+
+.tj-apple-slider__arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tj-apple-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--tj-surface-glass);
+  border: 1px solid var(--tj-border);
+  color: var(--tj-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover:not([disabled]) {
+    background: var(--tj-text);
+    color: var(--tj-bg);
+    border-color: var(--tj-text);
+    transform: scale(1.05);
+  }
+
+  &[disabled] {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Horizontal Scroll Track (Smooth Grab/Swipe & Fluid Flow) ────────────────
+.tj-apple-slider__track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 8px 0 20px;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    gap: 20px;
+    padding: 12px 0 24px;
+  }
+
+  // Tablet & Desktop: Clean track padding showing 3 cards simultaneously (Left, Center, Right)
+  @media (min-width: 1024px) {
+    gap: 24px;
+    padding: 16px 0 28px;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ─── Apple Product Card (Responsive: 100% on Mobile; 2 on Tablet; 3 on Web) ──
+.tj-apple-card {
+  flex: 0 0 var(--tj-slider-card-w, 100%);
+  width: var(--tj-slider-card-w, 100%);
+  max-width: var(--tj-slider-card-w, 100%);
+  min-width: 0;
+  scroll-snap-align: start;
+  background: var(--tj-surface);
+  border: 1px solid var(--tj-border);
+  border-radius: var(--tj-radius-md, 20px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    opacity: 1;
+    transform: none;
+    cursor: pointer;
+
+    &.is-active {
+      border-color: var(--tj-border-strong);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28);
+      cursor: default;
+    }
+
+    &:hover:not(.is-active) {
+      border-color: var(--tj-border-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Light Mode Refinements (Soft Warm Editorial Paper Feel)
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+
+    &.is-active {
+      border-color: rgba(0, 0, 0, 0.22);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover:not(.is-active) {
+      border-color: rgba(0, 0, 0, 0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &:hover {
+    border-color: var(--tj-border-strong);
+  }
+
+  &.is-featured {
+    border-color: rgba(255, 184, 0, 0.4);
+  }
+
+  &.is-luxury {
+    border-color: rgba(212, 175, 55, 0.5);
+  }
+}
+
+// ─── Card Visual Media ──────────────────────────────────────────────────────
+.tj-apple-card__media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.tj-apple-card__vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+  pointer-events: none;
+}
+
+.tj-apple-card__badges {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  z-index: 2;
+}
+
+.tj-apple-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+
+  &--type {
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &--premium {
+    background: rgba(255, 184, 0, 0.22);
+    color: #ffc83b;
+    border: 1px solid rgba(255, 184, 0, 0.45);
+  }
+
+  &--luxury {
+    background: rgba(212, 175, 55, 0.25);
+    color: #ffd700;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+  }
+
+  &--featured {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+// ─── Card Body ──────────────────────────────────────────────────────────────
+.tj-apple-card__body {
+  padding: clamp(20px, 4vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.tj-apple-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tj-apple-card__index {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tj-text-tertiary);
+}
+
+.tj-apple-card__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: var(--tj-text);
+}
+
+.tj-apple-card__tagline {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--tj-text-secondary);
+}
+
+// ─── Price Panel with Stacked Label & Inline Price + Viáticos Pill ──────────
+.tj-apple-card__price-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 18px;
+  border-radius: var(--tj-radius-sm, 14px);
+  background: var(--tj-surface-hover);
+  border: 1px solid var(--tj-border);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.tj-apple-card__price-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.tj-apple-card__price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.tj-apple-card__price-amount {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--tj-text);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.tj-viaticos-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255, 184, 0, 0.16);
+  color: #FFC83B;
+  border: 1px solid rgba(255, 184, 0, 0.35);
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: rgba(180, 115, 0, 0.12);
+    color: #8E5A00;
+    border-color: rgba(180, 115, 0, 0.3);
+  }
+}
+
+.tj-apple-card__lead {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--tj-text-secondary);
+}
+
+// ─── Deliverables Checklist (Responsive 2-Col on larger screens) ────────────
+.tj-apple-card__deliverables {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--tj-border);
+  padding-top: 14px;
+}
+
+.tj-apple-card__deliverables-title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tj-text-tertiary);
+}
+
+.tj-apple-card__deliverables-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+  }
+}
+
+.tj-apple-card__deliverable-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--tj-text);
+
+  span:last-child {
+    flex: 1;
+  }
+}
+
+.tj-apple-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  svg {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+// ─── Action CTAs (Side by Side on tablets / desktop) ────────────────────────
+.tj-apple-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+
+  @media (min-width: 520px) {
+    flex-direction: row;
+    align-items: center;
+
+    .tj-apple-btn {
+      flex: 1;
+    }
+  }
+}
+
+.tj-apple-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+
+  &--primary {
+    background: var(--tj-text);
+    color: var(--tj-bg);
+    border: none;
+
+    &:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+  }
+
+  &--wa {
+    background: var(--tj-surface-hover);
+    color: var(--tj-text);
+    border: 1px solid var(--tj-border);
+
+    &:hover {
+      background: var(--tj-surface-active);
+      border-color: #25d366;
+      color: #25d366;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.tj-apple-btn__arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.tj-apple-btn:hover .tj-apple-btn__arrow {
+  transform: translateX(3px);
+}
+
+.tj-apple-btn__wa-icon {
+  width: 18px;
+  height: 18px;
+}
+
+// ─── UNIFIED CAPSULE CONTROLLER (Apple / Editorial Capsule from Image) ────────
+.tj-slider-capsule-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.tj-slider-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 9999px;
+  background: rgba(18, 20, 24, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+}
+
+.tj-capsule-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.06);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &--prev:hover svg {
+    transform: translateX(-2px);
+  }
+
+  &--next:hover svg {
+    transform: translateX(2px);
+  }
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #171718;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.09);
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.tj-capsule-dots {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.tj-capsule-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4E525E;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              border-radius 0.3s ease,
+              box-shadow 0.3s ease;
+
+  &:hover:not(.is-active) {
+    background: #797E8C;
+  }
+
+  &.is-active {
+    width: 32px;
+    height: 11px;
+    border-radius: 9999px;
+    background: #FF4D00;
+    box-shadow: 0 0 16px rgba(255, 77, 0, 0.85), 0 0 30px rgba(255, 77, 0, 0.45);
+  }
+
+  :root[data-theme='light'] &,
+  html[data-theme='light'] &,
+  body[data-theme='light'] & {
+    background: #B6B3AA;
+
+    &:hover:not(.is-active) {
+      background: #868278;
+    }
+
+    &.is-active {
+      background: #FF4D00;
+      box-shadow: 0 0 14px rgba(255, 77, 0, 0.7);
+    }
+  }
+}
+
+// ─── Apple-Style Pagination Dots (Legacy / Fallback) ─────────────────────────
+.tj-apple-slider__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tj-apple-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: var(--tj-border-strong);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-radius 0.3s ease;
+
+  &.is-active {
+    width: 28px;
+    border-radius: 999px;
+    background: var(--tj-text);
+  }
+
+  &:hover:not(.is-active) {
+    background: var(--tj-text-secondary);
+  }
+}
+
+// ─── Swipe Cue / First-Time Hint ─────────────────────────────────────────────
+.tj-apple-swipe-cue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  width: fit-content;
+  max-width: 92%;
+  cursor: pointer;
+  z-index: 10;
+  animation: tjSwipeCueFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tj-apple-swipe-cue__inner {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px 9px;
+  border-radius: 999px;
+  background: var(--tj-surface-glass);
+  border: 1px solid var(--tj-border-strong);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px var(--tj-accent-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.tj-apple-swipe-cue__hand {
+  width: 18px;
+  height: 18px;
+  color: var(--tj-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: tjSwipeHandShake 2s infinite ease-in-out;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.tj-apple-swipe-cue__arrows {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tj-text);
+
+  svg {
+    width: 14px;
+    height: 14px;
+    color: var(--tj-gold);
+  }
+
+  .tj-arrow-left {
+    animation: tjBounceLeft 1.4s infinite ease-in-out;
+  }
+
+  .tj-arrow-right {
+    animation: tjBounceRight 1.4s infinite ease-in-out;
+  }
+}
+
+.tj-apple-swipe-cue__text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tj-text);
+  white-space: nowrap;
+}
+
+.tj-apple-swipe-cue__progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--tj-accent), var(--tj-gold));
+  width: 0%;
+  animation: tjSwipeTimer 5s linear forwards;
+}
+
+@keyframes tjSwipeCueFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tjSwipeHandShake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-4px) rotate(-6deg);
+  }
+  75% {
+    transform: translateX(4px) rotate(6deg);
+  }
+}
+
+@keyframes tjBounceLeft {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-3px); }
+}
+
+@keyframes tjBounceRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+@keyframes tjSwipeTimer {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tj-apple-swipe-cue__hand,
+  .tj-apple-swipe-cue__arrows svg,
+  .tj-apple-swipe-cue__progress {
+    animation: none !important;
+  }
+}

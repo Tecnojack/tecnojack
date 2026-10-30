@@ -1,39 +1,58 @@
 <div class="service-category-page" *ngIf="pageConfig() as config">
-    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
+    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
         <div class="service-category-hero__content" tjRevealOnScroll>
-            <div class="service-category-hero__layout">
-                <div class="service-category-hero__copy">
-                    <p class="service-category-hero__eyebrow">{{ config.hero.eyebrow }}</p>
-                    <h1 class="heading-xl">{{ config.hero.title }}</h1>
-                    <p class="service-category-hero__lead text-body text-muted">{{ config.hero.description }}</p>
+            <div class="service-category-hero__editorial">
+                <!-- Eyebrow Tag -->
+                <div class="service-category-hero__eyebrow-wrapper">
+                    <span class="hero-editorial-pill">{{ config.hero.eyebrow }}</span>
                 </div>
 
-                <aside class="service-category-hero__meta" aria-label="Información rápida">
-                    <div class="service-category-hero__facts" aria-label="Datos clave">
-                        <article class="service-category-hero__fact" *ngFor="let fact of heroFacts()">
-                            <span class="service-category-hero__fact-label">{{ fact.label }}</span>
-                            <strong class="service-category-hero__fact-value">{{ fact.value }}</strong>
-                        </article>
+                <!-- Main Editorial Headline -->
+                <h1 class="service-category-hero__title heading-xl">{{ config.hero.title }}</h1>
+
+                <!-- Curated Description Lead -->
+                <p class="service-category-hero__lead text-body">{{ config.hero.description }}</p>
+
+                <!-- Capability Badges -->
+                <div class="service-category-hero__tags" aria-label="Especialidades" *ngIf="config.hero.highlights?.length">
+                    <span class="hero-tag-item" *ngFor="let item of config.hero.highlights">{{ item }}</span>
+                </div>
+
+                <!-- Sleek Minimalist Metric Strip -->
+                <div class="service-category-hero__metric-strip" aria-label="Datos clave del servicio">
+                    <div class="hero-metric-cell" *ngFor="let fact of heroFacts()">
+                        <span class="hero-metric-cell__label">{{ fact.label }}</span>
+                        <strong class="hero-metric-cell__value">{{ fact.value }}</strong>
+                    </div>
+                </div>
+
+                <!-- Action CTA Bar & Social Links -->
+                <div class="service-category-hero__actions-row">
+                    <div class="hero-cta-btns">
+                        <a class="hero-action-btn hero-action-btn--primary" href="#service-packages">
+                            <span>{{ i18n.t('packages.explore_collections', 'Explorar colecciones') }}</span>
+                            <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
+                        </a>
+                        <a class="hero-action-btn hero-action-btn--wa" [href]="heroWhatsappHref()" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="hero-action-btn__wa-icon" />
+                            <span>{{ i18n.t('packages.quote_whatsapp', 'Cotizar por WhatsApp') }}</span>
+                        </a>
                     </div>
 
-                    <nav class="service-category-hero__social" aria-label="Redes sociales">
+                    <nav class="service-category-hero__social-nav" aria-label="Redes sociales">
                         <a
-                            class="service-category-hero__social-link"
+                            class="service-category-hero__social-circle"
                             *ngFor="let link of heroSocialLinks()"
                             [href]="link.href"
                             target="_blank"
                             rel="noopener"
                             [attr.aria-label]="link.title">
                             <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
-                            <span class="service-category-hero__social-fallback" *ngIf="!link.iconSrc">{{ link.title }}</span>
+                            <span *ngIf="!link.iconSrc">{{ link.title }}</span>
                         </a>
                     </nav>
-                </aside>
-
-                <div class="service-category-hero__highlights" aria-label="Aspectos destacados">
-                    <span *ngFor="let item of config.hero.highlights">{{ item }}</span>
                 </div>
             </div>
         </div>
@@ -59,8 +78,81 @@
         <!-- TABLA COMPARATIVA DE PAQUETES DE BODA HÍBRIDOS (FOTO + VIDEO) -->
         <div class="tj-comparison-container" *ngIf="categoryState() === 'bodas'" tjRevealOnScroll>
             <div class="tj-comparison-head">
-                <h2>Tabla Comparativa de Paquetes Híbridos</h2>
-                <p>Compara de manera directa las características clave de cada uno de nuestros planes principales.</p>
+                <h2>{{ i18n.isEn() ? 'Hybrid Wedding Packages Comparison' : 'Tabla Comparativa de Paquetes Híbridos' }}</h2>
+                <p>{{ i18n.isEn() ? 'Directly compare key features of our primary packages.' : 'Compara de manera directa las características clave de cada uno de nuestros planes principales.' }}</p>
+                <div class="tj-comparison-scroll-hint" aria-hidden="true">
+                    <span class="tj-hint-icon">⇄</span>
+                    <span>{{ i18n.isEn() ? 'Swipe horizontally to view all plans' : 'Desliza horizontalmente para ver todos los planes' }}</span>
+                </div>
+            </div>
+
+            <!-- Mobile 1-Column Interactive Plan Comparator (< 768px) -->
+            <div class="tj-comparison-mobile" aria-label="Comparador móvil de planes de boda">
+                <div class="tj-compare-pills" role="tablist">
+                    <button
+                        *ngFor="let plan of weddingPlansComparison; let idx = index"
+                        type="button"
+                        role="tab"
+                        class="tj-compare-pill"
+                        [class.is-active]="mobileComparePlanIndex() === idx"
+                        [attr.aria-selected]="mobileComparePlanIndex() === idx"
+                        (click)="setMobileComparePlan(idx)">
+                        <span class="tj-compare-pill__name">{{ plan.name }}</span>
+                    </button>
+                </div>
+
+                <div class="tj-compare-card" *ngIf="weddingPlansComparison[mobileComparePlanIndex()] as activePlan">
+                    <div class="tj-compare-card__header">
+                        <div>
+                            <span class="tj-compare-card__badge" *ngIf="activePlan.badge">{{ activePlan.badge }}</span>
+                            <h3 class="tj-compare-card__title">{{ activePlan.name }}</h3>
+                        </div>
+                        <span class="tj-compare-card__price">{{ activePlan.price }}</span>
+                    </div>
+
+                    <dl class="tj-compare-card__specs">
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Coverage Hours' : 'Horas de Cobertura' }}</dt>
+                            <dd>{{ activePlan.hours }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Production Crew' : 'Equipo Humano' }}</dt>
+                            <dd>{{ activePlan.team }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Edited Photos' : 'Fotografías Editadas' }}</dt>
+                            <dd>{{ activePlan.photos }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Video Deliverables' : 'Entregables Video' }}</dt>
+                            <dd>{{ i18n.translateDeliverable(activePlan.video) }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Aerial Drone' : 'Dron Aéreo' }}</dt>
+                            <dd>{{ activePlan.drone }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Álbum Físico</dt>
+                            <dd>{{ activePlan.album }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Pre-Wedding Session' : 'Sesión Preboda' }}</dt>
+                            <dd>{{ activePlan.preboda }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Reels para Redes</dt>
+                            <dd>{{ activePlan.reels }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>{{ i18n.isEn() ? 'Online Gallery' : 'Galería Online' }}</dt>
+                            <dd>{{ activePlan.gallery }}</dd>
+                        </div>
+                        <div class="tj-spec-row">
+                            <dt>Viáticos Colombia</dt>
+                            <dd>{{ activePlan.viaticos }}</dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
 
             <div class="tj-comparison-table-wrapper">
@@ -101,7 +193,7 @@
                             <td class="exclusive-col">✔ Cubiertos</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Equipo Humano</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Production Crew' : 'Equipo Humano' }}</td>
                             <td>1 Fotógrafo + 1 Videógrafo</td>
                             <td>1 Fotógrafo + 1 Videógrafo (+ Apoyo logístico)</td>
                             <td class="recommended-col">Fotógrafo Principal + Videógrafo Principal + 2do Operador/Asistente</td>
@@ -109,7 +201,7 @@
                             <td class="exclusive-col">2 Fots. + 2 Vids. + Crew Producción</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Fotografías Editadas</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Edited Photos' : 'Fotografías Editadas' }}</td>
                             <td>Hasta 180 fotos</td>
                             <td>Hasta 300 fotos</td>
                             <td class="recommended-col">Hasta 450 fotos</td>
@@ -117,7 +209,7 @@
                             <td class="exclusive-col">Ilimitadas</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Entregables Video</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Video Deliverables' : 'Entregables Video' }}</td>
                             <td>Highlight Film (4-6 min)</td>
                             <td>Highlight Film (6-8 min) + Película documental (15-25 min)</td>
                             <td class="recommended-col">Trailer pro (1 min) + Highlight (8-12 min) + Película doc (25-40 min)</td>
@@ -125,7 +217,7 @@
                             <td class="exclusive-col">Trailer + Highlight + Documental VIP sin límite</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Drone Aéreo</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Aerial Drone' : 'Drone Aéreo' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ (Cuando sea posible)</td>
@@ -133,7 +225,7 @@
                             <td class="exclusive-col">✔ Premium / Cine</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Álbum Físico</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Printed Album' : 'Álbum Físico' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ Álbum fotográfico</td>
@@ -141,7 +233,7 @@
                             <td class="exclusive-col">✔ Álbum Premium XL grabado + Caja VIP</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Sesión Preboda</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Pre-Wedding Session' : 'Sesión Preboda' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ Sesión Preboda estándar</td>
@@ -149,7 +241,7 @@
                             <td class="exclusive-col">✔ Preboda VIP (Locaciones exclusivas)</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Sesión Postboda</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Post-Wedding Session' : 'Sesión Postboda' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">—</td>
@@ -157,7 +249,7 @@
                             <td class="exclusive-col">✔ Postboda VIP</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Reels / Redes</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Reels & Socials' : 'Reels / Redes' }}</td>
                             <td>1 Reel vertical</td>
                             <td>1 Reel vertical</td>
                             <td class="recommended-col">2 Reels</td>
@@ -165,7 +257,7 @@
                             <td class="exclusive-col">6 Reels + Trailer vertical + Mini doc</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Galería Online</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Online Gallery' : 'Galería Online' }}</td>
                             <td>3 meses</td>
                             <td>6 meses</td>
                             <td class="recommended-col">1 año</td>
@@ -173,7 +265,7 @@
                             <td class="exclusive-col">Vitalicia</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Entrega Prioritaria</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Priority Delivery' : 'Entrega Prioritaria' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">—</td>
@@ -187,109 +279,74 @@
 
         <ng-template #groupedPackages>
             <div class="service-category-package-groups">
-                <section
-                    class="service-category-package-group"
+                <tj-portfolio-category-accordion
                     *ngFor="let group of packageCardGroups(); let groupIndex = index"
-                    tjRevealOnScroll>
-                    <div class="service-category-package-group__head">
-                        <p>{{ group.title }}</p>
-                        <span>{{ group.lead }}</span>
-                    </div>
-
-                    <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="group.cards.length === 2">
-                        <article
-                            class="service-package-card"
-                            *ngFor="let item of group.cards; let index = index"
-                            [class.service-package-card--featured]="item.detail.featured"
-                            [class.service-package-card--luxury]="item.detail.slug.includes('luxury')"
-                            [class.reveal--left]="(index + groupIndex) % 2 === 0"
-                            [class.reveal--right]="(index + groupIndex) % 2 !== 0">
-                            <div class="service-package-card__media">
-                                <tj-lazy-img
-                                    [src]="(coverByDetail(item.detail) | async | tjImageFallback) ?? ''"
-                                    [alt]="item.detail.title"
-                                    aspectRatio="16 / 11"></tj-lazy-img>
-                                <div class="service-package-card__media-badges">
-                                    <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                                    <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
-                                    <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
-                                    <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
-                                </div>
-                            </div>
-
-                            <div class="service-package-card__body">
-                                <div class="service-package-card__headline">
-                                    <div class="service-package-card__title-row">
-                                        <div class="service-package-card__title-stack">
-                                            <h3 class="heading-md">{{ item.displayName }}</h3>
-                                            <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="service-package-card__price-block">
-                                        <span class="service-package-card__price-label">Inversión</span>
-                                        <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
-                                    </div>
-                                </div>
-
-                                <div class="service-package-card__copy">
-                                    <p class="text-body text-muted">{{ item.detail.lead }}</p>
-                                </div>
-
-                                <ul class="service-package-card__list">
-                                    <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
-                                </ul>
-
-                                <button class="service-package-card__cta btn-text" type="button" (click)="openPackageDetails(item.detail.slug, item.detail.image)">
-                                    Ver detalle
-                                </button>
-                            </div>
-                        </article>
-                    </div>
-                </section>
+                    [title]="group.title"
+                    [lead]="group.lead"
+                    [packages]="group.cards"
+                    [initiallyOpen]="groupIndex === 0"
+                    (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
+                </tj-portfolio-category-accordion>
             </div>
         </ng-template>
     </section>
 
     <section class="portfolio-section service-category-stories">
-        <div class="service-category-stories__head" tjRevealOnScroll>
-            <p>Clientes / galerías</p>
+        <header class="service-category-stories__head" tjRevealOnScroll>
+            <div class="stories-head-eyebrow">
+                <span class="stories-badge">{{ i18n.t('exhibit.badge', 'EXHIBICIÓN DE TRABAJOS') }}</span>
+                <span class="stories-eyebrow">{{ i18n.t('exhibit.eyebrow', 'CLIENTES & HISTORIAS REALES') }}</span>
+            </div>
             <h2 class="heading-lg">{{ config.storiesTitle }}</h2>
             <p class="service-category-stories__lead text-body text-muted">{{ config.storiesLead }}</p>
-        </div>
+        </header>
 
-        <div class="service-category-stories__grid" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
+        <div class="tj-editorial-exhibition" *ngIf="!isMobileStories(); else mobileStoriesAccordions">
             <button
-                class="story-card"
+                class="tj-exhibit-entry"
                 type="button"
                 *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId"
                 tjRevealOnScroll
-                [class.story-card--empty]="story.images.length === 0"
+                [class.tj-exhibit-entry--empty]="story.images.length === 0"
+                [class.tj-exhibit-entry--feature]="index % 4 === 0"
+                [class.tj-exhibit-entry--tall]="index % 4 === 1 || index % 4 === 2"
                 [disabled]="story.images.length === 0"
                 (click)="openStoryModal(index)">
-                <span class="story-card__service-badge">{{ story.title }}</span>
-                <div class="story-card__preview">
-                    <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
-                        <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
-                    </figure>
+                
+                <div class="tj-exhibit-entry__media">
+                    <ng-container *ngIf="getStoryPreviewImages(story)[0] as heroImg; else noImageSlot">
+                        <tj-lazy-img
+                            [src]="optimizeImage(heroImg.src, 800)"
+                            [alt]="heroImg.alt"
+                            [aspectRatio]="index % 4 === 0 ? '16 / 9' : (index % 4 === 1 || index % 4 === 2 ? '4 / 5' : '1 / 1')"></tj-lazy-img>
+                    </ng-container>
+                    <ng-template #noImageSlot>
+                        <div class="tj-exhibit-entry__placeholder">
+                            <span>Próximamente fotos publicadas</span>
+                        </div>
+                    </ng-template>
 
-                    <figure class="story-card__tile story-card__tile--empty" *ngFor="let _slot of getStoryEmptySlots(story)">
-                        <span>Sin imágenes</span>
-                    </figure>
+                    <div class="tj-exhibit-entry__scrim"></div>
+                    <span class="tj-exhibit-entry__badge">{{ story.title }}</span>
+                    <span class="tj-exhibit-entry__action">Explorar galería →</span>
                 </div>
 
-                <div class="story-card__copy">
-                    <strong class="heading-md">{{ story.clientName }}</strong>
-                    <span class="story-card__meta text-body text-muted">
-                        <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
-                        <span class="story-card__meta-dot" *ngIf="story.location">•</span>
-                        <span>{{ story.location }}</span>
-                    </span>
+                <div class="tj-exhibit-entry__caption">
+                    <strong class="tj-exhibit-entry__client">{{ story.clientName }}</strong>
+                    <div class="tj-exhibit-entry__meta text-muted">
+                        <span class="tj-exhibit-entry__date">{{ story.subtitle || 'Sesión Documental' }}</span>
+                        <span class="tj-exhibit-entry__dot" *ngIf="story.location">·</span>
+                        <span class="tj-exhibit-entry__location" *ngIf="story.location">{{ story.location }}</span>
+                    </div>
                 </div>
             </button>
 
-            <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
-                Cargar más
-            </button>
+            <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
+                <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
+                    <span>{{ i18n.t('exhibit.load_more', 'Cargar más historias') }}</span>
+                    <span aria-hidden="true">↓</span>
+                </button>
+            </div>
         </div>
 
         <ng-template #mobileStoriesAccordions>
@@ -308,26 +365,29 @@
                     </summary>
 
                     <div class="story-accordion__body" *ngIf="story.images.length > 0; else storyAccordionEmpty">
-                        <div class="story-accordion__preview">
-                            <figure class="story-card__tile" *ngFor="let image of getStoryPreviewImages(story); trackBy: trackByStoryImage">
-                                <tj-lazy-img [src]="optimizeImage(image.src, 400)" [alt]="image.alt" aspectRatio="1 / 1"></tj-lazy-img>
+                        <div class="story-accordion__preview" *ngIf="getStoryPreviewImages(story)[0] as heroImg">
+                            <figure class="story-card__tile">
+                                <tj-lazy-img [src]="optimizeImage(heroImg.src, 600)" [alt]="heroImg.alt" aspectRatio="16 / 9"></tj-lazy-img>
                             </figure>
                         </div>
                         <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
-                            Ver galería
+                            {{ i18n.t('exhibit.view_gallery', 'Ver galería completa') }}
                         </button>
                     </div>
 
                     <ng-template #storyAccordionEmpty>
                         <div class="story-accordion__body story-accordion__body--empty">
-                            <span class="text-body text-muted">Sin imágenes publicadas.</span>
+                            <span class="text-body text-muted">{{ i18n.t('exhibit.no_images', 'Sin imágenes publicadas.') }}</span>
                         </div>
                     </ng-template>
                 </details>
 
-                <button class="service-package-modal__secondary btn-text" type="button" *ngIf="hasMoreStories()" (click)="loadMoreStories()">
-                    Cargar más
-                </button>
+                <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
+                    <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
+                        <span>{{ i18n.t('exhibit.load_more', 'Cargar más historias') }}</span>
+                        <span aria-hidden="true">↓</span>
+                    </button>
+                </div>
             </div>
         </ng-template>
     </section>
@@ -338,7 +398,7 @@
         <div class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + detail.title">
             <div class="service-package-modal__header">
                 <div>
-                    <p>Experiencia de detalle</p>
+                    <p>{{ i18n.t('modal.detail_experience', 'Experiencia de detalle') }}</p>
                     <h2 class="heading-lg">{{ detail.title }}</h2>
                 </div>
 
@@ -346,7 +406,7 @@
                     <button class="service-package-modal__ghost btn-text" type="button" *ngIf="modalStep() === 'request'" (click)="returnToDetail()">
                         Volver al detalle
                     </button>
-                    <button class="service-package-modal__close btn-text" type="button" (click)="closePackageModal()">Cerrar</button>
+                    <button class="service-package-modal__close btn-text" type="button" (click)="closePackageModal()">{{ i18n.t('modal.close', 'Cerrar') }}</button>
                 </div>
             </div>
 
@@ -387,7 +447,7 @@
                         </div>
 
                         <p class="text-body text-muted" *ngIf="mediaState.status === 'loading'">
-                            Cargando imágenes...
+                            {{ i18n.t('modal.loading_images', 'Cargando imágenes...') }}
                         </p>
                         <p class="text-body text-muted" *ngIf="mediaState.status === 'error'">
                             No fue posible cargar la galería. Se muestra la imagen por defecto.
@@ -430,46 +490,46 @@
                 <div class="service-package-modal__body service-package-modal__body--request">
                     <div class="service-package-request__column service-package-request__column--form">
                     <details class="service-package-request__accordion" open>
-                        <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
+                        <summary class="service-package-request__accordion-summary">{{ i18n.t('modal.contact_data', 'Datos de contacto') }}</summary>
                     <div class="service-package-request__form">
                         <div class="service-package-request__head">
                             <p>Solicitud</p>
-                            <h3 class="heading-md">Completa los datos para continuar</h3>
+                            <h3 class="heading-md">{{ i18n.t('modal.complete_data', 'Completa los datos para continuar') }}</h3>
                         </div>
 
                         <div class="service-package-request__fields">
                             <label class="service-package-request__field">
-                                <span>Nombre</span>
+                                <span>{{ i18n.t('modal.name', 'Nombre') }}</span>
                                 <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Teléfono</span>
+                                <span>{{ i18n.t('modal.phone', 'Teléfono') }}</span>
                                 <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="Tu número" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Ciudad</span>
+                                <span>{{ i18n.t('modal.city', 'Ciudad') }}</span>
                                 <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del evento" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Fecha estimada</span>
+                                <span>{{ i18n.t('modal.date', 'Fecha estimada') }}</span>
                                 <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Lugar</span>
+                                <span>{{ i18n.t('modal.venue', 'Lugar') }}</span>
                                 <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Salón, finca o locación" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Invitados</span>
+                                <span>{{ i18n.t('modal.guests', 'Invitados') }}</span>
                                 <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 120" />
                             </label>
 
                             <label class="service-package-request__field service-package-request__field--full">
-                                <span>Notas</span>
+                                <span>{{ i18n.t('modal.notes', 'Notas') }}</span>
                                 <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="4" placeholder="Cuéntanos qué quieres priorizar."></textarea>
                             </label>
                         </div>
@@ -479,12 +539,12 @@
 
                     <div class="service-package-request__column service-package-request__column--details">
                     <details class="service-package-request__accordion" open>
-                        <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
+                        <summary class="service-package-request__accordion-summary">{{ i18n.t('modal.request_type', 'Tipo de solicitud') }}</summary>
                         <div class="service-package-request__builder">
                             <section class="service-package-request__group">
                                 <div class="service-package-request__group-head">
                                     <p>Tipo de solicitud</p>
-                                    <span>Decide si quieres usar el paquete base o armar una versión personalizada.</span>
+                                    <span>{{ i18n.t('modal.request_mode_desc', 'Decide si quieres usar el paquete base o armar una versión personalizada.') }}</span>
                                 </div>
 
                                 <div class="service-package-request__mode-grid">
@@ -716,7 +776,7 @@
                     <span>{{ story.location }}</span>
                 </div>
 
-                <button class="story-gallery-modal__close btn-text" type="button" (click)="closeStoryModal()">Cerrar</button>
+                <button class="story-gallery-modal__close btn-text" type="button" (click)="closeStoryModal()">{{ i18n.t('modal.close', 'Cerrar') }}</button>
             </div>
 
             <div class="story-gallery-modal__viewer" *ngIf="currentStoryImage() as image">

@@ -1,0 +1,95 @@
+<section class="featured-experiences-section" id="experiences" tjRevealOnScroll>
+  <div class="featured-experiences-section__container">
+    <header class="featured-experiences-section__header">
+      <div class="featured-experiences-section__eyebrow-row">
+        <span class="featured-experiences-section__badge">{{ i18n.t('exp.badge', 'PLANES & COBERTURAS') }}</span>
+        <span class="featured-experiences-section__eyebrow">{{ i18n.t('exp.eyebrow', 'EXPERIENCIAS INSIGNIA') }}</span>
+      </div>
+      <h2 class="featured-experiences-section__title">{{ i18n.t('exp.title', 'Colecciones creadas para momentos irrepetibles.') }}</h2>
+      <p class="featured-experiences-section__lead">
+        {{ i18n.t('exp.lead', 'Compara nuestras producciones más representativas y descubre la opción perfecta para tu historia.') }}
+      </p>
+    </header>
+
+    <!-- Master-Detail Experience Selector (Flat, No Card Grids) -->
+    <div class="feat-selector">
+      <!-- Mobile Native Segmented Tabs (< 1024px) -->
+      <div class="feat-mobile-tabs" role="tablist" aria-label="Seleccionar experiencia insignia">
+        <button
+          *ngFor="let exp of experiences; let i = index"
+          type="button"
+          role="tab"
+          class="feat-mobile-tab"
+          [class.is-active]="activeIdx() === i"
+          [attr.aria-selected]="activeIdx() === i"
+          (click)="selectExperience(i)">
+          <span class="feat-mobile-tab__num">{{ exp.num }}</span>
+          <span class="feat-mobile-tab__name">{{ exp.category }}</span>
+        </button>
+      </div>
+
+      <!-- Master List (Left Column, Desktop >= 1024px) -->
+      <nav class="feat-selector__nav" aria-label="Experiencias insignia">
+        <button
+          *ngFor="let exp of experiences; let i = index"
+          type="button"
+          class="feat-selector__item"
+          [class.is-active]="activeIdx() === i"
+          (click)="selectExperience(i)">
+          
+          <div class="feat-selector__item-top">
+            <span class="feat-selector__item-num">{{ exp.num }}</span>
+            <span class="feat-selector__item-cat">{{ exp.category }}</span>
+          </div>
+
+          <strong class="feat-selector__item-title">{{ exp.title }}</strong>
+          <span class="feat-selector__item-price">{{ exp.priceLead }}</span>
+        </button>
+      </nav>
+
+      <!-- Stage Detail (Right Column) -->
+      <div class="feat-selector__stage" *ngIf="activeExperience as active">
+        <div class="feat-stage">
+          <div class="feat-stage__media">
+            <img
+              [src]="active.image"
+              [alt]="active.title"
+              loading="lazy"
+              decoding="async"
+              class="feat-stage__img" />
+            <div class="feat-stage__scrim"></div>
+            <span class="feat-stage__badge">{{ active.category }} · {{ active.priceLead }}</span>
+          </div>
+
+          <div class="feat-stage__content">
+            <div class="feat-stage__headline">
+              <span class="feat-stage__eyebrow">{{ i18n.t('exp.recommended', 'COLECCIÓN RECOMENDADA') }}</span>
+              <h3 class="feat-stage__title">{{ active.title }}</h3>
+              <p class="feat-stage__lead">{{ active.description }}</p>
+            </div>
+
+            <div class="feat-stage__inclusions">
+              <h4 class="feat-stage__inclusions-title">{{ i18n.t('exp.key_points', 'Puntos clave de la cobertura:') }}</h4>
+              <ul class="feat-stage__list">
+                <li *ngFor="let item of active.highlights" class="feat-stage__list-item">
+                  <span class="bullet" aria-hidden="true">✓</span>
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="feat-stage__action">
+              <a class="feat-stage__btn" [routerLink]="active.href">
+                <span>{{ i18n.t('exp.view_all_prefix', 'Ver todos los paquetes y tarifas de') }} {{ active.category }}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

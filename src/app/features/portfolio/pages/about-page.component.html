@@ -1,23 +1,22 @@
-<tj-portfolio-shell [navItems]="navItems" subtitle="Sobre mí" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp" [editable]="editable">
+<tj-portfolio-shell [navItems]="navItems" [subtitle]="i18n.isEn() ? 'About Me' : 'Sobre mí'" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp" [editable]="editable">
     <section class="portfolio-section about-hero">
         <div class="about-hero__inner">
             <div class="about-hero__copy" tjRevealOnScroll>
                 <p class="about-hero__eyebrow">Jackson Palacios</p>
-                <h1 class="heading-xl about-hero__title">Productor Audiovisual<br>&amp; Desarrollador de Software</h1>
+                <h1 class="heading-xl about-hero__title">{{ i18n.isEn() ? 'Audiovisual Producer' : 'Productor Audiovisual' }}<br>&amp; {{ i18n.isEn() ? 'Software Developer' : 'Desarrollador de Software' }}</h1>
                 <p class="about-hero__subtitle">
-                    Productor audiovisual colombiano, con raíces en el Chocó.<br>
-                    Transformo ideas en historias visuales con intención, estética y emoción.
+                    {{ i18n.isEn() ? 'Colombian audiovisual producer, with roots in Chocó. I transform ideas into visual stories with intention, aesthetics, and emotion.' : 'Productor audiovisual colombiano, con raíces en el Chocó. Transformo ideas en historias visuales con intención, estética y emoción.' }}
                 </p>
                 <span class="text-body text-muted about-hero__desc">
-                    Combino fotografía, video y desarrollo digital para crear experiencias visuales para bodas, marcas y artistas que buscan algo bien hecho.
+                    {{ i18n.isEn() ? 'I combine photography, video, and digital development to craft visual experiences for weddings, brands, and artists seeking excellence.' : 'Combino fotografía, video y desarrollo digital para crear experiencias visuales para bodas, marcas y artistas que buscan algo bien hecho.' }}
                 </span>
 
                 <div class="about-hero__actions">
                     <a class="btn about-hero__cta-primary" [href]="heroCtaHref" target="_blank" rel="noopener noreferrer">
-                        Cotizar mi proyecto
+                        {{ i18n.t('about.cta.quote', 'Cotizar mi proyecto') }}
                     </a>
                     <a class="btn secondary about-hero__cta-secondary" [href]="heroScrollTarget">
-                        Ver mi trabajo
+                        {{ i18n.t('about.cta.work', 'Ver mi trabajo') }}
                     </a>
                 </div>
 
@@ -40,9 +39,9 @@
     <section id="about-work" class="portfolio-section about-modules">
         <article class="about-module" tjRevealOnScroll>
             <div class="about-module__head">
-                <p>Enfoque</p>
-                <h2 class="heading-lg">Lo que recibes</h2>
-                <span class="text-body text-muted">Una experiencia completa: dirección, estética, emoción y entrega impecable.</span>
+                <p>{{ i18n.t('about.approach', 'Enfoque') }}</p>
+                <h2 class="heading-lg">{{ i18n.t('about.deliverables_title', 'Lo que recibes') }}</h2>
+                <span class="text-body text-muted">{{ i18n.t('about.deliverables_desc', 'Una experiencia completa: dirección, estética, emoción y entrega impecable.') }}</span>
             </div>
             <div class="about-features" aria-label="Propuesta de valor">
                 <div class="about-feature" *ngFor="let item of valueProps">
@@ -54,9 +53,9 @@
 
         <article class="about-module" tjRevealOnScroll>
             <div class="about-module__head">
-                <p>Proceso</p>
-                <h2 class="heading-lg">Cómo trabajamos</h2>
-                <span class="text-body text-muted">Simple, claro y con calidad en cada paso.</span>
+                <p>{{ i18n.isEn() ? 'Process' : 'Proceso' }}</p>
+                <h2 class="heading-lg">{{ i18n.isEn() ? 'How we work' : 'Cómo trabajamos' }}</h2>
+                <span class="text-body text-muted">{{ i18n.isEn() ? 'Simple, clear, and uncompromising quality at every step.' : 'Simple, claro y con calidad en cada paso.' }}</span>
             </div>
             <div class="about-steps" aria-label="Proceso de trabajo">
                 <article class="about-step" *ngFor="let step of processSteps; let i = index">
@@ -72,9 +71,9 @@
 
     <section class="portfolio-section about-team-section">
         <div class="about-team-head" tjRevealOnScroll>
-            <p>Equipo</p>
-            <h2 class="heading-lg">Equipo TECNOJACK</h2>
-            <span class="text-body text-muted">Lidero cada proyecto y sumo apoyo de equipo según el alcance.</span>
+            <p>{{ i18n.isEn() ? 'Team' : 'Equipo' }}</p>
+            <h2 class="heading-lg">{{ i18n.isEn() ? 'TECNOJACK Team' : 'Equipo TECNOJACK' }}</h2>
+            <span class="text-body text-muted">{{ i18n.isEn() ? 'I lead every project personally, adding specialized team members according to the scale.' : 'Lidero cada proyecto y sumo apoyo de equipo según el alcance.' }}</span>
         </div>
 
         <div class="about-team-grid" aria-label="Integrantes del equipo" tjRevealOnScroll>

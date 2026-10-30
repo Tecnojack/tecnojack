@@ -1,8 +1,12 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  OnDestroy,
   OnInit,
+  ViewChild,
   computed,
   effect,
   inject,
@@ -22,6 +26,7 @@ import {
 import { PortfolioPlaylistVideo } from '../portfolio.data';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import {
   VideoAccordionCategory,
   VideoAccordionComponent,
@@ -114,14 +119,23 @@ const videoAdditionalServices: VideoServicePackage['additionalServices'] = [
   styleUrl: './video-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoPageComponent implements OnInit {
+export class VideoPageComponent implements OnInit, OnDestroy {
+  @ViewChild('videoSliderTrack', { static: false }) videoSliderTrack?: ElementRef<HTMLDivElement>;
+
+  readonly activeVideoSlideIndex = signal(0);
+  readonly showVideoSwipeCue = signal(false);
+
+  private isVideoInteracting = false;
+
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly document = inject(DOCUMENT);
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  readonly i18n = inject(I18nService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly router = inject(Router);
-  private readonly defaultCoverImage = 'assets/images/fotos/default-cover.png';
+  private readonly defaultCoverImage = 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7';
   private readonly videoPackageCoverCache = new Map<
     string,
     Observable<string>
@@ -147,12 +161,14 @@ export class VideoPageComponent implements OnInit {
     );
     const minPrice = Math.min(...this.videoPackages.map((p) => p.price));
     const minLabel = `${this.formatCop(minPrice)} COP`;
+    this.i18n.currentLang();
+    const isEn = this.i18n.isEn();
     return [
-      { label: 'Paquetes', value: String(packageCount) },
-      { label: 'Desde', value: minLabel },
-      { label: 'Videos realizados', value: String(totalVideos) },
+      { label: isEn ? 'PACKAGES' : 'PAQUETES', value: String(packageCount) },
+      { label: isEn ? 'STARTING AT' : 'DESDE', value: minLabel },
+      { label: isEn ? 'COMPLETED VIDEOS' : 'VIDEOS REALIZADOS', value: String(totalVideos) },
       {
-        label: 'Categorías',
+        label: isEn ? 'CATEGORIES' : 'CATEGORÍAS',
         value: String(
           this.orderedCategories().filter((c) => c.videos.length).length,
         ),
@@ -167,12 +183,14 @@ export class VideoPageComponent implements OnInit {
       instagram: 'assets/images/icons/instagram.svg',
       facebook: 'assets/images/icons/facebook.svg',
       tiktok: 'assets/images/icons/tiktok.svg',
+      youtube: 'assets/images/icons/youtube.svg',
     };
     const order = new Map<string, number>([
       ['whatsapp', 1],
       ['instagram', 2],
       ['tiktok', 3],
       ['facebook', 4],
+      ['youtube', 5],
     ]);
     return links
       .map((link) => ({
@@ -456,6 +474,215 @@ export class VideoPageComponent implements OnInit {
     );
     this.title.setTitle(pageMeta.title);
     this.meta.updateTag({ name: 'description', content: pageMeta.description });
+
+    if (typeof window !== 'undefined') {
+      try {
+        const seen = sessionStorage.getItem('tj_video_swipe_cue_seen') || sessionStorage.getItem('tj_swipe_cue_seen');
+        if (!seen) {
+          this.showVideoSwipeCue.set(true);
+        }
+      } catch {
+        this.showVideoSwipeCue.set(true);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {}
+
+  dismissVideoSwipeCue(): void {
+    if (this.showVideoSwipeCue()) {
+      this.showVideoSwipeCue.set(false);
+      if (typeof window !== 'undefined') {
+        try {
+          sessionStorage.setItem('tj_video_swipe_cue_seen', 'true');
+        } catch {}
+      }
+    }
+  }
+
+  onVideoSliderMouseEnter(): void {
+    this.isVideoInteracting = true;
+  }
+
+  onVideoSliderMouseLeave(): void {
+    this.isVideoInteracting = false;
+  }
+
+  onVideoSliderTouchStart(): void {
+    this.isVideoInteracting = true;
+    this.dismissVideoSwipeCue();
+  }
+
+  onVideoSliderTouchEnd(): void {
+    this.isVideoInteracting = false;
+  }
+
+  // Mouse drag-to-scroll state for video slider
+  private isVideoMouseDown = false;
+  private startVideoMouseX = 0;
+  private startVideoScrollLeft = 0;
+  private hasVideoDragged = false;
+
+  onVideoTrackMouseDown(e: MouseEvent): void {
+    if (e.button !== 0 || !this.videoSliderTrack?.nativeElement) return;
+    this.isVideoMouseDown = true;
+    this.hasVideoDragged = false;
+    this.isVideoInteracting = true;
+    this.startVideoMouseX = e.pageX;
+    this.startVideoScrollLeft = this.videoSliderTrack.nativeElement.scrollLeft;
+    this.videoSliderTrack.nativeElement.style.cursor = 'grabbing';
+    this.videoSliderTrack.nativeElement.style.scrollBehavior = 'auto';
+    this.videoSliderTrack.nativeElement.style.scrollSnapType = 'none';
+  }
+
+  onVideoTrackMouseMove(e: MouseEvent): void {
+    if (!this.isVideoMouseDown || !this.videoSliderTrack?.nativeElement) return;
+    const deltaX = e.pageX - this.startVideoMouseX;
+    if (Math.abs(deltaX) > 6) {
+      this.hasVideoDragged = true;
+      this.dismissVideoSwipeCue();
+    }
+    this.videoSliderTrack.nativeElement.scrollLeft = this.startVideoScrollLeft - deltaX;
+  }
+
+  onVideoTrackMouseUp(e: MouseEvent): void {
+    if (!this.isVideoMouseDown) return;
+    this.isVideoMouseDown = false;
+    if (this.videoSliderTrack?.nativeElement) {
+      this.videoSliderTrack.nativeElement.style.cursor = 'grab';
+      this.videoSliderTrack.nativeElement.style.scrollBehavior = 'smooth';
+      this.videoSliderTrack.nativeElement.style.scrollSnapType = 'x mandatory';
+    }
+    setTimeout(() => {
+      this.snapToClosestVideoCard();
+      this.isVideoInteracting = false;
+    }, 40);
+  }
+
+  onVideoTrackMouseLeave(e: MouseEvent): void {
+    if (this.isVideoMouseDown) {
+      this.onVideoTrackMouseUp(e);
+    }
+    this.onVideoSliderMouseLeave();
+  }
+
+  snapToClosestVideoCard(): void {
+    if (!this.videoSliderTrack?.nativeElement) return;
+    const track = this.videoSliderTrack.nativeElement;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards.length) return;
+    const centerPoint = track.scrollLeft + track.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    this.scrollToVideoSlide(closestIndex);
+  }
+
+  onVideoCardClick(index: number): void {
+    if (this.hasVideoDragged) {
+      this.hasVideoDragged = false;
+      return;
+    }
+    this.scrollToVideoSlide(index);
+  }
+
+  scrollToVideoSlide(index: number): void {
+    if (!this.videoSliderTrack?.nativeElement) return;
+    const track = this.videoSliderTrack.nativeElement;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards || !cards[index]) return;
+    const targetCard = cards[index];
+
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = targetCard.getBoundingClientRect();
+    const isVisible = cardRect.left >= trackRect.left - 4 && cardRect.right <= trackRect.right + 4;
+    if (!isVisible) {
+      track.scrollTo({
+        left: targetCard.offsetLeft,
+        behavior: 'smooth',
+      });
+    }
+    this.activeVideoSlideIndex.set(index);
+    this.dismissVideoSwipeCue();
+  }
+
+  prevVideoSlide(): void {
+    const total = this.videoPackages.length;
+    if (total <= 1) return;
+    const nextIdx = this.activeVideoSlideIndex() === 0 ? total - 1 : this.activeVideoSlideIndex() - 1;
+    if (nextIdx === total - 1) {
+      if (this.videoSliderTrack?.nativeElement) {
+        const cards = this.videoSliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          this.videoSliderTrack.nativeElement.scrollTo({ left: cards[nextIdx].offsetLeft, behavior: 'smooth' });
+        }
+      }
+      this.activeVideoSlideIndex.set(nextIdx);
+    } else {
+      this.scrollToVideoSlide(nextIdx);
+    }
+  }
+
+  nextVideoSlide(): void {
+    const total = this.videoPackages.length;
+    if (total <= 1) return;
+    const nextIdx = (this.activeVideoSlideIndex() + 1) % total;
+    if (nextIdx === 0) {
+      if (this.videoSliderTrack?.nativeElement) {
+        this.videoSliderTrack.nativeElement.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+      this.activeVideoSlideIndex.set(0);
+    } else {
+      if (this.videoSliderTrack?.nativeElement) {
+        const cards = this.videoSliderTrack.nativeElement.querySelectorAll<HTMLElement>('.tj-apple-card');
+        if (cards[nextIdx]) {
+          const track = this.videoSliderTrack.nativeElement;
+          const card = cards[nextIdx];
+          const trackRect = track.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+          if (cardRect.right > trackRect.right + 4 || cardRect.left < trackRect.left - 4) {
+            track.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+          }
+        }
+      }
+      this.activeVideoSlideIndex.set(nextIdx);
+    }
+    this.dismissVideoSwipeCue();
+  }
+
+  onVideoTrackScroll(): void {
+    if (!this.videoSliderTrack?.nativeElement) return;
+    const track = this.videoSliderTrack.nativeElement;
+    const scrollLeft = track.scrollLeft;
+    const cards = track.querySelectorAll<HTMLElement>('.tj-apple-card');
+    if (!cards || cards.length === 0) return;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const centerPoint = scrollLeft + track.clientWidth / 2;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    if (this.activeVideoSlideIndex() !== closestIndex) {
+      this.activeVideoSlideIndex.set(closestIndex);
+      this.dismissVideoSwipeCue();
+    }
   }
 
   openVideo(video: PortfolioPlaylistVideo): void {

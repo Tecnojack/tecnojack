@@ -1,19 +1,56 @@
-<section class="portfolio-section professional-profile-section" id="profile">
-    <div class="professional-profile-section__panel" tjRevealOnScroll>
-        <div class="professional-profile-section__copy">
-            <p class="professional-profile-section__eyebrow">{{ profile.eyebrow }}</p>
-            <h2 class="heading-lg">{{ profile.title }}</h2>
-            <p class="professional-profile-section__lead text-body text-muted">{{ profile.lead }}</p>
+<section class="creator-narrative-section" id="profile" tjRevealOnScroll>
+  <div class="creator-narrative-section__container">
+    <div class="creator-narrative">
+      <!-- Left: Full-Height Editorial Portrait / Behind The Lens Media -->
+      <div class="creator-narrative__media">
+        <img
+          src="assets/images/profile/Jackson Palacios.jpg"
+          alt="Jackson Palacios - Dirección Audiovisual TECNOJACK"
+          loading="lazy"
+          decoding="async"
+          class="creator-narrative__img" />
+        <div class="creator-narrative__scrim"></div>
+        <span class="creator-narrative__caption">{{ profile.role }}</span>
+      </div>
+
+      <!-- Right: Magazine Editorial Story -->
+      <div class="creator-narrative__editorial">
+        <div class="creator-narrative__header">
+          <span class="creator-narrative__eyebrow">{{ profile.eyebrow }}</span>
+          <h2 class="creator-narrative__title">{{ profile.title }}</h2>
         </div>
 
-        <div class="professional-profile-section__aside">
-            <p class="professional-profile-section__label">{{ profile.supportingLabel }}</p>
+        <p class="creator-narrative__lead">
+          {{ profile.lead }}
+        </p>
 
-            <ul class="professional-profile-section__list">
-                <li *ngFor="let item of profile.points">{{ item }}</li>
-            </ul>
+        <!-- Quote Block -->
+        <blockquote class="creator-narrative__quote">
+          <p>{{ profile.quote }}</p>
+        </blockquote>
 
-            <a class="professional-profile-section__cta btn-text" [href]="profile.ctaHref">{{ profile.ctaLabel }}</a>
+        <!-- Capabilities / Specialized Ecosystem -->
+        <div class="creator-narrative__ecosystem" *ngIf="profile.points?.length">
+          <span class="creator-narrative__ecosystem-label">{{ profile.supportingLabel }}</span>
+          <ul class="creator-narrative__list">
+            <li *ngFor="let item of profile.points" class="creator-narrative__list-item">
+              <span class="creator-item-bullet" aria-hidden="true">—</span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
         </div>
+
+        <!-- Action Link -->
+        <div class="creator-narrative__action">
+          <a class="creator-narrative__cta" [href]="profile.ctaHref">
+            <span>{{ profile.ctaLabel }}</span>
+            <svg class="creator-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </section>

@@ -2,6 +2,7 @@ import { AsyncPipe, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   Input,
@@ -38,6 +39,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ClientPublicService } from '../services/client-public.service';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { I18nService } from '../../../core/services/i18n.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 type ServiceModalStep = 'detail' | 'request';
@@ -127,7 +129,97 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  readonly i18n = inject(I18nService);
   readonly categoryState = signal<PortfolioPackageCategory>('bodas');
+  readonly mobileComparePlanIndex = signal(2); // Default to Premium
+
+  readonly weddingPlansComparison = [
+    {
+      name: 'Esencial',
+      price: "$1'900.000 COP",
+      featured: false,
+      badge: '',
+      hours: 'Hasta 6 horas',
+      viaticos: 'Por separado',
+      team: '1 Fotógrafo + 1 Videógrafo',
+      photos: 'Hasta 180 fotos editadas',
+      video: 'Highlight Film (4-6 min)',
+      drone: 'Opcional',
+      album: 'Opcional',
+      preboda: 'No incluida',
+      reels: 'Opcional',
+      gallery: 'Galería online privada',
+    },
+    {
+      name: 'Completo',
+      price: "$2'800.000 COP",
+      featured: false,
+      badge: '',
+      hours: 'Hasta 8 horas',
+      viaticos: 'Por separado',
+      team: '1 Fotógrafo + 1 Videógrafo + Asistente',
+      photos: 'Hasta 300 fotos editadas',
+      video: 'Highlight Film (6-8 min) + Documental (15-25 min)',
+      drone: 'Sí (cuando sea posible)',
+      album: 'Opcional',
+      preboda: 'No incluida',
+      reels: '1 Reel para redes',
+      gallery: 'Galería online privada',
+    },
+    {
+      name: 'Premium',
+      price: "$3'900.000 COP",
+      featured: true,
+      badge: 'MÁS RECOMENDADO',
+      hours: 'Hasta 10 horas',
+      viaticos: 'Por separado',
+      team: 'Fotógrafo Principal + Videógrafo Principal + Asistente',
+      photos: 'Hasta 450 fotos editadas',
+      video: 'Trailer (1 min) + Highlight (8-12 min) + Doc (25-40 min)',
+      drone: '✔ Dron aéreo incluido',
+      album: '✔ Álbum fotográfico impreso',
+      preboda: '✔ Sesión Preboda estándar',
+      reels: '✔ 2 Reels para redes',
+      gallery: '✔ Galería VIP de por vida',
+    },
+    {
+      name: 'Luxury',
+      price: "$6'100.000 COP",
+      featured: false,
+      badge: 'EXCLUSIVO',
+      hours: 'Hasta 12 horas',
+      viaticos: 'Por separado',
+      team: '2 Fotógrafos + 2 Videógrafos + Asistente',
+      photos: 'Más de 600 fotos editadas',
+      video: 'Trailer + Wedding Film + Documental (45-75 min)',
+      drone: '✔ Dron cinematográfico dedicado',
+      album: '✔ Álbum Premium XL + Caja',
+      preboda: '✔ Sesión Preboda Premium',
+      reels: '✔ 3 Reels para redes',
+      gallery: '✔ Galería VIP permanente',
+    },
+    {
+      name: 'Full Exp.',
+      price: "$11'300.000 COP",
+      featured: false,
+      badge: 'PRODUCCIÓN VIP',
+      hours: 'Cobertura Ilimitada',
+      viaticos: '✔ Cubiertos en Colombia',
+      team: 'Crew completo de cine y foto',
+      photos: 'Fotos ilimitadas editadas',
+      video: 'Largometraje documental + Trailer + Highlight',
+      drone: '✔ Dron cine ilimitado',
+      album: '✔ Álbum artesanal XL grabado + Caja VIP',
+      preboda: '✔ Preboda VIP en destino',
+      reels: '✔ Cobertura completa para redes',
+      gallery: '✔ Galería VIP y entrega física en cofre',
+    },
+  ];
+
+  setMobileComparePlan(index: number): void {
+    this.mobileComparePlanIndex.set(index);
+  }
 
   /** URL CSS de la imagen hero de categoría leída desde Firebase, o null si usa el fallback estático. */
   readonly heroCategoryHeroImage$: Observable<string | null> = toObservable(
@@ -226,9 +318,11 @@ export class PortfolioServiceCategoryPageComponent {
     PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_STORY_THUMBS,
   );
 
-  readonly pageConfig = computed<PortfolioServicePageConfig | undefined>(() =>
-    this.content.getServicePageConfig(this.categoryState()),
-  );
+  readonly pageConfig = computed<PortfolioServicePageConfig | undefined>(() => {
+    this.i18n.currentLang();
+    const cfg = this.content.getServicePageConfig(this.categoryState());
+    return cfg ? this.i18n.translateCategoryConfig(cfg, this.categoryState()) : undefined;
+  });
 
   private readonly firestoreStories$ = toObservable(this.categoryState).pipe(
     switchMap((category) => {
@@ -410,7 +504,7 @@ export class PortfolioServiceCategoryPageComponent {
         );
         const fullExperience = cards.filter((item) => item.detail.slug.includes('full-experience'));
 
-        return [
+        const bodasSections = [
           { title: 'THE FULL EXPERIENCE', cards: fullExperience },
           { title: 'Boda híbrida (Foto + video)', cards: hybrid },
           { title: 'Fotografía de bodas', cards: photoOnly },
@@ -420,6 +514,7 @@ export class PortfolioServiceCategoryPageComponent {
           { title: 'Sesión de preboda', cards: prebodaForBodas },
           { title: 'Sesión postboda', cards: postwedding },
         ];
+        return bodasSections.map(s => ({ ...s, title: this.i18n.translateAccordionTitle(s.title) }));
       }
 
       if (category === 'quinces') {
@@ -605,12 +700,14 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     const categoryCount = this.content.servicePageCategories().length;
+    this.i18n.currentLang();
+    const isEn = this.i18n.isEn();
 
     return [
-      { label: 'Paquetes', value: String(packageCount) },
-      { label: 'Desde', value: minLabel },
-      { label: 'Clientes', value: clientLabel },
-      { label: 'Categorías', value: String(categoryCount) },
+      { label: isEn ? 'PACKAGES' : 'PAQUETES', value: String(packageCount) },
+      { label: isEn ? 'FROM' : 'DESDE', value: minLabel },
+      { label: isEn ? 'CLIENTS' : 'CLIENTES', value: clientLabel },
+      { label: isEn ? 'CATEGORIES' : 'CATEGORÍAS', value: String(categoryCount) },
     ];
   });
 
@@ -622,6 +719,7 @@ export class PortfolioServiceCategoryPageComponent {
       instagram: 'assets/images/icons/instagram.svg',
       facebook: 'assets/images/icons/facebook.svg',
       tiktok: 'assets/images/icons/tiktok.svg',
+      youtube: 'assets/images/icons/youtube.svg',
     };
 
     const mapped = links.map((link) => ({
@@ -637,6 +735,7 @@ export class PortfolioServiceCategoryPageComponent {
       ['instagram', 2],
       ['tiktok', 3],
       ['facebook', 4],
+      ['youtube', 5],
     ]);
 
     return mapped.sort(
@@ -927,6 +1026,11 @@ export class PortfolioServiceCategoryPageComponent {
   });
 
   constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+
     this.updateStoriesViewportMode();
 
     effect((onCleanup) => {
@@ -1593,44 +1697,48 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private getGroupTitle(key: PackageCardGroupViewModel['key']): string {
+    const isEn = this.i18n.isEn();
     if (this.categoryState() === 'grados' && key === 'photo-only') {
-      return 'Paqueticos de grados';
+      return isEn ? 'Graduation Packages' : 'Paqueticos de grados';
     }
 
     switch (key) {
       case 'full-experience':
         return 'The Full Experience';
       case 'photo-video':
-        return 'Foto + video';
+        return isEn ? 'Photo + Video' : 'Foto + video';
       case 'photo-only':
-        return 'Solo fotografía';
+        return isEn ? 'Photography Only' : 'Solo fotografía';
       case 'custom':
-        return 'Servicio personalizable';
+        return isEn ? 'Customizable Service' : 'Servicio personalizable';
       case 'session':
-        return 'Sesiones previas';
+        return isEn ? 'Pre-Sessions' : 'Sesiones previas';
       default:
-        return 'Paquetes';
+        return isEn ? 'Packages' : 'Paquetes';
     }
   }
 
   private getGroupLead(key: PackageCardGroupViewModel['key']): string {
+    const isEn = this.i18n.isEn();
     if (this.categoryState() === 'grados' && key === 'photo-only') {
-      return 'Aquí se presentan cuatro opciones base de fotografía para grados. El video no viene incluido en el precio base y se suma aparte como adicional desde 150.000 COP.';
+      return isEn
+        ? 'Base graduation photography packages. Video can be added as an optional deliverable.'
+        : 'Aquí se presentan cuatro opciones base de fotografía para grados. El video no viene incluido en el precio base y se suma aparte como adicional desde 150.000 COP.';
     }
 
     switch (key) {
       case 'full-experience':
-        return 'Paquetes completos para documentar de principio a fin.';
+        return isEn ? 'Complete packages to document from beginning to end.' : 'Paquetes completos para documentar de principio a fin.';
       case 'photo-video':
-        return 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
+        return isEn ? 'Simultaneous photo and video coverage in a single team.' : 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
       case 'photo-only':
-        return 'Estas propuestas se enfocan únicamente en fotografía y quedan separadas debajo para no mezclar tipos de servicio.';
+        return isEn ? 'Coverage focused strictly on photography.' : 'Estas propuestas se enfocan únicamente en fotografía y quedan separadas debajo para no mezclar tipos de servicio.';
       case 'custom':
-        return 'Aquí la cotización parte de una base, pero puede ajustarse bastante según fotos, impresos y video.';
+        return isEn ? 'Base investment that can be tailored with add-ons.' : 'Aquí la cotización parte de una base, pero puede ajustarse bastante según fotos, impresos y video.';
       case 'session':
-        return 'Sesiones previas con distintos niveles de duración, vestuario y entregables.';
+        return isEn ? 'Pre-sessions with varying duration, outfits, and deliverables.' : 'Sesiones previas con distintos niveles de duración, vestuario y entregables.';
       default:
-        return 'Propuestas organizadas por tipo de servicio.';
+        return isEn ? 'Curated proposals by service type.' : 'Propuestas organizadas por tipo de servicio.';
     }
   }
 
@@ -1643,9 +1751,9 @@ export class PortfolioServiceCategoryPageComponent {
       tagline: this.buildPackageTagline(detail),
       displayPrice: detail.priceLines?.length
         ? this.formatPriceLabel(detail.priceLines[0] ?? '')
-        : 'Cotización personalizada',
+        : (this.i18n.isEn() ? 'Custom quote' : 'Cotización personalizada'),
       displayTypeLabel: this.normalizePackageTypeLabel(detail.packageTypeLabel),
-      highlights: this.buildCardHighlights(detail),
+      highlights: this.buildCardHighlights(detail).map((h) => this.i18n.translateDeliverable(h)),
       packageTypeLabel: detail.packageTypeLabel,
       groupKey: detail.packageGroup,
       sortOrder: detail.sortOrder ?? this.inferSortOrder(detail),

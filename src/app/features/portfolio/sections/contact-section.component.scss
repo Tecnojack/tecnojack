@@ -1,132 +1,160 @@
+@use '../../../../styles/apple-tokens' as *;
+
 :host {
-    display: block;
+  display: block;
+  width: 100%;
 }
 
-.contact-section {
-    width: min(1200px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 0 0 clamp(48px, 6vw, 80px);
+.minimal-contact-section {
+  width: 100%;
+  padding: clamp(100px, 14vw, 180px) 24px;
+  background-color: var(--tj-background);
+  color: var(--tj-text);
+  border-top: 1px solid var(--tj-border);
 }
 
-.contact-card {
-    border-radius: 32px;
-    background:
-        radial-gradient(circle at 10% 20%, rgba(255, 184, 0, 0.12), transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(0, 151, 178, 0.15), transparent 40%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: clamp(32px, 5vw, 64px);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+.minimal-contact-section__container {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
 }
 
-.contact-card__content {
-    display: flex;
+.minimal-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.75rem;
+}
+
+.minimal-contact__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.minimal-contact__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
+}
+
+.minimal-contact__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: var(--tj-text);
+  max-width: 20ch;
+}
+
+.minimal-contact__lead {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.6;
+  color: var(--tj-text-secondary);
+  max-width: 55ch;
+}
+
+.minimal-contact__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.minimal-contact__wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 1.15rem 2.5rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-text);
+  color: var(--tj-background);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: transform var(--tj-transition-fast), opacity var(--tj-transition-fast);
+
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+.wa-btn-icon {
+  width: 22px;
+  height: 22px;
+  filter: invert(1);
+
+  :root[data-theme='light'] & {
+    filter: invert(0);
+  }
+}
+
+.minimal-contact__channels {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 600px) {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
+    gap: 0.5rem;
+  }
 }
 
-.contact-badge {
-    color: var(--portfolio-accent, #ffb800);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    background: rgba(255, 184, 0, 0.08);
-    padding: 4px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 184, 0, 0.2);
+.minimal-contact__channels-label {
+  font-size: 0.82rem;
+  color: var(--tj-text-tertiary);
+  font-weight: 500;
 }
 
-.contact-title {
-    margin: 0;
-    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--portfolio-text, #f4fcff);
-    max-width: 24ch;
+.minimal-contact__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.contact-lead {
-    margin: 0;
-    max-width: 58ch;
-    font-size: 1rem;
-    color: var(--portfolio-muted, #9bb4bc);
-    line-height: 1.6;
+.minimal-contact__social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--tj-radius-full);
+  border: 1px solid var(--tj-border);
+  background: var(--tj-surface);
+  color: var(--tj-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color var(--tj-transition-fast), border-color var(--tj-transition-fast), transform var(--tj-transition-fast);
+
+  &:hover {
+    color: var(--tj-text);
+    border-color: var(--tj-border-strong);
+    transform: translateY(-2px);
+  }
 }
 
-.contact-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 16px;
+.minimal-contact__meta {
+  padding-top: 1rem;
+  border-top: 1px solid var(--tj-border);
+  width: 100%;
+  max-width: 600px;
+  font-size: 0.85rem;
+  color: var(--tj-text-tertiary);
 }
-
-.contact-btn-wa {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 52px;
-    padding: 0 28px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #ffb800, #d18b00);
-    color: #130d04;
-    font-weight: 700;
-    font-size: 0.98rem;
-    text-decoration: none;
-    box-shadow: 0 10px 30px rgba(255, 184, 0, 0.3);
-    transition: all 220ms ease;
-
-    .btn-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 36px rgba(255, 184, 0, 0.45);
-    }
-}
-
-.contact-socials {
-    display: flex;
-    gap: 10px;
-}
-
-.social-icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: var(--portfolio-text, #f4fcff);
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: all 220ms ease;
-
-    &:hover {
-        background: rgba(255, 184, 0, 0.12);
-        border-color: rgba(255, 184, 0, 0.4);
-        color: var(--portfolio-accent, #ffb800);
-        transform: translateY(-2px);
-    }
-}
-
-@media (max-width: 600px) {
-    .contact-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .contact-btn-wa {
-        width: 100%;
-    }
-}
-

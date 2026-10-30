@@ -1,20 +1,32 @@
-<section class="portfolio-section about-brand-section" id="about">
-    <div class="about-brand-section__intro" tjRevealOnScroll>
-        <p>Sobre la marca</p>
+<section class="brand-statement-section" id="brand-statement" tjRevealOnScroll>
+  <div class="brand-statement-section__container">
+    <!-- Viewport Typographic Statement -->
+    <div class="brand-statement-section__hero">
+      <div class="brand-statement-section__badge-wrap">
+        <span class="brand-statement-section__badge">{{ i18n.t('brand.manifesto_badge', 'FILOSOFÍA & MANIFIESTO') }}</span>
+      </div>
 
-        <h2 class="heading-lg">{{ aboutTitle }}</h2>
-        <p class="about-brand-section__lead text-body text-muted">{{ aboutLead }}</p>
+      <h2 class="brand-statement-section__quote">
+        {{ i18n.t('brand.manifesto_quote1', 'La fotografía no captura lo que ves.') }}
+        <span class="brand-statement-section__quote-em">{{ i18n.t('brand.manifesto_quote2', 'Captura lo que sentiste.') }}</span>
+      </h2>
+
+      <p class="brand-statement-section__lead">
+        {{ aboutLead }}
+      </p>
     </div>
 
-    <div class="about-brand-section__grid">
-        <article
-            class="about-brand-card"
-            *ngFor="let pillar of pillars; let index = index"
-            tjRevealOnScroll
-            [class.reveal--left]="index % 2 === 0"
-            [class.reveal--right]="index % 2 !== 0">
-            <h3 class="heading-md">{{ pillar.title }}</h3>
-            <p class="text-body text-muted">{{ pillar.description }}</p>
-        </article>
+    <!-- Editorial Horizontal Pillars (NO CARDS!) -->
+    <div class="brand-statement-section__pillars">
+      <div
+        class="brand-pillar"
+        *ngFor="let pillar of pillars; let index = index">
+        <div class="brand-pillar__header">
+          <span class="brand-pillar__index">0{{ index + 1 }}</span>
+          <h3 class="brand-pillar__title">{{ pillar.title }}</h3>
+        </div>
+        <p class="brand-pillar__text">{{ pillar.description }}</p>
+      </div>
     </div>
+  </div>
 </section>

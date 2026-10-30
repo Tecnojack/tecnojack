@@ -1,0 +1,101 @@
+@use '../../../../styles/apple-tokens' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.storytelling-transition {
+  position: relative;
+  width: 100%;
+  min-height: clamp(480px, 60vh, 680px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid var(--tj-border);
+  border-bottom: 1px solid var(--tj-border);
+}
+
+.storytelling-transition__backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.storytelling-transition__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  transform: scale(1.04);
+  transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: brightness(0.6) contrast(1.1);
+}
+
+.storytelling-transition__scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.85) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.storytelling-transition__container {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 4rem 24px;
+  width: 100%;
+  text-align: center;
+}
+
+.storytelling-transition__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  color: #fff;
+}
+
+.storytelling-transition__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
+}
+
+.storytelling-transition__quote {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: #fff;
+  font-style: italic;
+  max-width: 22ch;
+}
+
+.storytelling-transition__tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.dot {
+  color: var(--tj-accent);
+  font-weight: 700;
+}

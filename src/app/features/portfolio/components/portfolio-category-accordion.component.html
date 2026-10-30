@@ -1,73 +1,226 @@
-<section class="service-category-package-group" tjRevealOnScroll>
+<section class="tj-accordion" tjRevealOnScroll>
+  <!-- Section Toggle Header -->
   <button
-    class="service-category-package-group__head service-category-package-group__head--toggle"
+    class="tj-accordion__trigger"
     type="button"
     (click)="toggle()"
     [attr.aria-expanded]="isOpen()"
-    [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Abrir') + ' categoría ' + title">
-    <div class="service-category-package-group__head-copy">
-      <p>{{ title }}</p>
-      <span *ngIf="lead">{{ lead }}</span>
+    [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Explorar') + ' categoría ' + title">
+    <div class="tj-accordion__header-main">
+      <div class="tj-accordion__badge-row">
+        <span class="tj-accordion__badge">{{ i18n.t('packages.collections', 'COLECCIONES') }}</span>
+        <span class="tj-accordion__count" *ngIf="packages.length">{{ packages.length }} {{ i18n.t('packages.plans_available', 'planes disponibles') }}</span>
+      </div>
+      <h3 class="tj-accordion__title">{{ title }}</h3>
+      <p class="tj-accordion__lead" *ngIf="lead">{{ lead }}</p>
     </div>
 
-    <span class="service-category-package-group__chevron" aria-hidden="true"></span>
+    <div class="tj-accordion__action">
+      <span class="tj-accordion__action-label">{{ isOpen() ? i18n.t('packages.collapse', 'Contraer') : i18n.t('packages.view_collections', 'Ver colecciones') }}</span>
+      <span class="tj-accordion__chevron" [class.is-open]="isOpen()" aria-hidden="true"></span>
+    </div>
   </button>
 
-  <div class="service-category-package-group__content" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
-    <div class="service-category-package-group__panel">
+  <!-- Expanded Content Body -->
+  <div class="tj-accordion__collapse" [@expandCollapse]="isOpen() ? 'expanded' : 'collapsed'">
+    <div class="tj-accordion__panel">
       <tj-destination-service *ngIf="showDestinationNotice" [serviceContext]="title"></tj-destination-service>
 
-      <div class="service-category-packages__grid" [class.service-category-packages__grid--two-cols]="packages.length === 2" *ngIf="packages.length; else emptyState">
-        <article
-          class="service-package-card"
-          *ngFor="let item of packages; let index = index"
-          [class.service-package-card--featured]="item.detail.featured"
-          [class.service-package-card--luxury]="item.detail.slug.includes('luxury')">
-          <ng-container *ngIf="((coverByDetail(item.detail) | async | tjImageFallback) ?? '') as resolvedImg">
-            <div class="service-package-card__media">
-              <tj-lazy-img
-                [src]="resolvedImg"
-                [alt]="item.detail.title"
-                aspectRatio="16 / 11"></tj-lazy-img>
-              <div class="service-package-card__media-badges">
-                <span class="service-package-card__tag">{{ item.displayTypeLabel }}</span>
-                <span class="service-package-card__tag service-package-card__tag--recommended" *ngIf="item.detail.slug.includes('premium')">MÁS RECOMENDADO</span>
-                <span class="service-package-card__tag service-package-card__tag--exclusive" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
-                <span class="service-package-card__tag service-package-card__tag--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">Premium</span>
-              </div>
-            </div>
+      <!-- APPLE-STYLE PRODUCT SLIDER -->
+      <div
+        class="tj-apple-slider"
+        *ngIf="packages.length; else emptyCategory"
+        (mouseenter)="onSliderMouseEnter()"
+        (mouseleave)="onSliderMouseLeave()"
+        (touchstart)="onSliderTouchStart()"
+        (touchend)="onSliderTouchEnd()">
+        
+        <!-- Slider Header Controls -->
+        <div class="tj-apple-slider__header" *ngIf="packages.length > 1">
+          <div class="tj-apple-slider__info">
+            <span class="tj-apple-slider__counter">
+              <strong class="tj-apple-slider__current">0{{ activeSlideIndex() + 1 }}</strong>
+              <span class="tj-apple-slider__divider">/</span>
+              <span class="tj-apple-slider__total">0{{ packages.length }}</span>
+            </span>
+            <span class="tj-apple-slider__hint">{{ i18n.isEn() ? 'Swipe or use controls to explore' : 'Desliza o usa el control para explorar' }}</span>
+          </div>
+        </div>
 
-            <div class="service-package-card__body">
-              <div class="service-package-card__headline">
-                <div class="service-package-card__title-row">
-                  <div class="service-package-card__title-stack">
-                    <h3 class="heading-md">{{ item.displayName }}</h3>
-                    <p class="service-package-card__tagline text-body text-muted" *ngIf="item.tagline">{{ item.tagline }}</p>
+        <!-- First-Time Swipe Invitation Cue with 5-Second Auto Progress -->
+        <div
+          class="tj-apple-swipe-cue"
+          *ngIf="showSwipeCue() && packages.length > 1"
+          (click)="dismissSwipeCue()"
+          role="status"
+          aria-live="polite">
+          <div class="tj-apple-swipe-cue__inner">
+            <span class="tj-apple-swipe-cue__hand" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+              </svg>
+            </span>
+            <span class="tj-apple-swipe-cue__arrows" aria-hidden="true">
+              <svg class="tj-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span class="tj-apple-swipe-cue__text">{{ i18n.isEn() ? 'Swipe to explore packages' : 'Desliza para explorar paquetes' }}</span>
+              <svg class="tj-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </span>
+            <span class="tj-apple-swipe-cue__progress" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <!-- Horizontal Scroll Track (Always Centering Active Card with Mouse Drag & Swipe) -->
+        <div
+          #sliderTrack
+          class="tj-apple-slider__track"
+          (scroll)="onTrackScroll()"
+          (mousedown)="onTrackMouseDown($event)"
+          (mousemove)="onTrackMouseMove($event)"
+          (mouseup)="onTrackMouseUp($event)"
+          (mouseleave)="onTrackMouseLeave($event)"
+          role="region"
+          aria-label="Carrusel de paquetes">
+          
+          <article
+            *ngFor="let item of packages; let i = index"
+            class="tj-apple-card"
+            [class.is-active]="activeSlideIndex() === i"
+            [class.is-featured]="item.detail.featured"
+            [class.is-luxury]="item.detail.slug.includes('luxury')"
+            (click)="onCardClick(i)">
+            
+            <ng-container *ngIf="((coverByDetail(item.detail) | async | tjImageFallback) ?? '') as itemImg">
+              <!-- Visual Hero Banner -->
+              <div class="tj-apple-card__media">
+                <tj-lazy-img
+                  [src]="itemImg"
+                  [alt]="item.displayName"
+                  aspectRatio="16 / 9"></tj-lazy-img>
+                <div class="tj-apple-card__vignette"></div>
+
+                <!-- Floating Badges -->
+                <div class="tj-apple-card__badges">
+                  <span class="tj-apple-badge tj-apple-badge--type">{{ item.displayTypeLabel }}</span>
+                  <span class="tj-apple-badge tj-apple-badge--premium" *ngIf="item.detail.slug.includes('premium')">{{ i18n.isEn() ? 'MOST POPULAR' : 'MÁS ELEGIDO' }}</span>
+                  <span class="tj-apple-badge tj-apple-badge--luxury" *ngIf="item.detail.slug.includes('luxury')">{{ i18n.isEn() ? 'EXCLUSIVE EXPERIENCE' : 'EXPERIENCIA EXCLUSIVA' }}</span>
+                  <span class="tj-apple-badge tj-apple-badge--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">{{ i18n.isEn() ? 'FEATURED' : 'DESTACADO' }}</span>
+                </div>
+              </div>
+
+              <!-- Card Body -->
+              <div class="tj-apple-card__body">
+                <!-- Title & Tagline -->
+                <div class="tj-apple-card__header">
+                  <span class="tj-apple-card__index">{{ i18n.isEn() ? 'Collection' : 'Colección' }} 0{{ i + 1 }}</span>
+                  <h4 class="tj-apple-card__title">{{ item.displayName }}</h4>
+                  <p class="tj-apple-card__tagline" *ngIf="item.tagline">{{ item.tagline }}</p>
+                </div>
+
+                <!-- Investment Price Display with Floating Viáticos Pill (Zero Overlap Guaranteed) -->
+                <div class="tj-apple-card__price-panel">
+                  <span class="tj-apple-card__price-label">{{ i18n.t('packages.investment', 'Inversión') }}</span>
+                  <div class="tj-apple-card__price-row">
+                    <strong class="tj-apple-card__price-amount">{{ item.displayPrice }}</strong>
+                    <span class="tj-viaticos-pill">{{ i18n.t('packages.travel_fee', '+ viáticos') }}</span>
                   </div>
                 </div>
-                <div class="service-package-card__price-block">
-                  <span class="service-package-card__price-label">Inversión</span>
-                  <strong class="service-package-card__price">{{ item.displayPrice }}</strong>
+
+                <!-- Narrative Lead -->
+                <p class="tj-apple-card__lead">{{ item.detail.lead }}</p>
+
+                <!-- Key Deliverables List -->
+                <div class="tj-apple-card__deliverables" *ngIf="item.highlights?.length">
+                  <h5 class="tj-apple-card__deliverables-title">{{ i18n.isEn() ? 'Included deliverables & coverage:' : 'Entregables y coberturas incluidas:' }}</h5>
+                  <ul class="tj-apple-card__deliverables-list">
+                    <li *ngFor="let bullet of item.highlights" class="tj-apple-card__deliverable-item">
+                      <span class="tj-apple-check" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <span>{{ bullet }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Action CTAs -->
+                <div class="tj-apple-card__actions">
+                  <button
+                    class="tj-apple-btn tj-apple-btn--primary"
+                    type="button"
+                    (click)="requestOpenPackage(item.detail.slug, itemImg); $event.stopPropagation()">
+                    <span>{{ i18n.t('packages.view_details', 'Ver detalles') }}</span>
+                    <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+
+                  <a
+                    class="tj-apple-btn tj-apple-btn--wa"
+                    [href]="getWhatsAppBookingHref(item)"
+                    target="_blank"
+                    rel="noopener"
+                    (click)="$event.stopPropagation()">
+                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="tj-apple-btn__wa-icon" />
+                    <span>{{ i18n.t('packages.book_now', 'Reservar por WhatsApp') }}</span>
+                  </a>
                 </div>
               </div>
+            </ng-container>
+          </article>
+        </div>
 
-              <div class="service-package-card__copy">
-                <p class="text-body text-muted">{{ item.detail.lead }}</p>
-              </div>
+        <!-- UNIFIED PILL CONTROLLER (Apple / Editorial Capsule from Image) -->
+        <div class="tj-slider-capsule-wrapper" *ngIf="packages.length > 1">
+          <div class="tj-slider-capsule" role="toolbar" aria-label="Controles del carrusel">
+            <!-- Prev Button -->
+            <button
+              type="button"
+              class="tj-capsule-btn tj-capsule-btn--prev"
+              (click)="prevSlide(); $event.stopPropagation()"
+              aria-label="Colección anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
 
-              <ul class="service-package-card__list">
-                <li *ngFor="let bullet of item.highlights">{{ bullet }}</li>
-              </ul>
-
-              <button class="service-package-card__cta btn-text" type="button" (click)="requestOpenPackage(item.detail.slug, resolvedImg)">Ver detalle</button>
+            <!-- Dots / Active Orange Pill -->
+            <div class="tj-capsule-dots" role="tablist" aria-label="Seleccionar paquete">
+              <button
+                *ngFor="let item of packages; let idx = index"
+                type="button"
+                class="tj-capsule-dot"
+                [class.is-active]="activeSlideIndex() === idx"
+                (click)="scrollToSlide(idx); $event.stopPropagation()"
+                [attr.aria-label]="'Ir a ' + item.displayName"
+                [attr.aria-selected]="activeSlideIndex() === idx"
+                role="tab">
+              </button>
             </div>
-          </ng-container>
-        </article>
+
+            <!-- Next Button -->
+            <button
+              type="button"
+              class="tj-capsule-btn tj-capsule-btn--next"
+              (click)="nextSlide(); $event.stopPropagation()"
+              aria-label="Siguiente colección">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <ng-template #emptyState>
-        <div class="service-category-package-group__empty">
-          <p class="text-body text-muted">Próximamente estaremos agregando paquetes para este servicio</p>
+      <ng-template #emptyCategory>
+        <div class="tj-accordion__empty">
+          <p>Próximamente estaremos publicando nuevas opciones para este servicio.</p>
         </div>
       </ng-template>
     </div>

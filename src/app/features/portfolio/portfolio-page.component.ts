@@ -3,11 +3,14 @@ import { Meta, Title } from '@angular/platform-browser';
 
 import { AboutBrandSectionComponent } from './sections/about-brand-section.component';
 import { ContactSectionComponent } from './sections/contact-section.component';
+import { FeaturedExperiencesSectionComponent } from './sections/featured-experiences-section.component';
 import { HeroSectionComponent } from './sections/hero-section.component';
 import { PortfolioShellComponent } from './portfolio-shell.component';
 import { PortfolioContentService } from './services/portfolio-content.service';
 import { ProfessionalProfileSectionComponent } from './sections/professional-profile-section.component';
+import { SelectedWorkSectionComponent } from './sections/selected-work-section.component';
 import { ServicesSectionComponent } from './sections/services-section.component';
+import { StorytellingTransitionSectionComponent } from './sections/storytelling-transition-section.component';
 
 @Component({
   selector: 'tj-portfolio-page',
@@ -15,14 +18,17 @@ import { ServicesSectionComponent } from './sections/services-section.component'
   imports: [
     PortfolioShellComponent,
     HeroSectionComponent,
-    ProfessionalProfileSectionComponent,
-    ServicesSectionComponent,
     AboutBrandSectionComponent,
-    ContactSectionComponent
+    SelectedWorkSectionComponent,
+    ServicesSectionComponent,
+    StorytellingTransitionSectionComponent,
+    FeaturedExperiencesSectionComponent,
+    ProfessionalProfileSectionComponent,
+    ContactSectionComponent,
   ],
   templateUrl: './portfolio-page.component.html',
   styleUrl: './portfolio-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioPageComponent {
   private readonly title = inject(Title);
@@ -34,7 +40,7 @@ export class PortfolioPageComponent {
       const pageMeta = this.content.getPageMeta(
         'portfolio',
         'TECNOJACK | Fotografía y cine para bodas, eventos y marcas',
-        'Landing premium de TECNOJACK para fotografía y cine en bodas, eventos, marcas y experiencias visuales con contacto directo por WhatsApp.'
+        'Landing premium de TECNOJACK para fotografía y cine en bodas, eventos, marcas y experiencias visuales con contacto directo por WhatsApp.',
       );
 
       this.title.setTitle(pageMeta.title);

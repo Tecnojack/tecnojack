@@ -1,103 +1,199 @@
+@use '../../../../styles/apple-tokens' as *;
+
 :host {
-    display: block;
+  display: block;
+  width: 100%;
 }
 
-.professional-profile-section {
-    width: min(1180px, calc(100% - 32px));
+.creator-narrative-section {
+  width: 100%;
+  padding: clamp(90px, 12vw, 160px) 24px;
+  background-color: var(--tj-background);
+  color: var(--tj-text);
+  border-top: 1px solid var(--tj-border);
+}
+
+.creator-narrative-section__container {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.creator-narrative {
+  display: grid;
+  grid-template-columns: 45% 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+// ─── Left Editorial Portrait ─────────────────────────────────────────────────
+.creator-narrative__media {
+  position: relative;
+  border-radius: var(--tj-radius-sm);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: #000;
+  border: 1px solid var(--tj-border);
+
+  @media (max-width: 1023px) {
+    max-width: 520px;
     margin: 0 auto;
-    padding: 10px 0 22px;
+    width: 100%;
+  }
 }
 
-.professional-profile-section__panel {
-    display: grid;
-    gap: 20px;
-    padding: 34px;
-    border-radius: 32px;
-    border: 1px solid var(--portfolio-line);
-    background:
-        radial-gradient(circle at top right, rgba(216, 179, 107, 0.12), transparent 26%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-    box-shadow: var(--portfolio-shadow);
+.creator-narrative__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.professional-profile-section__copy {
-    display: grid;
-    gap: 14px;
+.creator-narrative__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
 }
 
-.professional-profile-section__eyebrow,
-.professional-profile-section__label {
+.creator-narrative__caption {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  z-index: 2;
+}
+
+// ─── Right Editorial Story ───────────────────────────────────────────────────
+.creator-narrative__editorial {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.creator-narrative__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.creator-narrative__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
+}
+
+.creator-narrative__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--tj-text);
+  line-height: 1.15;
+}
+
+.creator-narrative__lead {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--tj-text-secondary);
+}
+
+.creator-narrative__quote {
+  margin: 0.5rem 0;
+  padding: 1.25rem 0 1.25rem 1.5rem;
+  border-left: 2px solid var(--tj-text);
+
+  p {
     margin: 0;
-    color: var(--portfolio-accent);
-    font-family: var(--portfolio-font-display);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--tj-text);
+  }
 }
 
-.professional-profile-section__lead {
-    max-width: 50ch;
-    line-height: 1.58;
-    font-size: 1.03rem;
+.creator-narrative__ecosystem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
 }
 
-.professional-profile-section__aside {
-    display: grid;
-    gap: 16px;
-    padding: 24px;
-    border-radius: 26px;
-    border: 1px solid rgba(216, 179, 107, 0.16);
-    background: rgba(12, 12, 12, 0.34);
+.creator-narrative__ecosystem-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tj-text-tertiary);
 }
 
-.professional-profile-section__list {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.creator-narrative__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
-.professional-profile-section__list li {
-    padding: 13px 15px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--portfolio-muted);
-    line-height: 1.5;
+.creator-narrative__list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--tj-text-secondary);
 }
 
-.professional-profile-section__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    justify-self: start;
-    min-height: var(--portfolio-button-height);
-    padding: 0 var(--portfolio-button-padding-x);
-    border-radius: var(--portfolio-button-radius);
-    border: 1px solid rgba(216, 179, 107, 0.28);
-    background: rgba(216, 179, 107, 0.08);
-    color: var(--portfolio-text);
-    text-decoration: none;
-    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+.creator-item-bullet {
+  color: var(--tj-accent);
+  font-weight: 700;
 }
 
-.professional-profile-section__cta:hover {
+.creator-narrative__action {
+  padding-top: 1rem;
+}
+
+.creator-narrative__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--tj-radius-full);
+  background: var(--tj-surface-hover);
+  border: 1px solid var(--tj-border);
+  color: var(--tj-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform var(--tj-transition-fast), border-color var(--tj-transition-fast), background-color var(--tj-transition-fast);
+
+  &:hover {
     transform: translateY(-2px);
-    border-color: rgba(216, 179, 107, 0.46);
-    background: rgba(216, 179, 107, 0.12);
+    border-color: var(--tj-border-strong);
+    background: var(--tj-surface-active);
+  }
 }
 
-@media (min-width: 980px) {
-    .professional-profile-section__panel {
-        grid-template-columns: minmax(0, 1.22fr) minmax(320px, 0.78fr);
-        align-items: start;
-    }
-}
+.creator-btn-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--tj-transition-fast);
 
-@media (prefers-reduced-motion: reduce) {
-    .professional-profile-section__cta {
-        transition: none;
-    }
+  .creator-narrative__cta:hover & {
+    transform: translateX(4px);
+  }
 }

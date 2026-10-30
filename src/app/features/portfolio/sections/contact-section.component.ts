@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, effect, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faFacebookF, faInstagram, faTiktok, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -7,6 +7,7 @@ import { faFacebookF, faInstagram, faTiktok, faWhatsapp, faYoutube } from '@fort
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { PortfolioContactLink } from '../portfolio.data';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 @Component({
   selector: 'tj-contact-section',
@@ -18,15 +19,24 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 })
 export class ContactSectionComponent {
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  readonly i18n = inject(I18nService);
 
   @Input() editable = false;
 
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
+
   get title(): string {
-    return this.content.contactTitle();
+    return this.i18n.t('contact.title', this.content.contactTitle());
   }
 
   get lead(): string {
-    return this.content.contactLead();
+    return this.i18n.t('contact.lead', this.content.contactLead());
   }
 
   get body(): string {
@@ -50,6 +60,6 @@ export class ContactSectionComponent {
     youtube: faYoutube,
     facebook: faFacebookF,
     tiktok: faTiktok,
-    whatsapp: faWhatsapp
+    whatsapp: faWhatsapp,
   };
 }
