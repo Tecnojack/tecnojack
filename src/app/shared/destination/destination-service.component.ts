@@ -1,5 +1,20 @@
 import { NgIf, DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, Output, ViewChild, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { I18nService } from '../../core/services/i18n.service';
 
 export type DestinationServiceVariant = 'notice' | 'selection';
@@ -14,17 +29,24 @@ export type DestinationServiceVariant = 'notice' | 'selection';
 })
 export class DestinationServiceComponent implements OnDestroy {
   readonly i18n = inject(I18nService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() variant: DestinationServiceVariant = 'notice';
   @Input() serviceContext = 'Servicio audiovisual';
   @Input() selected = false;
   @Output() selectedChange = new EventEmitter<boolean>();
 
-  @ViewChild('modalRef') modalRef?: ElementRef<HTMLElement>;
+  @ViewChild('dialogRef') dialogRef?: ElementRef<HTMLDialogElement>;
+  @ViewChild('panelRef') panelRef?: ElementRef<HTMLElement>;
 
   readonly isInfoOpen = signal(false);
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document) {}
+  constructor(@Inject(DOCUMENT) private readonly document: Document) {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
 
   get recommendedCrew(): string {
     const value = this.serviceContext.toLowerCase();
@@ -52,12 +74,32 @@ export class DestinationServiceComponent implements OnDestroy {
   openInfo(): void {
     this.isInfoOpen.set(true);
     setTimeout(() => {
-      this.modalRef?.nativeElement.focus();
+      const dialog = this.dialogRef?.nativeElement;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+        if (typeof document !== 'undefined') {
+          this.document.body.style.overflow = 'hidden';
+        }
+      }
     });
   }
 
   closeInfo(): void {
+    const dialog = this.dialogRef?.nativeElement;
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
+    if (typeof document !== 'undefined') {
+      this.document.body.style.overflow = '';
+    }
     this.isInfoOpen.set(false);
+  }
+
+  onDialogClick(event: MouseEvent): void {
+    const panel = this.panelRef?.nativeElement;
+    if (panel && !panel.contains(event.target as Node)) {
+      this.closeInfo();
+    }
   }
 
   @HostListener('document:keydown.escape')
@@ -68,6 +110,12 @@ export class DestinationServiceComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // cleanup
+    if (typeof document !== 'undefined') {
+      this.document.body.style.overflow = '';
+    }
+    const dialog = this.dialogRef?.nativeElement;
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
   }
 }
