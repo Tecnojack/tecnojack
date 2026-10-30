@@ -525,7 +525,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'bodas',
     title: 'Bodas',
     description: 'Historias de boda con estética elegante y lectura emocional del momento.',
-    image: 'assets/images/fotos/default-cover.png',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5',
     href: '/portfolio/bodas',
     ctaLabel: 'Ver paquetes',
     points: ['Foto + video', 'Color cinematográfico', 'Entrega para redes y archivo final']
@@ -534,7 +534,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'quinces',
     title: '15 años',
     description: 'Cobertura visual para celebrar con retratos, clips y momentos clave.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=21bbd277-7f47-4bae-bee8-e5e916ef7b94',
     href: '/portfolio/quinces',
     ctaLabel: 'Ver paquetes',
     points: ['Retratos de gala', 'Clips verticales', 'Cobertura de ceremonia y fiesta']
@@ -543,7 +543,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'grados',
     title: 'Grados',
     description: 'Ceremonias y promociones con una cobertura limpia, clara y bien presentada.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-legado%2Fcover.jpg?alt=media&token=a721ca76-e170-4fc7-be18-b2e4ec400e47',
     href: '/portfolio/grados',
     ctaLabel: 'Ver paquetes',
     points: ['Llamado individual', 'Fotos familiares', 'Paquetes por estudiante o grupo']
@@ -552,7 +552,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'preboda',
     title: 'Preboda',
     description: 'Sesiones previas con dirección sutil, narrativa visual y una estética íntima.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
     href: '/portfolio/preboda',
     ctaLabel: 'Ver paquetes',
     points: ['Dirección creativa', 'Sesión exterior', 'Contenido emocional']
@@ -561,7 +561,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'sesiones',
     title: 'Sesiones Fotográficas',
     description: 'Retratos individuales, sesiones familiares y fotografía en estudio profesional con iluminación y dirección de poses.',
-    image: 'https://images.pexels.com/photos/18102854/pexels-photo-18102854.jpeg?auto=compress&cs=tinysrgb&w=900&fit=crop',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978771529-asi2zvqhv8w.jpg?alt=media&token=71730aa6-a22f-4a54-a1b3-d9dd76d41ea6',
     href: '/portfolio/sesiones',
     ctaLabel: 'Ver paquetes',
     points: ['Individuales & Generales', 'Familiares & Grupos', 'Estudio profesional (2h)', 'Entrega digital en alta calidad']
@@ -570,7 +570,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'videos',
     title: 'Videos',
     description: 'Producción de video musical, corporativo y creativo con enfoque narrativo.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
     href: '/portfolio/videos',
     ctaLabel: 'Ver paquetes',
     points: ['Videos musicales', 'Corporativo y marca', 'Cortometrajes y creativos']
@@ -588,7 +588,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'solutions',
     title: 'Soluciones',
     description: 'Páginas y experiencias digitales pensadas para convertir visitas en consultas reales, con una propuesta visual clara y enfocada en ventas.',
-    image: 'assets/images/fotos/default-cover.png',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fluxury%2Fcover.jpg?alt=media&token=14059437-1d4b-4e95-9b34-ceb54097dcf5',
     href: '/soluciones',
     ctaLabel: 'Ver soluciones',
     points: ['Landing pages de conversión', 'Presentación de servicios', 'Contacto directo por WhatsApp']
@@ -3828,10 +3828,10 @@ export function getPortfolioPackageDetailsByCategory(
 
 export const portfolioGalleryItems: PortfolioGalleryItem[] = [
   {
-    src: 'assets/images/fotos/default-cover.png',
-    alt: 'Retrato editorial de pareja en exterior',
-    title: 'Luz natural y dirección sutil',
-    category: 'Preboda',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5',
+    alt: 'Novios en sesión cinematográfica de boda',
+    title: 'Historias de amor con alma',
+    category: 'Bodas',
     variant: 'tall'
   },
   {
@@ -3841,53 +3841,53 @@ export const portfolioGalleryItems: PortfolioGalleryItem[] = [
     category: 'Bodas'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
-    alt: 'Detalle elegante de una celebración especial',
-    title: 'Detalles con intención',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=21bbd277-7f47-4bae-bee8-e5e916ef7b94',
+    alt: 'Quinceañera en sesión editorial',
+    title: 'Celebraciones contemporáneas',
     category: '15 años'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0',
-    alt: 'Ceremonia capturada con estilo cinematográfico',
-    title: 'Ceremonias con atmósfera',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-legado%2Fcover.jpg?alt=media&token=a721ca76-e170-4fc7-be18-b2e4ec400e47',
+    alt: 'Ceremonia de grado capturada con estilo cinematográfico',
+    title: 'Ceremonias solemnes',
     category: 'Grados',
     variant: 'wide'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
-    alt: 'Retrato creativo de novios en recepción',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fpremium%2Fcover.jpg?alt=media&token=5b20fd2e-3a53-4634-b927-1d50f92732fd',
+    alt: 'Retrato de boda con iluminación cuidada',
     title: 'Mirada de autor',
     category: 'Bodas'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fesencial%2Fcover.jpg?alt=media&token=4fc53e69-c1cf-4648-bcb6-f15308a2c026',
-    alt: 'Momento espontáneo durante una boda',
-    title: 'Movimiento y textura',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978771529-asi2zvqhv8w.jpg?alt=media&token=71730aa6-a22f-4a54-a1b3-d9dd76d41ea6',
+    alt: 'Sesión de gala de quinceañera',
+    title: 'Elegancia y frescura',
     category: '15 años'
-  },
-  {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61',
-    alt: 'Sesión íntima de pareja antes del evento',
-    title: 'Narrativa de pareja',
-    category: 'Preboda'
   },
   {
     src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
-    alt: 'Retrato elegante durante celebración de grado',
-    title: 'Retratos de ceremonia',
+    alt: 'Retrato de graduación con toga y diploma',
+    title: 'Logro y orgullo',
     category: 'Grados'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
-    alt: 'Composición visual para una celebración juvenil',
-    title: 'Celebraciones memorables',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    alt: 'Sesión previa íntima de pareja',
+    title: 'Conexión auténtica',
+    category: 'Preboda'
+  },
+  {
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fpremium%2Fcover.jpg?alt=media&token=4d85cea8-1987-4f47-8599-1a2da31a0706',
+    alt: 'Celebración de 15 años en recepción',
+    title: 'Momentos inolvidables',
     category: '15 años'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
-    alt: 'Escena romántica en sesión previa a boda',
-    title: 'Escenas previas al gran día',
-    category: 'Preboda',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-memoria%2Fcover.jpg?alt=media&token=eb98950c-e2f0-4cb4-a535-bfcf4797fb87',
+    alt: 'Retrato solemne de promoción de grado',
+    title: 'Recuerdos de por vida',
+    category: 'Grados',
     variant: 'wide'
   }
 ];
@@ -4075,7 +4075,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         images: [
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Pareja abrazándose durante la boda' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9', alt: 'Retrato editorial de novios durante la recepción' },
-          { src: 'assets/images/fotos/default-cover.png', alt: 'Retrato de pareja en exterior' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Retrato de pareja en exterior' }
         ]
       },
       {
@@ -4235,7 +4235,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Sesión exterior',
         subtitle: 'Narrativa íntima de pareja',
         images: [
-          { src: 'assets/images/fotos/default-cover.png', alt: 'Sesión preboda en exterior con luz natural' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5', alt: 'Sesión preboda en exterior con luz natural' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Escena romántica en sesión preboda' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61', alt: 'Retrato íntimo de pareja antes de la boda' }
         ]

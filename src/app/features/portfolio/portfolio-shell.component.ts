@@ -35,6 +35,26 @@ export class PortfolioShellComponent {
     );
   }
 
+  getNavLabel(item: PortfolioNavItem): string {
+    const map: Record<string, string> = {
+      '/portfolio': 'nav.home',
+      '/portfolio/bodas': 'nav.bodas',
+      '/portfolio/quinces': 'nav.quinces',
+      '/portfolio/grados': 'nav.grados',
+      '/portfolio/videos': 'nav.videos',
+      '/portfolio/sesiones': 'nav.sesiones',
+      '/portfolio/soluciones': 'nav.soluciones',
+      '/soluciones': 'nav.soluciones',
+      '/portfolio/sobre-mi': 'nav.sobre_mi',
+      '/portfolio/corporativos': 'nav.corporativos',
+      '/otros': 'nav.otros',
+      '#services': 'nav.cotizar',
+      '#contact': 'nav.contacto'
+    };
+    const key = map[item.href];
+    return key ? this.i18n.t(key, item.label) : item.label;
+  }
+
   @Input() brandHref = '/portfolio';
   @Input() headerCtaHref?: string;
   @Input() headerCtaLabel = 'WhatsApp';

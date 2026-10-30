@@ -39,6 +39,18 @@
 
 ## ALINEACIÃ“N VISUAL REACT / FIGMA MAKE
 
+- Internacionalización Integral (i18n ES / EN en toda la página de portafolio y categorías):
+  - Integración reactiva de `I18nService` en todas las secciones: Hero, Manifiesto/Filosofía, Obra Seleccionada, Catálogo de Servicios, Transición Cinemática, Experiencias Insignia, Perfil Profesional, Contacto, Header, Navegación Móvil, Menú Flotante, Footer y Acordeones de Paquetes.
+  - Conmutador `ES / EN` dinámico con actualización reactiva instantánea sin recarga.
+  - Textos de navegación, etiquetas de paquetes, badges de colecciones, modales de Destination y formularios traducidos al 100%.
+- Curaduría y corrección total de imágenes de portafolio con Firebase Storage:
+  - Eliminación completa de `default-cover.png` y reemplazo por imágenes de alta resolución categorizadas:
+    - Bodas: portadas oficiales de bodas (`servicios/bodas/cover.jpg`, `hibridas/luxury/cover.jpg`, `hibridas/premium/cover.jpg`).
+    - Quinces: portadas y sesiones de gala (`servicios/quinces/cover.jpg`, `fotografia-de-quince/premium/cover.jpg`, `clientes/sofia-colorado`).
+    - Grados: portadas de grado y retratos solemnes (`servicios/grados/estudiantes/plan-legado/cover.jpg`, `plan-memoria/cover.jpg`, `clientes/sara-villamizar`).
+    - Video: portada oficial de producción audiovisual 4K (`servicios/video/cover.jpg`).
+  - Galerías de `portfolioServices` y `portfolioGalleryItems` alineadas exactamente a sus categorías correspondientes.
+
 - Migración y aislamiento de imágenes de clientes de invitaciones (`M&D-*`):
   - 100% de las imágenes privadas de la invitación María & Daniel eliminadas de vistas de portafolio público, paquetes y perfiles.
   - Reemplazo completo por imágenes oficiales de Firebase Storage (`servicios/bodas/...`, `servicios/quinces/...`, `servicios/grados/...`, `servicios/video/...`, `servicios/prebodas/...`).

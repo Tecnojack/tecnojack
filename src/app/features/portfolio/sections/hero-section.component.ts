@@ -25,7 +25,17 @@ export class HeroSectionComponent {
   }
 
   get stats() {
-    return this.content.heroStats();
+    const raw = this.content.heroStats();
+    const labelMap: Record<string, string> = {
+      'Años de trayectoria': 'stats.years',
+      'Bodas & Eventos': 'stats.weddings',
+      'Entregas exitosas': 'stats.deliverables',
+      'Satisfacción de clientes': 'stats.satisfaction'
+    };
+    return raw.map(s => ({
+      ...s,
+      label: labelMap[s.label] ? this.i18n.t(labelMap[s.label], s.label) : s.label
+    }));
   }
 
   get highlights() {

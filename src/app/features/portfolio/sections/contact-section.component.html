@@ -2,8 +2,8 @@
   <div class="minimal-contact-section__container">
     <div class="minimal-contact">
       <div class="minimal-contact__header">
-        <span class="minimal-contact__badge">DISPONIBILIDAD &amp; ASESORÍA PERSONALIZADA</span>
-        <h2 class="minimal-contact__title">Hagamos realidad una historia inolvidable</h2>
+        <span class="minimal-contact__badge">{{ i18n.t('contact.badge', 'DISPONIBILIDAD & ASESORÍA PERSONALIZADA') }}</span>
+        <h2 class="minimal-contact__title">{{ title }}</h2>
         <p class="minimal-contact__lead">
           {{ lead }}
         </p>
@@ -12,11 +12,11 @@
       <div class="minimal-contact__actions">
         <a class="minimal-contact__wa-btn" [href]="whatsappHref" target="_blank" rel="noopener">
           <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-btn-icon" />
-          <span>Iniciar conversación en WhatsApp</span>
+          <span>{{ i18n.t('contact.wa_cta', 'Iniciar conversación en WhatsApp') }}</span>
         </a>
 
         <div class="minimal-contact__channels">
-          <span class="minimal-contact__channels-label">O síguenos en redes:</span>
+          <span class="minimal-contact__channels-label">{{ i18n.t('contact.socials', 'O síguenos en redes:') }}</span>
           <div class="minimal-contact__socials">
             <a
               class="minimal-contact__social-link"
@@ -32,7 +32,7 @@
       </div>
 
       <div class="minimal-contact__meta">
-        <span>📍 Base en Medellín · Cobertura en toda Colombia y producciones internacionales</span>
+        <span>{{ i18n.t('contact.location', '📍 Base en Medellín · Cobertura en toda Colombia y producciones internacionales') }}</span>
       </div>
     </div>
   </div>

@@ -38,6 +38,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 import { ClientPublicService } from '../services/client-public.service';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
+import { I18nService } from '../../../core/services/i18n.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 
 type ServiceModalStep = 'detail' | 'request';
@@ -127,6 +128,7 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
+  readonly i18n = inject(I18nService);
   readonly categoryState = signal<PortfolioPackageCategory>('bodas');
   readonly mobileComparePlanIndex = signal(2); // Default to Premium
 

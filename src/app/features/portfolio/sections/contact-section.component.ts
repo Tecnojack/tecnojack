@@ -7,6 +7,7 @@ import { faFacebookF, faInstagram, faTiktok, faWhatsapp, faYoutube } from '@fort
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { PortfolioContactLink } from '../portfolio.data';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 @Component({
   selector: 'tj-contact-section',
@@ -18,15 +19,16 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 })
 export class ContactSectionComponent {
   private readonly content = inject(PortfolioContentService);
+  readonly i18n = inject(I18nService);
 
   @Input() editable = false;
 
   get title(): string {
-    return this.content.contactTitle();
+    return this.i18n.t('contact.title', this.content.contactTitle());
   }
 
   get lead(): string {
-    return this.content.contactLead();
+    return this.i18n.t('contact.lead', this.content.contactLead());
   }
 
   get body(): string {
@@ -50,6 +52,6 @@ export class ContactSectionComponent {
     youtube: faYoutube,
     facebook: faFacebookF,
     tiktok: faTiktok,
-    whatsapp: faWhatsapp
+    whatsapp: faWhatsapp,
   };
 }

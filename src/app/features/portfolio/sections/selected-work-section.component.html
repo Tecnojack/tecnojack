@@ -2,17 +2,17 @@
   <div class="selected-work-section__container">
     <header class="selected-work-section__header">
       <div class="selected-work-section__eyebrow-row">
-        <span class="selected-work-section__badge">CAMPAÑAS DESTACADAS</span>
-        <span class="selected-work-section__eyebrow">OBRA SELECCIONADA</span>
+        <span class="selected-work-section__badge">{{ i18n.t('work.badge', 'CAMPAÑAS DESTACADAS') }}</span>
+        <span class="selected-work-section__eyebrow">{{ i18n.t('work.eyebrow', 'OBRA SELECCIONADA') }}</span>
       </div>
-      <h2 class="selected-work-section__title">Fotografía y cine con intención editorial.</h2>
+      <h2 class="selected-work-section__title">{{ i18n.t('work.title', 'Fotografía y cine con intención editorial.') }}</h2>
       <p class="selected-work-section__lead">
-        Una cuidada selección de proyectos donde cada encuadre responde a una visión artística deliberada y atemporal.
+        {{ i18n.t('work.lead', 'Una cuidada selección de proyectos donde cada encuadre responde a una visión artística deliberada y atemporal.') }}
       </p>
     </header>
 
     <div class="selected-work-grid">
-      <!-- 1. Full-Width Lead Campaign -->
+      <!-- 1. Full-Width Lead Campaign (Bodas) -->
       <a
         class="work-item work-item--full"
         [routerLink]="campaigns[0].href"
@@ -31,7 +31,7 @@
           <span class="work-item__category">{{ campaigns[0].category }}</span>
           <h3 class="work-item__title">{{ campaigns[0].title }}</h3>
           <p class="work-item__subtitle">{{ campaigns[0].subtitle }}</p>
-          <span class="work-item__link">Ver proyecto completo →</span>
+          <span class="work-item__link">{{ i18n.t('work.view_full', 'Ver proyecto completo →') }}</span>
         </div>
       </a>
 
@@ -55,7 +55,7 @@
             <span class="work-item__category">{{ campaigns[1].category }}</span>
             <h3 class="work-item__title">{{ campaigns[1].title }}</h3>
             <p class="work-item__subtitle">{{ campaigns[1].subtitle }}</p>
-            <span class="work-item__link">Explorar sesiones →</span>
+            <span class="work-item__link">{{ i18n.t('work.explore_sessions', 'Explorar sesiones →') }}</span>
           </div>
         </a>
 
@@ -77,12 +77,12 @@
             <span class="work-item__category">{{ campaigns[2].category }}</span>
             <h3 class="work-item__title">{{ campaigns[2].title }}</h3>
             <p class="work-item__subtitle">{{ campaigns[2].subtitle }}</p>
-            <span class="work-item__link">Explorar 15 años →</span>
+            <span class="work-item__link">{{ i18n.t('work.explore_quinces', 'Ver celebraciones →') }}</span>
           </div>
         </a>
       </div>
 
-      <!-- 4. Wide Panorama (Cinema) -->
+      <!-- 4. Wide Panorama (Video & Film) -->
       <a
         class="work-item work-item--wide"
         [routerLink]="campaigns[3].href"
@@ -101,7 +101,7 @@
           <span class="work-item__category">{{ campaigns[3].category }}</span>
           <h3 class="work-item__title">{{ campaigns[3].title }}</h3>
           <p class="work-item__subtitle">{{ campaigns[3].subtitle }}</p>
-          <span class="work-item__link">Ver producciones de video →</span>
+          <span class="work-item__link">{{ i18n.t('work.explore_cinema', 'Ver producciones de cine →') }}</span>
         </div>
       </a>
     </div>

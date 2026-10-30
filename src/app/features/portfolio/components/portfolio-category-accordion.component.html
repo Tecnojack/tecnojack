@@ -8,15 +8,15 @@
     [attr.aria-label]="(isOpen() ? 'Cerrar' : 'Explorar') + ' categoría ' + title">
     <div class="tj-accordion__header-main">
       <div class="tj-accordion__badge-row">
-        <span class="tj-accordion__badge">COLECCIONES</span>
-        <span class="tj-accordion__count" *ngIf="packages.length">{{ packages.length }} planes disponibles</span>
+        <span class="tj-accordion__badge">{{ i18n.t('packages.collections', 'COLECCIONES') }}</span>
+        <span class="tj-accordion__count" *ngIf="packages.length">{{ packages.length }} {{ i18n.t('packages.plans_available', 'planes disponibles') }}</span>
       </div>
       <h3 class="tj-accordion__title">{{ title }}</h3>
       <p class="tj-accordion__lead" *ngIf="lead">{{ lead }}</p>
     </div>
 
     <div class="tj-accordion__action">
-      <span class="tj-accordion__action-label">{{ isOpen() ? 'Contraer' : 'Ver colecciones' }}</span>
+      <span class="tj-accordion__action-label">{{ isOpen() ? i18n.t('packages.collapse', 'Contraer') : i18n.t('packages.view_collections', 'Ver colecciones') }}</span>
       <span class="tj-accordion__chevron" [class.is-open]="isOpen()" aria-hidden="true"></span>
     </div>
   </button>
@@ -43,7 +43,7 @@
               <span class="tj-apple-slider__divider">/</span>
               <span class="tj-apple-slider__total">0{{ packages.length }}</span>
             </span>
-            <span class="tj-apple-slider__hint">Desliza o usa el control para explorar</span>
+            <span class="tj-apple-slider__hint">{{ i18n.isEn() ? 'Swipe or use controls to explore' : 'Desliza o usa el control para explorar' }}</span>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
             </span>
             <span class="tj-apple-swipe-cue__arrows" aria-hidden="true">
               <svg class="tj-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              <span class="tj-apple-swipe-cue__text">Desliza para explorar paquetes</span>
+              <span class="tj-apple-swipe-cue__text">{{ i18n.isEn() ? 'Swipe to explore packages' : 'Desliza para explorar paquetes' }}</span>
               <svg class="tj-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </span>
             <span class="tj-apple-swipe-cue__progress" aria-hidden="true"></span>
@@ -104,9 +104,9 @@
                 <!-- Floating Badges -->
                 <div class="tj-apple-card__badges">
                   <span class="tj-apple-badge tj-apple-badge--type">{{ item.displayTypeLabel }}</span>
-                  <span class="tj-apple-badge tj-apple-badge--premium" *ngIf="item.detail.slug.includes('premium')">MÁS ELEGIDO</span>
-                  <span class="tj-apple-badge tj-apple-badge--luxury" *ngIf="item.detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
-                  <span class="tj-apple-badge tj-apple-badge--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">DESTACADO</span>
+                  <span class="tj-apple-badge tj-apple-badge--premium" *ngIf="item.detail.slug.includes('premium')">{{ i18n.isEn() ? 'MOST POPULAR' : 'MÁS ELEGIDO' }}</span>
+                  <span class="tj-apple-badge tj-apple-badge--luxury" *ngIf="item.detail.slug.includes('luxury')">{{ i18n.isEn() ? 'EXCLUSIVE EXPERIENCE' : 'EXPERIENCIA EXCLUSIVA' }}</span>
+                  <span class="tj-apple-badge tj-apple-badge--featured" *ngIf="item.detail.featured && !item.detail.slug.includes('premium') && !item.detail.slug.includes('luxury')">{{ i18n.isEn() ? 'FEATURED' : 'DESTACADO' }}</span>
                 </div>
               </div>
 
@@ -114,17 +114,17 @@
               <div class="tj-apple-card__body">
                 <!-- Title & Tagline -->
                 <div class="tj-apple-card__header">
-                  <span class="tj-apple-card__index">Colección 0{{ i + 1 }}</span>
+                  <span class="tj-apple-card__index">{{ i18n.isEn() ? 'Collection' : 'Colección' }} 0{{ i + 1 }}</span>
                   <h4 class="tj-apple-card__title">{{ item.displayName }}</h4>
                   <p class="tj-apple-card__tagline" *ngIf="item.tagline">{{ item.tagline }}</p>
                 </div>
 
                 <!-- Investment Price Display with Floating Viáticos Pill (Zero Overlap Guaranteed) -->
                 <div class="tj-apple-card__price-panel">
-                  <span class="tj-apple-card__price-label">Inversión</span>
+                  <span class="tj-apple-card__price-label">{{ i18n.t('packages.investment', 'Inversión') }}</span>
                   <div class="tj-apple-card__price-row">
                     <strong class="tj-apple-card__price-amount">{{ item.displayPrice }}</strong>
-                    <span class="tj-viaticos-pill">+ viáticos</span>
+                    <span class="tj-viaticos-pill">{{ i18n.t('packages.travel_fee', '+ viáticos') }}</span>
                   </div>
                 </div>
 
@@ -133,7 +133,7 @@
 
                 <!-- Key Deliverables List -->
                 <div class="tj-apple-card__deliverables" *ngIf="item.highlights?.length">
-                  <h5 class="tj-apple-card__deliverables-title">Entregables y coberturas incluidas:</h5>
+                  <h5 class="tj-apple-card__deliverables-title">{{ i18n.isEn() ? 'Included deliverables & coverage:' : 'Entregables y coberturas incluidas:' }}</h5>
                   <ul class="tj-apple-card__deliverables-list">
                     <li *ngFor="let bullet of item.highlights" class="tj-apple-card__deliverable-item">
                       <span class="tj-apple-check" aria-hidden="true">
@@ -152,7 +152,7 @@
                     class="tj-apple-btn tj-apple-btn--primary"
                     type="button"
                     (click)="requestOpenPackage(item.detail.slug, itemImg); $event.stopPropagation()">
-                    <span>Ver detalles</span>
+                    <span>{{ i18n.t('packages.view_details', 'Ver detalles') }}</span>
                     <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
@@ -166,7 +166,7 @@
                     rel="noopener"
                     (click)="$event.stopPropagation()">
                     <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="tj-apple-btn__wa-icon" />
-                    <span>Reservar por WhatsApp</span>
+                    <span>{{ i18n.t('packages.book_now', 'Reservar por WhatsApp') }}</span>
                   </a>
                 </div>
               </div>

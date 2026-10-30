@@ -3,7 +3,7 @@
     <!-- Editorial Section Header -->
     <header class="services-section__header" tjRevealOnScroll>
       <div class="services-section__eyebrow-stack">
-        <span class="services-section__badge">CATÁLOGO EDITORIAL</span>
+        <span class="services-section__badge">{{ i18n.t('services.badge', 'CATÁLOGO EDITORIAL') }}</span>
         <span class="services-section__eyebrow">{{ i18n.t('services.eyebrow', 'Disciplinas y Especialidades') }}</span>
       </div>
       <h2 class="services-section__title">{{ i18n.t('services.title', 'Servicios audiovisuales creados para trascender.') }}</h2>
@@ -53,7 +53,7 @@
           <!-- Showcase Content Overlay -->
           <div class="services-showcase__content">
             <div class="services-showcase__meta">
-              <span class="services-showcase__tag">DISCIPLINA 0{{ activeIndex() + 1 }}</span>
+              <span class="services-showcase__tag">{{ i18n.t('services.discipline', 'DISCIPLINA') }} 0{{ activeIndex() + 1 }}</span>
               <h3 class="services-showcase__title">{{ active.title }}</h3>
               <p class="services-showcase__desc">{{ active.description }}</p>
             </div>

@@ -37,13 +37,13 @@
                         routerLinkActive="portfolio-header__nav-link--active"
                         [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }"
                         [routerLink]="item.href">
-                        {{ item.label }}
+                        {{ getNavLabel(item) }}
                     </a>
                     <ng-template #externalNavLink>
                         <a
                             class="portfolio-header__nav-link"
                             [class.portfolio-header__nav-link--priority]="item.href === '/otros'"
-                            [href]="item.href">{{ item.label }}</a>
+                            [href]="item.href">{{ getNavLabel(item) }}</a>
                     </ng-template>
                 </ng-container>
             </nav>
@@ -122,7 +122,7 @@
                         (click)="closeMobileNav()"
                         routerLinkActive="portfolio-mobile-nav__link--active"
                         [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }">
-                        {{ item.label }}
+                        {{ getNavLabel(item) }}
                     </a>
                     <ng-template #mobileExternalLink>
                         <a
@@ -130,7 +130,7 @@
                             [style.--item-order]="idx"
                             [href]="item.href"
                             (click)="closeMobileNav()">
-                            {{ item.label }}
+                            {{ getNavLabel(item) }}
                         </a>
                     </ng-template>
                 </ng-container>
@@ -142,12 +142,12 @@
                         🌐 {{ i18n.isEn() ? 'English' : 'Español' }}
                     </button>
                     <button type="button" class="mobile-toggle-chip" (click)="toggleTheme()">
-                        {{ theme.isDark() ? '☀️ Modo Claro' : '🌙 Modo Oscuro' }}
+                        {{ theme.isDark() ? (i18n.isEn() ? '☀️ Light Mode' : '☀️ Modo Claro') : (i18n.isEn() ? '🌙 Dark Mode' : '🌙 Modo Oscuro') }}
                     </button>
                 </div>
                 <a class="portfolio-mobile-nav__cta" [href]="whatsappHref" target="_blank" rel="noopener">
                     <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
-                    <span>Cotizar por WhatsApp</span>
+                    <span>{{ i18n.t('hero.cta.quote', 'Cotizar por WhatsApp') }}</span>
                 </a>
             </div>
         </div>
@@ -191,12 +191,12 @@
                 <div class="portfolio-footer__col">
                     <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.services', 'Servicios') }}</h4>
                     <ul class="portfolio-footer__col-list">
-                        <li><a routerLink="/portfolio/bodas">Fotografía & Cine de Bodas</a></li>
-                        <li><a routerLink="/portfolio/quinces">Fotografía & Video 15 Años</a></li>
-                        <li><a routerLink="/portfolio/grados">Grados Académicos & Titulaciones</a></li>
-                        <li><a routerLink="/portfolio/sesiones">Sesiones Individuales, Familiares & Estudio</a></li>
-                        <li><a routerLink="/portfolio/corporativos">Eventos & Video Corporativo</a></li>
-                        <li><a routerLink="/portfolio/videos">Producción Audiovisual & Cine</a></li>
+                        <li><a routerLink="/portfolio/bodas">{{ i18n.isEn() ? 'Wedding Photography & Cinema' : 'Fotografía & Cine de Bodas' }}</a></li>
+                        <li><a routerLink="/portfolio/quinces">{{ i18n.isEn() ? 'Sweet 15 Photography & Video' : 'Fotografía & Video 15 Años' }}</a></li>
+                        <li><a routerLink="/portfolio/grados">{{ i18n.isEn() ? 'Academic Graduations & Degrees' : 'Grados Académicos & Titulaciones' }}</a></li>
+                        <li><a routerLink="/portfolio/sesiones">{{ i18n.isEn() ? 'Individual, Family & Studio Sessions' : 'Sesiones Individuales, Familiares & Estudio' }}</a></li>
+                        <li><a routerLink="/portfolio/corporativos">{{ i18n.isEn() ? 'Corporate Video & Events' : 'Eventos & Video Corporativo' }}</a></li>
+                        <li><a routerLink="/portfolio/videos">{{ i18n.isEn() ? 'Audiovisual Production & Cinema' : 'Producción Audiovisual & Cine' }}</a></li>
                     </ul>
                 </div>
 
@@ -204,11 +204,11 @@
                 <div class="portfolio-footer__col">
                     <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.experience', 'Experiencias') }}</h4>
                     <ul class="portfolio-footer__col-list">
-                        <li><a routerLink="/portfolio/preboda">Sesiones Preboda & Postboda</a></li>
-                        <li><a routerLink="/portfolio/sobre-mi">Sobre Jackson Palacios</a></li>
-                        <li><a routerLink="/cotizacion">Cotizador Interactivo de Grados</a></li>
-                        <li><a routerLink="/contratar">Firma Digital de Contratos</a></li>
-                        <li><a routerLink="/app">Acceso Portal Clientes / ERP</a></li>
+                        <li><a routerLink="/portfolio/preboda">{{ i18n.isEn() ? 'Engagement & Post-Wedding Sessions' : 'Sesiones Preboda & Postboda' }}</a></li>
+                        <li><a routerLink="/portfolio/sobre-mi">{{ i18n.isEn() ? 'About Jackson Palacios' : 'Sobre Jackson Palacios' }}</a></li>
+                        <li><a routerLink="/cotizacion">{{ i18n.isEn() ? 'Interactive Graduation Quoter' : 'Cotizador Interactivo de Grados' }}</a></li>
+                        <li><a routerLink="/contratar">{{ i18n.isEn() ? 'Digital Contract Signing' : 'Firma Digital de Contratos' }}</a></li>
+                        <li><a routerLink="/app">{{ i18n.isEn() ? 'Client Portal / ERP Access' : 'Acceso Portal Clientes / ERP' }}</a></li>
                     </ul>
                 </div>
 
@@ -216,11 +216,10 @@
                 <div class="portfolio-footer__col">
                     <h4 class="portfolio-footer__col-title">{{ i18n.t('footer.col.legal', 'Contacto & Cobertura') }}</h4>
                     <p class="portfolio-footer__col-text">
-                        Colombia & Cobertura en Destino Internacional.<br />
-                        Atención personalizada vía WhatsApp y asesoría estética para tu proyecto.
+                        {{ i18n.isEn() ? 'Colombia & International Destination Coverage. Personalized advice via WhatsApp and aesthetic direction for your event.' : 'Colombia & Cobertura en Destino Internacional. Atención personalizada vía WhatsApp y asesoría estética para tu proyecto.' }}
                     </p>
                     <a class="portfolio-footer__cta-link" [href]="whatsappHref" target="_blank" rel="noopener">
-                        <span>Iniciar conversación WhatsApp →</span>
+                        <span>{{ i18n.isEn() ? 'Start WhatsApp conversation →' : 'Iniciar conversación WhatsApp →' }}</span>
                     </a>
                 </div>
             </div>
@@ -233,7 +232,7 @@
                     <a routerLink="/brand">Brand Profile</a>
                 </div>
                 <div class="portfolio-footer__attribution">
-                    <span>Fotografía y Dirección por <strong>Jackson Palacios</strong></span>
+                    <span>{{ i18n.isEn() ? 'Photography and Direction by' : 'Fotografía y Dirección por' }} <strong>Jackson Palacios</strong></span>
                 </div>
             </div>
         </div>
@@ -253,7 +252,7 @@
                     (click)="closeFloatingMenu()"
                     routerLinkActive="portfolio-float-menu__item--active"
                     [routerLinkActiveOptions]="{ exact: useExactMatch(item.href) }">
-                    <span>{{ item.label }}</span>
+                    <span>{{ getNavLabel(item) }}</span>
                 </a>
                 <ng-template #externalFloatLink>
                     <a
@@ -261,7 +260,7 @@
                         [style.--item-index]="i"
                         [href]="item.href"
                         (click)="closeFloatingMenu()">
-                        <span>{{ item.label }}</span>
+                        <span>{{ getNavLabel(item) }}</span>
                     </a>
                 </ng-template>
             </ng-container>
@@ -278,7 +277,7 @@
                 <span class="line line--2"></span>
                 <span class="line line--3"></span>
             </span>
-            <span class="portfolio-float-menu__label">Páginas</span>
+            <span class="portfolio-float-menu__label">{{ i18n.t('nav.menu', 'Páginas') }}</span>
         </button>
     </aside>
 

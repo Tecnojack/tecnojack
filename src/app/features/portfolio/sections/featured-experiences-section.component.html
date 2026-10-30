@@ -2,12 +2,12 @@
   <div class="featured-experiences-section__container">
     <header class="featured-experiences-section__header">
       <div class="featured-experiences-section__eyebrow-row">
-        <span class="featured-experiences-section__badge">PLANES &amp; COBERTURAS</span>
-        <span class="featured-experiences-section__eyebrow">EXPERIENCIAS INSIGNIA</span>
+        <span class="featured-experiences-section__badge">{{ i18n.t('exp.badge', 'PLANES & COBERTURAS') }}</span>
+        <span class="featured-experiences-section__eyebrow">{{ i18n.t('exp.eyebrow', 'EXPERIENCIAS INSIGNIA') }}</span>
       </div>
-      <h2 class="featured-experiences-section__title">Colecciones creadas para momentos irrepetibles.</h2>
+      <h2 class="featured-experiences-section__title">{{ i18n.t('exp.title', 'Colecciones creadas para momentos irrepetibles.') }}</h2>
       <p class="featured-experiences-section__lead">
-        Compara nuestras producciones más representativas y descubre la opción perfecta para tu historia.
+        {{ i18n.t('exp.lead', 'Compara nuestras producciones más representativas y descubre la opción perfecta para tu historia.') }}
       </p>
     </header>
 
@@ -63,13 +63,13 @@
 
           <div class="feat-stage__content">
             <div class="feat-stage__headline">
-              <span class="feat-stage__eyebrow">COLECCIÓN RECOMENDADA</span>
+              <span class="feat-stage__eyebrow">{{ i18n.t('exp.recommended', 'COLECCIÓN RECOMENDADA') }}</span>
               <h3 class="feat-stage__title">{{ active.title }}</h3>
               <p class="feat-stage__lead">{{ active.description }}</p>
             </div>
 
             <div class="feat-stage__inclusions">
-              <h4 class="feat-stage__inclusions-title">Puntos clave de la cobertura:</h4>
+              <h4 class="feat-stage__inclusions-title">{{ i18n.t('exp.key_points', 'Puntos clave de la cobertura:') }}</h4>
               <ul class="feat-stage__list">
                 <li *ngFor="let item of active.highlights" class="feat-stage__list-item">
                   <span class="bullet" aria-hidden="true">✓</span>
@@ -80,7 +80,7 @@
 
             <div class="feat-stage__action">
               <a class="feat-stage__btn" [routerLink]="active.href">
-                <span>Ver todos los paquetes y tarifas de {{ active.category }}</span>
+                <span>{{ i18n.t('exp.view_all_prefix', 'Ver todos los paquetes y tarifas de') }} {{ active.category }}</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>

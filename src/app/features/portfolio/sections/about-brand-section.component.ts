@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 @Component({
   selector: 'tj-about-brand-section',
@@ -14,6 +15,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 })
 export class AboutBrandSectionComponent {
   private readonly content = inject(PortfolioContentService);
+  readonly i18n = inject(I18nService);
 
   @Input() editable = false;
 
@@ -22,10 +24,23 @@ export class AboutBrandSectionComponent {
   }
 
   get aboutLead() {
-    return this.content.aboutLead();
+    return this.i18n.t('brand.manifesto_lead', this.content.aboutLead());
   }
 
   get pillars() {
-    return this.content.brandPillars();
+    return [
+      {
+        title: this.i18n.t('brand.pillar1.title', 'Composición de autor'),
+        description: this.i18n.t('brand.pillar1.desc', 'Cada cuadro es meditado en color, luz, textura y equilibrio para un recuerdo intemporal.')
+      },
+      {
+        title: this.i18n.t('brand.pillar2.title', 'Flujo ágil y seguro'),
+        description: this.i18n.t('brand.pillar2.desc', 'Garantía de respaldo digital redundante y entregas organizadas en galerías privadas.')
+      },
+      {
+        title: this.i18n.t('brand.pillar3.title', 'Experiencia personalizada'),
+        description: this.i18n.t('brand.pillar3.desc', 'Acompañamiento cercano desde la preproducción hasta la entrega final física y digital.')
+      }
+    ];
   }
 }

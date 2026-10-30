@@ -30,6 +30,7 @@ import { DestinationServiceComponent } from '../../../shared/destination/destina
 import { PortfolioPackageDetail } from '../portfolio.data';
 import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-folder.util';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 export type PortfolioPackageCardViewModel = {
   detail: PortfolioPackageDetail;
@@ -80,6 +81,7 @@ export type PortfolioPackageCardViewModel = {
 export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly content = inject(PortfolioContentService);
+  readonly i18n = inject(I18nService);
 
   @ViewChild('sliderTrack', { static: false }) sliderTrack?: ElementRef<HTMLDivElement>;
 

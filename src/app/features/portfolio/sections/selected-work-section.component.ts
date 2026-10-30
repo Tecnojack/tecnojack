@@ -1,8 +1,9 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import { I18nService } from '../../../core/services/i18n.service';
 
 export type SelectedCampaign = {
   id: string;
@@ -23,42 +24,46 @@ export type SelectedCampaign = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectedWorkSectionComponent {
-  readonly campaigns: SelectedCampaign[] = [
-    {
-      id: 'bodas-editorial',
-      category: 'CINE DE BODAS & NARRATIVA',
-      title: 'Historias de Amor de Autor',
-      subtitle: 'Dirección cinematográfica en locaciones exclusivas de Colombia',
-      image: 'assets/images/fotos/default-cover.png',
-      href: '/portfolio/bodas',
-      layout: 'full',
-    },
-    {
-      id: 'sesiones-autor',
-      category: 'RETRATO & SESIONES',
-      title: 'Sesiones de Autor',
-      subtitle: 'Estudio profesional y exteriores con dirección estética personalizada',
-      image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
-      href: '/portfolio/sesiones',
-      layout: 'half',
-    },
-    {
-      id: 'quinces-editorial',
-      category: 'QUINCEAÑERAS DE ALTO NIVEL',
-      title: 'Celebraciones Contemporáneas',
-      subtitle: 'Elegancia, frescura y registro documental de vanguardia',
-      image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0',
-      href: '/portfolio/quinces',
-      layout: 'half',
-    },
-    {
-      id: 'video-master',
-      category: 'PRODUCCIÓN AUDIOVISUAL',
-      title: 'The Master Cut — Cine 4K',
-      subtitle: 'Color grading cinematográfico y sonido inmersivo para bodas y marcas',
-      image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
-      href: '/portfolio/videos',
-      layout: 'wide',
-    },
-  ];
+  readonly i18n = inject(I18nService);
+
+  get campaigns(): SelectedCampaign[] {
+    return [
+      {
+        id: 'bodas-editorial',
+        category: this.i18n.t('work.c1.cat', 'CINE DE BODAS & NARRATIVA'),
+        title: this.i18n.t('work.c1.title', 'Historias de Amor de Autor'),
+        subtitle: this.i18n.t('work.c1.sub', 'Dirección cinematográfica en locaciones exclusivas de Colombia'),
+        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5',
+        href: '/portfolio/bodas',
+        layout: 'full',
+      },
+      {
+        id: 'sesiones-autor',
+        category: this.i18n.t('work.c2.cat', 'RETRATO & SESIONES'),
+        title: this.i18n.t('work.c2.title', 'Sesiones de Autor'),
+        subtitle: this.i18n.t('work.c2.sub', 'Estudio profesional y exteriores con dirección estética personalizada'),
+        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+        href: '/portfolio/sesiones',
+        layout: 'half',
+      },
+      {
+        id: 'quinces-editorial',
+        category: this.i18n.t('work.c3.cat', 'QUINCEAÑERAS DE ALTO NIVEL'),
+        title: this.i18n.t('work.c3.title', 'Celebraciones Contemporáneas'),
+        subtitle: this.i18n.t('work.c3.sub', 'Elegancia, frescura y registro documental de vanguardia'),
+        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=21bbd277-7f47-4bae-bee8-e5e916ef7b94',
+        href: '/portfolio/quinces',
+        layout: 'half',
+      },
+      {
+        id: 'video-master',
+        category: this.i18n.t('work.c4.cat', 'PRODUCCIÓN AUDIOVISUAL'),
+        title: this.i18n.t('work.c4.title', 'The Master Cut — Cine 4K'),
+        subtitle: this.i18n.t('work.c4.sub', 'Color grading cinematográfico y sonido inmersivo para bodas y marcas'),
+        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
+        href: '/portfolio/videos',
+        layout: 'wide',
+      },
+    ];
+  }
 }

@@ -30,7 +30,13 @@ export class ServicesSectionComponent {
   readonly activeIndex = signal(0);
 
   get services() {
-    return this.content.services();
+    const raw = this.content.services();
+    return raw.map((s) => ({
+      ...s,
+      title: this.i18n.t(`services.${s.id}.title`, s.title),
+      description: this.i18n.t(`services.${s.id}.desc`, s.description),
+      ctaLabel: this.i18n.t('services.explore', s.ctaLabel)
+    }));
   }
 
   readonly activeService = computed(() => {

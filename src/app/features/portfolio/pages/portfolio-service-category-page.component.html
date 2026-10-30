@@ -1,5 +1,5 @@
 <div class="service-category-page" *ngIf="pageConfig() as config">
-    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/fotos/default-cover.png)'">
+    <section class="portfolio-section service-category-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
         <div class="service-category-hero__content" tjRevealOnScroll>
@@ -32,12 +32,12 @@
                 <div class="service-category-hero__actions-row">
                     <div class="hero-cta-btns">
                         <a class="hero-action-btn hero-action-btn--primary" href="#service-packages">
-                            <span>Explorar colecciones</span>
+                            <span>{{ i18n.t('packages.explore_collections', 'Explorar colecciones') }}</span>
                             <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
                         </a>
                         <a class="hero-action-btn hero-action-btn--wa" [href]="heroWhatsappHref()" target="_blank" rel="noopener">
                             <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="hero-action-btn__wa-icon" />
-                            <span>Cotizar por WhatsApp</span>
+                            <span>{{ i18n.t('packages.quote_whatsapp', 'Cotizar por WhatsApp') }}</span>
                         </a>
                     </div>
 
@@ -78,11 +78,11 @@
         <!-- TABLA COMPARATIVA DE PAQUETES DE BODA HÍBRIDOS (FOTO + VIDEO) -->
         <div class="tj-comparison-container" *ngIf="categoryState() === 'bodas'" tjRevealOnScroll>
             <div class="tj-comparison-head">
-                <h2>Tabla Comparativa de Paquetes Híbridos</h2>
-                <p>Compara de manera directa las características clave de cada uno de nuestros planes principales.</p>
+                <h2>{{ i18n.isEn() ? 'Hybrid Wedding Packages Comparison' : 'Tabla Comparativa de Paquetes Híbridos' }}</h2>
+                <p>{{ i18n.isEn() ? 'Directly compare key features of our primary packages.' : 'Compara de manera directa las características clave de cada uno de nuestros planes principales.' }}</p>
                 <div class="tj-comparison-scroll-hint" aria-hidden="true">
                     <span class="tj-hint-icon">⇄</span>
-                    <span>Desliza horizontalmente para ver todos los planes</span>
+                    <span>{{ i18n.isEn() ? 'Swipe horizontally to view all plans' : 'Desliza horizontalmente para ver todos los planes' }}</span>
                 </div>
             </div>
 

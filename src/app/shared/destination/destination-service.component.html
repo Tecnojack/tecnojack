@@ -1,71 +1,69 @@
 <aside class="destination-notice" *ngIf="variant === 'notice'; else selectionTemplate">
-  <p><span>¿Tu historia sucede fuera de Medellín?</span> Este servicio está disponible en modalidad Destination. El transporte se cotiza aparte.</p>
-  <button type="button" class="destination-notice__info" (click)="openInfo()">Más info</button>
+  <p>
+    <span>{{ i18n.isEn() ? 'Does your story happen outside Medellín?' : '¿Tu historia sucede fuera de Medellín?' }}</span>
+    {{ i18n.isEn() ? ' This service is available in Destination mode. Travel expenses are quoted separately.' : ' Este servicio está disponible en modalidad Destination. El transporte se cotiza aparte.' }}
+  </p>
+  <button type="button" class="destination-notice__info" (click)="openInfo()">
+    {{ i18n.t('packages.more_info', 'Más info') }}
+  </button>
 </aside>
 
 <ng-template #selectionTemplate>
   <div class="destination-selection">
     <label class="destination-selection__check">
       <input type="checkbox" [checked]="selected" (change)="updateSelection($any($event.target).checked)" />
-      <span>Mi servicio requiere modalidad Destination</span>
+      <span>{{ i18n.isEn() ? 'My service requires Destination modality' : 'Mi servicio requiere modalidad Destination' }}</span>
     </label>
     <button type="button" class="destination-selection__info" (click)="openInfo()" aria-label="Ver información del servicio Destination">
-      ¿En qué consiste?
+      {{ i18n.isEn() ? 'How does it work?' : '¿En qué consiste?' }}
     </button>
-    <p>Márcala si el servicio será fuera del Área Metropolitana de Medellín o en una locación especial que requiera logística de viaje.</p>
+    <p>{{ i18n.isEn() ? 'Check this if your service is outside Medellín Metropolitan Area or at a special location requiring travel logistics.' : 'Márcala si el servicio será fuera del Área Metropolitana de Medellín o en una locación especial que requiera logística de viaje.' }}</p>
   </div>
 </ng-template>
 
 <div class="destination-modal" #modalRef *ngIf="isInfoOpen()">
   <div class="destination-modal__backdrop" (click)="closeInfo()"></div>
   <section class="destination-modal__panel" role="dialog" aria-modal="true" aria-labelledby="destination-modal-title">
-    <button class="destination-modal__close" type="button" (click)="closeInfo()" aria-label="Cerrar modal">
+    <button class="destination-modal__close" type="button" (click)="closeInfo()" [attr.aria-label]="i18n.isEn() ? 'Close modal' : 'Cerrar modal'">
       <span aria-hidden="true">✕</span>
     </button>
     <div class="destination-modal__head">
-      <span>TECNOJACK · Historias sin fronteras</span>
+      <span>{{ i18n.isEn() ? 'TECNOJACK · Stories Without Borders' : 'TECNOJACK · Historias sin fronteras' }}</span>
       <h2 id="destination-modal-title">Destination</h2>
     </div>
 
     <p class="destination-modal__lead">
-      Si tu historia, evento, producción o servicio sucede fuera del Área Metropolitana de Medellín, en otra ciudad, otro país o en una locación especial, coordinamos el viaje y el equipo necesario para acompañarte hasta allí.
+      {{ i18n.isEn()
+        ? 'If your story, event, production, or service happens outside the Medellín Metropolitan Area, in another city, country, or unique venue, we coordinate the travel logistics and dedicated crew to accompany you there.'
+        : 'Si tu historia, evento, producción o servicio sucede fuera del Área Metropolitana de Medellín, en otra ciudad, otro país o en una locación especial, coordinamos el viaje y el equipo necesario para acompañarte hasta allí.'
+      }}
     </p>
 
     <div class="destination-modal__crew">
-      <span>Equipo estimado para esta experiencia</span>
+      <span>{{ i18n.isEn() ? 'Estimated crew for this experience' : 'Equipo estimado para esta experiencia' }}</span>
       <strong>{{ recommendedCrew }}</strong>
-      <p>La cantidad final de personas se confirma según el paquete, la cobertura y los entregables contratados.</p>
+      <p>{{ i18n.isEn() ? 'The final number of crew members is confirmed based on the package and contracted deliverables.' : 'La cantidad final de personas se confirma según el paquete, la cobertura y los entregables contratados.' }}</p>
     </div>
 
     <div class="destination-modal__grid">
       <article>
-        <strong>Destination individual</strong>
-        <p>Un profesional viaja cuando la cobertura puede realizarse de manera individual.</p>
+        <strong>{{ i18n.isEn() ? 'Solo Destination' : 'Destination individual' }}</strong>
+        <p>{{ i18n.isEn() ? 'One professional travels when the coverage can be executed solo.' : 'Un profesional viaja cuando la cobertura puede realizarse de manera individual.' }}</p>
       </article>
       <article>
-        <strong>Destination con equipo reducido</strong>
-        <p>Viajan dos o tres personas cuando se requiere combinar funciones, ampliar cobertura o contar con asistencia.</p>
+        <strong>{{ i18n.isEn() ? 'Reduced Crew Destination' : 'Destination con equipo reducido' }}</strong>
+        <p>{{ i18n.isEn() ? 'Two or three members travel when combined functions or assistance are required.' : 'Viajan dos o tres personas cuando se requiere combinar funciones, ampliar cobertura o contar con asistencia.' }}</p>
       </article>
       <article>
-        <strong>Destination completo · 4 personas</strong>
-        <p>Productor/director, fotógrafo, videógrafo y asistente viajan para realizar coberturas integrales.</p>
+        <strong>{{ i18n.isEn() ? 'Full Crew Destination · 4 members' : 'Destination completo · 4 personas' }}</strong>
+        <p>{{ i18n.isEn() ? 'Complete crew for cinematic hybrid wedding or multi-camera productions.' : 'Equipo completo para bodas híbridas de gran formato o producciones multicámara.' }}</p>
       </article>
     </div>
 
-    <div class="destination-modal__costs">
-      <h3>Logística Destination asumida por el cliente</h3>
-      <ul>
-        <li>Transporte local, terrestre o aéreo para cada integrante requerido.</li>
-        <li>Equipaje y transporte seguro de equipos audiovisuales.</li>
-        <li>Traslados internos, combustible, peajes y parqueaderos.</li>
-        <li>Hospedaje y alimentación cuando la operación lo requiera.</li>
-        <li>Visas, permisos, seguros, impuestos o requisitos especiales del destino.</li>
-        <li>Noches o trayectos adicionales necesarios por itinerario y horarios del evento.</li>
-      </ul>
+    <div class="destination-modal__footer">
+      <button class="destination-modal__primary-btn" type="button" (click)="closeInfo()">
+        {{ i18n.isEn() ? 'Understood' : 'Entendido' }}
+      </button>
     </div>
-
-    <p class="destination-modal__foot">
-      Los precios publicados no incluyen transporte. Dentro del Área Metropolitana, el desplazamiento ordinario también se cotiza aparte y es asumido por el cliente, pero no se considera modalidad Destination. Para viajes y locaciones especiales, la logística completa se presenta para aprobación antes de confirmar la producción. Marcar Destination no modifica automáticamente el total mostrado en la web.
-    </p>
   </section>
 </div>

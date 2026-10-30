@@ -315,7 +315,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-direccion-creativa-revision', label: 'Ronda adicional de ajustes', priceLabel: '$80.000 COP', price: 80000 },
       { id: 'prod-direccion-creativa-entrega-express', label: 'Entrega express', priceLabel: '$70.000 COP', price: 70000 }
     ],
-    image: 'assets/images/fotos/default-cover.png'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7'
   },
   {
     id: 'prod-guion-storytelling',
@@ -465,7 +465,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'assets/images/fotos/default-cover.png'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7'
   },
 
   // ── ESTUDIO ───────────────────────────────────────────────────

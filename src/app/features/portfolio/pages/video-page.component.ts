@@ -131,7 +131,7 @@ export class VideoPageComponent implements OnInit, OnDestroy {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly router = inject(Router);
-  private readonly defaultCoverImage = 'assets/images/fotos/default-cover.png';
+  private readonly defaultCoverImage = 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7';
   private readonly videoPackageCoverCache = new Map<
     string,
     Observable<string>
