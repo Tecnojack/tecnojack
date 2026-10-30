@@ -12,7 +12,7 @@
                 </span>
                 <span class="portfolio-header__brand-text">
                     <span class="portfolio-header__brand-title">TECNOJACK</span>
-                    <span class="portfolio-header__brand-sub" *ngIf="subtitle">{{ subtitle }}</span>
+                    <span class="portfolio-header__brand-sub" *ngIf="resolvedSubtitle">{{ resolvedSubtitle }}</span>
                 </span>
             </a>
             <ng-template #brandExternalLink>
@@ -22,7 +22,7 @@
                     </span>
                     <span class="portfolio-header__brand-text">
                         <span class="portfolio-header__brand-title">TECNOJACK</span>
-                        <span class="portfolio-header__brand-sub" *ngIf="subtitle">{{ subtitle }}</span>
+                        <span class="portfolio-header__brand-sub" *ngIf="resolvedSubtitle">{{ resolvedSubtitle }}</span>
                     </span>
                 </a>
             </ng-template>

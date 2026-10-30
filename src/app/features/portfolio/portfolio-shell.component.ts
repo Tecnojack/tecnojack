@@ -1,9 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   Input,
+  effect,
   inject,
   signal
 } from '@angular/core';
@@ -24,8 +26,17 @@ import { ThemeService } from '../../core/services/theme.service';
 })
 export class PortfolioShellComponent {
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
   readonly theme = inject(ThemeService);
+
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.theme.activeTheme();
+      this.cdr.markForCheck();
+    });
+  }
 
   @Input({ required: true }) navItems: PortfolioNavItem[] = [];
 
@@ -60,6 +71,25 @@ export class PortfolioShellComponent {
   @Input() headerCtaLabel = 'WhatsApp';
   @Input() headerCtaExternal = true;
   @Input() subtitle = '';
+
+  get resolvedSubtitle(): string {
+    if (!this.subtitle) return '';
+    if (this.i18n.isEn()) {
+      const map: Record<string, string> = {
+        'Bodas': 'Weddings',
+        '15 Años': 'Sweet 15',
+        'Grados': 'Graduations',
+        'Sesiones': 'Sessions',
+        'Videos': 'Cinema & Video',
+        'Corporativos': 'Corporate',
+        'Preboda': 'Engagement',
+        'Sobre mí': 'About Me',
+        'Soluciones': 'Solutions'
+      };
+      return map[this.subtitle] ?? this.subtitle;
+    }
+    return this.subtitle;
+  }
   @Input() footerText?: string;
   @Input() editable = false;
   @Input() floatWaHref?: string;

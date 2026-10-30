@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -27,9 +27,17 @@ export type FlagshipExperience = {
 })
 export class FeaturedExperiencesSectionComponent {
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
 
   readonly activeIdx = signal(0);
+
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
 
   get experiences(): FlagshipExperience[] {
     return [

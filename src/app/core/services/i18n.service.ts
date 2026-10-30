@@ -47,6 +47,12 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'stats.weddings': 'Bodas & Eventos',
     'stats.deliverables': 'Entregas exitosas',
     'stats.satisfaction': 'Satisfacción de clientes',
+    'stats.experience': 'Experiencia real en eventos',
+    'stats.quality': 'Calidad cinematográfica',
+    'stats.art_direction': 'Dirección artística',
+    'stats.active_packages': 'Paquetes activos',
+    'stats.service_lines': 'Líneas de servicio',
+    'stats.completed_projects': 'Proyectos realizados',
 
     // Philosophy / Manifesto
     'brand.manifesto_badge': 'FILOSOFÍA & MANIFIESTO',
@@ -105,6 +111,35 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'services.videos.desc': 'Producción en video con ritmo, intención narrativa y salida comercial.',
     'services.corporativos.title': 'Corporativos',
     'services.corporativos.desc': 'Piezas audiovisuales con ritmo comercial y narrativa estratégica para marcas, empresas y figuras públicas.',
+    'services.solutions.title': 'Soluciones Digitales',
+    'services.solutions.desc': 'Páginas y experiencias digitales pensadas para convertir visitas en consultas reales, con una propuesta visual clara y enfocada en ventas.',
+
+    // Points
+    'point.Foto + video': 'Foto + video',
+    'point.Color cinematográfico': 'Color cinematográfico',
+    'point.Entrega para redes y archivo final': 'Entrega para redes y archivo final',
+    'point.Retratos de gala': 'Retratos de gala',
+    'point.Clips verticales': 'Clips verticales',
+    'point.Cobertura de ceremonia y fiesta': 'Cobertura de ceremonia y fiesta',
+    'point.Llamado individual': 'Llamado individual',
+    'point.Fotos familiares': 'Fotos familiares',
+    'point.Paquetes por estudiante o grupo': 'Paquetes por estudiante o grupo',
+    'point.Dirección creativa': 'Dirección creativa',
+    'point.Sesión exterior': 'Sesión exterior',
+    'point.Contenido emocional': 'Contenido emocional',
+    'point.Individuales & Generales': 'Individuales & Generales',
+    'point.Familiares & Grupos': 'Familiares & Grupos',
+    'point.Estudio profesional (2h)': 'Estudio profesional (2h)',
+    'point.Entrega digital en alta calidad': 'Entrega digital en alta calidad',
+    'point.Videos musicales': 'Videos musicales',
+    'point.Corporativo y marca': 'Corporativo y marca',
+    'point.Cortometrajes y creativos': 'Cortometrajes y creativos',
+    'point.Cobertura de marca': 'Cobertura de marca',
+    'point.Clips para redes': 'Clips para redes',
+    'point.Registro institucional': 'Registro institucional',
+    'point.Landing pages de conversión': 'Landing pages de conversión',
+    'point.Presentación de servicios': 'Presentación de servicios',
+    'point.Contacto directo por WhatsApp': 'Contacto directo por WhatsApp',
 
     // Storytelling Transition
     'story.badge': 'ARTE & PRECISIÓN',
@@ -195,6 +230,145 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.explore_collections': 'Explorar colecciones',
     'packages.quote_whatsapp': 'Cotizar por WhatsApp',
 
+    // Service Categories Hero & Configs
+    'category.bodas.eyebrow': 'Servicio premium',
+    'category.bodas.title': 'Bodas con dirección cinematográfica',
+    'category.bodas.desc': 'Historias reales contadas con estética, emoción y precisión visual.',
+    'category.bodas.packageTitle': 'Paquetes de boda, de Esencial a Exclusivo',
+    'category.bodas.packageLead': 'Elige tu paquete, compara cobertura y entregables, y cuando tengas tu favorito envíanos la fecha y la ciudad para armar la propuesta y reservar tu cupo.',
+    'category.bodas.storiesTitle': 'Historias reales de boda',
+    'category.bodas.storiesLead': 'Eventos que ya hemos transformado en piezas visuales.',
+
+    'category.quinces.eyebrow': 'Celebración y estilo',
+    'category.quinces.title': '15 Años con dirección visual moderna',
+    'category.quinces.desc': 'Coberturas contemporáneas, sesiones previas de gala y registro documental de vanguardia.',
+    'category.quinces.packageTitle': 'Paquetes para 15 Años',
+    'category.quinces.packageLead': 'Desde sesiones previas hasta cobertura completa de fiesta con video 4K y reels para redes.',
+    'category.quinces.storiesTitle': 'Celebraciones reales',
+    'category.quinces.storiesLead': 'Quinceañeras que vivieron la experiencia TECNOJACK.',
+
+    'category.grados.eyebrow': 'Ceremonias solemnes',
+    'category.grados.title': 'Grados escolares y universitarios',
+    'category.grados.desc': 'Cobertura organizada, solemne y completa para instituciones, grupos de estudiantes y familias.',
+    'category.grados.packageTitle': 'Paquetes de Grado',
+    'category.grados.packageLead': 'Opciones individuales por estudiante y planes integrales para colegios y universidades.',
+    'category.grados.storiesTitle': 'Ceremonias y promociones',
+    'category.grados.storiesLead': 'Momentos de orgullo institucional y familiar capturados con excelencia.',
+
+    'category.sesiones.eyebrow': 'Retrato & Familia',
+    'category.sesiones.title': 'Sesiones fotográficas de autor',
+    'category.sesiones.desc': 'Estudio profesional y exteriores con dirección visual para retratos, familias, parejas y marcas personales.',
+    'category.sesiones.packageTitle': 'Paquetes de Sesiones',
+    'category.sesiones.packageLead': 'Elige tu tipo de sesión y agenda tu fecha con anticipación.',
+    'category.sesiones.storiesTitle': 'Galería de sesiones',
+    'category.sesiones.storiesLead': 'Retratos de estudio y exteriores con luz natural y estética editorial.',
+
+    'category.videos.eyebrow': 'Portafolio audiovisual',
+    'category.videos.title': 'Producción audiovisual con enfoque cinéfilo',
+    'category.videos.desc': 'Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.',
+    'category.videos.packageTitle': 'Paquetes de Producción en Video',
+    'category.videos.packageLead': 'Formatos de cine, comerciales y narrativas visuales de alto impacto.',
+    'category.videos.storiesTitle': 'Producciones en video',
+    'category.videos.storiesLead': 'Piezas comerciales, musicales y narrativas.',
+
+    'category.corporativos.eyebrow': 'Empresas & Marcas',
+    'category.corporativos.title': 'Producción audiovisual corporativa',
+    'category.corporativos.desc': 'Cobertura de eventos empresariales, videos institucionales, comerciales y contenido de marca de alto impacto.',
+    'category.corporativos.packageTitle': 'Soluciones Corporativas',
+    'category.corporativos.packageLead': 'Producciones audiovisuales diseñadas con visión estratégica y comercial.',
+    'category.corporativos.storiesTitle': 'Proyectos corporativos',
+    'category.corporativos.storiesLead': 'Marcas e instituciones que confían en nuestra dirección visual.',
+
+    'category.preboda.eyebrow': 'Sesiones de Pareja',
+    'category.preboda.title': 'Sesiones de Preboda y Postboda',
+    'category.preboda.desc': 'Momentos íntimos y naturales previos y posteriores al gran día en locaciones inspiradoras.',
+    'category.preboda.packageTitle': 'Paquetes Preboda y Postboda',
+    'category.preboda.packageLead': 'Fotografía y cinematografía de autor para parejas.',
+    'category.preboda.storiesTitle': 'Historias de pareja',
+    'category.preboda.storiesLead': 'Conexión, complicidad y paisajes increíbles.',
+
+    // Comparison Table
+    'compare.badge': 'COMPARATIVA DE PLANES',
+    'compare.title': 'Tabla Comparativa de Paquetes Híbridos',
+    'compare.lead': 'Compara de manera directa las características clave de cada uno de nuestros planes principales.',
+    'compare.scroll_hint': 'Desliza horizontalmente para ver todos los planes',
+    'compare.plan': 'Plan',
+    'compare.investment': 'Inversión',
+    'compare.hours': 'Horas de Cobertura',
+    'compare.team': 'Equipo Humano',
+    'compare.photos': 'Fotografías Editadas',
+    'compare.video': 'Entregables Video',
+    'compare.drone': 'Drone Aéreo',
+    'compare.album': 'Álbum Físico',
+    'compare.preboda': 'Sesión Preboda',
+    'compare.postboda': 'Sesión Postboda',
+    'compare.reels': 'Reels / Redes',
+    'compare.gallery': 'Galería Online',
+    'compare.priority': 'Entrega Prioritaria',
+    'compare.viaticos': 'Viáticos',
+    'compare.recommended': 'MÁS RECOMENDADO',
+    'compare.exclusive': 'EXCLUSIVO',
+
+    // Modal
+    'modal.detail_experience': 'Experiencia de detalle',
+    'modal.back_to_detail': 'Volver al detalle',
+    'modal.close': 'Cerrar',
+    'modal.request': 'Solicitar',
+    'modal.customize': 'Personalizar solicitud',
+    'modal.load_more': 'Cargar más',
+    'modal.loading_images': 'Cargando imágenes...',
+    'modal.error_images': 'No fue posible cargar la galería. Se muestra la imagen por defecto.',
+    'modal.empty_images': 'Aún no hay imágenes publicadas para esta carpeta.',
+    'modal.contact_data': 'Datos de contacto',
+    'modal.complete_data': 'Completa los datos para continuar',
+    'modal.name': 'Nombre',
+    'modal.name_ph': 'Tu nombre completo',
+    'modal.phone': 'Teléfono / WhatsApp',
+    'modal.phone_ph': 'Tu número de contacto',
+    'modal.city': 'Ciudad',
+    'modal.city_ph': 'Ciudad del evento',
+    'modal.date': 'Fecha estimada',
+    'modal.venue': 'Lugar / Locación',
+    'modal.venue_ph': 'Salón, finca, iglesia o locación',
+    'modal.guests': 'Invitados estimados',
+    'modal.guests_ph': 'Ej. 120',
+    'modal.notes': 'Notas especiales',
+    'modal.notes_ph': 'Cuéntanos qué quieres priorizar en tu evento.',
+    'modal.request_type': 'Tipo de solicitud',
+    'modal.request_mode_desc': 'Decide si quieres usar el paquete base o armar una versión personalizada.',
+    'modal.base_package': 'Paquete base cerrado',
+    'modal.custom_package': 'Armar propuesta a la medida',
+    'modal.base_options': 'Opciones de cotización base',
+    'modal.additional_services': 'Servicios adicionales disponibles',
+    'modal.estimated_total': 'Total estimado',
+    'modal.send_whatsapp': 'Enviar por WhatsApp',
+    'modal.copy_summary': 'Copiar resumen',
+    'modal.summary_copied': '¡Resumen copiado!',
+
+    // Exhibition
+    'exhibit.badge': 'EXHIBICIÓN DE TRABAJOS',
+    'exhibit.eyebrow': 'CLIENTES & HISTORIAS REALES',
+    'exhibit.load_more': 'Cargar más historias',
+    'exhibit.view_gallery': 'Ver galería completa',
+    'exhibit.no_images': 'Sin imágenes publicadas.',
+
+    // About Me
+    'about.eyebrow': 'Jackson Palacios',
+    'about.title': 'Productor Audiovisual & Desarrollador de Software',
+    'about.subtitle': 'Productor audiovisual colombiano, con raíces en el Chocó. Transformo ideas en historias visuales con intención, estética y emoción.',
+    'about.desc': 'Combino fotografía, video y desarrollo digital para crear experiencias visuales para bodas, marcas y artistas que buscan algo bien hecho.',
+    'about.quote': '“No solo capturo momentos, creo historias que permanecen en el tiempo.”',
+    'about.cta.quote': 'Cotizar mi proyecto',
+    'about.cta.work': 'Ver mi trabajo',
+    'about.proof1': '+10 años de experiencia',
+    'about.proof2': 'Bodas, marcas y artistas',
+    'about.proof3': 'Producción audiovisual completa',
+    'about.approach': 'Enfoque',
+    'about.deliverables_title': 'Lo que recibes',
+    'about.deliverables_desc': 'Una experiencia completa: dirección, estética, emoción y entrega impecable.',
+    'about.team_title': 'Equipo y Cobertura',
+    'about.process_title': 'Flujo de Trabajo',
+
     // Footer
     'footer.brand': 'TECNOJACK',
     'footer.slogan': 'El arte de ser un pro.',
@@ -251,6 +425,12 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'stats.weddings': 'Weddings & Events',
     'stats.deliverables': 'Successful Deliveries',
     'stats.satisfaction': 'Client Satisfaction',
+    'stats.experience': 'Real Event Experience',
+    'stats.quality': 'Cinematic Quality',
+    'stats.art_direction': 'Artistic Direction',
+    'stats.active_packages': 'Active Packages',
+    'stats.service_lines': 'Service Lines',
+    'stats.completed_projects': 'Completed Projects',
 
     // Philosophy / Manifesto
     'brand.manifesto_badge': 'PHILOSOPHY & MANIFESTO',
@@ -309,6 +489,35 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'services.videos.desc': 'Video production with rhythm, narrative intent, and commercial finish.',
     'services.corporativos.title': 'Corporate',
     'services.corporativos.desc': 'Audiovisual pieces with commercial pace and strategic narrative for brands, companies, and public figures.',
+    'services.solutions.title': 'Digital Solutions',
+    'services.solutions.desc': 'High-conversion digital landing pages and experiences designed to turn visitors into real bookings with pro visual clarity.',
+
+    // Points
+    'point.Foto + video': 'Photo + Video',
+    'point.Color cinematográfico': 'Cinematic Color Grading',
+    'point.Entrega para redes y archivo final': 'Social Media & Final Archive Delivery',
+    'point.Retratos de gala': 'Gala Portraits',
+    'point.Clips verticales': 'Vertical Clips',
+    'point.Cobertura de ceremonia y fiesta': 'Ceremony & Party Coverage',
+    'point.Llamado individual': 'Individual Stage Calling',
+    'point.Fotos familiares': 'Family Photos',
+    'point.Paquetes por estudiante o grupo': 'Packages per Student or Group',
+    'point.Dirección creativa': 'Creative Direction',
+    'point.Sesión exterior': 'Outdoor Session',
+    'point.Contenido emocional': 'Emotional Content',
+    'point.Individuales & Generales': 'Individual & General Portraits',
+    'point.Familiares & Grupos': 'Family & Group Portraits',
+    'point.Estudio profesional (2h)': 'Professional Studio (2h)',
+    'point.Entrega digital en alta calidad': 'High-Quality Digital Delivery',
+    'point.Videos musicales': 'Music Videos',
+    'point.Corporativo y marca': 'Corporate & Brand',
+    'point.Cortometrajes y creativos': 'Short Films & Creatives',
+    'point.Cobertura de marca': 'Brand Coverage',
+    'point.Clips para redes': 'Social Media Clips',
+    'point.Registro institucional': 'Institutional Documentation',
+    'point.Landing pages de conversión': 'High-Conversion Landing Pages',
+    'point.Presentación de servicios': 'Service Showcase',
+    'point.Contacto directo por WhatsApp': 'Direct WhatsApp Contact',
 
     // Storytelling Transition
     'story.badge': 'ART & PRECISION',
@@ -348,7 +557,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'exp.3.desc': 'Professional, solemn coverage of graduation ceremonies, individual cap-and-gown photo calling, studio portraits, and premium family photos.',
     'exp.3.h1': 'Individual stage photo with cap and gown',
     'exp.3.h2': 'Family portraits and group photos with classmates',
-    'exp.3.h3': 'Mosaics, luxury folders, and wooden wall frames',
+    'exp.3.h3': 'Mosaicos, luxury folders, and wooden wall frames',
     'exp.3.h4': 'High-resolution digital delivery and private gallery',
     'exp.4.cat': 'AUDIOVISUAL',
     'exp.4.title': 'Corporate, Commercials & Brand',
@@ -399,6 +608,145 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.explore_collections': 'Explore collections',
     'packages.quote_whatsapp': 'Quote via WhatsApp',
 
+    // Service Categories Hero & Configs
+    'category.bodas.eyebrow': 'Premium Service',
+    'category.bodas.title': 'Weddings with Cinematic Direction',
+    'category.bodas.desc': 'Real stories told with aesthetics, emotion, and visual precision.',
+    'category.bodas.packageTitle': 'Wedding Collections, from Essential to Exclusive',
+    'category.bodas.packageLead': 'Choose your collection, compare coverage and deliverables, and send us your date and venue to check availability.',
+    'category.bodas.storiesTitle': 'Real Wedding Stories',
+    'category.bodas.storiesLead': 'Love celebrations transformed into timeless cinematic memories.',
+
+    'category.quinces.eyebrow': 'Celebration & Style',
+    'category.quinces.title': 'Sweet 15 with Modern Visual Direction',
+    'category.quinces.desc': 'Contemporary coverage, gala pre-sessions, and avant-garde documentary recording.',
+    'category.quinces.packageTitle': 'Sweet 15 Collections',
+    'category.quinces.packageLead': 'From pre-sessions to full party coverage with 4K cinema video and social media reels.',
+    'category.quinces.storiesTitle': 'Real Celebrations',
+    'category.quinces.storiesLead': 'Young women who lived the TECNOJACK experience.',
+
+    'category.grados.eyebrow': 'Solemn Ceremonies',
+    'category.grados.title': 'School & University Graduations',
+    'category.grados.desc': 'Organized, solemn, and complete coverage for institutions, student groups, and families.',
+    'category.grados.packageTitle': 'Graduation Packages',
+    'category.grados.packageLead': 'Individual student options and full institutional packages for schools and universities.',
+    'category.grados.storiesTitle': 'Ceremonies & Graduations',
+    'category.grados.storiesLead': 'Institutional and family pride captured with photographic excellence.',
+
+    'category.sesiones.eyebrow': 'Portrait & Family',
+    'category.sesiones.title': 'Author Portrait Sessions',
+    'category.sesiones.desc': 'Professional studio and outdoor locations with visual direction for portraits, families, couples, and personal brands.',
+    'category.sesiones.packageTitle': 'Session Packages',
+    'category.sesiones.packageLead': 'Choose your session type and book your date in advance.',
+    'category.sesiones.storiesTitle': 'Sessions Gallery',
+    'category.sesiones.storiesLead': 'Studio and outdoor portraits with natural light and editorial style.',
+
+    'category.videos.eyebrow': 'Audiovisual Portfolio',
+    'category.videos.title': 'Audiovisual Production with Cinematic Focus',
+    'category.videos.desc': 'Music videos, weddings, and creative projects with creative direction, color grading, and commercial delivery.',
+    'category.videos.packageTitle': 'Video Production Packages',
+    'category.videos.packageLead': 'Cinema formats, commercial campaigns, and impactful visual storytelling.',
+    'category.videos.storiesTitle': 'Video Productions',
+    'category.videos.storiesLead': 'Commercial, musical, and narrative video pieces.',
+
+    'category.corporativos.eyebrow': 'Companies & Brands',
+    'category.corporativos.title': 'Corporate Audiovisual Production',
+    'category.corporativos.desc': 'Corporate event coverage, institutional films, commercials, and high-impact brand content.',
+    'category.corporativos.packageTitle': 'Corporate Solutions',
+    'category.corporativos.packageLead': 'Audiovisual productions aligned with your strategic and commercial goals.',
+    'category.corporativos.storiesTitle': 'Corporate Projects',
+    'category.corporativos.storiesLead': 'Brands and institutions that trust our visual direction.',
+
+    'category.preboda.eyebrow': 'Couple Sessions',
+    'category.preboda.title': 'Engagement & Post-Wedding Sessions',
+    'category.preboda.desc': 'Intimate and natural moments before and after the big day in inspiring locations.',
+    'category.preboda.packageTitle': 'Engagement & Post-Wedding Packages',
+    'category.preboda.packageLead': 'Fine art photography and cinematic film for couples.',
+    'category.preboda.storiesTitle': 'Couple Stories',
+    'category.preboda.storiesLead': 'Connection, warmth, and breathtaking landscapes.',
+
+    // Comparison Table
+    'compare.badge': 'PACKAGE COMPARISON',
+    'compare.title': 'Hybrid Wedding Packages Comparison',
+    'compare.lead': 'Directly compare key features across our primary packages.',
+    'compare.scroll_hint': 'Swipe horizontally to view all plans',
+    'compare.plan': 'Plan',
+    'compare.investment': 'Investment',
+    'compare.hours': 'Coverage Hours',
+    'compare.team': 'Production Crew',
+    'compare.photos': 'Edited Photos',
+    'compare.video': 'Video Deliverables',
+    'compare.drone': 'Aerial Drone',
+    'compare.album': 'Printed Album',
+    'compare.preboda': 'Pre-Wedding Session',
+    'compare.postboda': 'Post-Wedding Session',
+    'compare.reels': 'Reels & Socials',
+    'compare.gallery': 'Online Gallery',
+    'compare.priority': 'Priority Delivery',
+    'compare.viaticos': 'Travel Expenses',
+    'compare.recommended': 'MOST RECOMMENDED',
+    'compare.exclusive': 'EXCLUSIVE',
+
+    // Modal
+    'modal.detail_experience': 'Package Details',
+    'modal.back_to_detail': 'Back to details',
+    'modal.close': 'Close',
+    'modal.request': 'Book Package',
+    'modal.customize': 'Customize Request',
+    'modal.load_more': 'Load more',
+    'modal.loading_images': 'Loading images...',
+    'modal.error_images': 'Could not load gallery. Default image displayed.',
+    'modal.empty_images': 'No images published yet for this folder.',
+    'modal.contact_data': 'Contact Information',
+    'modal.complete_data': 'Complete details to continue',
+    'modal.name': 'Full Name',
+    'modal.name_ph': 'Your full name',
+    'modal.phone': 'Phone / WhatsApp',
+    'modal.phone_ph': 'Your contact phone',
+    'modal.city': 'City',
+    'modal.city_ph': 'Event city',
+    'modal.date': 'Estimated Date',
+    'modal.venue': 'Venue / Location',
+    'modal.venue_ph': 'Hall, estate, church, or venue',
+    'modal.guests': 'Estimated Guests',
+    'modal.guests_ph': 'E.g. 120',
+    'modal.notes': 'Special Notes',
+    'modal.notes_ph': 'Tell us what you want to prioritize for your event.',
+    'modal.request_type': 'Request Type',
+    'modal.request_mode_desc': 'Decide whether you want the fixed base package or a custom proposal.',
+    'modal.base_package': 'Fixed base package',
+    'modal.custom_package': 'Build custom proposal',
+    'modal.base_options': 'Base quote options',
+    'modal.additional_services': 'Available Extra Services',
+    'modal.estimated_total': 'Estimated Total',
+    'modal.send_whatsapp': 'Send via WhatsApp',
+    'modal.copy_summary': 'Copy summary',
+    'modal.summary_copied': 'Summary copied!',
+
+    // Exhibition
+    'exhibit.badge': 'WORK EXHIBITION',
+    'exhibit.eyebrow': 'CLIENTS & REAL STORIES',
+    'exhibit.load_more': 'Load more stories',
+    'exhibit.view_gallery': 'View full gallery',
+    'exhibit.no_images': 'No images published.',
+
+    // About Me
+    'about.eyebrow': 'Jackson Palacios',
+    'about.title': 'Audiovisual Producer & Software Developer',
+    'about.subtitle': 'Colombian audiovisual producer, with roots in Chocó. I transform ideas into visual stories with intention, aesthetics, and emotion.',
+    'about.desc': 'I combine photography, video, and digital development to craft visual experiences for weddings, brands, and artists seeking excellence.',
+    'about.quote': '“I do not merely capture moments; I craft stories that endure through time.”',
+    'about.cta.quote': 'Quote my project',
+    'about.cta.work': 'View my work',
+    'about.proof1': '+10 years of experience',
+    'about.proof2': 'Weddings, brands & artists',
+    'about.proof3': 'Full audiovisual production',
+    'about.approach': 'Approach',
+    'about.deliverables_title': 'What you receive',
+    'about.deliverables_desc': 'A complete experience: direction, aesthetics, emotion, and flawless delivery.',
+    'about.team_title': 'Team & Coverage',
+    'about.process_title': 'Workflow & Process',
+
     // Footer
     'footer.brand': 'TECNOJACK',
     'footer.slogan': 'The art of being a pro.',
@@ -448,6 +796,87 @@ export class I18nService {
   t(key: string, fallback?: string): string {
     const lang = this.currentLang();
     return TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS['es']?.[key] ?? fallback ?? key;
+  }
+
+  translateCategoryConfig<T extends { hero: { eyebrow: string; title: string; description: string; highlights?: string[] }; packageTitle: string; packageLead: string; storiesTitle: string; storiesLead: string }>(config: T, category: string): T {
+    if (this.currentLang() === 'es') return config;
+    const cat = category.toLowerCase();
+    return {
+      ...config,
+      hero: {
+        ...config.hero,
+        eyebrow: this.t(`category.${cat}.eyebrow`, config.hero.eyebrow),
+        title: this.t(`category.${cat}.title`, config.hero.title),
+        description: this.t(`category.${cat}.desc`, config.hero.description),
+        highlights: config.hero.highlights?.map(h => this.t(`point.${h}`, this.translateDeliverable(h))) ?? []
+      },
+      packageTitle: this.t(`category.${cat}.packageTitle`, config.packageTitle),
+      packageLead: this.t(`category.${cat}.packageLead`, config.packageLead),
+      storiesTitle: this.t(`category.${cat}.storiesTitle`, config.storiesTitle),
+      storiesLead: this.t(`category.${cat}.storiesLead`, config.storiesLead),
+    };
+  }
+
+  translateAccordionTitle(title: string): string {
+    if (this.currentLang() === 'es') return title;
+    const map: Record<string, string> = {
+      'THE FULL EXPERIENCE': 'THE FULL EXPERIENCE',
+      'Boda híbrida (Foto + video)': 'Hybrid Wedding (Photo + Video)',
+      'Fotografía de bodas': 'Wedding Photography',
+      'Video de bodas': 'Wedding Cinema',
+      'Boda civil': 'Civil Wedding',
+      'Petición de mano': 'Proposal & Engagement',
+      'Sesión de preboda': 'Pre-Wedding Session',
+      'Sesión postboda': 'Post-Wedding Session',
+      'Cobertura mixta (foto + video)': 'Mixed Coverage (Photo + Video)',
+      'Fotografía de quince': 'Sweet 15 Photography',
+      'Video de quince': 'Sweet 15 Cinema',
+      'Foto + video para 15 años': 'Photo + Video Sweet 15',
+      'Fotografía para 15 años': 'Sweet 15 Photography',
+      'Video para 15 años': 'Sweet 15 Cinema',
+      'Sesión previa de 15 años': 'Sweet 15 Pre-Session',
+      'Fotografía de grado': 'Graduation Photography',
+      'Video de grados': 'Graduation Video',
+      'Sesiones individuales y generales': 'Individual & General Sessions',
+      'Sesiones familiares': 'Family Sessions',
+      'Sesiones especiales': 'Special Sessions',
+      'Video institucional': 'Corporate & Brand Film',
+      'Contenido para redes': 'Social Media Content',
+      'Eventos corporativos': 'Corporate Events',
+      'Marca personal': 'Personal Brand',
+    };
+    return map[title] ?? title;
+  }
+
+  translateDeliverable(text: string): string {
+    if (this.currentLang() === 'es' || !text) return text;
+    let t = text;
+    t = t.replace(/Hasta (\d+) horas/gi, 'Up to $1 hours');
+    t = t.replace(/Hasta (\d+) fotos editadas/gi, 'Up to $1 edited photos');
+    t = t.replace(/Hasta (\d+) fotos/gi, 'Up to $1 photos');
+    t = t.replace(/Más de (\d+) fotos editadas/gi, 'More than $1 edited photos');
+    t = t.replace(/Más de (\d+) fotos/gi, 'More than $1 photos');
+    t = t.replace(/Ilimitadas/gi, 'Unlimited');
+    t = t.replace(/Por separado/gi, 'Quoted separately');
+    t = t.replace(/Opcional/gi, 'Optional');
+    t = t.replace(/No incluida/gi, 'Not included');
+    t = t.replace(/Galería online privada/gi, 'Private online gallery');
+    t = t.replace(/Galería VIP de por vida/gi, 'Lifetime VIP gallery');
+    t = t.replace(/Galería VIP permanente/gi, 'Permanent VIP gallery');
+    t = t.replace(/1 Fotógrafo \+ 1 Videógrafo \+ Asistente/gi, '1 Photographer + 1 Videographer + Assistant');
+    t = t.replace(/1 Fotógrafo \+ 1 Videógrafo/gi, '1 Photographer + 1 Videographer');
+    t = t.replace(/2 Fotógrafos \+ 2 Videógrafos \+ Asistente/gi, '2 Photographers + 2 Videographers + Assistant');
+    t = t.replace(/Fotógrafo Principal \+ Videógrafo Principal \+ Asistente/gi, 'Lead Photographer + Lead Videographer + Assistant');
+    t = t.replace(/1 Fotógrafo/gi, '1 Photographer');
+    t = t.replace(/1 Videógrafo/gi, '1 Videographer');
+    t = t.replace(/Dron aéreo incluido/gi, 'Aerial drone included');
+    t = t.replace(/Álbum fotográfico impreso/gi, 'Printed photo album');
+    t = t.replace(/Sesión Preboda estándar/gi, 'Standard Pre-Wedding Session');
+    t = t.replace(/Sesión Preboda Premium/gi, 'Premium Pre-Wedding Session');
+    t = t.replace(/Reels para redes/gi, 'Reels for social media');
+    t = t.replace(/Reel para redes/gi, 'Reel for social media');
+    t = t.replace(/Cotización personalizada/gi, 'Custom quote');
+    return t;
   }
 
   private getInitialLang(): SupportedLanguage {

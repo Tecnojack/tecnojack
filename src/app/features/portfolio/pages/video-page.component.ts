@@ -1,6 +1,7 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -25,6 +26,7 @@ import {
 import { PortfolioPlaylistVideo } from '../portfolio.data';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import {
   VideoAccordionCategory,
   VideoAccordionComponent,
@@ -129,6 +131,8 @@ export class VideoPageComponent implements OnInit, OnDestroy {
   private readonly meta = inject(Meta);
   private readonly document = inject(DOCUMENT);
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  readonly i18n = inject(I18nService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly router = inject(Router);
   private readonly defaultCoverImage = 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7';
@@ -157,12 +161,14 @@ export class VideoPageComponent implements OnInit, OnDestroy {
     );
     const minPrice = Math.min(...this.videoPackages.map((p) => p.price));
     const minLabel = `${this.formatCop(minPrice)} COP`;
+    this.i18n.currentLang();
+    const isEn = this.i18n.isEn();
     return [
-      { label: 'Paquetes', value: String(packageCount) },
-      { label: 'Desde', value: minLabel },
-      { label: 'Videos realizados', value: String(totalVideos) },
+      { label: isEn ? 'PACKAGES' : 'PAQUETES', value: String(packageCount) },
+      { label: isEn ? 'STARTING AT' : 'DESDE', value: minLabel },
+      { label: isEn ? 'COMPLETED VIDEOS' : 'VIDEOS REALIZADOS', value: String(totalVideos) },
       {
-        label: 'Categorías',
+        label: isEn ? 'CATEGORIES' : 'CATEGORÍAS',
         value: String(
           this.orderedCategories().filter((c) => c.videos.length).length,
         ),

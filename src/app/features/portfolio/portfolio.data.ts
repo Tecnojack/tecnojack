@@ -552,7 +552,7 @@ export const portfolioServices: PortfolioService[] = [
     id: 'preboda',
     title: 'Preboda',
     description: 'Sesiones previas con dirección sutil, narrativa visual y una estética íntima.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     href: '/portfolio/preboda',
     ctaLabel: 'Ver paquetes',
     points: ['Dirección creativa', 'Sesión exterior', 'Contenido emocional']
@@ -692,22 +692,22 @@ export const portfolioSuggestedShots: PortfolioSuggestedShot[] = [
   {
     title: 'Foto con amigos',
     description: 'Frames espontáneos con energía y conexión real.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3'
   },
   {
     title: 'Foto con directivos/docentes',
     description: 'Registro formal y claro para memoria institucional.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1776978546197-y64v6j540m8.jpg?alt=media&token=182f7637-2cf3-40fb-aa6e-bc351a44e78f'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db'
   },
   {
     title: 'Foto de detalles de la ceremonia',
     description: 'Elementos, decoración y símbolos que completan la historia.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3'
   },
   {
     title: '+3 fotos aleatorias',
     description: 'Selección sorpresa para capturar espontaneidad y ambiente.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87'
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6'
   }
 ];
 
@@ -777,10 +777,10 @@ export const groupGraduationSuggestedShots: GroupGraduationShot[] = [
   { title: 'Foto con padre / madre o acudiente', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fpremium%2Fcover.jpg?alt=media&token=045233c4-9e3d-4c38-8422-4467ec6b8ce9' },
   { title: 'Foto grupal de curso', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-esencial%2Fcover.jpg?alt=media&token=b6ffebba-06f1-4df2-a9b1-ec963e020dc1' },
   { title: 'Foto personalizada (como la deseen)', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0' },
-  { title: 'Foto con amigos', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61' },
-  { title: 'Foto con directivos docentes', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1776978546197-y64v6j540m8.jpg?alt=media&token=182f7637-2cf3-40fb-aa6e-bc351a44e78f' },
-  { title: 'Foto de detalles de la ceremonia', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5' },
-  { title: '+3 fotos aleatorias', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87' }
+  { title: 'Foto con amigos', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3' },
+  { title: 'Foto con directivos docentes', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db' },
+  { title: 'Foto de detalles de la ceremonia', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3' },
+  { title: '+3 fotos aleatorias', image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6' }
 ];
 
 export const groupGraduationPlans: GroupGraduationPlan[] = [
@@ -814,7 +814,7 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
     price: '350.000 COP',
     amountCop: 350000,
     lead: 'Pensado para quienes quieren el recuerdo digital completo y además una pieza física protagonista para exhibir el logro.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1776978546197-y64v6j540m8.jpg?alt=media&token=182f7637-2cf3-40fb-aa6e-bc351a44e78f',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db',
     features: [
       'Incluye todo lo del Plan Esencial',
       'Sesión fotográfica con enfoque en retrato destacado',
@@ -836,7 +836,7 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
     price: '450.000 COP',
     amountCop: 450000,
     lead: 'Una propuesta ideal para conservar el grado en formato digital y también en un fotobook breve, práctico y fácil de mostrar.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     features: [
       'Incluye todo lo del Plan Esencial',
       'Cobertura fotográfica más enfocada en momentos emocionales',
@@ -858,7 +858,7 @@ export const groupGraduationPlans: GroupGraduationPlan[] = [
     price: '550.000 COP',
     amountCop: 550000,
     lead: 'La versión más completa de grados: fotos digitales, fotobook y cuadro, pensada para quien quiere guardar el recuerdo en varios formatos.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63',
     features: [
       'Incluye todo lo del Plan Esencial',
       'Cobertura completa del momento de grado',
@@ -922,7 +922,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["2'800.000 COP"],
     lead:
       'Cobertura completa que documenta el desarrollo de la boda desde los preparativos hasta los momentos más importantes de la celebración. Diseñado para parejas que desean revivir su historia completa.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     items: [
       'Cobertura de hasta 8 horas',
       '1 fotógrafo y 1 videógrafo',
@@ -966,7 +966,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["3'900.000 COP"],
     lead:
       'Experiencia completa que combina fotografía artística y producción cinematográfica para contar la historia del día con una narrativa mucho más cuidada. Este es nuestro paquete recomendado.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     featured: true,
     items: [
       'Cobertura de hasta 10 horas',
@@ -1016,7 +1016,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["6'100.000 COP"],
     lead:
       'La experiencia audiovisual más completa de TECNOJACK. Pensada para parejas que desean transformar su boda en una producción cinematográfica de alto nivel con un enfoque de autor sumamente exclusivo.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     items: [
       'Cobertura de hasta 12 horas',
       '2 fotógrafos + 2 videógrafos + Asistente de producción',
@@ -1124,7 +1124,7 @@ export const weddingExperiencePlans: WeddingPackagePlan[] = [
     priceLines: ["8'500.000 COP"],
     lead:
       'La experiencia fotográfica definitiva para tu boda. Sin límites de tiempo, sin límites de entrega, diseñada para parejas que desean inmortalizar absolutamente cada instante de su historia. Incluye cobertura de viaje a nivel nacional.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3',
     featured: true,
     items: [
       'Reportaje fotográfico élite (Sin límite de horas)',
@@ -1169,7 +1169,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     priceLines: ['900.000 COP'],
     lead:
       'Cobertura fotográfica ideal para capturar los momentos más importantes de tu boda de forma natural y emotiva.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     items: [
       'Cobertura de hasta 4 horas',
       '1 fotógrafo',
@@ -1197,7 +1197,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     priceLines: ["1'650.000 COP"],
     lead:
       'Cobertura más amplia que documenta tu boda con mayor detalle, acompañamiento y enfoque emocional.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     items: [
       'Cobertura de hasta 7 horas',
       'Fotógrafo principal + Asistente de fotografía',
@@ -1227,7 +1227,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     priceLines: ["2'650.000 COP"],
     lead:
       'Experiencia completa que combina cobertura total, dirección creativa y fotografía con acabado artístico. Nuestro paquete recomendado.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     featured: true,
     items: [
       'Cobertura completa del evento (preparativos hasta la fiesta)',
@@ -1263,7 +1263,7 @@ export const weddingPhotoOnlyPlans: WeddingPhotoOnlyPlan[] = [
     priceLines: ["4'100.000 COP"],
     lead:
       'Experiencia fotográfica de autor de alto nivel. Diseñada para parejas que buscan una estética artística y de autor, con un registro exclusivo y diferente de su boda.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     items: [
       'Cobertura de hasta 12 horas',
       '2 fotógrafos + Asistente',
@@ -1373,7 +1373,7 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
     priceLines: ["1'650.000 COP"],
     amountCop: 1650000,
     lead: 'Narrativa completa de tu boda con dos cámaras y audio dedicado para capturar cada emoción.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     features: [
       'Cobertura amplia (ceremonia y recepción parcial)',
       '2 cámaras',
@@ -1395,7 +1395,7 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
     priceLines: ["2'800.000 COP"],
     amountCop: 2800000,
     lead: 'Producción audiovisual con enfoque cinematográfico, tomas aéreas y cobertura completa de tu boda.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3',
     features: [
       'Cobertura completa del evento (preparativos y fiesta)',
       '2 a 3 cámaras',
@@ -1417,7 +1417,7 @@ export const weddingVideoOnlyPlans: WeddingVideoOnlyPlan[] = [
     priceLines: ["4'500.000 COP"],
     amountCop: 4500000,
     lead: 'Experiencia premium de autor que transforma tu boda en una película con narrativa cinematográfica, diseño sonoro e iluminación profesional.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     features: [
       'Cobertura completa desde preparativos hasta la fiesta',
       'Reunión de dirección, cronograma de producción, tablero de inspiración (moodboard) y desarrollo de narrativa',
@@ -1563,7 +1563,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     lead: 'Sesión más elaborada que permite explorar diferentes escenarios y lograr fotografías más cuidadas y expresivas.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1776978546197-y64v6j540m8.jpg?alt=media&token=182f7637-2cf3-40fb-aa6e-bc351a44e78f',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db',
     features: ['1 fotógrafo', '1 a 2 locaciones cercanas', 'Duración de 3 horas', 'Hasta 2 vestuarios', 'Dirección creativa'],
     deliverables: ['Hasta 80 fotografías finales, seleccionadas y editadas', '1 cuadro fotográfico de 60 x 40 cm', 'Galería digital privada por 3 meses', 'Entrega final en alta calidad por Google Drive']
   },
@@ -1573,7 +1573,7 @@ export const weddingPostweddingPlans: WeddingPostweddingPlan[] = [
     priceLines: ['950.000 COP'],
     amountCop: 950000,
     lead: 'Sesión diseñada para crear imágenes impactantes con estética artística en locaciones especiales.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     features: [
       '1 fotógrafo y 1 asistente',
       'Hasta 2 locaciones',
@@ -1607,7 +1607,7 @@ export const quinceMainPlans: QuincePackagePlan[] = [
     slug: 'quince-esencial-recuerdos',
     name: 'Esencial – Recuerdos de tus quince',
     lead: 'Cobertura fotográfica enfocada en capturar los momentos más importantes de tu celebración de forma natural y elegante.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     priceLines: ['650.000 COP'],
     amountCop: 650000,
     items: [
@@ -1752,7 +1752,7 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     slug: 'quince-video-esencial',
     name: 'Esencial – Video de tus quince',
     lead: 'Video resumen que captura los momentos más importantes de tu celebración.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['700.000 COP'],
     amountCop: 700000,
     features: [
@@ -1771,7 +1771,7 @@ export const quinceVideoPlans: QuinceVideoPlan[] = [
     slug: 'quince-video-completa',
     name: 'Completa – Historia en video',
     lead: 'Cobertura más completa que permite contar tu historia con mayor profundidad y calidad visual.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63',
     priceLines: ["1'200.000 COP"],
     amountCop: 1200000,
     features: [
@@ -1851,7 +1851,7 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     slug: 'quince-mixta-completa-experiencia',
     name: 'Completa – Experiencia combinada',
     lead: 'Cobertura equilibrada que permite capturar tanto fotografía como video con mayor detalle.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63',
     priceLines: ["1'800.000 COP"],
     amountCop: 1800000,
     features: [
@@ -1873,7 +1873,7 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     slug: 'quince-mixta-premium-produccion-completa',
     name: 'Premium – Producción completa de quince',
     lead: 'Experiencia completa que combina fotografía, video y producción avanzada para un resultado cinematográfico.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ["2'900.000 COP"],
     amountCop: 2900000,
     featured: true,
@@ -1900,7 +1900,7 @@ export const quinceHybridPlans: QuinceHybridPlan[] = [
     slug: 'quince-mixta-luxury-experiencia-exclusiva',
     name: 'Luxury – Producción exclusiva de quince',
     lead: 'Nuestra propuesta más completa y lujosa. Fotografía y cinematografía del más alto nivel con múltiples locaciones, vestuarios y un resultado deslumbrante.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3',
     priceLines: ["4'500.000 COP"],
     amountCop: 4500000,
     featured: true,
@@ -2020,7 +2020,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     slug: 'preboda-esencial',
     name: 'Preboda Esencial',
     lead: 'Sesión íntima y natural para capturar la esencia de la pareja antes del gran día.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     price: '400.000',
     items: [
       '1 fotógrafo',
@@ -2041,7 +2041,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     name: 'Preboda Completa',
     lead:
       'Sesión más elaborada que permite explorar diferentes escenarios y lograr una narrativa más completa de la pareja.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     price: '580.000',
     items: [
       '1 fotógrafo',
@@ -2061,7 +2061,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     slug: 'preboda-editorial',
     name: 'Preboda Editorial',
     lead: 'Sesión con planeación visual y dirección creativa avanzada para crear una historia de pareja con mayor intención estética.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     price: '780.000',
     featured: true,
     items: [
@@ -2098,7 +2098,7 @@ export const preweddingPlans: PreweddingPlan[] = [
     name: 'Preboda Cinematográfica',
     lead:
       'Producción audiovisual de preboda con fotografía, video y una narrativa planeada para contar la historia antes del gran día.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     price: '1.150.000',
     items: [
       '1 fotógrafo y 1 videógrafo',
@@ -2164,7 +2164,7 @@ export const videoMainPlans: VideoPackagePlan[] = [
     slug: 'video-esencial',
     name: 'Video Esencial',
     lead: 'Producción directa, limpia y profesional para artistas que buscan un resultado de calidad sin producción compleja.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3',
     priceLines: ['400.000 COP'],
     amountCop: 400000,
     items: ['Grabación en locación natural o entorno básico', 'Iluminación básica', 'Producción de hasta 4 horas', 'Equipo compacto', 'Asesoría creativa previa a la grabación', 'Planeación básica de escenas', '1 video musical final de hasta 4 minutos en 4K', '1 archivo final en formato horizontal'],
@@ -2175,7 +2175,7 @@ export const videoMainPlans: VideoPackagePlan[] = [
     slug: 'video-pro',
     name: 'Video Pro',
     lead: 'Producción con mayor impacto visual, ideal para artistas que buscan calidad superior y contenido para redes.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     priceLines: ['560.000 COP'],
     amountCop: 560000,
     items: ['Incluye todo lo del paquete Esencial', 'Tomas con drone', 'Iluminación mejorada', 'Dirección básica', 'Mayor control de escena', 'Producción de hasta 6 horas', '1 video musical final de hasta 6 minutos en 4K', '2 a 3 reels verticales para redes', '1 portada para Spotify', '1 miniatura para YouTube'],
@@ -2186,7 +2186,7 @@ export const videoMainPlans: VideoPackagePlan[] = [
     slug: 'video-cinematico',
     name: 'Video Cinemático',
     lead: 'Producción narrativa con enfoque cinematográfico para proyectos de alto nivel visual.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['850.000 COP'],
     amountCop: 850000,
     featured: true,
@@ -2198,7 +2198,7 @@ export const videoMainPlans: VideoPackagePlan[] = [
     slug: 'video-personalizado',
     name: 'Video Personalizado',
     lead: 'Producción completamente adaptada a las necesidades del cliente.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['250.000 COP (Base)'],
     amountCop: 250000,
     items: ['Configuración personalizada', 'Escalable según presupuesto', 'Selección libre de servicios', '1 video final con duración acordada en la cotización'],
@@ -3000,7 +3000,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · video institucional',
     lead: 'Producción audiovisual con mayor profundidad para comunicar tu marca.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['1100000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-video-institucional-completo-cop', '1100000', 1100000)],
     sortOrder: 2,
@@ -3058,7 +3058,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · contenido para redes',
     lead: 'Producción de contenido simple para comenzar en redes sociales.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     priceLines: ['420000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-redes-start-cop', '420000', 420000)],
     sortOrder: 1,
@@ -3114,7 +3114,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · contenido para redes',
     lead: 'Producción avanzada con enfoque estratégico para redes.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     priceLines: ['1450000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-redes-pro-content-cop', '1450000', 1450000)],
     featured: true,
@@ -3144,7 +3144,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · eventos',
     lead: 'Cobertura básica para eventos empresariales.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63',
     priceLines: ['520000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-eventos-esencial-cop', '520000', 520000)],
     sortOrder: 1,
@@ -3166,7 +3166,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · eventos',
     lead: 'Cobertura completa con fotografía y video.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['950000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-eventos-completo-cop', '950000', 950000)],
     sortOrder: 2,
@@ -3188,7 +3188,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · eventos',
     lead: 'Cobertura completa con equipo ampliado y contenido para redes.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     priceLines: ['1750000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-eventos-premium-cop', '1750000', 1750000)],
     featured: true,
@@ -3212,7 +3212,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · marca personal',
     lead: 'Sesión básica para mejorar tu imagen profesional.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3',
     priceLines: ['350000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-marca-personal-esencial-cop', '350000', 350000)],
     sortOrder: 1,
@@ -3234,7 +3234,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · marca personal',
     lead: 'Combinación de fotografía y video para redes.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     priceLines: ['690000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-marca-personal-completo-cop', '690000', 690000)],
     sortOrder: 2,
@@ -3256,7 +3256,7 @@ export const portfolioPackageDetails: PortfolioPackageDetail[] = [
     packageGroup: 'custom' as const,
     eyebrow: 'Corporativos · marca personal',
     lead: 'Producción completa con dirección de imagen.',
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     priceLines: ['1250000'],
     baseQuoteOptions: [buildBaseQuoteOption('corporativos-marca-personal-premium-cop', '1250000', 1250000)],
     featured: true,
@@ -3835,7 +3835,7 @@ export const portfolioGalleryItems: PortfolioGalleryItem[] = [
     variant: 'tall'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
     alt: 'Pareja abrazándose durante la sesión de boda',
     title: 'Emoción real',
     category: 'Bodas'
@@ -3866,13 +3866,13 @@ export const portfolioGalleryItems: PortfolioGalleryItem[] = [
     category: '15 años'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63',
     alt: 'Retrato de graduación con toga y diploma',
     title: 'Logro y orgullo',
     category: 'Grados'
   },
   {
-    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+    src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
     alt: 'Sesión previa íntima de pareja',
     title: 'Conexión auténtica',
     category: 'Preboda'
@@ -4056,7 +4056,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       eyebrow: 'Servicio premium',
       title: 'Bodas con dirección cinematográfica',
       description: 'Historias reales contadas con estética, emoción y precisión visual.',
-      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
       highlights: ['Foto + video', 'Color cinematográfico', 'Dirección artística'],
       whatsappMessage: 'Hola TECNOJACK, quiero información sobre cobertura de boda.'
     },
@@ -4073,9 +4073,9 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Maira & Ariel',
         subtitle: 'Ceremonia, retratos y recepción',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Pareja abrazándose durante la boda' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9', alt: 'Retrato editorial de novios durante la recepción' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Retrato de pareja en exterior' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Pareja abrazándose durante la boda' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4', alt: 'Retrato editorial de novios durante la recepción' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Retrato de pareja en exterior' }
         ]
       },
       {
@@ -4086,7 +4086,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         images: [
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978771529-asi2zvqhv8w.jpg?alt=media&token=71730aa6-a22f-4a54-a1b3-d9dd76d41ea6', alt: 'Preparativos de boda con luz natural' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fpremium%2Fcover.jpg?alt=media&token=045233c4-9e3d-4c38-8422-4467ec6b8ce9', alt: 'Momento emocional en preparativos' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Detalle elegante de boda' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Detalle elegante de boda' }
         ]
       },
       {
@@ -4095,9 +4095,9 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Recepción editorial',
         subtitle: 'Detalles, pareja y atmósfera',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5', alt: 'Detalle elegante de recepción de boda' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Detalle elegante de recepción de boda' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978757025-gkbq8wck38.jpg?alt=media&token=1a6fd83a-cc76-4186-9ebd-9b4118d06ab3', alt: 'Retrato de pareja durante la celebración' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4', alt: 'Ambiente de recepción con estética cinematográfica' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3', alt: 'Ambiente de recepción con estética cinematográfica' }
         ]
       }
     ]
@@ -4128,7 +4128,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         subtitle: 'Retratos y sesión previa',
         images: [
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7', alt: 'Retrato principal de quinceañera' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5', alt: 'Detalle elegante de vestido y celebración' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Detalle elegante de vestido y celebración' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fesencial%2Fcover.jpg?alt=media&token=4fc53e69-c1cf-4648-bcb6-f15308a2c026', alt: 'Momento espontáneo de celebración juvenil' }
         ]
       },
@@ -4149,8 +4149,8 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Fiesta y detalle',
         subtitle: 'Contenido listo para redes',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Detalle de fiesta y decoración' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Baile y celebración con ritmo visual' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Detalle de fiesta y decoración' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Baile y celebración con ritmo visual' },
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7', alt: 'Retrato final de quinceañera' }
         ]
       }
@@ -4182,8 +4182,8 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         subtitle: 'Llamado, retratos y familia',
         images: [
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=48daaaee-fa21-4a57-8cfb-665a3c9e6bb0', alt: 'Retrato principal de graduación' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36', alt: 'Retrato editorial en ceremonia de grado' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1776978546197-y64v6j540m8.jpg?alt=media&token=182f7637-2cf3-40fb-aa6e-bc351a44e78f', alt: 'Retrato con directivos docentes' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63', alt: 'Retrato editorial en ceremonia de grado' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db', alt: 'Retrato con directivos docentes' }
         ]
       },
       {
@@ -4204,8 +4204,8 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         subtitle: 'Grupo, amigos y detalles',
         images: [
           { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978771529-asi2zvqhv8w.jpg?alt=media&token=71730aa6-a22f-4a54-a1b3-d9dd76d41ea6', alt: 'Foto familiar en graduación' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61', alt: 'Foto con amigos al finalizar el evento' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5', alt: 'Detalle de ceremonia de graduación' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Foto con amigos al finalizar el evento' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Detalle de ceremonia de graduación' }
         ]
       }
     ]
@@ -4218,7 +4218,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       eyebrow: 'Servicio premium',
       title: 'Preboda con narrativa íntima y editorial',
       description: 'Sesiones previas diseñadas para contar la historia con estética y emoción.',
-      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb',
+      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6',
       highlights: ['Dirección creativa', 'Sesión exterior', 'Contenido emocional'],
       whatsappMessage: 'Hola TECNOJACK, quiero información sobre una sesión preboda.'
     },
@@ -4235,9 +4235,9 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Sesión exterior',
         subtitle: 'Narrativa íntima de pareja',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978643872-97z4h6x10y5.jpg?alt=media&token=511394c8-3561-4770-bcff-3e4b3e86c0e5', alt: 'Sesión preboda en exterior con luz natural' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Escena romántica en sesión preboda' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61', alt: 'Retrato íntimo de pareja antes de la boda' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Sesión preboda en exterior con luz natural' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Escena romántica en sesión preboda' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Retrato íntimo de pareja antes de la boda' }
         ]
       },
       {
@@ -4246,9 +4246,9 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Luz natural y dirección',
         subtitle: 'Frames para invitaciones y redes',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978584483-l33f7yax2v.jpg?alt=media&token=b3670603-fbb7-4581-80f0-8ebf89dfbb87', alt: 'Retrato de pareja con dirección sutil' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9', alt: 'Frame editorial de pareja' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Detalle visual de sesión en exterior' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Retrato de pareja con dirección sutil' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4', alt: 'Frame editorial de pareja' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Detalle visual de sesión en exterior' }
         ]
       },
       {
@@ -4257,9 +4257,9 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
         title: 'Escenas previas al gran día',
         subtitle: 'Contenido emocional y editorial',
         images: [
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776978652011-i632m53c3e.jpg?alt=media&token=cf5c3fa9-bb35-4ae6-a6e5-ea48a27a4e61', alt: 'Pareja caminando en sesión preboda' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776978570077-w6h334l9bdf.jpg?alt=media&token=381a1795-021c-4395-8854-4638706dcfcb', alt: 'Escena íntima previa a la boda' },
-          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776978529240-3v7j80824p2.jpg?alt=media&token=1d740a87-c0e8-450f-aeec-4eaec5d6bb36', alt: 'Retrato elegante de pareja' }
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3', alt: 'Pareja caminando en sesión preboda' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6', alt: 'Escena íntima previa a la boda' },
+          { src: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63', alt: 'Retrato elegante de pareja' }
         ]
       }
     ]
@@ -4292,7 +4292,7 @@ export const portfolioServicePageConfigs: Record<PortfolioPackageCategory, Portf
       eyebrow: 'Portafolio audiovisual',
       title: 'Producción audiovisual con enfoque cinéfilo.',
       description: 'Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.',
-      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776978726521-mky9j8feyt.jpg?alt=media&token=877234cb-d463-42b7-a3aa-a33045a557b4',
+      backgroundImage: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3',
       highlights: ['Videos musicales', 'Bodas & eventos', 'Cortometrajes', 'Contenido para redes'],
       whatsappMessage: 'Hola TECNOJACK, quiero información sobre los paquetes de video.'
     },

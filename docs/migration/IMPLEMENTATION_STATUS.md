@@ -39,11 +39,14 @@
 
 ## ALINEACIÃ“N VISUAL REACT / FIGMA MAKE
 
-- Internacionalización Integral (i18n ES / EN en toda la página de portafolio y categorías):
-  - Integración reactiva de `I18nService` en todas las secciones: Hero, Manifiesto/Filosofía, Obra Seleccionada, Catálogo de Servicios, Transición Cinemática, Experiencias Insignia, Perfil Profesional, Contacto, Header, Navegación Móvil, Menú Flotante, Footer y Acordeones de Paquetes.
-  - Conmutador `ES / EN` dinámico con actualización reactiva instantánea sin recarga.
-  - Textos de navegación, etiquetas de paquetes, badges de colecciones, modales de Destination y formularios traducidos al 100%.
+- Internacionalización Integral (i18n ES / EN en TODA la plataforma de portafolio y servicios):
+  - Integración reactiva de `I18nService` y soporte OnPush inmediato en todas las secciones: Hero, Manifiesto/Filosofía, Obra Seleccionada, Catálogo de Servicios, Transición Cinemática, Experiencias Insignia, Perfil Profesional, Contacto, Header, Navegación Móvil, Menú Flotante, Footer y Acordeones de Paquetes.
+  - Cobertura 100% bilingüe en todas las subpáginas de categoría: `/portfolio/bodas`, `/portfolio/quinces`, `/portfolio/grados`, `/portfolio/sesiones`, `/portfolio/corporativos`, `/portfolio/preboda`, `/portfolio/videos` y `/portfolio/sobre-mi`.
+  - Traducción completa de la tabla comparativa de planes híbridos (desktop y card móvil), métricas dinámicas (`PACKAGES`, `STARTING AT`, `CLIENTS`, `CATEGORIES`), entregables y desgloses de paquetes.
+  - Modales de detalle y solicitud de cotización (`modal.*`) totalmente traducidos: campos de contacto, selector de paquete base o personalizado, notas, totales y confirmaciones.
+  - Conmutador `ES / EN` dinámico con actualización reactiva instantánea bidireccional sin recarga de página.
 - Curaduría y corrección total de imágenes de portafolio con Firebase Storage:
+  - Corrección de URL de imagen en Sesiones de Autor (`sara-and-jefferson`) con HTTP 200 OK verificado en Firebase Storage.
   - Eliminación completa de `default-cover.png` y reemplazo por imágenes de alta resolución categorizadas:
     - Bodas: portadas oficiales de bodas (`servicios/bodas/cover.jpg`, `hibridas/luxury/cover.jpg`, `hibridas/premium/cover.jpg`).
     - Quinces: portadas y sesiones de gala (`servicios/quinces/cover.jpg`, `fotografia-de-quince/premium/cover.jpg`, `clientes/sofia-colorado`).

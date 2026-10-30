@@ -2,6 +2,7 @@ import { AsyncPipe, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   Input,
@@ -128,6 +129,7 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly clientPublic = inject(ClientPublicService);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
   readonly categoryState = signal<PortfolioPackageCategory>('bodas');
   readonly mobileComparePlanIndex = signal(2); // Default to Premium
@@ -316,9 +318,11 @@ export class PortfolioServiceCategoryPageComponent {
     PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_STORY_THUMBS,
   );
 
-  readonly pageConfig = computed<PortfolioServicePageConfig | undefined>(() =>
-    this.content.getServicePageConfig(this.categoryState()),
-  );
+  readonly pageConfig = computed<PortfolioServicePageConfig | undefined>(() => {
+    this.i18n.currentLang();
+    const cfg = this.content.getServicePageConfig(this.categoryState());
+    return cfg ? this.i18n.translateCategoryConfig(cfg, this.categoryState()) : undefined;
+  });
 
   private readonly firestoreStories$ = toObservable(this.categoryState).pipe(
     switchMap((category) => {
@@ -500,7 +504,7 @@ export class PortfolioServiceCategoryPageComponent {
         );
         const fullExperience = cards.filter((item) => item.detail.slug.includes('full-experience'));
 
-        return [
+        const bodasSections = [
           { title: 'THE FULL EXPERIENCE', cards: fullExperience },
           { title: 'Boda híbrida (Foto + video)', cards: hybrid },
           { title: 'Fotografía de bodas', cards: photoOnly },
@@ -510,6 +514,7 @@ export class PortfolioServiceCategoryPageComponent {
           { title: 'Sesión de preboda', cards: prebodaForBodas },
           { title: 'Sesión postboda', cards: postwedding },
         ];
+        return bodasSections.map(s => ({ ...s, title: this.i18n.translateAccordionTitle(s.title) }));
       }
 
       if (category === 'quinces') {
@@ -695,12 +700,14 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     const categoryCount = this.content.servicePageCategories().length;
+    this.i18n.currentLang();
+    const isEn = this.i18n.isEn();
 
     return [
-      { label: 'Paquetes', value: String(packageCount) },
-      { label: 'Desde', value: minLabel },
-      { label: 'Clientes', value: clientLabel },
-      { label: 'Categorías', value: String(categoryCount) },
+      { label: isEn ? 'PACKAGES' : 'PAQUETES', value: String(packageCount) },
+      { label: isEn ? 'FROM' : 'DESDE', value: minLabel },
+      { label: isEn ? 'CLIENTS' : 'CLIENTES', value: clientLabel },
+      { label: isEn ? 'CATEGORIES' : 'CATEGORÍAS', value: String(categoryCount) },
     ];
   });
 
@@ -1019,6 +1026,11 @@ export class PortfolioServiceCategoryPageComponent {
   });
 
   constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+
     this.updateStoriesViewportMode();
 
     effect((onCleanup) => {
@@ -1685,44 +1697,48 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   private getGroupTitle(key: PackageCardGroupViewModel['key']): string {
+    const isEn = this.i18n.isEn();
     if (this.categoryState() === 'grados' && key === 'photo-only') {
-      return 'Paqueticos de grados';
+      return isEn ? 'Graduation Packages' : 'Paqueticos de grados';
     }
 
     switch (key) {
       case 'full-experience':
         return 'The Full Experience';
       case 'photo-video':
-        return 'Foto + video';
+        return isEn ? 'Photo + Video' : 'Foto + video';
       case 'photo-only':
-        return 'Solo fotografía';
+        return isEn ? 'Photography Only' : 'Solo fotografía';
       case 'custom':
-        return 'Servicio personalizable';
+        return isEn ? 'Customizable Service' : 'Servicio personalizable';
       case 'session':
-        return 'Sesiones previas';
+        return isEn ? 'Pre-Sessions' : 'Sesiones previas';
       default:
-        return 'Paquetes';
+        return isEn ? 'Packages' : 'Paquetes';
     }
   }
 
   private getGroupLead(key: PackageCardGroupViewModel['key']): string {
+    const isEn = this.i18n.isEn();
     if (this.categoryState() === 'grados' && key === 'photo-only') {
-      return 'Aquí se presentan cuatro opciones base de fotografía para grados. El video no viene incluido en el precio base y se suma aparte como adicional desde 150.000 COP.';
+      return isEn
+        ? 'Base graduation photography packages. Video can be added as an optional deliverable.'
+        : 'Aquí se presentan cuatro opciones base de fotografía para grados. El video no viene incluido en el precio base y se suma aparte como adicional desde 150.000 COP.';
     }
 
     switch (key) {
       case 'full-experience':
-        return 'Paquetes completos para documentar de principio a fin.';
+        return isEn ? 'Complete packages to document from beginning to end.' : 'Paquetes completos para documentar de principio a fin.';
       case 'photo-video':
-        return 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
+        return isEn ? 'Simultaneous photo and video coverage in a single team.' : 'Estas propuestas combinan fotografía y video en una sola cobertura, y quedan arriba para priorizar la lectura comercial.';
       case 'photo-only':
-        return 'Estas propuestas se enfocan únicamente en fotografía y quedan separadas debajo para no mezclar tipos de servicio.';
+        return isEn ? 'Coverage focused strictly on photography.' : 'Estas propuestas se enfocan únicamente en fotografía y quedan separadas debajo para no mezclar tipos de servicio.';
       case 'custom':
-        return 'Aquí la cotización parte de una base, pero puede ajustarse bastante según fotos, impresos y video.';
+        return isEn ? 'Base investment that can be tailored with add-ons.' : 'Aquí la cotización parte de una base, pero puede ajustarse bastante según fotos, impresos y video.';
       case 'session':
-        return 'Sesiones previas con distintos niveles de duración, vestuario y entregables.';
+        return isEn ? 'Pre-sessions with varying duration, outfits, and deliverables.' : 'Sesiones previas con distintos niveles de duración, vestuario y entregables.';
       default:
-        return 'Propuestas organizadas por tipo de servicio.';
+        return isEn ? 'Curated proposals by service type.' : 'Propuestas organizadas por tipo de servicio.';
     }
   }
 
@@ -1735,9 +1751,9 @@ export class PortfolioServiceCategoryPageComponent {
       tagline: this.buildPackageTagline(detail),
       displayPrice: detail.priceLines?.length
         ? this.formatPriceLabel(detail.priceLines[0] ?? '')
-        : 'Cotización personalizada',
+        : (this.i18n.isEn() ? 'Custom quote' : 'Cotización personalizada'),
       displayTypeLabel: this.normalizePackageTypeLabel(detail.packageTypeLabel),
-      highlights: this.buildCardHighlights(detail),
+      highlights: this.buildCardHighlights(detail).map((h) => this.i18n.translateDeliverable(h)),
       packageTypeLabel: detail.packageTypeLabel,
       groupKey: detail.packageGroup,
       sortOrder: detail.sortOrder ?? this.inferSortOrder(detail),

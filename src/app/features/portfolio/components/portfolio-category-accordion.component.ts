@@ -1,6 +1,7 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -10,6 +11,7 @@ import {
   Output,
   ViewChild,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -81,6 +83,7 @@ export type PortfolioPackageCardViewModel = {
 export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly content = inject(PortfolioContentService);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
 
   @ViewChild('sliderTrack', { static: false }) sliderTrack?: ElementRef<HTMLDivElement>;
@@ -97,6 +100,13 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   readonly showSwipeCue = signal(false);
 
   private isInteracting = false;
+
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
 
   ngOnInit(): void {
     this.openState.set(this.initiallyOpen);

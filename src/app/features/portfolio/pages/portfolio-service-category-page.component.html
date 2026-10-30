@@ -112,23 +112,23 @@
 
                     <dl class="tj-compare-card__specs">
                         <div class="tj-spec-row">
-                            <dt>Horas de Cobertura</dt>
+                            <dt>{{ i18n.isEn() ? 'Coverage Hours' : 'Horas de Cobertura' }}</dt>
                             <dd>{{ activePlan.hours }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Equipo Humano</dt>
+                            <dt>{{ i18n.isEn() ? 'Production Crew' : 'Equipo Humano' }}</dt>
                             <dd>{{ activePlan.team }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Fotografías Editadas</dt>
+                            <dt>{{ i18n.isEn() ? 'Edited Photos' : 'Fotografías Editadas' }}</dt>
                             <dd>{{ activePlan.photos }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Entregables Video</dt>
-                            <dd>{{ activePlan.video }}</dd>
+                            <dt>{{ i18n.isEn() ? 'Video Deliverables' : 'Entregables Video' }}</dt>
+                            <dd>{{ i18n.translateDeliverable(activePlan.video) }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Dron Aéreo</dt>
+                            <dt>{{ i18n.isEn() ? 'Aerial Drone' : 'Dron Aéreo' }}</dt>
                             <dd>{{ activePlan.drone }}</dd>
                         </div>
                         <div class="tj-spec-row">
@@ -136,7 +136,7 @@
                             <dd>{{ activePlan.album }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Sesión Preboda</dt>
+                            <dt>{{ i18n.isEn() ? 'Pre-Wedding Session' : 'Sesión Preboda' }}</dt>
                             <dd>{{ activePlan.preboda }}</dd>
                         </div>
                         <div class="tj-spec-row">
@@ -144,7 +144,7 @@
                             <dd>{{ activePlan.reels }}</dd>
                         </div>
                         <div class="tj-spec-row">
-                            <dt>Galería Online</dt>
+                            <dt>{{ i18n.isEn() ? 'Online Gallery' : 'Galería Online' }}</dt>
                             <dd>{{ activePlan.gallery }}</dd>
                         </div>
                         <div class="tj-spec-row">
@@ -193,7 +193,7 @@
                             <td class="exclusive-col">✔ Cubiertos</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Equipo Humano</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Production Crew' : 'Equipo Humano' }}</td>
                             <td>1 Fotógrafo + 1 Videógrafo</td>
                             <td>1 Fotógrafo + 1 Videógrafo (+ Apoyo logístico)</td>
                             <td class="recommended-col">Fotógrafo Principal + Videógrafo Principal + 2do Operador/Asistente</td>
@@ -201,7 +201,7 @@
                             <td class="exclusive-col">2 Fots. + 2 Vids. + Crew Producción</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Fotografías Editadas</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Edited Photos' : 'Fotografías Editadas' }}</td>
                             <td>Hasta 180 fotos</td>
                             <td>Hasta 300 fotos</td>
                             <td class="recommended-col">Hasta 450 fotos</td>
@@ -209,7 +209,7 @@
                             <td class="exclusive-col">Ilimitadas</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Entregables Video</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Video Deliverables' : 'Entregables Video' }}</td>
                             <td>Highlight Film (4-6 min)</td>
                             <td>Highlight Film (6-8 min) + Película documental (15-25 min)</td>
                             <td class="recommended-col">Trailer pro (1 min) + Highlight (8-12 min) + Película doc (25-40 min)</td>
@@ -217,7 +217,7 @@
                             <td class="exclusive-col">Trailer + Highlight + Documental VIP sin límite</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Drone Aéreo</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Aerial Drone' : 'Drone Aéreo' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ (Cuando sea posible)</td>
@@ -225,7 +225,7 @@
                             <td class="exclusive-col">✔ Premium / Cine</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Álbum Físico</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Printed Album' : 'Álbum Físico' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ Álbum fotográfico</td>
@@ -233,7 +233,7 @@
                             <td class="exclusive-col">✔ Álbum Premium XL grabado + Caja VIP</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Sesión Preboda</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Pre-Wedding Session' : 'Sesión Preboda' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">✔ Sesión Preboda estándar</td>
@@ -241,7 +241,7 @@
                             <td class="exclusive-col">✔ Preboda VIP (Locaciones exclusivas)</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Sesión Postboda</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Post-Wedding Session' : 'Sesión Postboda' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">—</td>
@@ -249,7 +249,7 @@
                             <td class="exclusive-col">✔ Postboda VIP</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Reels / Redes</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Reels & Socials' : 'Reels / Redes' }}</td>
                             <td>1 Reel vertical</td>
                             <td>1 Reel vertical</td>
                             <td class="recommended-col">2 Reels</td>
@@ -257,7 +257,7 @@
                             <td class="exclusive-col">6 Reels + Trailer vertical + Mini doc</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Galería Online</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Online Gallery' : 'Galería Online' }}</td>
                             <td>3 meses</td>
                             <td>6 meses</td>
                             <td class="recommended-col">1 año</td>
@@ -265,7 +265,7 @@
                             <td class="exclusive-col">Vitalicia</td>
                         </tr>
                         <tr>
-                            <td class="feature-name">Entrega Prioritaria</td>
+                            <td class="feature-name">{{ i18n.isEn() ? 'Priority Delivery' : 'Entrega Prioritaria' }}</td>
                             <td>—</td>
                             <td>—</td>
                             <td class="recommended-col">—</td>
@@ -294,8 +294,8 @@
     <section class="portfolio-section service-category-stories">
         <header class="service-category-stories__head" tjRevealOnScroll>
             <div class="stories-head-eyebrow">
-                <span class="stories-badge">EXHIBICIÓN DE TRABAJOS</span>
-                <span class="stories-eyebrow">CLIENTES &amp; HISTORIAS REALES</span>
+                <span class="stories-badge">{{ i18n.t('exhibit.badge', 'EXHIBICIÓN DE TRABAJOS') }}</span>
+                <span class="stories-eyebrow">{{ i18n.t('exhibit.eyebrow', 'CLIENTES & HISTORIAS REALES') }}</span>
             </div>
             <h2 class="heading-lg">{{ config.storiesTitle }}</h2>
             <p class="service-category-stories__lead text-body text-muted">{{ config.storiesLead }}</p>
@@ -343,7 +343,7 @@
 
             <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
                 <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
-                    <span>Cargar más historias</span>
+                    <span>{{ i18n.t('exhibit.load_more', 'Cargar más historias') }}</span>
                     <span aria-hidden="true">↓</span>
                 </button>
             </div>
@@ -371,20 +371,20 @@
                             </figure>
                         </div>
                         <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
-                            Ver galería completa
+                            {{ i18n.t('exhibit.view_gallery', 'Ver galería completa') }}
                         </button>
                     </div>
 
                     <ng-template #storyAccordionEmpty>
                         <div class="story-accordion__body story-accordion__body--empty">
-                            <span class="text-body text-muted">Sin imágenes publicadas.</span>
+                            <span class="text-body text-muted">{{ i18n.t('exhibit.no_images', 'Sin imágenes publicadas.') }}</span>
                         </div>
                     </ng-template>
                 </details>
 
                 <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
                     <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
-                        <span>Cargar más historias</span>
+                        <span>{{ i18n.t('exhibit.load_more', 'Cargar más historias') }}</span>
                         <span aria-hidden="true">↓</span>
                     </button>
                 </div>
@@ -398,7 +398,7 @@
         <div class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + detail.title">
             <div class="service-package-modal__header">
                 <div>
-                    <p>Experiencia de detalle</p>
+                    <p>{{ i18n.t('modal.detail_experience', 'Experiencia de detalle') }}</p>
                     <h2 class="heading-lg">{{ detail.title }}</h2>
                 </div>
 
@@ -406,7 +406,7 @@
                     <button class="service-package-modal__ghost btn-text" type="button" *ngIf="modalStep() === 'request'" (click)="returnToDetail()">
                         Volver al detalle
                     </button>
-                    <button class="service-package-modal__close btn-text" type="button" (click)="closePackageModal()">Cerrar</button>
+                    <button class="service-package-modal__close btn-text" type="button" (click)="closePackageModal()">{{ i18n.t('modal.close', 'Cerrar') }}</button>
                 </div>
             </div>
 
@@ -447,7 +447,7 @@
                         </div>
 
                         <p class="text-body text-muted" *ngIf="mediaState.status === 'loading'">
-                            Cargando imágenes...
+                            {{ i18n.t('modal.loading_images', 'Cargando imágenes...') }}
                         </p>
                         <p class="text-body text-muted" *ngIf="mediaState.status === 'error'">
                             No fue posible cargar la galería. Se muestra la imagen por defecto.
@@ -490,46 +490,46 @@
                 <div class="service-package-modal__body service-package-modal__body--request">
                     <div class="service-package-request__column service-package-request__column--form">
                     <details class="service-package-request__accordion" open>
-                        <summary class="service-package-request__accordion-summary">Datos de contacto</summary>
+                        <summary class="service-package-request__accordion-summary">{{ i18n.t('modal.contact_data', 'Datos de contacto') }}</summary>
                     <div class="service-package-request__form">
                         <div class="service-package-request__head">
                             <p>Solicitud</p>
-                            <h3 class="heading-md">Completa los datos para continuar</h3>
+                            <h3 class="heading-md">{{ i18n.t('modal.complete_data', 'Completa los datos para continuar') }}</h3>
                         </div>
 
                         <div class="service-package-request__fields">
                             <label class="service-package-request__field">
-                                <span>Nombre</span>
+                                <span>{{ i18n.t('modal.name', 'Nombre') }}</span>
                                 <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Teléfono</span>
+                                <span>{{ i18n.t('modal.phone', 'Teléfono') }}</span>
                                 <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="Tu número" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Ciudad</span>
+                                <span>{{ i18n.t('modal.city', 'Ciudad') }}</span>
                                 <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Ciudad del evento" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Fecha estimada</span>
+                                <span>{{ i18n.t('modal.date', 'Fecha estimada') }}</span>
                                 <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Lugar</span>
+                                <span>{{ i18n.t('modal.venue', 'Lugar') }}</span>
                                 <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Salón, finca o locación" />
                             </label>
 
                             <label class="service-package-request__field">
-                                <span>Invitados</span>
+                                <span>{{ i18n.t('modal.guests', 'Invitados') }}</span>
                                 <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 120" />
                             </label>
 
                             <label class="service-package-request__field service-package-request__field--full">
-                                <span>Notas</span>
+                                <span>{{ i18n.t('modal.notes', 'Notas') }}</span>
                                 <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="4" placeholder="Cuéntanos qué quieres priorizar."></textarea>
                             </label>
                         </div>
@@ -539,12 +539,12 @@
 
                     <div class="service-package-request__column service-package-request__column--details">
                     <details class="service-package-request__accordion" open>
-                        <summary class="service-package-request__accordion-summary">Tipo de solicitud</summary>
+                        <summary class="service-package-request__accordion-summary">{{ i18n.t('modal.request_type', 'Tipo de solicitud') }}</summary>
                         <div class="service-package-request__builder">
                             <section class="service-package-request__group">
                                 <div class="service-package-request__group-head">
                                     <p>Tipo de solicitud</p>
-                                    <span>Decide si quieres usar el paquete base o armar una versión personalizada.</span>
+                                    <span>{{ i18n.t('modal.request_mode_desc', 'Decide si quieres usar el paquete base o armar una versión personalizada.') }}</span>
                                 </div>
 
                                 <div class="service-package-request__mode-grid">
@@ -776,7 +776,7 @@
                     <span>{{ story.location }}</span>
                 </div>
 
-                <button class="story-gallery-modal__close btn-text" type="button" (click)="closeStoryModal()">Cerrar</button>
+                <button class="story-gallery-modal__close btn-text" type="button" (click)="closeStoryModal()">{{ i18n.t('modal.close', 'Cerrar') }}</button>
             </div>
 
             <div class="story-gallery-modal__viewer" *ngIf="currentStoryImage() as image">

@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -24,7 +24,15 @@ export type SelectedCampaign = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectedWorkSectionComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
+
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
 
   get campaigns(): SelectedCampaign[] {
     return [
@@ -42,7 +50,7 @@ export class SelectedWorkSectionComponent {
         category: this.i18n.t('work.c2.cat', 'RETRATO & SESIONES'),
         title: this.i18n.t('work.c2.title', 'Sesiones de Autor'),
         subtitle: this.i18n.t('work.c2.sub', 'Estudio profesional y exteriores con dirección estética personalizada'),
-        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776978687799-8jgb5z17iom.jpg?alt=media&token=36dbbf2f-0b44-4fe1-bb38-4e15034c44a9',
+        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4',
         href: '/portfolio/sesiones',
         layout: 'half',
       },

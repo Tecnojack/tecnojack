@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
 import { I18nService } from '../../../core/services/i18n.service';
 
@@ -11,5 +11,13 @@ import { I18nService } from '../../../core/services/i18n.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorytellingTransitionSectionComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
+
+  constructor() {
+    effect(() => {
+      this.i18n.currentLang();
+      this.cdr.markForCheck();
+    });
+  }
 }

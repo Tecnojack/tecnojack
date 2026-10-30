@@ -1,4 +1,4 @@
-<tj-portfolio-shell [navItems]="navItems" subtitle="Videos" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
+<tj-portfolio-shell [navItems]="navItems" [subtitle]="i18n.isEn() ? 'Cinema & Video' : 'Videos'" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
     <section class="portfolio-section service-category-hero video-page-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
@@ -6,15 +6,15 @@
             <div class="service-category-hero__editorial">
                 <!-- Eyebrow Tag -->
                 <div class="service-category-hero__eyebrow-wrapper">
-                    <span class="hero-editorial-pill">Portafolio audiovisual</span>
+                    <span class="hero-editorial-pill">{{ i18n.t('category.videos.eyebrow', 'Portafolio audiovisual') }}</span>
                 </div>
 
                 <!-- Main Editorial Headline -->
-                <h1 class="service-category-hero__title heading-xl">Producción audiovisual con enfoque cinéfilo.</h1>
+                <h1 class="service-category-hero__title heading-xl">{{ i18n.t('category.videos.title', 'Producción audiovisual con enfoque cinéfilo.') }}</h1>
 
                 <!-- Curated Description Lead -->
                 <p class="service-category-hero__lead text-body">
-                    Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.
+                    {{ i18n.t('category.videos.desc', 'Videos musicales, bodas y proyectos creativos con dirección, color grading y entrega profesional.') }}
                 </p>
 
                 <!-- Capability Badges -->
@@ -39,7 +39,7 @@
                 <div class="service-category-hero__actions-row">
                     <div class="hero-cta-btns">
                         <a class="hero-action-btn hero-action-btn--primary" href="#paquetes">
-                            <span>Explorar paquetes de video</span>
+                            <span>{{ i18n.isEn() ? 'Explore video packages' : 'Explorar paquetes de video' }}</span>
                             <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
                         </a>
                         <a class="hero-action-btn hero-action-btn--wa" [href]="headerCtaHref" target="_blank" rel="noopener">
@@ -67,7 +67,7 @@
 
     <section class="portfolio-section service-category-packages" id="paquetes">
         <div class="service-category-packages__head" tjRevealOnScroll>
-            <h2 class="heading-md service-category-packages__title">Paquetes de video</h2>
+            <h2 class="heading-md service-category-packages__title">{{ i18n.t('category.videos.packageTitle', 'Paquetes de video') }}</h2>
             <p class="service-category-packages__body text-body text-muted">
                 Elige una base y ajustamos según tu idea, locaciones y complejidad.
             </p>
@@ -153,10 +153,10 @@
                         </div>
 
                         <div class="tj-apple-card__price-panel">
-                            <span class="tj-apple-card__price-label">Inversión</span>
+                            <span class="tj-apple-card__price-label">{{ i18n.t('packages.investment', 'Inversión') }}</span>
                             <div class="tj-apple-card__price-row">
                                 <strong class="tj-apple-card__price-amount">{{ priceLabel(pkg) }}</strong>
-                                <span class="tj-viaticos-pill">+ viáticos</span>
+                                <span class="tj-viaticos-pill">{{ i18n.t('packages.travel_fee', '+ viáticos') }}</span>
                             </div>
                         </div>
 
