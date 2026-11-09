@@ -150,9 +150,9 @@
         </div>
     </section>
 
-    <div class="service-package-modal" *ngIf="isInstitutionsRequestOpen()">
-        <button class="service-package-modal__backdrop" type="button" (click)="closeInstitutionsRequest()" aria-label="Cerrar solicitud"></button>
-        <div class="service-package-modal__panel" role="dialog" aria-modal="true" aria-label="Solicitud para grados institucionales">
+    <dialog #institutionsDialogRef class="service-package-modal" *ngIf="isInstitutionsRequestOpen()" (click)="onInstitutionsDialogClick($event)" (cancel)="closeInstitutionsRequest()">
+        <div class="service-package-modal__backdrop" aria-hidden="true"></div>
+        <div #institutionsPanelRef class="service-package-modal__panel" role="dialog" aria-modal="true" aria-label="Solicitud para grados institucionales">
             <div class="service-package-modal__header">
                 <div>
                     <p>Solicitud</p>
@@ -233,5 +233,5 @@
                 </button>
             </div>
         </div>
-    </div>
+    </dialog>
 </tj-portfolio-shell>

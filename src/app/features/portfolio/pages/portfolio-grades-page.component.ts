@@ -2,6 +2,7 @@ import { AsyncPipe, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewChild,
   computed,
   effect,
@@ -50,6 +51,9 @@ export class PortfolioGradesPageComponent {
       startWith(null),
       shareReplay({ bufferSize: 1, refCount: true }),
     );
+
+  @ViewChild('institutionsDialogRef') institutionsDialogRef?: ElementRef<HTMLDialogElement>;
+  @ViewChild('institutionsPanelRef') institutionsPanelRef?: ElementRef<HTMLElement>;
 
   @ViewChild('studentsPackages')
   private studentsPackages?: PortfolioServiceCategoryPageComponent;
@@ -218,13 +222,32 @@ export class PortfolioGradesPageComponent {
     this.isDestinationService.set(false);
     this.isSubmittingInstitutionsRequest.set(false);
     this.isInstitutionsRequestOpen.set(true);
+    setTimeout(() => {
+      const dialog = this.institutionsDialogRef?.nativeElement;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
+      this.document.body.style.overflow = 'hidden';
+    });
   }
 
   closeInstitutionsRequest(): void {
+    const dialog = this.institutionsDialogRef?.nativeElement;
+    if (dialog?.open) {
+      dialog.close();
+    }
     this.isInstitutionsRequestOpen.set(false);
     this.hasAcceptedTerms.set(false);
     this.isDestinationService.set(false);
     this.isSubmittingInstitutionsRequest.set(false);
+    this.document.body.style.overflow = '';
+  }
+
+  onInstitutionsDialogClick(event: MouseEvent): void {
+    if (this.institutionsPanelRef?.nativeElement.contains(event.target as Node)) {
+      return;
+    }
+    this.closeInstitutionsRequest();
   }
 
   guardInstitutionsSubmit(event: MouseEvent): void {

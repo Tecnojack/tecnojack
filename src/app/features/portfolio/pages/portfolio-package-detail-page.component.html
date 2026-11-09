@@ -259,10 +259,10 @@
             </aside>
 
             <!-- 7. REQUEST MODAL -->
-            <div class="pkg-modal" *ngIf="isRequestModalOpen()">
-                <button class="pkg-modal__backdrop" type="button" (click)="closeRequestModal()" aria-label="Cerrar solicitud"></button>
+            <dialog #requestDialogRef class="pkg-modal" *ngIf="isRequestModalOpen()" (click)="onRequestDialogClick($event)" (cancel)="closeRequestModal()">
+                <div class="pkg-modal__backdrop" aria-hidden="true"></div>
 
-                <div class="pkg-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Solicitud para ' + detail.title">
+                <div #requestPanelRef class="pkg-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Solicitud para ' + detail.title">
                     <div class="pkg-modal__header">
                         <div>
                             <span class="pkg-modal__eyebrow">SOLICITUD DE ASESORÍA</span>
@@ -381,7 +381,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </dialog>
         </article>
     </ng-container>
 

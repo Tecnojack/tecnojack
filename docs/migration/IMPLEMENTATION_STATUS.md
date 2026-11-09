@@ -39,6 +39,13 @@
 
 ## ALINEACIÃ“N VISUAL REACT / FIGMA MAKE
 
+- Corrección y elevación a Top Layer de modales de solicitud de servicios (Package Detail, Categorías, Grados Institucionales):
+  - Eliminación del confinamiento por transformaciones CSS ('containing block trap'): los modales ahora se declaran como elementos nativos '<dialog>' gestionados mediante '.showModal()'.
+  - Garantía de renderizado en el Top Layer del navegador: posicionamiento fijo al viewport con centrado perfecto horizontal y vertical ('top: 40px', 'bottom: 760px', 'windowHeight: 800px'), backdrop con 'backdrop-filter: blur(14px)' y bloqueo de scroll de fondo mientras están activos.
+  - Accesibilidad WCAG: soporte automático de teclado (tecla Escape cierra el modal), gestión de foco y cierre al hacer clic en el backdrop exterior.
+  - Habilitación del modal in-situ en páginas de categoría ('/portfolio/bodas', '/portfolio/quinces', '/portfolio/grados', '/portfolio/sesiones', '/portfolio/preboda', '/portfolio/corporativos'): 'Ver detalles' despliega el modal interactivo de detalle con opción directa de cotización/personalización ('Solicitar propuesta base' / 'Personalizar paquete') y enlace 'Ver página completa del paquete'.
+  - 'PortfolioGradesPageComponent': modal de solicitud institucional conectado al Top Layer nativo y flujo de solicitud de estudiantes sincronizado sin navegación errática.
+
 - Internacionalización Integral (i18n ES / EN en TODA la plataforma de portafolio y servicios):
   - Integración reactiva de `I18nService` y soporte OnPush inmediato en todas las secciones: Hero, Manifiesto/Filosofía, Obra Seleccionada, Catálogo de Servicios, Transición Cinemática, Experiencias Insignia, Perfil Profesional, Contacto, Header, Navegación Móvil, Menú Flotante, Footer y Acordeones de Paquetes.
   - Cobertura 100% bilingüe en todas las subpáginas de categoría: `/portfolio/bodas`, `/portfolio/quinces`, `/portfolio/grados`, `/portfolio/sesiones`, `/portfolio/corporativos`, `/portfolio/preboda`, `/portfolio/videos` y `/portfolio/sobre-mi`.

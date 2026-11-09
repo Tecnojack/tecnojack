@@ -392,10 +392,10 @@
         </ng-template>
     </section>
 
-    <div class="service-package-modal" *ngIf="selectedPackage() as detail">
-        <button class="service-package-modal__backdrop" type="button" (click)="closePackageModal()" aria-label="Cerrar detalle"></button>
+    <dialog #packageDialogRef class="service-package-modal" *ngIf="selectedPackage() as detail" (click)="onPackageDialogClick($event)" (cancel)="closePackageModal()">
+        <div class="service-package-modal__backdrop" aria-hidden="true"></div>
 
-        <div class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + detail.title">
+        <div #packagePanelRef class="service-package-modal__panel" role="dialog" aria-modal="true" [attr.aria-label]="'Detalle del paquete ' + detail.title">
             <div class="service-package-modal__header">
                 <div>
                     <p>{{ i18n.t('modal.detail_experience', 'Experiencia de detalle') }}</p>
@@ -477,6 +477,12 @@
                 </div>
 
                 <div class="service-package-modal__footer">
+                    <a
+                        class="service-package-modal__deep-link btn-text"
+                        [routerLink]="[detail.categoryHref, detail.slug]"
+                        (click)="closePackageModal()">
+                        {{ i18n.isEn() ? 'Open dedicated page →' : 'Ver página completa del paquete →' }}
+                    </a>
                     <button class="service-package-modal__primary btn-text" type="button" (click)="startRequest('base')">
                         Solicitar
                     </button>
@@ -763,7 +769,7 @@
                 </div>
             </ng-template>
         </div>
-    </div>
+    </dialog>
 
     <div class="story-gallery-modal" *ngIf="currentStory() as story">
         <button class="story-gallery-modal__backdrop" type="button" (click)="closeStoryModal()" aria-label="Cerrar galería"></button>

@@ -3,8 +3,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostListener,
   Input,
+  ViewChild,
   computed,
   effect,
   inject,
@@ -67,6 +69,9 @@ export class PortfolioPackageDetailPageComponent {
   private readonly router = inject(Router);
 
   @Input() coverImage?: string;
+
+  @ViewChild('requestDialogRef') requestDialogRef?: ElementRef<HTMLDialogElement>;
+  @ViewChild('requestPanelRef') requestPanelRef?: ElementRef<HTMLElement>;
 
   readonly isRequestModalOpen = signal(false);
   readonly visibleVisualImages = signal(
@@ -582,13 +587,32 @@ export class PortfolioPackageDetailPageComponent {
     this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
     this.isRequestModalOpen.set(true);
+    setTimeout(() => {
+      const dialog = this.requestDialogRef?.nativeElement;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
+      this.document.body.style.overflow = 'hidden';
+    });
   }
 
   closeRequestModal(): void {
+    const dialog = this.requestDialogRef?.nativeElement;
+    if (dialog?.open) {
+      dialog.close();
+    }
     this.isRequestModalOpen.set(false);
     this.hasAcceptedTerms.set(false);
     this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
+    this.document.body.style.overflow = '';
+  }
+
+  onRequestDialogClick(event: MouseEvent): void {
+    if (this.requestPanelRef?.nativeElement.contains(event.target as Node)) {
+      return;
+    }
+    this.closeRequestModal();
   }
 
   toggleCartExpanded(): void {

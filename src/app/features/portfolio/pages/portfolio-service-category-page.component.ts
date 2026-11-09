@@ -4,15 +4,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostListener,
   Input,
+  ViewChild,
   computed,
   effect,
   inject,
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Observable, combineLatest, map, of, shareReplay, startWith, switchMap, catchError } from 'rxjs';
 
 import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
@@ -100,7 +102,7 @@ const extrasSectionTitlePattern = /extra/i;
 @Component({
   selector: 'tj-portfolio-service-category-page',
   standalone: true,
-  imports: [
+  imports: [RouterLink, 
     AsyncPipe,
     NgIf,
     NgFor,
@@ -131,6 +133,9 @@ export class PortfolioServiceCategoryPageComponent {
   private readonly clientPublic = inject(ClientPublicService);
   private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
+  @ViewChild('packageDialogRef') packageDialogRef?: ElementRef<HTMLDialogElement>;
+  @ViewChild('packagePanelRef') packagePanelRef?: ElementRef<HTMLElement>;
+
   readonly categoryState = signal<PortfolioPackageCategory>('bodas');
   readonly mobileComparePlanIndex = signal(2); // Default to Premium
 
@@ -1084,15 +1089,27 @@ export class PortfolioServiceCategoryPageComponent {
     }
   }
 
-  openPackageModal(slug: string, imageUrl?: string): void {
+  openPackageModal(slug: string, step: ServiceModalStep = 'detail'): void {
     const detail =
       this.content.getPackageDetail(this.categoryState(), slug) ??
       this.findPackageDetailBySlug(slug);
     if (!detail) {
       return;
     }
-    void this.router.navigate(['/portfolio', detail.category, detail.slug], {
-      queryParams: { coverImage: imageUrl || detail.image }
+
+    this.selectedPackageSlug.set(slug);
+    this.modalStep.set(step);
+    this.visiblePackageImages.set(
+      PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_IMAGES,
+    );
+    this.resetRequestState(detail);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      const dialog = this.packageDialogRef?.nativeElement;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
+      this.document.body.style.overflow = 'hidden';
     });
   }
 
@@ -1110,11 +1127,23 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   closePackageModal(): void {
+    const dialog = this.packageDialogRef?.nativeElement;
+    if (dialog?.open) {
+      dialog.close();
+    }
     this.selectedPackageSlug.set(null);
     this.modalStep.set('detail');
     this.visiblePackageImages.set(
       PortfolioServiceCategoryPageComponent.INITIAL_VISIBLE_IMAGES,
     );
+    this.document.body.style.overflow = '';
+  }
+
+  onPackageDialogClick(event: MouseEvent): void {
+    if (this.packagePanelRef?.nativeElement.contains(event.target as Node)) {
+      return;
+    }
+    this.closePackageModal();
   }
 
   loadMorePackageImages(): void {
@@ -1292,16 +1321,7 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   openPackageDetails(slug: string, imageUrl?: string): void {
-    const detail =
-      this.content.getPackageDetail(this.categoryState(), slug) ??
-      this.findPackageDetailBySlug(slug);
-    if (!detail) {
-      return;
-    }
-
-    void this.router.navigate([detail.categoryHref, detail.slug], {
-      queryParams: { coverImage: imageUrl || detail.image }
-    });
+    this.openPackageModal(slug, 'detail');
   }
 
   getLinkedPackageHref(option: PortfolioRequestOption): string | null {
