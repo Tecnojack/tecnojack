@@ -1500,8 +1500,14 @@ body[data-theme='light'] .portfolio-page .service-category-hero__backdrop {
 }
 
 .portfolio-page .service-package-modal__body--detail {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: 1fr;
     align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .portfolio-page .service-package-modal__body--detail {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    }
 }
 
 .portfolio-page :where(
@@ -3502,5 +3508,91 @@ dialog.service-package-modal {
 
   &:hover {
     color: var(--tj-accent, #E6AF2E);
+  }
+}
+
+/* ─── Mobile Single-Column Excellence for Service Modals (< 1024px) ─── */
+@media (max-width: 1023px) {
+  .portfolio-page .service-package-modal__body--detail,
+  dialog.service-package-modal .service-package-modal__body--detail,
+  .service-package-modal__body--detail {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 16px !important;
+  }
+
+  .portfolio-page .service-package-modal__body--request,
+  dialog.service-package-modal .service-package-modal__body--request,
+  .service-package-modal__body--request {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 16px !important;
+  }
+
+  .service-package-modal__intro,
+  .service-package-modal__sections,
+  .service-package-request__column {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .portfolio-page .service-package-request__fields,
+  .service-package-request__fields,
+  .grades-request-fields {
+    grid-template-columns: 1fr !important;
+  }
+
+  .portfolio-page .service-package-request__field,
+  .service-package-request__field {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  .service-package-request__field input,
+  .service-package-request__field textarea,
+  .service-package-request__field select {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 48px !important;
+    font-size: 16px !important;
+  }
+
+  .service-package-modal__panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 94dvh !important;
+    margin: 0 !important;
+    border-radius: 20px !important;
+  }
+
+  .service-package-modal__header {
+    padding: 18px 18px 12px !important;
+  }
+
+  .service-package-modal__footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 14px 18px 18px !important;
+  }
+
+  .service-package-modal__primary,
+  .service-package-modal__secondary,
+  .service-package-request__submit {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.95rem !important;
+    border-radius: 14px !important;
+  }
+
+  .service-package-modal__deep-link {
+    text-align: center !important;
+    width: 100% !important;
+    margin: 4px 0 0 !important;
+    padding: 8px !important;
   }
 }

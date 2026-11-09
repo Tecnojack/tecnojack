@@ -226,3 +226,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* grades-mobile-single-column */
+@media (max-width: 768px) {
+  .grades-request-fields {
+    grid-template-columns: 1fr !important;
+  }
+}

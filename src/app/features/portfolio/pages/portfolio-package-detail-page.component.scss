@@ -525,8 +525,9 @@
   max-width: 100%;
   box-sizing: border-box;
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem;
   }
 }
 
@@ -950,8 +951,8 @@ dialog.pkg-modal {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 2rem;
 
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr !important;
     gap: 1.5rem;
   }
 }
@@ -1182,4 +1183,53 @@ dialog.pkg-modal {
   font-weight: 600;
   text-decoration: none;
   margin-top: 0.5rem;
+}
+
+/* pkg-form-mobile-single */
+@media (max-width: 768px) {
+  .pkg-form__field {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+
+    input,
+    textarea {
+      min-height: 48px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+  }
+
+  .pkg-modal__panel {
+    max-height: 94dvh;
+    border-radius: 20px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .pkg-modal__header {
+    padding: 16px 18px 12px;
+  }
+
+  .pkg-modal__body {
+    padding: 16px 18px;
+    gap: 1.25rem;
+  }
+
+  .pkg-modal__footer {
+    padding: 14px 18px 18px;
+    flex-direction: column;
+    gap: 12px;
+
+    .pkg-modal__submit-row {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .pkg-submit-btn {
+      width: 100%;
+      min-height: 48px;
+      justify-content: center;
+    }
+  }
 }
