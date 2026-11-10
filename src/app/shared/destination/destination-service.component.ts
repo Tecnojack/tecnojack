@@ -71,7 +71,10 @@ export class DestinationServiceComponent implements OnDestroy {
     this.selectedChange.emit(checked);
   }
 
-  openInfo(): void {
+  openInfo(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     this.isInfoOpen.set(true);
     setTimeout(() => {
       const dialog = this.dialogRef?.nativeElement;
@@ -84,34 +87,53 @@ export class DestinationServiceComponent implements OnDestroy {
     });
   }
 
-  closeInfo(): void {
+  closeInfo(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
     const dialog = this.dialogRef?.nativeElement;
     if (dialog && dialog.open) {
       dialog.close();
     }
     if (typeof document !== 'undefined') {
-      this.document.body.style.overflow = '';
+      const parentModalOpen =
+        this.document.body.classList.contains('portfolio-request-modal-open') ||
+        !!this.document.querySelector('dialog.pkg-modal[open]');
+      if (!parentModalOpen) {
+        this.document.body.style.overflow = '';
+      }
     }
     this.isInfoOpen.set(false);
   }
 
   onDialogClick(event: MouseEvent): void {
+    event.stopPropagation();
     const panel = this.panelRef?.nativeElement;
     if (panel && !panel.contains(event.target as Node)) {
-      this.closeInfo();
+      this.closeInfo(event);
     }
   }
 
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscape(event?: KeyboardEvent): void {
     if (this.isInfoOpen()) {
+      if (event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+      }
       this.closeInfo();
     }
   }
 
   ngOnDestroy(): void {
     if (typeof document !== 'undefined') {
-      this.document.body.style.overflow = '';
+      const parentModalOpen =
+        this.document.body.classList.contains('portfolio-request-modal-open') ||
+        !!this.document.querySelector('dialog.pkg-modal[open]');
+      if (!parentModalOpen) {
+        this.document.body.style.overflow = '';
+      }
     }
     const dialog = this.dialogRef?.nativeElement;
     if (dialog && dialog.open) {

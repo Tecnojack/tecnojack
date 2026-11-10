@@ -27,7 +27,7 @@
   class="destination-modal"
   *ngIf="isInfoOpen()"
   (click)="onDialogClick($event)"
-  (cancel)="closeInfo()">
+  (cancel)="closeInfo($event)">
   <div class="destination-modal__backdrop" aria-hidden="true"></div>
   <section
     #panelRef
@@ -38,7 +38,7 @@
     <button
       class="destination-modal__close"
       type="button"
-      (click)="closeInfo()"
+      (click)="closeInfo($event)"
       [attr.aria-label]="i18n.isEn() ? 'Close modal' : 'Cerrar modal'">
       <span aria-hidden="true">✕</span>
     </button>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="destination-modal__footer">
-      <button class="destination-modal__primary-btn" type="button" (click)="closeInfo()">
+      <button class="destination-modal__primary-btn" type="button" (click)="closeInfo($event)">
         {{ i18n.isEn() ? 'Understood' : 'Entendido' }}
       </button>
     </div>

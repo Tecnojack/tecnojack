@@ -577,6 +577,10 @@ export class PortfolioPackageDetailPageComponent {
 
   @HostListener('document:keydown.escape')
   handleEscape(): void {
+    const destinationDialog = this.document.querySelector('dialog.destination-modal[open]');
+    if (destinationDialog) {
+      return;
+    }
     if (this.isRequestModalOpen()) {
       this.closeRequestModal();
     }
@@ -609,7 +613,14 @@ export class PortfolioPackageDetailPageComponent {
   }
 
   onRequestDialogClick(event: MouseEvent): void {
-    if (this.requestPanelRef?.nativeElement.contains(event.target as Node)) {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest?.('.destination-modal') || target?.closest?.('tj-destination-service')) {
+      return;
+    }
+    if (target && !target.isConnected) {
+      return;
+    }
+    if (this.requestPanelRef?.nativeElement.contains(target as Node)) {
       return;
     }
     this.closeRequestModal();

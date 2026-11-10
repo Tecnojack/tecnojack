@@ -29,7 +29,66 @@
                     </div>
                 </div>
 
-                <!-- Main Headline & Narrative Grid -->
+                <!-- Mobile Hero Stage: Background Image with Title & Price Overlay -->
+                <div class="pkg-hero-mobile">
+                    <div class="pkg-hero-mobile__cover">
+                        <img
+                            tjFallbackImage
+                            [src]="heroCoverImage()"
+                            [alt]="detail.title"
+                            loading="eager"
+                            decoding="async"
+                            class="pkg-hero-mobile__img" />
+                        <div class="pkg-hero-mobile__scrim"></div>
+                        <div class="pkg-hero-mobile__fade"></div>
+
+                        <div class="pkg-hero-mobile__content">
+                            <span class="pkg-hero__kicker">COLECCIÓN EXCLUSIVA</span>
+                            <h1 class="pkg-hero-mobile__title">{{ detail.title }}</h1>
+                            <div class="pkg-hero-mobile__pricing" *ngIf="detail.priceLines[0] as price">
+                                <span class="pkg-price-label">Inversión del paquete</span>
+                                <strong class="pkg-hero-mobile__price-val">{{ price }}</strong>
+                                <span class="pkg-price-secondary" *ngIf="detail.priceLines.length > 1">
+                                    {{ detail.priceLines.slice(1).join(' · ') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pkg-hero-mobile__body">
+                        <p class="pkg-hero__lead">{{ detail.lead }}</p>
+
+                        <!-- Destination Notice if Applicable -->
+                        <div class="pkg-hero__destination" *ngIf="detail.category === 'bodas' || detail.category === 'quinces'">
+                            <tj-destination-service [serviceContext]="detail.packageTypeLabel"></tj-destination-service>
+                        </div>
+
+                        <!-- Highlights Strip -->
+                        <div class="pkg-hero__highlights" *ngIf="proposalHighlights().length">
+                            <span class="pkg-highlight-item" *ngFor="let item of proposalHighlights()">
+                                <span class="highlight-bullet">✓</span>
+                                <span [innerHTML]="item"></span>
+                            </span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="pkg-hero__actions">
+                            <button class="pkg-cta-btn pkg-cta-btn--primary" type="button" (click)="openRequestModal()">
+                                <span>Quiero este paquete</span>
+                                <svg class="pkg-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
+                            <a class="pkg-cta-btn pkg-cta-btn--wa" [href]="detail.whatsappHref" target="_blank" rel="noopener">
+                                <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-icon" />
+                                <span>Consultar por WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Headline & Narrative Grid (Desktop / Web) -->
                 <div class="pkg-hero__grid">
                     <div class="pkg-hero__copy">
                         <span class="pkg-hero__kicker">COLECCIÓN EXCLUSIVA</span>
