@@ -258,6 +258,7 @@
                 </div>
             </aside>
 
+        </article>
             <!-- 7. REQUEST MODAL -->
             <dialog #requestDialogRef class="pkg-modal" *ngIf="isRequestModalOpen()" (click)="onRequestDialogClick($event)" (cancel)="closeRequestModal()">
                 <div class="pkg-modal__backdrop" aria-hidden="true"></div>
@@ -382,7 +383,6 @@
                     </div>
                 </div>
             </dialog>
-        </article>
     </ng-container>
 
     <!-- Missing Package Fallback -->

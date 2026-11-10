@@ -850,6 +850,8 @@ dialog.pkg-modal {
   overflow: hidden;
   z-index: 999999;
   box-sizing: border-box;
+  pointer-events: auto !important;
+  user-select: auto !important;
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.78);
@@ -869,6 +871,7 @@ dialog.pkg-modal {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 0;
+  pointer-events: none;
 }
 
 .pkg-modal__panel {
@@ -878,6 +881,10 @@ dialog.pkg-modal {
   max-width: 880px;
   max-height: 90vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  pointer-events: auto !important;
+  user-select: auto !important;
   border-radius: var(--tj-radius-md);
   background: var(--tj-surface);
   border: 1px solid var(--tj-border-strong);
