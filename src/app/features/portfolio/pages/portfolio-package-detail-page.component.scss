@@ -92,6 +92,140 @@
   }
 }
 
+// ─── Mobile Hero Stage (Background Image with Title & Price Overlay) ───────────
+.pkg-hero-mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+}
+
+.pkg-hero-mobile__cover {
+  position: relative;
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-top: -0.5rem;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5rem 1.25rem 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #000;
+}
+
+.pkg-hero-mobile__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  z-index: 0;
+  filter: brightness(0.95);
+}
+
+.pkg-hero-mobile__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0) 0%,
+    rgba(5, 5, 5, 0) 45%,
+    rgba(5, 5, 5, 0.25) 62%,
+    rgba(5, 5, 5, 0.75) 82%,
+    var(--tj-background, #050505) 100%
+  );
+}
+
+.pkg-hero-mobile__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(5, 5, 5, 0.65) 50%,
+    var(--tj-background, #050505) 100%
+  );
+  pointer-events: none;
+}
+
+.pkg-hero-mobile__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .pkg-hero__kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--tj-accent);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  }
+}
+
+.pkg-hero-mobile__title {
+  margin: 0;
+  font-family: var(--tj-font-family);
+  font-size: clamp(2rem, 7.2vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.9);
+}
+
+.pkg-hero-mobile__pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+
+  .pkg-price-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  }
+
+  .pkg-price-secondary {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  }
+}
+
+.pkg-hero-mobile__price-val {
+  font-size: clamp(1.85rem, 6.2vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+}
+
+.pkg-hero-mobile__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
 .pkg-hero__grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -101,6 +235,10 @@
   @media (max-width: 1023px) {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    display: none !important;
   }
 }
 
@@ -525,8 +663,9 @@
   max-width: 100%;
   box-sizing: border-box;
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem;
   }
 }
 
@@ -832,14 +971,31 @@
 // ============================================================================
 // 7. REQUEST MODAL DIALOG
 // ============================================================================
-.pkg-modal {
+dialog.pkg-modal {
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  width: 100vw;
+  height: 100dvh;
+  max-width: 100vw;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 24px;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  overflow: hidden;
+  z-index: 999999;
+  box-sizing: border-box;
+  pointer-events: auto !important;
+  user-select: auto !important;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
 
   @media (max-width: 600px) {
     padding: 12px;
@@ -853,6 +1009,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 0;
+  pointer-events: none;
 }
 
 .pkg-modal__panel {
@@ -862,6 +1019,10 @@
   max-width: 880px;
   max-height: 90vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  pointer-events: auto !important;
+  user-select: auto !important;
   border-radius: var(--tj-radius-md);
   background: var(--tj-surface);
   border: 1px solid var(--tj-border-strong);
@@ -935,8 +1096,8 @@
   grid-template-columns: 1.2fr 0.8fr;
   gap: 2rem;
 
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr !important;
     gap: 1.5rem;
   }
 }
@@ -1167,4 +1328,81 @@
   font-weight: 600;
   text-decoration: none;
   margin-top: 0.5rem;
+}
+
+/* pkg-form-mobile-single: strictly 1 single column on mobile */
+@media (max-width: 768px) {
+  dialog.pkg-modal {
+    padding: 10px !important;
+  }
+
+  .pkg-modal__panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 94dvh !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+  }
+
+  .pkg-modal__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    width: 100% !important;
+  }
+
+  .pkg-modal__form-col,
+  .pkg-modal__summary-col,
+  .pkg-summary-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .pkg-form {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+    width: 100% !important;
+  }
+
+  .pkg-form__field {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+
+    input,
+    textarea {
+      width: 100% !important;
+      min-height: 48px;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-radius: 12px;
+    }
+  }
+
+  .pkg-modal__header {
+    padding: 16px 18px 12px;
+  }
+
+  .pkg-modal__body {
+    padding: 16px 18px;
+    gap: 1.25rem;
+  }
+
+  .pkg-modal__footer {
+    padding: 14px 18px 18px;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+
+    .pkg-modal__submit-row {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .pkg-submit-btn {
+      width: 100%;
+      min-height: 48px;
+      justify-content: center;
+    }
+  }
 }

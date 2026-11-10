@@ -57,6 +57,11 @@
                     (click)="toggleLanguage()"
                     [title]="i18n.isEn() ? 'Cambiar a Español' : 'Switch to English'"
                     [attr.aria-label]="i18n.isEn() ? 'Cambiar a Español' : 'Switch to English'">
+                    <svg class="portfolio-header__lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
                     <span class="portfolio-header__lang-opt" [class.portfolio-header__lang-opt--active]="i18n.isEs()">ES</span>
                     <span class="portfolio-header__lang-sep">/</span>
                     <span class="portfolio-header__lang-opt" [class.portfolio-header__lang-opt--active]="i18n.isEn()">EN</span>
@@ -85,13 +90,17 @@
                     </svg>
                 </button>
 
-                <!-- Header CTA Button -->
+                <!-- Header CTA Button (Monochrome WhatsApp) -->
                 <a
                     class="portfolio-header__cta-btn"
                     [href]="resolvedHeaderCtaHref"
                     [attr.target]="headerCtaExternal ? '_blank' : null"
-                    [attr.rel]="headerCtaExternal ? 'noopener' : null">
-                    <span>{{ i18n.t('nav.cotizar', 'Cotizar') }}</span>
+                    [attr.rel]="headerCtaExternal ? 'noopener' : null"
+                    aria-label="Cotizar por WhatsApp">
+                    <svg class="header-wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.36 7.34 9.09 7.4 8.87 7.65C8.65 7.89 8.02 8.49 8.02 9.71C8.02 10.93 8.91 12.11 9.03 12.27C9.16 12.44 10.74 14.88 13.18 15.93C13.76 16.18 14.21 16.33 14.57 16.44C15.15 16.63 15.68 16.6 16.1 16.54C16.57 16.47 17.54 15.95 17.74 15.39C17.94 14.83 17.94 14.36 17.88 14.26C17.82 14.16 17.66 14.1 17.41 13.98C17.16 13.85 15.94 13.25 15.71 13.17C15.49 13.09 15.32 13.05 15.16 13.29C14.99 13.54 14.52 14.1 14.38 14.26C14.24 14.42 14.1 14.44 13.85 14.32C13.6 14.19 12.79 13.93 11.83 13.08C11.08 12.41 10.58 11.59 10.43 11.34C10.29 11.1 10.41 10.96 10.54 10.83C10.65 10.72 10.79 10.54 10.92 10.39C11.04 10.24 11.08 10.14 11.17 9.97C11.25 9.81 11.21 9.67 11.15 9.55C11.09 9.42 10.62 8.27 10.43 7.79C10.23 7.33 10.04 7.39 9.89 7.38C9.75 7.38 9.58 7.34 9.53 7.34Z"/>
+                    </svg>
+                    <span>{{ i18n.t('nav.cotizar_wa', 'Cotizar por WhatsApp') }}</span>
                 </a>
 
                 <!-- Mobile Menu Button -->
@@ -139,14 +148,35 @@
             <div class="portfolio-mobile-nav__footer">
                 <div class="portfolio-mobile-nav__toggles">
                     <button type="button" class="mobile-toggle-chip" (click)="toggleLanguage()">
-                        🌐 {{ i18n.isEn() ? 'English' : 'Español' }}
+                        <svg class="mobile-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span>{{ i18n.isEn() ? 'English' : 'Español' }}</span>
                     </button>
                     <button type="button" class="mobile-toggle-chip" (click)="toggleTheme()">
-                        {{ theme.isDark() ? (i18n.isEn() ? '☀️ Light Mode' : '☀️ Modo Claro') : (i18n.isEn() ? '🌙 Dark Mode' : '🌙 Modo Oscuro') }}
+                        <svg *ngIf="theme.isDark()" class="mobile-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg *ngIf="theme.isLight()" class="mobile-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <span>{{ theme.isDark() ? (i18n.isEn() ? 'Light Mode' : 'Modo Claro') : (i18n.isEn() ? 'Dark Mode' : 'Modo Oscuro') }}</span>
                     </button>
                 </div>
                 <a class="portfolio-mobile-nav__cta" [href]="whatsappHref" target="_blank" rel="noopener">
-                    <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+                    <svg class="mobile-nav-wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.36 7.34 9.09 7.4 8.87 7.65C8.65 7.89 8.02 8.49 8.02 9.71C8.02 10.93 8.91 12.11 9.03 12.27C9.16 12.44 10.74 14.88 13.18 15.93C13.76 16.18 14.21 16.33 14.57 16.44C15.15 16.63 15.68 16.6 16.1 16.54C16.57 16.47 17.54 15.95 17.74 15.39C17.94 14.83 17.94 14.36 17.88 14.26C17.82 14.16 17.66 14.1 17.41 13.98C17.16 13.85 15.94 13.25 15.71 13.17C15.49 13.09 15.32 13.05 15.16 13.29C14.99 13.54 14.52 14.1 14.38 14.26C14.24 14.42 14.1 14.44 13.85 14.32C13.6 14.19 12.79 13.93 11.83 13.08C11.08 12.41 10.58 11.59 10.43 11.34C10.29 11.1 10.41 10.96 10.54 10.83C10.65 10.72 10.79 10.54 10.92 10.39C11.04 10.24 11.08 10.14 11.17 9.97C11.25 9.81 11.21 9.67 11.15 9.55C11.09 9.42 10.62 8.27 10.43 7.79C10.23 7.33 10.04 7.39 9.89 7.38C9.75 7.38 9.58 7.34 9.53 7.34Z"/>
+                    </svg>
                     <span>{{ i18n.t('hero.cta.quote', 'Cotizar por WhatsApp') }}</span>
                 </a>
             </div>
