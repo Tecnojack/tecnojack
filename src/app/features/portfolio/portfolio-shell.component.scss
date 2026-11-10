@@ -168,42 +168,78 @@
   }
 }
 
-// Language Toggle
+// Language Toggle (Strictly Monochrome Black & White)
 .portfolio-header__lang-toggle {
-  background: var(--tj-surface);
-  border: 1px solid var(--tj-border);
   border-radius: var(--tj-radius-full);
   padding: 4px 10px;
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--tj-text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   transition: var(--tj-transition-fast);
 
+  .portfolio-header__lang-icon {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  // Dark mode (default)
+  background: #111113;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+
+  .portfolio-header__lang-opt {
+    color: rgba(255, 255, 255, 0.65);
+    &--active {
+      color: #ffffff;
+      font-weight: 700;
+    }
+  }
+
+  .portfolio-header__lang-sep {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
   &:hover {
-    border-color: var(--tj-border-strong);
-    color: var(--tj-text);
+    border-color: #ffffff;
+    color: #ffffff;
   }
 }
 
-.portfolio-header__lang-opt {
-  &--active {
-    color: var(--tj-text);
-    font-weight: 700;
+:host-context([data-theme='light']) .portfolio-header__lang-toggle,
+[data-theme='light'] .portfolio-header__lang-toggle {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  color: #000000;
+
+  .portfolio-header__lang-icon {
+    stroke: #000000;
+  }
+
+  .portfolio-header__lang-opt {
+    color: rgba(0, 0, 0, 0.55);
+    &--active {
+      color: #000000;
+      font-weight: 700;
+    }
+  }
+
+  .portfolio-header__lang-sep {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  &:hover {
+    border-color: #000000;
+    color: #000000;
   }
 }
 
-.portfolio-header__lang-sep {
-  opacity: 0.4;
-}
-
-// Theme Toggle
+// Theme Toggle (Strictly Monochrome Black & White)
 .portfolio-header__theme-toggle {
-  background: var(--tj-surface);
-  border: 1px solid var(--tj-border);
   border-radius: var(--tj-radius-full);
   width: 32px;
   height: 32px;
@@ -211,42 +247,86 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--tj-text);
   transition: var(--tj-transition-fast);
-
-  &:hover {
-    border-color: var(--tj-border-strong);
-    background-color: var(--tj-surface-hover);
-  }
 
   .theme-icon {
     width: 15px;
     height: 15px;
+    stroke: currentColor;
+  }
+
+  // Dark mode (default)
+  background: #111113;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+
+  &:hover {
+    border-color: #ffffff;
+    background-color: #1a1a1f;
   }
 }
 
-// Primary CTA
+:host-context([data-theme='light']) .portfolio-header__theme-toggle,
+[data-theme='light'] .portfolio-header__theme-toggle {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  color: #000000;
+
+  .theme-icon {
+    stroke: #000000;
+  }
+
+  &:hover {
+    border-color: #000000;
+    background-color: #f2f2f2;
+  }
+}
+
+// Primary CTA Button (Cotizar por WhatsApp - Strictly Monochrome Black & White)
 .portfolio-header__cta-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--tj-text);
-  color: var(--tj-text-inverted);
+  gap: 7px;
   padding: 6px 16px;
   border-radius: var(--tj-radius-full);
   font-size: 0.82rem;
   font-weight: 600;
   text-decoration: none;
   letter-spacing: -0.01em;
-  transition: transform var(--tj-transition-fast), opacity var(--tj-transition-fast);
+  transition: transform var(--tj-transition-fast), background-color var(--tj-transition-fast), color var(--tj-transition-fast);
+
+  .header-wa-icon {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  // Dark mode (default): White button with black text/icon
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
 
   &:hover {
     transform: scale(1.02);
-    opacity: 0.92;
+    background-color: #f0f0f0;
   }
 
   @media (max-width: 600px) {
     display: none;
+  }
+}
+
+:host-context([data-theme='light']) .portfolio-header__cta-btn,
+[data-theme='light'] .portfolio-header__cta-btn {
+  // Light mode: Black button with white text/icon
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+
+  &:hover {
+    background-color: #222222;
   }
 }
 
@@ -365,31 +445,73 @@
 }
 
 .mobile-toggle-chip {
-  background: var(--tj-surface);
-  border: 1px solid var(--tj-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border-radius: var(--tj-radius-full);
   padding: 8px 14px;
   font-size: 0.84rem;
-  color: var(--tj-text);
   cursor: pointer;
+  transition: var(--tj-transition-fast);
+
+  .mobile-chip-icon {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+  }
+
+  // Dark mode (default)
+  background: #111113;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
 }
 
+:host-context([data-theme='light']) .mobile-toggle-chip,
+[data-theme='light'] .mobile-toggle-chip {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  color: #000000;
+}
+
+// Mobile Nav CTA (Strictly Monochrome Black & White - No Green)
 .portfolio-mobile-nav__cta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #25d366;
-  color: #ffffff;
-  padding: 12px 20px;
+  padding: 13px 20px;
   border-radius: var(--tj-radius-full);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
+  transition: transform var(--tj-transition-fast), background-color var(--tj-transition-fast);
 
-  img {
-    width: 18px;
-    height: 18px;
+  .mobile-nav-wa-icon {
+    width: 19px;
+    height: 19px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  // Dark mode (default): White button with black text/icon
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+:host-context([data-theme='light']) .portfolio-mobile-nav__cta,
+[data-theme='light'] .portfolio-mobile-nav__cta {
+  // Light mode: Black button with white text/icon
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+
+  &:hover {
+    background-color: #222222;
   }
 }
 
