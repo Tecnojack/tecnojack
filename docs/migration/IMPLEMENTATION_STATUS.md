@@ -39,6 +39,15 @@
 
 ## ALINEACIÃ“N VISUAL REACT / FIGMA MAKE
 
+- Despliegue a Producción y Rediseño Visual Completo (Rama `rediseño` sincronizada con `master`, `main` y `develop`):
+  - Preservación de respaldos: ramas de seguridad `backup/master-deployed`, `backup/master`, `backup/main` y `backup/develop` creadas y enviadas a `origin`.
+  - Páginas de paquetes dedicadas: navegación directa a página completa (/portfolio/:category/:slug) preservada al 100% sin reemplazos no deseados por modales in-situ.
+  - Modal de solicitud: diseño estricto en 1 sola columna para móvil, corrección de congelamiento por desacople de `pointer-events` del artículo desenfocado.
+  - Submodal Destination: aislamiento completo de propagación de eventos para evitar cierre involuntario del modal de solicitud padre al cerrar Destination.
+  - Vista Mobile de Paquetes: portada con imagen de fondo en gran formato, difuminado inferior integrado suavemente con el fondo oscuro, con título y precio superpuestos de forma nítida y legible.
+  - Header Global Monocromático: conmutadores de idioma y tema (oscuro/claro) estilizados estrictamente en blanco y negro según el modo activo, botón de cotización por WhatsApp en blanco y negro con icono vectorial SVG neutro; botón flotante inferior permanente preservado con el color verde oficial de la marca (#25D366).
+  - Verificación E2E y build productivo ejecutado sin errores.
+
 - Corrección y elevación a Top Layer de modales de solicitud de servicios (Package Detail, Categorías, Grados Institucionales):
   - Diseño y flujo mobile en 1 sola columna estricta para modales de servicio y cotización:
     - Corrección de especificidad CSS en '.service-package-modal__body--detail': eliminadas las 2 columnas en mobile (anteriormente comprimidas a 156px cada una) forzando 'grid-template-columns: 1fr' fluido y adaptativo a pantalla completa (336px en viewport de 390px).
