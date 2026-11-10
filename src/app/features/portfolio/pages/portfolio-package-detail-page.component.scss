@@ -1185,25 +1185,51 @@ dialog.pkg-modal {
   margin-top: 0.5rem;
 }
 
-/* pkg-form-mobile-single */
+/* pkg-form-mobile-single: strictly 1 single column on mobile */
 @media (max-width: 768px) {
+  dialog.pkg-modal {
+    padding: 10px !important;
+  }
+
+  .pkg-modal__panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 94dvh !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+  }
+
+  .pkg-modal__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    width: 100% !important;
+  }
+
+  .pkg-modal__form-col,
+  .pkg-modal__summary-col,
+  .pkg-summary-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .pkg-form {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+    width: 100% !important;
+  }
+
   .pkg-form__field {
     grid-column: 1 / -1 !important;
     width: 100% !important;
 
     input,
     textarea {
+      width: 100% !important;
       min-height: 48px;
       font-size: 16px;
       box-sizing: border-box;
+      border-radius: 12px;
     }
-  }
-
-  .pkg-modal__panel {
-    max-height: 94dvh;
-    border-radius: 20px;
-    margin: 0;
-    width: 100%;
   }
 
   .pkg-modal__header {
@@ -1219,6 +1245,8 @@ dialog.pkg-modal {
     padding: 14px 18px 18px;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
 
     .pkg-modal__submit-row {
       flex-direction: column;
