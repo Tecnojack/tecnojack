@@ -110,11 +110,11 @@
   margin-left: -24px;
   margin-right: -24px;
   margin-top: -0.5rem;
-  min-height: 400px;
+  min-height: 440px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 4rem 1.25rem 2rem;
+  padding: 5rem 1.25rem 2rem;
   overflow: hidden;
   box-sizing: border-box;
   background: #000;
@@ -128,7 +128,7 @@
   object-fit: cover;
   object-position: center 20%;
   z-index: 0;
-  filter: brightness(0.68) saturate(1.05);
+  filter: brightness(0.95);
 }
 
 .pkg-hero-mobile__scrim {
@@ -137,13 +137,12 @@
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(5, 5, 5, 0.2) 0%,
-    rgba(5, 5, 5, 0.45) 40%,
-    rgba(5, 5, 5, 0.82) 78%,
+    rgba(5, 5, 5, 0) 0%,
+    rgba(5, 5, 5, 0) 45%,
+    rgba(5, 5, 5, 0.25) 62%,
+    rgba(5, 5, 5, 0.75) 82%,
     var(--tj-background, #050505) 100%
   );
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
 }
 
 .pkg-hero-mobile__fade {
@@ -151,12 +150,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 90px;
+  height: 70px;
   z-index: 2;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(5, 5, 5, 0.6) 45%,
+    rgba(5, 5, 5, 0.65) 50%,
     var(--tj-background, #050505) 100%
   );
   pointer-events: none;
