@@ -442,35 +442,20 @@ export class VideoModalComponent implements OnChanges {
   }
 
   guardRequestSubmit(event: MouseEvent): void {
-    console.log('[WA_FLOW][VIDEO_MODAL] click:guard', {
-      canSubmitRequest: this.canSubmitRequest(),
-      hasAcceptedTerms: this.hasAcceptedTerms(),
-      nameLen: this.customerName().trim().length,
-      phoneLen: this.customerPhone().trim().length,
-      isSubmittingRequest: this.isSubmittingRequest(),
-    });
 
     if (!this.canSubmitRequest()) {
-      console.log('[WA_FLOW][VIDEO_MODAL] blocked:invalid-state');
       event.preventDefault();
       event.stopPropagation();
       return;
     }
 
-    console.log('[WA_FLOW][VIDEO_MODAL] allowed:submit-start');
     void this.submitRequest();
   }
 
   private async submitRequest(): Promise<void> {
     const pkg = this.videoPackage;
-    console.log('[WA_FLOW][VIDEO_MODAL] submitRequest', {
-      hasPackage: !!pkg,
-      canSubmitRequest: this.canSubmitRequest(),
-      href: this.requestWhatsappHref(),
-    });
 
     if (!pkg || !this.canSubmitRequest()) {
-      console.log('[WA_FLOW][VIDEO_MODAL] blocked:submit-invalid-state');
       return;
     }
 
@@ -492,7 +477,6 @@ export class VideoModalComponent implements OnChanges {
       .join(' | ');
 
     try {
-      console.log('[WA_FLOW][VIDEO_MODAL] firestore:creating-request');
       await this.serviceRequest.createRequest({
         name: this.customerName(),
         phone: this.customerPhone(),
@@ -502,18 +486,12 @@ export class VideoModalComponent implements OnChanges {
         eventDate: this.eventDate(),
         location: locationParts.join(' - ') || undefined,
       });
-      console.log('[WA_FLOW][VIDEO_MODAL] firestore:request-created');
     } catch (error) {
       console.error('No se pudo guardar la solicitud del paquete de video en Firestore', error);
     }
 
     const href = this.requestWhatsappHref();
-    console.log('[WA_FLOW][VIDEO_MODAL] whatsapp:opening', { href });
     const popup = window.open(href, '_blank', 'noopener');
-    console.log('[WA_FLOW][VIDEO_MODAL] whatsapp:open-result', {
-      opened: !!popup,
-      blockedByBrowser: !popup,
-    });
     this.isSubmittingRequest.set(false);
     this.closeModal();
   }

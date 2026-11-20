@@ -300,3 +300,65 @@ pm.cmd run build exitosa (cÃ³digo 0).
 - **Validación Automatizada y Compilación**:
   - Auditoría de Chrome Headless CDP validando el despliegue de 3 tarjetas a 1280px y 0 solapamientos en 390px, 768px y 1280px.
   - Compilación de producción `npm.cmd run build` exitosa con código 0.
+
+### Home cinematográfico, imágenes optimizadas y plantilla de servicio orientada a venta (Rama feature/portfolio-scrollytelling)
+
+- **Home (`/portfolio`)**: 4 escenas (hero con obturador 3D en Three.js, galería horizontal de servicios con enlace a cada página, adelanto de "Sobre mí" y contacto). Motion layer GSAP + ScrollTrigger + Lenis cargado de forma diferida y con respaldo para `prefers-reduced-motion`.
+- **Imágenes**: `npm run images:localize` genera variantes WebP 640/1080/1600 en `src/assets/images/site/` a partir de Firebase Storage (originales intactos). `MediaPublicService.resolveImage` traduce a local las URLs ya optimizadas. Home móvil: ~21 MB → 516 KB de imágenes; 0 imágenes pedidas a Firebase en páginas de servicio.
+- **Arreglos**: foto de quinceañera en el plan de boda Híbrida, `h1` único por página (el título de marca de `AppComponent` pasa a `<p>`), eliminados 26 `console.log('[WA_FLOW…')` de producción, `world.svg` (2 MB) ya no se descarga en rutas de portafolio.
+- **Analítica**: `ConversionAnalyticsService` (Firebase Analytics / GA4, carga diferida) con eventos `view_package`, `begin_request`, `submit_request` y `whatsapp_click`.
+- **Plantilla de servicio** (Bodas, Quinces, Preboda, Sesiones, Corporativos): selector "¿Qué necesitas?" con una sección a la vez en lugar de acordeones apilados; tarjetas compactas con una sola acción; comparativa híbrida plegada y visible solo con paquetes híbridos; historias reales como tira de fotos en móvil y ocultas si no hay. Bodas móvil: ~10 → 4,3 pantallas, 2.488 → 640 palabras, 36 → 7 enlaces a WhatsApp.
+- **Compatibilidad / rollback**: sin cambios de rutas, contratos ni Firestore. `tj-portfolio-category-accordion` conserva su comportamiento por defecto (`embedded` y `compact` son opt-in). Rollback: revertir los commits de la rama.
+- **Validación**: `npm.cmd run build` OK. `npm.cmd test` 21/23; las 2 fallas (`ErpDashboardComponent`, `DestinationServiceComponent`) existían antes de esta rama.
+
+### Detalle de paquete y solicitud orientados a decisión (Rama feature/portfolio-scrollytelling)
+
+- **Detalle (`/portfolio/:categoria/:paquete`)**: "Cómo reservar en 3 pasos" reemplaza el bloque genérico de pilares; listas de incluidos con vista previa de 5 elementos y "Ver todo"; complementos con 4 opciones visibles por grupo y "Ver N más"; paquetes relacionados plegados en "También te puede interesar"; CTA unificados ("Solicitar este paquete" / "Preguntar por WhatsApp"). Móvil: 11,9 → 7,6 pantallas.
+- **Solicitud**: formulario en 2 pasos (datos obligatorios → detalles opcionales, términos y envío) con stepper, errores en línea con `aria-invalid`/`role="alert"`, `autocomplete`/`inputmode` para teléfono, fecha mínima hoy y fuente de 16px en móvil (evita zoom en iOS). El resumen de inversión se mantiene visible en ambos pasos. Sin cambios en `submitRequest`, Firestore ni el mensaje de WhatsApp.
+- **Transición**: `withViewTransitions` limitada a rutas `/portfolio/**` (se omite en invitaciones, ERP, admin y con `prefers-reduced-motion`); la foto de la tarjeta se convierte en el hero del paquete (`view-transition-name: pkg-hero`).
+- **Pendiente**: galería de fotos reales por paquete (requiere optimizar las fotos de galería en Firebase al subirlas).
+- **Validación**: `npm.cmd run build` OK; `npm.cmd test` 21/23 (fallas preexistentes `ErpDashboardComponent`, `DestinationServiceComponent`).
+
+### Enlaces cortos para compartir paquetes (Rama feature/portfolio-scrollytelling)
+
+- **Impacto en rutas**: se agrega `/p/:code` (guard `packageShortLinkGuard` que redirige a `/portfolio/<categoria>/<slug>`; códigos desconocidos van a `/portfolio`). No se modifica ni elimina ninguna ruta existente.
+- **Códigos**: tabla fija y append-only en `src/app/features/portfolio/package-short-codes.ts` (73 paquetes; prefijos b/q/g/p/s/c/v). `package-short-codes.spec.ts` falla si un paquete no tiene código o un código apunta a un paquete inexistente.
+- **URL limpia**: la foto de la tarjeta viaja como estado de navegación (`history.state.coverImage`) en lugar de `?coverImage=`; los enlaces antiguos con el parámetro siguen funcionando.
+- **Compartir**: botón en el detalle (hoja nativa en móvil, copia al portapapeles en escritorio) y evento GA4 `share_package`.
+- **Compatibilidad / rollback**: el hosting debe servir `index.html` para rutas desconocidas (igual que las rutas profundas actuales). Rollback: quitar la ruta `p/:code`; los enlaces largos no dependen de ella.
+- **Validación**: `npm.cmd run build` OK; `npm.cmd test` 25/27 (fallas preexistentes `ErpDashboardComponent`, `DestinationServiceComponent`).
+
+### Soluciones: página de impacto para negocios con capítulo 3D (Rama feature/portfolio-scrollytelling)
+
+- **`/soluciones`** reconstruida (misma ruta): oferta integral para negocios y empresas (fotografía/video de marca + web/software + estrategia comercial).
+- **Capítulo 3D** (`features/solutions/scene/storefront-scene.ts`, Three.js diferido): teléfono entre fotos reales de TECNOJACK; el scroll las fotografía (flash), las convierte en un sitio que se arma en pantalla (canvas) y muestra piezas del sistema (citas, catálogo, WhatsApp, métricas). Render continuo solo mientras el capítulo está activo; `dispose` completo al salir. Respaldo sin WebGL / `prefers-reduced-motion`: la historia se muestra como secciones apiladas con póster estático.
+- **Secciones**: ¿Para quién? (barberías, tiendas, restaurantes, empresas, marca personal, eventos), Todo en un solo equipo, Prueba (este sitio + fotos propias), Proceso en 4 pasos y formulario.
+- **Formulario**: misma persistencia (`ServiceRequestService.createRequest`) y continuación por WhatsApp; el selector negocio/evento pasa a "¿Qué necesitas?" (7 opciones, `type` sigue siendo `negocio`/`evento`); evento GA4 `submit_request`.
+- **Contenido**: se retiraron cifras sin respaldo de la versión anterior ("×3", "80%", "90%").
+- **Rendimiento**: `data: { hideTravelShell: true }` en la ruta (ya no descarga `world.svg`); ~320 KB de imágenes en móvil, 0 peticiones a Firebase.
+- **Refactor**: `motion-runtime.ts` movido a `src/app/shared/motion/` (compartido por portafolio y soluciones).
+- **Validación**: `npm.cmd run build` OK; `npm.cmd test` 25/27 (fallas preexistentes). Revisado a 1440 px y 375 px.
+
+### Soluciones v2: landing de desarrollo web y software (reemplaza la versión con teléfono 3D)
+
+- **Enfoque**: el core es desarrollo de software (landing pages, sitios corporativos, tiendas, portales de citas, sistemas a medida, rediseño); la producción audiovisual propia es el diferencial.
+- **Identidad propia** (independiente del resto del sitio, conserva el header compartido): grafito `#0b0b0c`, blanco hueso `#f3f1ec` y un único acento naranja `--sl-accent: #ff5b14`; detalles en monoespaciada.
+- **Componentes**: `components/code-hero` (editor que escribe código mientras un navegador arma el sitio, DOM/CSS) y `components/site-anatomy` (ventana isométrica en CSS 3D cuyas capas Estrategia/Código/Diseño/Contenido se separan con scroll, GSAP + ScrollTrigger pin). Se eliminó `scene/storefront-scene.ts` (Three.js) de esta página.
+- **Contenido** en `solutions.content.ts`: principios, servicios con mini-mockups CSS, ventaja audiovisual, pestañas por tipo de negocio, proceso con entregables, prueba con mejoras medidas en este sitio, FAQ y formulario (misma persistencia en Firestore + WhatsApp).
+- **Imágenes de stock**: Pexels (licencia libre comercial, sin atribución), servidas redimensionadas por su CDN; ilustran servicios y no se presentan como portafolio.
+- **Validación**: `npm.cmd run build` OK; `npm.cmd test` 25/27 (fallas preexistentes). Revisado a 1440 px y 375 px.
+- **Hero de Soluciones guiado por scroll** (`components/build-hero`, reemplaza `code-hero`): el hero se fija y el scroll escribe 22 líneas de código (reversible); el navegador de al lado arma el sitio pieza por pieza (menú, foto, titular, CTA, catálogo, agenda, WhatsApp, footer) con auto-desplazamiento en editor y navegador. Las 4 primeras líneas se escriben solas al cargar; el código termina al 90 % del pin y muestra "✓ Sitio publicado". Sin movimiento: código y sitio completos, sin pin.
+- **Hero de Soluciones, versión "código primero"**: la primera vista es solo el área de trabajo (editor + navegador) a pantalla completa, sin textos. Un registro de construcción muestra el paso actual ("Paso 5/8 · Catálogo de productos") con 8 segmentos. El código se escribe en el 66 % del pin; luego el área se reduce a la derecha (abajo en móvil) y entran, escalonados, el eyebrow, el `<h1>`, la descripción y los CTA. Totalmente reversible con el scroll.
+
+### Header siempre visible y animado + atmósfera 3D en Soluciones
+
+- **Causa del header que "desaparecía"**: `html, body` y `.portfolio-page` usaban `overflow-x: hidden`, lo que convertía `<body>` en contenedor de scroll y anulaba el `position: sticky` del header en todo el portafolio. **Impacto global**: se cambió a `overflow-x: clip` (con `hidden` como respaldo para navegadores antiguos) en `src/styles.scss` y en el shell. Recorta igual el desborde horizontal sin crear contenedor de scroll. Rollback: volver a `hidden` (el header deja de ser fijo).
+- **Header 2.0 (todo el portafolio)**: brillo superior y borde interior para que el vidrio se lea sobre negro, estado `is-scrolled` con sombra, línea de progreso de lectura en el borde inferior, indicador deslizante en el menú (hover/foco y página activa) y micro-animación del logo. Las páginas pueden teñir los acentos con `--tj-header-accent` (Soluciones: naranja). Se retiró la barra de progreso propia del home (duplicada).
+- **Atmósfera en el hero de Soluciones** (decorativa, `aria-hidden`): piso de cuadrícula en perspectiva animado, dos resplandores cálidos difusos y glifos de código a distintas profundidades con paralaje por puntero y scroll; inclinación 3D leve del editor y el navegador. Sin animaciones con `prefers-reduced-motion`.
+- **Validación**: `npm.cmd run build` OK; `npm.cmd test` 25/27 (fallas preexistentes). Header verificado fijo en `/portfolio`, `/portfolio/bodas` y `/soluciones` (1440 px y 375 px), indicador alineado con la página activa.
+
+### Modo presentación en Soluciones y transiciones entre páginas
+
+- **Presentación al entrar en `/soluciones`**: la atmósfera aparece, la ventana del editor se despliega desde una línea central saliendo de negro (`clip-path` + `brightness`), luego la del navegador y el registro de pasos; al terminar empieza la escritura automática. Guarda `is-booting` evita parpadeos (incluye el titular) con failsafe de 4 s; sin efecto con `prefers-reduced-motion`.
+- **Transiciones entre páginas públicas**: `withViewTransitions` se amplía de `/portfolio/**` a la lista `PAGE_TRANSITION_SEGMENTS` (`portfolio`, `soluciones`, `otros`, `cotizacion`, `cotizacion-grados`, `terminos-y-condiciones`, `brand`, `p`). La página saliente se atenúa, retrocede y desenfoca; la entrante sube y se enfoca. El header y los botones flotantes tienen `view-transition-name` propio y no se mueven. Invitaciones, ERP, admin, contratos y galerías de clientes siguen sin transición (verificado con `/contratar`).
+- **Validación**: build OK; tests 25/27 (fallas preexistentes); transiciones Soluciones → Bodas → Sobre mí → Soluciones animadas y finalizadas sin errores.

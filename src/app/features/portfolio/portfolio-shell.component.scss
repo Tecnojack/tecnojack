@@ -14,6 +14,7 @@
   font-family: var(--tj-font-family);
   transition: var(--tj-transition-theme);
   overflow-x: hidden;
+  overflow-x: clip; // keeps the sticky header working (hidden would create a scroll container)
   box-sizing: border-box;
 }
 
@@ -833,4 +834,134 @@
       height: 22px;
     }
   }
+}
+
+// ═══ Header 2.0: depth on dark backgrounds, scrolled state, reading progress, sliding nav ═══════
+// Pages can tint the header accents by setting --tj-header-accent (Soluciones uses its orange).
+.portfolio-header {
+  --header-accent: var(--tj-header-accent, var(--tj-accent));
+  // A faint top highlight + inner edge so the glass reads as a surface even over pure black.
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: var(--tj-transition-theme), box-shadow 0.4s ease, background-color 0.4s ease;
+
+  &.is-scrolled {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 34px rgba(0, 0, 0, 0.28);
+    border-bottom-color: transparent;
+  }
+}
+
+:root[data-theme='light'] .portfolio-header,
+.portfolio-page[data-theme='light'] .portfolio-header {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+
+  &.is-scrolled {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// Bottom edge: a soft accent glow at rest, a reading-progress line while scrolling.
+.portfolio-header__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--header-accent), transparent);
+  opacity: 0.28;
+  transform-origin: left center;
+  transition: opacity 0.4s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--header-accent);
+    transform: scaleX(var(--scroll-progress, 0));
+    transform-origin: left center;
+    box-shadow: 0 0 12px var(--header-accent);
+  }
+}
+
+.portfolio-header.is-scrolled .portfolio-header__progress {
+  opacity: 1;
+  background: rgba(127, 127, 127, 0.12);
+}
+
+// Sliding nav indicator
+.portfolio-header__nav {
+  position: relative;
+}
+
+.portfolio-header__nav-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 32px;
+  margin-top: -16px;
+  width: 0;
+  border-radius: var(--tj-radius-sm);
+  background: var(--tj-surface-hover);
+  box-shadow: inset 0 0 0 1px var(--tj-border);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), width 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  z-index: 0;
+
+  // Accent tick under the highlighted link
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    width: 14px;
+    height: 2px;
+    margin-left: -7px;
+    border-radius: 2px;
+    background: var(--header-accent);
+  }
+}
+
+.portfolio-header__nav-link {
+  position: relative;
+  z-index: 1;
+}
+
+// With the indicator running, links stop painting their own backgrounds.
+.portfolio-header__nav.has-indicator .portfolio-header__nav-link {
+  &:hover,
+  &.portfolio-header__nav-link--active {
+    background-color: transparent;
+  }
+}
+
+// Logo micro-interaction
+.portfolio-header__logo {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-header__brand:hover .portfolio-header__logo {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-header__nav-indicator,
+  .portfolio-header__logo {
+    transition: none;
+  }
+}
+
+// Named for view transitions: header and floating controls stay still while pages change.
+.portfolio-header {
+  view-transition-name: tj-header;
+}
+
+.portfolio-float-wa {
+  view-transition-name: tj-float-wa;
+}
+
+.portfolio-float-menu {
+  view-transition-name: tj-float-menu;
 }

@@ -1,18 +1,48 @@
 import { NgFor, NgIf } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  NgZone,
+  afterNextRender,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
 
-import { RevealOnScrollDirective } from '../../shared/animations/reveal-on-scroll.directive';
+import { ConversionAnalyticsService } from '../../core/analytics/conversion-analytics.service';
+import { ServiceRequestService } from '../../services/service-request.service';
+import { loadMotionRuntime, prefersReducedMotion } from '../../shared/motion/motion-runtime';
 import { PortfolioShellComponent } from '../portfolio/portfolio-shell.component';
 import { PortfolioContentService } from '../portfolio/services/portfolio-content.service';
-import { ServiceRequestService } from '../../services/service-request.service';
+import { BuildHeroComponent } from './components/build-hero.component';
+import { SiteAnatomyComponent } from './components/site-anatomy.component';
+import {
+  FAQ,
+  INDUSTRIES,
+  MEDIA_SERVICES,
+  PRINCIPLES,
+  PROCESS,
+  PROOF,
+  SERVICES,
+  SOLUTION_OPTIONS,
+  STOCK,
+  SolutionKind,
+  stockPhoto,
+} from './solutions.content';
 
-type SolutionsType = 'negocio' | 'evento';
-
+/**
+ * /soluciones — software-first landing page: web & software development, with TECNOJACK's own photo and
+ * video production as the differentiator. Own visual identity (graphite / bone / signal orange); keeps the
+ * shared portfolio header. Content lives in `solutions.content.ts`.
+ */
 @Component({
   selector: 'tj-solutions-page',
   standalone: true,
-  imports: [NgIf, NgFor, PortfolioShellComponent, RevealOnScrollDirective],
+  imports: [NgIf, NgFor, RouterLink, PortfolioShellComponent, BuildHeroComponent, SiteAnatomyComponent],
   templateUrl: './solutions-page.component.html',
   styleUrl: './solutions-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,32 +50,52 @@ type SolutionsType = 'negocio' | 'evento';
 export class SolutionsPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly serviceRequest = inject(ServiceRequestService);
+  private readonly analytics = inject(ConversionAnalyticsService);
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly selectedType = signal<SolutionsType>('negocio');
+  readonly principles = PRINCIPLES;
+  readonly services = SERVICES;
+  readonly mediaServices = MEDIA_SERVICES;
+  readonly industries = INDUSTRIES;
+  readonly process = PROCESS;
+  readonly proof = PROOF;
+  readonly faq = FAQ;
+  readonly solutionOptions = SOLUTION_OPTIONS;
+
+  readonly mediaPhotos = {
+    main: stockPhoto(STOCK.videoStudio, 1100),
+    product: stockPhoto(STOCK.perfumePedestal, 700),
+    portrait: stockPhoto(STOCK.corporatePortrait, 700),
+    detail: stockPhoto(STOCK.amberBottles, 700),
+  };
+
+  // ─── Industries tabs ────────────────────────────────────────────────────────────────────────
+  readonly activeIndustryKey = signal(INDUSTRIES[0].key);
+  readonly activeIndustry = computed(() => INDUSTRIES.find((item) => item.key === this.activeIndustryKey()) ?? INDUSTRIES[0]);
+
+  selectIndustry(key: string): void {
+    this.activeIndustryKey.set(key);
+  }
+
+  industryPhoto(id: number): string {
+    return stockPhoto(id, 900);
+  }
+
+  // ─── FAQ ────────────────────────────────────────────────────────────────────────────────────
+  readonly openFaq = signal<number | null>(0);
+
+  toggleFaq(index: number): void {
+    this.openFaq.update((current) => (current === index ? null : index));
+  }
+
+  // ─── Request form (stored in Firestore, then continued on WhatsApp) ─────────────────────────
+  readonly solutionKind = signal<SolutionKind>('landing');
   readonly isSubmitting = signal(false);
   readonly feedback = signal<string | null>(null);
-
-  readonly heroSlideIndex = signal(0);
-  readonly heroSlides = [
-    {
-      value: '3 seg',
-      label: 'Tu cliente te entiende al instante',
-      desc: 'Diseñamos para que en menos de 3 segundos tu visitante sepa qué vendes, qué cuesta y cómo contactarte.',
-    },
-    {
-      value: '24/7',
-      label: 'Vendes mientras duermes',
-      desc: 'Tu presencia digital trabaja para ti todo el día. Sin importar el horario, tus clientes pueden ver lo que ofreces.',
-    },
-    {
-      value: '×3',
-      label: 'Más consultas, más cierres',
-      desc: 'Una imagen profesional con un proceso claro convierte más visitantes en clientes reales que te escriben por WhatsApp.',
-    },
-  ];
 
   readonly name = signal('');
   readonly phone = signal('');
@@ -55,62 +105,89 @@ export class SolutionsPageComponent {
   readonly date = signal('');
   readonly budgetRange = signal('');
 
+  readonly solutionLabel = computed(
+    () => this.solutionOptions.find((option) => option.value === this.solutionKind())?.label ?? 'Proyecto web',
+  );
+
   readonly canSubmit = computed(
     () => this.name().trim().length > 1 && this.phone().trim().length > 6 && this.need().trim().length > 5 && !this.isSubmitting(),
   );
 
   readonly whatsappHref = computed(() => {
     const lines = [
-      'Hola TECNOJACK, quiero solicitar una propuesta de soluciones digitales.',
+      'Hola TECNOJACK, quiero cotizar un proyecto web.',
       '',
-      `Tipo: ${this.selectedType()}`,
+      `Necesito: ${this.solutionLabel()}`,
       `Nombre: ${this.name().trim() || 'No definido'}`,
       `Teléfono: ${this.phone().trim() || 'No definido'}`,
       `Negocio: ${this.businessName().trim() || 'No definido'}`,
-      `Ubicación: ${this.location().trim() || 'No definida'}`,
+      `Ciudad: ${this.location().trim() || 'No definida'}`,
       `Fecha objetivo: ${this.date().trim() || 'No definida'}`,
       `Rango de inversión: ${this.budgetRange().trim() || 'Por definir'}`,
       '',
-      `Necesidad: ${this.need().trim() || 'Sin detalle'}`,
+      `Sobre el proyecto: ${this.need().trim() || 'Sin detalle'}`,
     ];
-
     return this.content.buildWhatsappHref(lines.join('\n'));
   });
+
+  readonly directWhatsappHref = this.content.buildWhatsappHref(
+    'Hola TECNOJACK, quiero cotizar un sitio web o sistema para mi negocio.',
+  );
 
   get navItems() {
     return this.content.navItems();
   }
 
+  private revertMotion: (() => void) | null = null;
+  private destroyed = false;
+
   constructor() {
-    this.title.setTitle('TECNOJACK | Soluciones para vender más');
+    this.title.setTitle('TECNOJACK | Desarrollo web y software con fotografía y video propios');
     this.meta.updateTag({
       name: 'description',
       content:
-        'Soluciones digitales para emprendedores y negocios: presencia profesional, catálogo visual, organización comercial y cierre por WhatsApp.',
+        'Creamos landing pages, sitios corporativos, tiendas en línea, portales de citas y sistemas a medida, con fotografía de producto y video hechos por nuestro equipo.',
+    });
+
+    this.destroyRef.onDestroy(() => {
+      this.destroyed = true;
+      this.revertMotion?.();
     });
 
     afterNextRender(() => {
-      const interval = setInterval(() => {
-        this.heroSlideIndex.update(i => (i + 1) % this.heroSlides.length);
-      }, 3500);
-      this.destroyRef.onDestroy(() => clearInterval(interval));
+      if (prefersReducedMotion()) return;
+      this.zone.runOutsideAngular(() => void this.initMotion());
     });
   }
 
-  selectType(type: SolutionsType): void {
-    this.selectedType.set(type);
+  /** Staggered reveals for sections + Lenis smooth scrolling (the anatomy chapter pins itself). */
+  private async initMotion(): Promise<void> {
+    const { gsap, ScrollTrigger, attachLenis } = await loadMotionRuntime();
+    if (this.destroyed) return;
+    const root: HTMLElement = this.host.nativeElement;
+
+    const ctx = gsap.context(() => {
+      const items = gsap.utils.toArray<HTMLElement>('[data-rv]', root);
+      gsap.set(items, { autoAlpha: 0, y: 28 });
+      ScrollTrigger.batch(items, {
+        start: 'top 88%',
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, overwrite: true }),
+      });
+    }, root);
+    const detachLenis = attachLenis();
+
+    this.revertMotion = () => {
+      ctx.revert();
+      detachLenis();
+    };
+    ScrollTrigger.refresh();
   }
 
-  nextHeroSlide(): void {
-    this.heroSlideIndex.update(i => (i + 1) % this.heroSlides.length);
-  }
-
-  prevHeroSlide(): void {
-    this.heroSlideIndex.update(i => (i - 1 + this.heroSlides.length) % this.heroSlides.length);
-  }
-
-  goToHeroSlide(index: number): void {
-    this.heroSlideIndex.set(index);
+  // ─── Form handlers ──────────────────────────────────────────────────────────────────────────
+  selectSolution(value: string): void {
+    this.solutionKind.set(value as SolutionKind);
   }
 
   updateName(value: string): void {
@@ -147,34 +224,36 @@ export class SolutionsPageComponent {
 
   async submit(): Promise<void> {
     if (!this.canSubmit()) {
-      this.feedback.set('Completa nombre, teléfono y necesidad para continuar.');
+      this.feedback.set('Completa nombre, WhatsApp y cuéntanos un poco de tu proyecto para continuar.');
       return;
     }
 
     this.isSubmitting.set(true);
     this.feedback.set(null);
+    const kind = this.solutionKind();
+    this.analytics.track('submit_request', { service: 'soluciones', package_slug: `solucion-${kind}` });
 
     try {
       await this.serviceRequest.createRequest({
         name: this.name(),
         phone: this.phone(),
         service: 'Soluciones Digitales',
-        package: this.selectedType() === 'negocio' ? 'solucion-negocio' : 'solucion-evento',
+        package: `solucion-${kind}`,
         message: this.need(),
         location: this.location(),
         eventDate: this.date(),
         businessName: this.businessName(),
-        type: this.selectedType(),
-        need: this.need(),
+        type: 'negocio',
+        need: `${this.solutionLabel()} — ${this.need()}`,
         date: this.date(),
         budgetRange: this.budgetRange(),
       });
 
       window.open(this.whatsappHref(), '_blank', 'noopener,noreferrer');
-      this.feedback.set('Solicitud enviada. Te llevamos a WhatsApp para cerrar detalles.');
+      this.feedback.set('¡Listo! Abrimos WhatsApp con tu solicitud para continuar la conversación.');
     } catch (error) {
       console.error('No se pudo guardar la solicitud de soluciones', error);
-      this.feedback.set('No se pudo enviar la solicitud. Intenta de nuevo.');
+      this.feedback.set('No pudimos enviar la solicitud. Intenta de nuevo o escríbenos directo por WhatsApp.');
     }
 
     this.isSubmitting.set(false);

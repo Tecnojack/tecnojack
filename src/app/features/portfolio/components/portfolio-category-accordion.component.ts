@@ -92,6 +92,10 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   @Input() lead = '';
   @Input() packages: PortfolioPackageCardViewModel[] = [];
   @Input() initiallyOpen = false;
+  /** Rendered inside a picker: no collapsible header, always open. */
+  @Input() embedded = false;
+  /** Shorter cards for decision-making: no long lead, max 3 highlights, one primary action. */
+  @Input() compact = false;
 
   @Output() openPackage = new EventEmitter<{ slug: string; imageUrl: string }>();
 
@@ -109,7 +113,7 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.openState.set(this.initiallyOpen);
+    this.openState.set(this.initiallyOpen || this.embedded);
 
     // Show first-time swipe invitation cue if not seen in current session
     if (typeof window !== 'undefined') {
@@ -331,7 +335,10 @@ export class PortfolioCategoryAccordionComponent implements OnInit, OnDestroy {
     }
   }
 
-  requestOpenPackage(slug: string, imageUrl: string): void {
+  requestOpenPackage(slug: string, imageUrl: string, event?: Event): void {
+    // Shared-element transition: this card's photo becomes the package hero on the next page.
+    const photo = (event?.target as Element | null)?.closest('.tj-apple-card')?.querySelector<HTMLElement>('.tj-apple-card__media img');
+    if (photo) photo.style.setProperty('view-transition-name', 'pkg-hero');
     this.openPackage.emit({ slug, imageUrl });
   }
 

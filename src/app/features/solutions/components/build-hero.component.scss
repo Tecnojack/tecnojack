@@ -1,0 +1,858 @@
+:host {
+  display: block;
+  --bh-accent: var(--sl-accent, #ff5b14);
+  --bh-ink: #0b0b0c;
+  --bh-ink-2: #111214;
+  --bh-light: #f5f4f0;
+  --bh-muted: rgba(245, 244, 240, 0.66);
+  --bh-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+  --bh-gutter: clamp(20px, 5vw, 64px);
+}
+
+.bh {
+  position: relative;
+  background: var(--bh-ink);
+  color: var(--bh-light);
+}
+
+.bh__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 3vh, 32px);
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 80px) var(--bh-gutter) clamp(28px, 4vh, 48px);
+  box-sizing: border-box;
+
+  // Engineering grid
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 60% 60%, #000 0%, transparent 72%);
+    pointer-events: none;
+  }
+}
+
+// ─── Copy row ──────────────────────────────────────────────────────────────
+.bh__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 40px;
+  flex-wrap: wrap;
+}
+
+.bh__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 46rem;
+}
+
+.bh__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 0.72rem/1 var(--bh-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bh-accent);
+}
+
+.bh__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bh-accent);
+  box-shadow: 0 0 0 4px rgba(255, 91, 20, 0.2);
+}
+
+.bh__title {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.bh__lead {
+  margin: 0;
+  max-width: 40rem;
+  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--bh-muted);
+}
+
+.bh__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.bh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bh-accent);
+    outline-offset: 3px;
+  }
+
+  &--accent {
+    background: var(--bh-accent);
+    color: #ffffff;
+  }
+
+  &--line {
+    border-color: rgba(245, 244, 240, 0.3);
+    color: var(--bh-light);
+  }
+}
+
+// ─── Workspace: editor | browser ───────────────────────────────────────────
+.bh__workspace {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(14px, 2vw, 24px);
+  height: clamp(340px, 52vh, 560px);
+}
+
+.bh__editor,
+.bh__browser {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.bh__editor {
+  background: var(--bh-ink-2);
+}
+
+.bh__browser {
+  background: #f6f4ef;
+}
+
+.bh__bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  font: 600 0.72rem/1 var(--bh-mono);
+  color: rgba(255, 255, 255, 0.55);
+
+  &--light {
+    background: #e9e6df;
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.bh__dots {
+  display: inline-flex;
+  gap: 6px;
+
+  i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.bh__bar--light .bh__dots i {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.bh__file {
+  flex: 1;
+}
+
+.bh__status {
+  color: var(--bh-accent);
+}
+
+.bh__url {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.75);
+  text-align: center;
+
+  b {
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.bh__published {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #16a34a;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.bh.is-published {
+  .bh__published {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bh__status {
+    color: #22c55e;
+  }
+}
+
+// ─── Code ──────────────────────────────────────────────────────────────────
+.bh__code {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+
+  pre {
+    margin: 0;
+    padding: 16px 0 40px;
+    font: 500 clamp(0.7rem, 0.92vw, 0.86rem) / 1.8 var(--bh-mono);
+    white-space: pre;
+    color: #d9d6cf;
+  }
+}
+
+.bh__code-body {
+  display: block;
+  transition: transform 0.35s ease-out;
+}
+
+.bh__line {
+  display: flex;
+  padding: 0 16px;
+}
+
+.bh__num {
+  width: 2.4ch;
+  margin-right: 1.6ch;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+// JS sets --typed per line: "<n>ch" while typing, "none" once the line is complete.
+.bh__text {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  max-width: var(--typed, 0);
+}
+
+.bh__line.is-active,
+.bh__line.is-caret {
+  background: rgba(255, 91, 20, 0.08);
+
+  .bh__num {
+    color: var(--bh-accent);
+  }
+}
+
+.bh__line.is-active .bh__text::after,
+.bh__line.is-caret .bh__text::after {
+  content: '';
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.15em;
+  margin-left: 1px;
+  vertical-align: -0.18em;
+  background: var(--bh-accent);
+  animation: bh-blink 1s steps(1) infinite;
+}
+
+.bh__line.is-caret .bh__text {
+  max-width: none;
+  overflow: visible;
+}
+
+.tk--tag,
+.tk--punct {
+  color: #ff8a5c;
+}
+
+.tk--attr {
+  color: #e8c27a;
+}
+
+.tk--str {
+  color: #a6d189;
+}
+
+.tk--text {
+  color: #f1eee8;
+}
+
+@keyframes bh-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+// ─── Live site (mock browser) ──────────────────────────────────────────────
+.bh__viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bh__site {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  color: #111214;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-piece] {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.is-on {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.bs-nav__links {
+  display: flex;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.bs-hero {
+  flex: 0 0 auto;
+  height: clamp(130px, 16vh, 190px);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ddd8cf;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.bs-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+    letter-spacing: -0.03em;
+  }
+
+  span {
+    font-size: 0.82rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+}
+
+.bs-cta {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--bh-accent);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.bs-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bs-product {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 0.7rem;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  b {
+    font-family: var(--bh-mono);
+  }
+}
+
+.bs-booking {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #111214;
+  color: #ffffff;
+
+  strong {
+    font-size: 0.9rem;
+  }
+}
+
+.bs-slots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  span {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font: 600 0.72rem/1 var(--bh-mono);
+  }
+
+  .is-picked {
+    background: var(--bh-accent);
+    border-color: var(--bh-accent);
+  }
+}
+
+.bs-footer {
+  padding: 10px 0 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.72rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.bs-wa {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.45);
+
+  img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+  }
+}
+
+// ─── Build log (steps) ─────────────────────────────────────────────────────
+.bh__log {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 600 0.78rem/1 var(--bh-mono);
+  color: var(--bh-muted);
+}
+
+.bh__log-count {
+  color: var(--bh-accent);
+  white-space: nowrap;
+}
+
+.bh__log-label {
+  min-width: 15ch;
+  color: var(--bh-light);
+  white-space: nowrap;
+}
+
+.bh__log-rail {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+
+  i {
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    transition: background 0.3s ease;
+
+    &.is-current {
+      background: rgba(255, 91, 20, 0.5);
+      animation: bh-seg 1s ease-in-out infinite;
+    }
+
+    &.is-done {
+      background: var(--bh-accent);
+    }
+  }
+}
+
+@keyframes bh-seg {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.bh__log-hint {
+  color: var(--bh-accent);
+  white-space: nowrap;
+}
+
+.bh.is-published .bh__log-hint {
+  visibility: hidden;
+}
+
+// Without motion there is nothing to follow.
+.bh:not(.is-cinematic) .bh__log {
+  display: none;
+}
+
+// ─── Cinematic: code first, then the copy (positions animated by GSAP) ─────
+.bh.is-cinematic {
+  .bh__stage {
+    height: 100vh;
+    height: 100svh;
+    min-height: 640px;
+    padding: 0;
+    max-width: none;
+  }
+
+  // Phase 1: the build owns the whole screen.
+  .bh__workspace {
+    position: absolute;
+    top: calc(var(--tj-header-height, 72px) + clamp(16px, 3vh, 28px));
+    bottom: clamp(64px, 9vh, 84px);
+    left: max(var(--bh-gutter), calc((100% - 1320px) / 2 + var(--bh-gutter)));
+    right: max(var(--bh-gutter), calc((100% - 1320px) / 2 + var(--bh-gutter)));
+    height: auto;
+    will-change: transform;
+  }
+
+  .bh__log {
+    position: absolute;
+    left: max(var(--bh-gutter), calc((100% - 1320px) / 2 + var(--bh-gutter)));
+    right: max(var(--bh-gutter), calc((100% - 1320px) / 2 + var(--bh-gutter)));
+    bottom: clamp(22px, 4vh, 34px);
+  }
+
+  // Phase 2: copy enters on the left, beside the scaled-down build.
+  .bh__head {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: max(var(--bh-gutter), calc((100% - 1320px) / 2 + var(--bh-gutter)));
+    width: min(36%, 32rem);
+    transform: translateY(-42%);
+    flex-direction: column;
+    align-items: flex-start;
+    pointer-events: none;
+
+    [data-head] {
+      pointer-events: auto;
+    }
+  }
+
+  .bh__title {
+    font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  }
+}
+
+// ─── Tech strip ────────────────────────────────────────────────────────────
+.bh-stack {
+  background: var(--bh-ink);
+  color: var(--bh-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bh-stack__wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 22px var(--bh-gutter);
+  box-sizing: border-box;
+}
+
+.bh-stack__label {
+  font: 600 0.74rem/1 var(--bh-mono);
+  color: var(--bh-muted);
+}
+
+.bh-stack__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  li {
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font: 600 0.8rem/1 var(--bh-mono);
+  }
+}
+
+// ─── Phones ────────────────────────────────────────────────────────────────
+@media (max-width: 899px) {
+  .bh__lead {
+    display: none; // the build itself explains it; keeps the stage within one screen
+  }
+
+  .bh__title {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .bh__actions .bh-btn--line {
+    display: none;
+  }
+
+  .bh__workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.85fr 1.15fr;
+    height: 70vh;
+  }
+
+  // Pinned on a phone: the build fills the screen, then shrinks to the bottom under the copy.
+  .bh.is-cinematic {
+    .bh__workspace {
+      grid-template-rows: 0.85fr 1.15fr;
+      bottom: 60px;
+    }
+
+    .bh__head {
+      top: calc(var(--tj-header-height, 64px) + 18px);
+      left: var(--bh-gutter);
+      right: var(--bh-gutter);
+      width: auto;
+      transform: none;
+    }
+
+    .bh__log-label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bh__log-rail {
+      display: none;
+    }
+  }
+
+  .bh__file,
+  .bh__status {
+    display: none;
+  }
+
+  .bh__log-hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bh__code-body,
+  .bh__site,
+  [data-piece] {
+    transition: none;
+  }
+
+  .bh__line .bh__text::after {
+    animation: none;
+  }
+}
+
+// ═══ Atmosphere (decorative, very subtle) ════════════════════════════════════
+.bh__stage {
+  --px: 0;
+  --py: 0;
+  --sp: 0;
+}
+
+.bh__atmos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 900px;
+}
+
+// Perspective grid floor that slowly scrolls toward the viewer.
+.bh__floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -32%;
+  height: 70%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: rotateX(72deg) translateY(calc(var(--py) * -12px));
+  transform-origin: 50% 0%;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 70%, transparent 100%);
+  animation: bh-floor 14s linear infinite;
+  opacity: 0.9;
+}
+
+@keyframes bh-floor {
+  to {
+    background-position: 0 64px, 0 0;
+  }
+}
+
+.bh__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.15;
+  transform: translate3d(calc(var(--px) * 18px), calc(var(--py) * 14px), 0);
+  transition: transform 0.2s linear;
+
+  &--a {
+    width: 46vw;
+    height: 46vw;
+    max-width: 640px;
+    max-height: 640px;
+    left: -12%;
+    top: 8%;
+    background: radial-gradient(circle, rgba(255, 91, 20, 0.85), transparent 65%);
+  }
+
+  &--b {
+    width: 36vw;
+    height: 36vw;
+    max-width: 520px;
+    max-height: 520px;
+    right: -10%;
+    bottom: -6%;
+    background: radial-gradient(circle, rgba(255, 170, 90, 0.6), transparent 65%);
+    opacity: 0.16;
+  }
+}
+
+// Code glyphs: nearer ones are larger, brighter and move more with the pointer and the scroll.
+.bh__glyph {
+  position: absolute;
+  font: 600 calc(0.9rem + var(--depth) * 1.4rem) / 1 var(--bh-mono);
+  color: rgba(245, 244, 240, calc(0.035 + var(--depth) * 0.07));
+  filter: blur(calc((1 - var(--depth)) * 1.5px));
+  transform: translate3d(
+      calc(var(--px) * var(--depth) * -26px),
+      calc(var(--py) * var(--depth) * -18px + var(--sp) * var(--depth) * -90px),
+      calc(var(--depth) * 60px)
+    );
+  animation: bh-glyph var(--float, 12s) ease-in-out infinite alternate;
+  white-space: nowrap;
+}
+
+@keyframes bh-glyph {
+  from {
+    margin-top: -6px;
+  }
+  to {
+    margin-top: 6px;
+  }
+}
+
+// Keep the content above the atmosphere.
+.bh__head,
+.bh__workspace,
+.bh__log {
+  z-index: 1;
+}
+
+// Subtle 3D tilt of the editor and the browser toward the pointer.
+.bh__workspace {
+  perspective: 1800px;
+}
+
+.bh__editor,
+.bh__browser {
+  transform: rotateY(calc(var(--px) * 2.2deg)) rotateX(calc(var(--py) * -1.6deg));
+  transition: transform 0.25s linear, box-shadow 0.4s ease;
+}
+
+.bh__browser {
+  transform: rotateY(calc(var(--px) * 2.2deg)) rotateX(calc(var(--py) * -1.6deg)) translateZ(14px);
+}
+
+@media (max-width: 899px) {
+  .bh__glyph:nth-child(n + 8) {
+    display: none;
+  }
+
+  .bh__orb--a {
+    width: 90vw;
+    height: 90vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bh__floor,
+  .bh__glyph {
+    animation: none;
+  }
+}
+
+// Presentation intro guard: keep the windows hidden until GSAP unfolds them (failsafe in TS).
+.bh.is-booting {
+  .bh__head,
+  .bh__editor,
+  .bh__browser,
+  .bh__log,
+  .bh__atmos {
+    visibility: hidden;
+  }
+}
