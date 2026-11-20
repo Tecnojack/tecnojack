@@ -15,6 +15,7 @@
 </button>
 
 <div class="app-shell">
-    <h1 class="app-title" *ngIf="showAppTitle">{{ appTitle }}</h1>
+    <!-- Visually hidden brand label; each page owns its single <h1>. -->
+    <p class="app-title" *ngIf="showAppTitle">{{ appTitle }}</p>
     <router-outlet />
 </div>

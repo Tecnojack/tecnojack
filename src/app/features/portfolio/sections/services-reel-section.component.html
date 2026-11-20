@@ -1,0 +1,71 @@
+<section class="reel" id="services" #section aria-labelledby="reel-title">
+  <div class="reel__inner">
+    <header class="reel__header">
+      <div class="reel__heading">
+        <span class="reel__badge">{{ i18n.t('home.reel.badge', 'SERVICIOS') }}</span>
+        <h2 class="reel__title" id="reel-title">{{ i18n.t('home.reel.title', 'Elige la historia que quieres contar.') }}</h2>
+      </div>
+      <div class="reel__meta" aria-hidden="true">
+        <span class="reel__counter"><span #count>01</span> / {{ pad(services.length) }}</span>
+        <span class="reel__hint">{{ i18n.t('home.reel.hint', 'Desliza para recorrer cada servicio') }} <span class="reel__hint-arrow">→</span></span>
+      </div>
+    </header>
+
+    <div class="reel__viewport" #viewport>
+      <ol class="reel__track" #track>
+        <li class="reel-card" *ngFor="let service of services; let i = index; trackBy: trackById">
+          <a
+            *ngIf="isInternalLink(service.href); else externalCard"
+            class="reel-card__link"
+            [routerLink]="service.href"
+            [attr.aria-label]="service.title + ' — ' + i18n.t('home.reel.cta', 'Ver paquetes')">
+            <ng-container *ngTemplateOutlet="cardBody"></ng-container>
+          </a>
+          <ng-template #externalCard>
+            <a class="reel-card__link" [href]="service.href" [attr.aria-label]="service.title">
+              <ng-container *ngTemplateOutlet="cardBody"></ng-container>
+            </a>
+          </ng-template>
+
+          <ng-template #cardBody>
+            <div class="reel-card__media">
+              <img
+                tjResponsive
+                sizes="(min-width: 900px) 32vw, 80vw"
+                [src]="service.image"
+                [alt]="service.title"
+                loading="lazy"
+                decoding="async"
+                class="reel-card__img"
+                data-reel-img />
+              <div class="reel-card__scrim"></div>
+            </div>
+            <div class="reel-card__body">
+              <span class="reel-card__num">{{ pad(i + 1) }}</span>
+              <h3 class="reel-card__title">{{ service.title }}</h3>
+              <p class="reel-card__desc">{{ service.description }}</p>
+              <span class="reel-card__cta">
+                {{ i18n.t('home.reel.cta', 'Ver paquetes') }}
+                <span class="reel-card__arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </ng-template>
+        </li>
+
+        <!-- Closing card: one direct conversion path for undecided visitors -->
+        <li class="reel-card reel-card--final">
+          <div class="reel-card__final">
+            <h3 class="reel-card__final-title">{{ i18n.t('home.reel.final_title', '¿No sabes cuál elegir?') }}</h3>
+            <p class="reel-card__final-lead">{{ i18n.t('home.reel.final_lead', 'Cuéntanos tu idea y te recomendamos el plan ideal en minutos.') }}</p>
+            <a class="reel-card__final-cta" [href]="whatsappHref" target="_blank" rel="noopener" data-magnetic="0.3">
+              <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" />
+              <span>{{ i18n.t('home.reel.final_cta', 'Asesoría por WhatsApp') }}</span>
+            </a>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="reel__progress" aria-hidden="true"><span #bar></span></div>
+  </div>
+</section>

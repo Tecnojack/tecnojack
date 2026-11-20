@@ -1,29 +1,23 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
-import { AboutBrandSectionComponent } from './sections/about-brand-section.component';
-import { ContactSectionComponent } from './sections/contact-section.component';
-import { FeaturedExperiencesSectionComponent } from './sections/featured-experiences-section.component';
-import { HeroSectionComponent } from './sections/hero-section.component';
+import { CinematicMotionDirective } from './motion/cinematic-motion.directive';
 import { PortfolioShellComponent } from './portfolio-shell.component';
+import { ContactSectionComponent } from './sections/contact-section.component';
+import { HeroSectionComponent } from './sections/hero-section.component';
+import { HomeAboutTeaserSectionComponent } from './sections/home-about-teaser-section.component';
+import { ServicesReelSectionComponent } from './sections/services-reel-section.component';
 import { PortfolioContentService } from './services/portfolio-content.service';
-import { ProfessionalProfileSectionComponent } from './sections/professional-profile-section.component';
-import { SelectedWorkSectionComponent } from './sections/selected-work-section.component';
-import { ServicesSectionComponent } from './sections/services-section.component';
-import { StorytellingTransitionSectionComponent } from './sections/storytelling-transition-section.component';
 
 @Component({
   selector: 'tj-portfolio-page',
   standalone: true,
   imports: [
     PortfolioShellComponent,
+    CinematicMotionDirective,
     HeroSectionComponent,
-    AboutBrandSectionComponent,
-    SelectedWorkSectionComponent,
-    ServicesSectionComponent,
-    StorytellingTransitionSectionComponent,
-    FeaturedExperiencesSectionComponent,
-    ProfessionalProfileSectionComponent,
+    ServicesReelSectionComponent,
+    HomeAboutTeaserSectionComponent,
     ContactSectionComponent,
   ],
   templateUrl: './portfolio-page.component.html',

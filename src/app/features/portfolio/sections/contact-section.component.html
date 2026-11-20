@@ -1,16 +1,16 @@
 <section class="minimal-contact-section" id="contact" tjRevealOnScroll>
   <div class="minimal-contact-section__container">
     <div class="minimal-contact">
-      <div class="minimal-contact__header">
-        <span class="minimal-contact__badge">{{ i18n.t('contact.badge', 'DISPONIBILIDAD & ASESORÍA PERSONALIZADA') }}</span>
-        <h2 class="minimal-contact__title">{{ title }}</h2>
-        <p class="minimal-contact__lead">
+      <div class="minimal-contact__header" data-reveal-group>
+        <span class="minimal-contact__badge" data-reveal-item>{{ i18n.t('contact.badge', 'DISPONIBILIDAD & ASESORÍA PERSONALIZADA') }}</span>
+        <h2 class="minimal-contact__title" data-reveal-item>{{ title }}</h2>
+        <p class="minimal-contact__lead" data-reveal-item>
           {{ lead }}
         </p>
       </div>
 
       <div class="minimal-contact__actions">
-        <a class="minimal-contact__wa-btn" [href]="whatsappHref" target="_blank" rel="noopener">
+        <a class="minimal-contact__wa-btn" [href]="whatsappHref" target="_blank" rel="noopener" data-magnetic="0.3">
           <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-btn-icon" />
           <span>{{ i18n.t('contact.wa_cta', 'Iniciar conversación en WhatsApp') }}</span>
         </a>

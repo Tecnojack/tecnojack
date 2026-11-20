@@ -1,3 +1,31 @@
 :host {
-        display: block;
+  display: block;
+}
+
+.portfolio-story {
+  position: relative;
+}
+
+.portfolio-story__progress {
+  display: none;
+}
+
+// Motion layer active (JS loaded, motion allowed)
+.portfolio-story.tj-motion .portfolio-story__progress {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1200;
+  pointer-events: none;
+
+  span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--tj-accent, #00a3c4), #e5b842);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
 }

@@ -59,6 +59,16 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'brand.manifesto_badge': 'FILOSOFÍA & MANIFIESTO',
     'brand.manifesto_quote1': 'La fotografía no captura lo que ves.',
     'brand.manifesto_quote2': 'Captura lo que sentiste.',
+    // Home (scrollytelling)
+    'hero.cta.services': 'Ver servicios',
+    'home.reel.badge': 'SERVICIOS',
+    'home.reel.title': 'Elige la historia que quieres contar.',
+    'home.reel.hint': 'Desliza para recorrer cada servicio',
+    'home.reel.cta': 'Ver paquetes',
+    'home.reel.final_title': '¿No sabes cuál elegir?',
+    'home.reel.final_lead': 'Cuéntanos tu idea y te recomendamos el plan ideal en minutos.',
+    'home.reel.final_cta': 'Asesoría por WhatsApp',
+    'home.about.cta': 'Conoce mi historia',
     'brand.manifesto_lead': 'TECNOJACK es una marca audiovisual colombiana enfocada en crear piezas visuales con intención, estética y valor emocional.',
     'brand.pillar1.title': 'Composición de autor',
     'brand.pillar1.desc': 'Cada cuadro es meditado en color, luz, textura y equilibrio para un recuerdo intemporal.',
@@ -229,6 +239,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.more_info': 'Más info',
     'packages.book_now': 'Reservar por WhatsApp',
     'packages.explore_collections': 'Explorar colecciones',
+    'packages.view_packages': 'Ver paquetes',
+    'packages.picker_label': '¿Qué necesitas?',
     'packages.quote_whatsapp': 'Cotizar por WhatsApp',
 
     // Service Categories Hero & Configs
@@ -438,6 +450,16 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'brand.manifesto_badge': 'PHILOSOPHY & MANIFESTO',
     'brand.manifesto_quote1': 'Photography does not capture what you see.',
     'brand.manifesto_quote2': 'It captures what you felt.',
+    // Home (scrollytelling)
+    'hero.cta.services': 'View services',
+    'home.reel.badge': 'SERVICES',
+    'home.reel.title': 'Choose the story you want to tell.',
+    'home.reel.hint': 'Scroll through each service',
+    'home.reel.cta': 'View packages',
+    'home.reel.final_title': 'Not sure which one?',
+    'home.reel.final_lead': 'Tell us your idea and we will recommend the right plan in minutes.',
+    'home.reel.final_cta': 'Get advice on WhatsApp',
+    'home.about.cta': 'Read my story',
     'brand.manifesto_lead': 'TECNOJACK is a Colombian audiovisual brand dedicated to crafting visual pieces with intention, aesthetic rigor, and deep emotion.',
     'brand.pillar1.title': 'Author Composition',
     'brand.pillar1.desc': 'Every frame is carefully balanced in color, light, texture, and harmony for a timeless memory.',
@@ -608,6 +630,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.more_info': 'More info',
     'packages.book_now': 'Book via WhatsApp',
     'packages.explore_collections': 'Explore collections',
+    'packages.view_packages': 'View packages',
+    'packages.picker_label': 'What do you need?',
     'packages.quote_whatsapp': 'Quote via WhatsApp',
 
     // Service Categories Hero & Configs
