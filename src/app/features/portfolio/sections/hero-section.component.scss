@@ -268,3 +268,58 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+// ─── Motion layer hooks (active only under the portfolio motion host) ─────────
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+:host-context(.tj-motion) {
+  .hero-section__backdrop {
+    will-change: transform, opacity;
+  }
+
+  .hero-section__backdrop-img {
+    transition: none;
+  }
+
+  .hero-section__title-brand,
+  .hero-section__title-slogan {
+    display: block;
+    will-change: transform;
+  }
+}
+
+// Boot state: hide the opening beats until the intro timeline takes over (directive removes it, with a failsafe).
+:host-context(.tj-motion-boot) {
+  .hero-section__backdrop,
+  [data-hero-line],
+  [data-hero-beat] {
+    visibility: hidden;
+  }
+}
+
+// 3D shutter canvas: hidden unless the motion layer runs; removed after the opening shot.
+.hero-section__lens {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+:host-context(.tj-motion-boot),
+:host-context(.tj-motion) {
+  .hero-section__lens.is-live {
+    display: block;
+  }
+}
+
+.hero-section__container {
+  z-index: 2;
+}

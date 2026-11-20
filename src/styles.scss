@@ -3461,3 +3461,21 @@ body[data-theme='light'] .portfolio-page .service-category-hero__backdrop {
     background: rgba(255, 184, 0, 0.2);
     color: #ffb800;
 }
+
+// ─── Lenis smooth scroll (portfolio motion layer). Native smooth-scroll would fight the lerp. ───
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+html.lenis.lenis-stopped {
+    overflow: hidden;
+}

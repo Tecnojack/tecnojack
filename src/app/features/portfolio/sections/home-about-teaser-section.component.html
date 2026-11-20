@@ -1,0 +1,40 @@
+<section class="about-teaser" id="about" aria-labelledby="about-teaser-quote">
+  <div class="about-teaser__container">
+    <figure class="about-teaser__media" data-mask-reveal data-parallax-section>
+      <img
+        src="assets/images/profile/Jackson Palacios.jpg"
+        alt="Jackson Palacios - Dirección Audiovisual TECNOJACK"
+        loading="lazy"
+        decoding="async"
+        class="about-teaser__img"
+        data-parallax="0.12" />
+    </figure>
+
+    <div class="about-teaser__copy">
+      <span class="about-teaser__eyebrow" data-reveal="blur-in">{{ i18n.t('about.eyebrow', 'Jackson Palacios') }} · {{ i18n.t('about.title', 'Productor Audiovisual & Desarrollador de Software') }}</span>
+
+      <h2
+        class="about-teaser__quote"
+        id="about-teaser-quote"
+        data-scrub-words
+        [attr.aria-label]="quoteLead + ' ' + quoteEmphasis"
+        [style.--n]="quoteWords.length">
+        <span aria-hidden="true">
+          <ng-container *ngFor="let word of quoteWords; let i = index; trackBy: trackByIndex">
+            <br *ngIf="word.em && (i === 0 || !quoteWords[i - 1].em)" />
+            <span class="scrub-word" [class.scrub-word--em]="word.em" [style.--i]="i">{{ word.text }}</span>{{ ' ' }}
+          </ng-container>
+        </span>
+      </h2>
+
+      <p class="about-teaser__lead" data-reveal="fade-up">
+        {{ i18n.t('about.subtitle', 'Productor audiovisual colombiano, con raíces en el Chocó. Transformo ideas en historias visuales con intención, estética y emoción.') }}
+      </p>
+
+      <a class="about-teaser__cta" [routerLink]="aboutHref" data-reveal="fade-up" data-magnetic="0.2">
+        <span>{{ i18n.t('home.about.cta', 'Conoce mi historia') }}</span>
+        <span class="about-teaser__arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
