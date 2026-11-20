@@ -14,6 +14,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { I18nService } from '../../../core/services/i18n.service';
+import { ResponsiveImageDirective } from '../../../shared/media/responsive-image.directive';
 import { loadMotionRuntime, prefersReducedMotion } from '../motion/motion-runtime';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 
@@ -25,7 +26,7 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 @Component({
 	selector: 'tj-services-reel-section',
 	standalone: true,
-	imports: [NgFor, NgIf, NgTemplateOutlet, RouterLink],
+	imports: [NgFor, NgIf, NgTemplateOutlet, RouterLink, ResponsiveImageDirective],
 	templateUrl: './services-reel-section.component.html',
 	styleUrl: './services-reel-section.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,

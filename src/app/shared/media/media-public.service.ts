@@ -5,6 +5,7 @@ import {
   validateImageIntent,
 } from '../../core/data/package-real-images';
 import { getStockImageByPath } from '../../core/data/package-stock-images';
+import { localizeImageUrl } from './localized-image.util';
 import {
   collection,
   getDocs,
@@ -73,7 +74,8 @@ export class MediaPublicService {
 
   resolveImage(url?: string | null): string {
     const normalized = String(url ?? '').trim();
-    return normalized || MEDIA_PUBLIC_FALLBACK_IMAGE;
+    // Images already optimized into the bundle (see scripts/localize-remote-images.ts) skip the heavy original.
+    return normalized ? localizeImageUrl(normalized) : MEDIA_PUBLIC_FALLBACK_IMAGE;
   }
 
   buildFolder(...segments: Array<string | null | undefined>): string {

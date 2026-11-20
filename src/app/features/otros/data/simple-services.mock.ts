@@ -19,7 +19,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Asesoría básica de outfits y estilo',
       'Entrega digital organizada en 5 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'foto-sesion-redes',
@@ -39,7 +39,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Entrega en 5 días hábiles'
     ],
     notes: ['Puedes llegar con outfits preparados para mayor variedad.'],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'foto-retrato-profesional',
@@ -57,7 +57,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Versiones listas para CV, redes o presentaciones',
       'Entrega rápida en 3 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
 
   // ── VIDEO ─────────────────────────────────────────────────────
@@ -77,7 +77,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Formato horizontal y vertical',
       'Entrega digital en 7 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'video-mensaje',
@@ -95,7 +95,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Formato para WhatsApp, redes o proyección',
       'Entrega en 3 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'video-reel-basico',
@@ -114,7 +114,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Entrega en 5 días hábiles'
     ],
     notes: ['Se puede grabar en exteriores o en estudio con costo adicional.'],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
 
   // ── CONTENIDO ─────────────────────────────────────────────────
@@ -143,7 +143,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'contenido-plan-mensual-guion', label: 'Guion y storytelling', priceLabel: '$120.000 COP', price: 120000 },
       { id: 'contenido-plan-mensual-express', label: 'Edición express (24h)', priceLabel: '$80.000 COP', price: 80000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'contenido-express',
@@ -167,7 +167,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'contenido-express-guion', label: 'Guion y storytelling', priceLabel: '$120.000 COP', price: 120000 },
       { id: 'contenido-express-edicion-express', label: 'Edición express (24h)', priceLabel: '$80.000 COP', price: 80000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'contenido-reel-profesional',
@@ -192,7 +192,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'contenido-reel-profesional-guion', label: 'Guion y storytelling', priceLabel: '$120.000 COP', price: 120000 },
       { id: 'contenido-reel-profesional-edicion-express', label: 'Edición express (24h)', priceLabel: '$80.000 COP', price: 80000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'contenido-pack',
@@ -216,7 +216,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'contenido-pack-guion', label: 'Guion y storytelling', priceLabel: '$120.000 COP', price: 120000 },
       { id: 'contenido-pack-edicion-express', label: 'Edición express (24h)', priceLabel: '$80.000 COP', price: 80000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
 
   // ── INVITACIONES WEB ─────────────────────────────────────────
@@ -315,7 +315,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-direccion-creativa-revision', label: 'Ronda adicional de ajustes', priceLabel: '$80.000 COP', price: 80000 },
       { id: 'prod-direccion-creativa-entrega-express', label: 'Entrega express', priceLabel: '$70.000 COP', price: 70000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7'
+    image: 'assets/images/site/video-cover-1080.webp'
   },
   {
     id: 'prod-guion-storytelling',
@@ -338,7 +338,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-guion-storytelling-adaptacion', label: 'Adaptación a formato comercial', priceLabel: '$90.000 COP', price: 90000 },
       { id: 'prod-guion-storytelling-ajustes', label: 'Ronda adicional de ajustes', priceLabel: '$70.000 COP', price: 70000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'prod-video-referencia',
@@ -361,7 +361,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-video-referencia-version-extra', label: 'Versión adicional de referencia', priceLabel: '$90.000 COP', price: 90000 },
       { id: 'prod-video-referencia-entrega-express', label: 'Entrega express', priceLabel: '$70.000 COP', price: 70000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'prod-cinematografica',
@@ -385,7 +385,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       { id: 'prod-cinematografica-reel-extra', label: 'Reel adicional', priceLabel: '$100.000 COP', price: 100000 },
       { id: 'prod-cinematografica-color', label: 'Color grading avanzado', priceLabel: '$120.000 COP', price: 120000 }
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'prod-video-promocional',
@@ -412,7 +412,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'prod-entrevista-testimonio',
@@ -438,7 +438,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'prod-podcast-basico',
@@ -465,7 +465,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7'
+    image: 'assets/images/site/video-cover-1080.webp'
   },
 
   // ── ESTUDIO ───────────────────────────────────────────────────
@@ -492,7 +492,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
     notes: [
       'Alquiler de estudio: costo variable'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'estudio-video',
@@ -510,7 +510,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Formatos para web, redes o presentación',
       'Entrega en 7 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
 
   // ── MOMENTOS ──────────────────────────────────────────────────
@@ -530,7 +530,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Locación sugerida según estilo de pareja',
       'Entrega en 7 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'momentos-cumpleanos',
@@ -547,7 +547,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Enfoque en emoción y ambiente',
       'Entrega en 5 días hábiles'
     ],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
   {
     id: 'momentos-sorpresa',
@@ -565,7 +565,7 @@ export const SIMPLE_SERVICES_MOCK: SimpleService[] = [
       'Entrega rápida en 3 días hábiles'
     ],
     notes: ['Cuéntanos el plan con anticipación para coordinar bien la logística.'],
-    image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195'
+    image: 'assets/images/site/otros-cover-1080.webp'
   },
 
   // ── MATERNIDAD ────────────────────────────────────────────────

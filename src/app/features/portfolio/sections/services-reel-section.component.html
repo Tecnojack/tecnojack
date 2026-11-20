@@ -30,6 +30,8 @@
           <ng-template #cardBody>
             <div class="reel-card__media">
               <img
+                tjResponsive
+                sizes="(min-width: 900px) 32vw, 80vw"
                 [src]="service.image"
                 [alt]="service.title"
                 loading="lazy"

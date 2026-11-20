@@ -53,7 +53,7 @@ export class FeaturedExperiencesSectionComponent {
           this.i18n.t('exp.1.h3', 'Película documental + Highlight Film + Reels verticales'),
           this.i18n.t('exp.1.h4', 'Dron aéreo y galería online privada'),
         ],
-        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fluxury%2Fcover.jpg?alt=media&token=14059437-1d4b-4e95-9b34-ceb54097dcf5',
+        image: 'assets/images/site/bodas-hibridas-luxury-cover-1080.webp',
         href: '/portfolio/bodas',
       },
       {
@@ -68,7 +68,7 @@ export class FeaturedExperiencesSectionComponent {
           this.i18n.t('exp.2.h3', 'Video resumen en 4K y reels para Instagram/TikTok'),
           this.i18n.t('exp.2.h4', 'Álbum fotográfico de alta gama'),
         ],
-        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fpremium%2Fcover.jpg?alt=media&token=4d85cea8-1987-4f47-8599-1a2da31a0706',
+        image: 'assets/images/site/quinces-fotografia-de-quince-premium-cover-1080.webp',
         href: '/portfolio/quinces',
       },
       {
@@ -83,7 +83,7 @@ export class FeaturedExperiencesSectionComponent {
           this.i18n.t('exp.3.h3', 'Mosaicos, carpetas de lujo y retablos en madera'),
           this.i18n.t('exp.3.h4', 'Entrega digital en alta resolución y galería privada'),
         ],
-        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-legado%2Fcover.jpg?alt=media&token=a721ca76-e170-4fc7-be18-b2e4ec400e47',
+        image: 'assets/images/site/grados-estudiantes-plan-legado-cover-1080.webp',
         href: '/portfolio/grados',
       },
       {
@@ -98,7 +98,7 @@ export class FeaturedExperiencesSectionComponent {
           this.i18n.t('exp.4.h3', 'Fotografía de producto y retratos corporativos'),
           this.i18n.t('exp.4.h4', 'Entrega en formatos multicanal (16:9, 9:16, 1:1)'),
         ],
-        image: 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7',
+        image: 'assets/images/site/video-cover-1080.webp',
         href: '/portfolio/corporativos',
       },
     ];

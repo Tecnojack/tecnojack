@@ -21,12 +21,16 @@ export class AppComponent implements OnInit {
   private readonly documentTitle = inject(Title);
   private readonly documentRef = inject(DOCUMENT);
   appTitle = 'TECNOJACK';
-  showTravelShell = true;
+  // Starts hidden: the travel shell (and its 2 MB world map) renders only once the first navigation
+  // resolves to a route that uses it, so portfolio/admin visits never download it.
+  showTravelShell = false;
   showAppTitle = true;
   showAudioToggle = false;
 
   ngOnInit(): void {
-    this.syncShellState(this.router.url);
+    if (this.router.navigated) {
+      this.syncShellState(this.router.url);
+    }
 
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
