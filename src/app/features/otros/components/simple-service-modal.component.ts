@@ -144,16 +144,8 @@ export class SimpleServiceModalComponent implements OnChanges {
   }
 
   async sendWhatsApp(): Promise<void> {
-    console.log('[WA_FLOW][SIMPLE_MODAL] click:sendWhatsApp', {
-      hasService: !!this.service,
-      isFormValid: this.isFormValid,
-      isSubmitting: this.isSubmitting,
-      nameLen: this.form.name.trim().length,
-      phoneLen: this.form.phone.trim().length,
-    });
 
     if (!this.service || !this.isFormValid || this.isSubmitting) {
-      console.log('[WA_FLOW][SIMPLE_MODAL] blocked:invalid-state');
       return;
     }
 
@@ -201,7 +193,6 @@ export class SimpleServiceModalComponent implements OnChanges {
       .join(' | ');
 
     try {
-      console.log('[WA_FLOW][SIMPLE_MODAL] firestore:creating-request');
       await this.serviceRequest.createRequest({
         name: this.form.name,
         phone: this.form.phone,
@@ -211,18 +202,12 @@ export class SimpleServiceModalComponent implements OnChanges {
         eventDate: this.form.eventDate,
         location: this.form.location
       });
-      console.log('[WA_FLOW][SIMPLE_MODAL] firestore:request-created');
     } catch (error) {
       console.error('No se pudo guardar la solicitud en Firestore', error);
     }
 
     const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`;
-    console.log('[WA_FLOW][SIMPLE_MODAL] whatsapp:opening', { url });
     const popup = window.open(url, '_blank', 'noopener,noreferrer');
-    console.log('[WA_FLOW][SIMPLE_MODAL] whatsapp:open-result', {
-      opened: !!popup,
-      blockedByBrowser: !popup,
-    });
     this.isSubmitting = false;
   }
 

@@ -1,25 +1,15 @@
 <tj-portfolio-shell [navItems]="navItems" brandHref="/portfolio" [subtitle]="''" [floatWaHref]="floatWaHref" [editable]="editable">
-    <!-- Scene 01: Fullscreen Cinematic Introduction -->
+  <div class="portfolio-story" tjCinematicMotion>
+    <!-- Scene 01: Shutter-opening hero (3D iris opens on load, reveals the photograph) -->
     <tj-hero-section [editable]="editable" />
 
-    <!-- Scene 02: Massive Typographic Brand Statement -->
-    <tj-about-brand-section [editable]="editable" />
+    <!-- Scene 02: Services film strip — every card leads to its own service page -->
+    <tj-services-reel-section />
 
-    <!-- Scene 03: Selected Work & Visual Campaign Exhibition -->
-    <tj-selected-work-section />
+    <!-- Scene 03: Creator teaser — manifesto + one link to "Sobre mí" -->
+    <tj-home-about-teaser-section />
 
-    <!-- Scene 04: Services as Experiences (Interactive Editorial Index) -->
-    <tj-services-section [editable]="editable" />
-
-    <!-- Scene 05: Visual Storytelling Cinematic Transition -->
-    <tj-storytelling-transition-section />
-
-    <!-- Scene 06: Flagship Experiences & Flat Interactive Package Selector -->
-    <tj-featured-experiences-section />
-
-    <!-- Scene 07: Editorial Creator Narrative (Jackson Palacios) -->
-    <tj-professional-profile-section [editable]="editable" />
-
-    <!-- Scene 08: Minimalist High-Impact Contact Invitation -->
+    <!-- Scene 04: Contact invitation -->
     <tj-contact-section [editable]="editable" />
+  </div>
 </tj-portfolio-shell>

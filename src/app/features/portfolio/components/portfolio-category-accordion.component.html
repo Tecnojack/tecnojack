@@ -1,6 +1,7 @@
-<section class="tj-accordion" tjRevealOnScroll>
+<section class="tj-accordion" [class.tj-accordion--embedded]="embedded" [class.tj-accordion--compact]="compact" tjRevealOnScroll>
   <!-- Section Toggle Header -->
   <button
+    *ngIf="!embedded"
     class="tj-accordion__trigger"
     type="button"
     (click)="toggle()"
@@ -129,13 +130,13 @@
                 </div>
 
                 <!-- Narrative Lead -->
-                <p class="tj-apple-card__lead">{{ item.detail.lead }}</p>
+                <p class="tj-apple-card__lead" *ngIf="!compact">{{ item.detail.lead }}</p>
 
                 <!-- Key Deliverables List -->
                 <div class="tj-apple-card__deliverables" *ngIf="item.highlights?.length">
                   <h5 class="tj-apple-card__deliverables-title">{{ i18n.isEn() ? 'Included deliverables & coverage:' : 'Entregables y coberturas incluidas:' }}</h5>
                   <ul class="tj-apple-card__deliverables-list">
-                    <li *ngFor="let bullet of item.highlights" class="tj-apple-card__deliverable-item">
+                    <li *ngFor="let bullet of (compact ? item.highlights.slice(0, 3) : item.highlights)" class="tj-apple-card__deliverable-item">
                       <span class="tj-apple-check" aria-hidden="true">
                         <svg viewBox="0 0 20 20" fill="currentColor">
                           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -151,7 +152,7 @@
                   <button
                     class="tj-apple-btn tj-apple-btn--primary"
                     type="button"
-                    (click)="requestOpenPackage(item.detail.slug, itemImg); $event.stopPropagation()">
+                    (click)="requestOpenPackage(item.detail.slug, itemImg, $event); $event.stopPropagation()">
                     <span>{{ i18n.t('packages.view_details', 'Ver detalles') }}</span>
                     <svg class="tj-apple-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -160,6 +161,7 @@
                   </button>
 
                   <a
+                    *ngIf="!compact"
                     class="tj-apple-btn tj-apple-btn--wa"
                     [href]="getWhatsAppBookingHref(item)"
                     target="_blank"

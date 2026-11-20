@@ -1,0 +1,61 @@
+<section class="an" #section [class.is-cinematic]="cinematic()" aria-labelledby="an-title">
+  <div class="an__stage" #stage>
+    <div class="an__copy">
+      <span class="an__eyebrow">Anatomía de tu sitio</span>
+      <h2 class="an__title" id="an-title">Cuatro capas. Un solo equipo.</h2>
+      <ol class="an__steps">
+        <li class="an__step" *ngFor="let layer of layers; let i = index" data-step>
+          <span class="an__step-num">0{{ i + 1 }}</span>
+          <div>
+            <span class="an__step-label">{{ layer.label }}</span>
+            <h3 class="an__step-title">{{ layer.title }}</h3>
+            <p class="an__step-text">{{ layer.text }}</p>
+          </div>
+        </li>
+      </ol>
+      <p class="an__finale" data-finale>= Tu sitio, listo para vender.</p>
+    </div>
+
+    <div class="an__scene" aria-hidden="true">
+      <div class="an__stack" #stack>
+        <!-- 1. Strategy: wireframe blueprint -->
+        <div class="an__layer an__layer--strategy" data-layer style="--i: 0">
+          <span class="an__tag">01 · Estrategia</span>
+          <div class="bp bp--nav"></div>
+          <div class="bp bp--hero"><span>Objetivo: ventas</span></div>
+          <div class="bp bp--row"><i></i><i></i><i></i></div>
+          <div class="bp bp--cta">CTA → WhatsApp</div>
+        </div>
+
+        <!-- 2. Code -->
+        <div class="an__layer an__layer--code" data-layer style="--i: 1">
+          <span class="an__tag">02 · Código</span>
+          <div class="cd">
+            <span *ngFor="let line of codeLines" [class]="'cd__line cd__line--' + line.c" [style.width.%]="line.w"></span>
+          </div>
+          <span class="cd__badge">&lt;/&gt; Angular · NestJS</span>
+        </div>
+
+        <!-- 3. Design -->
+        <div class="an__layer an__layer--design" data-layer style="--i: 2">
+          <span class="an__tag">03 · Diseño</span>
+          <div class="ds__nav"><b>Tu Marca</b><i></i></div>
+          <div class="ds__title"></div>
+          <div class="ds__title ds__title--short"></div>
+          <div class="ds__btn">Comprar</div>
+          <div class="ds__swatches"><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <!-- 4. Audiovisual content -->
+        <div class="an__layer an__layer--content" data-layer style="--i: 3">
+          <span class="an__tag">04 · Contenido</span>
+          <img class="ct__hero" [src]="contentPhoto" alt="" loading="lazy" decoding="async" />
+          <div class="ct__thumbs">
+            <img *ngFor="let thumb of contentThumbs" [src]="thumb" alt="" loading="lazy" decoding="async" />
+          </div>
+          <span class="ct__play">▶ Video</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { MEDIA_ADMIN_ROUTES } from './features/media-admin/media-admin.routes';
 import { ERP_ROUTES } from './features/erp/erp.routes';
+import { packageShortLinkGuard } from './features/portfolio/package-short-link.guard';
 
 export const routes: Routes = [
 	{
@@ -12,6 +13,12 @@ export const routes: Routes = [
 	{
 		path: 'app',
 		children: ERP_ROUTES
+	},
+	{
+		// Short share links for packages: tecnojack.co/p/b3 → /portfolio/bodas/<paquete>
+		path: 'p/:code',
+		canActivate: [packageShortLinkGuard],
+		children: []
 	},
 	{
 		path: 'brand',
@@ -197,6 +204,8 @@ export const routes: Routes = [
 	},
 	{
 		path: 'soluciones',
+		// Own full-bleed stage: skip the travel background (and its 2 MB world map).
+		data: { hideTravelShell: true },
 		loadComponent: () =>
 			import('./features/solutions/solutions-page.component').then(
 				(m) => m.SolutionsPageComponent

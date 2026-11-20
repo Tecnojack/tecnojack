@@ -1,0 +1,109 @@
+<section class="bh" #section [class.is-cinematic]="cinematic()" [class.is-booting]="booting()" aria-labelledby="bh-title">
+  <div class="bh__stage" #stage>
+    <!-- Atmosphere: perspective grid floor, warm glows and code glyphs at different depths (decorative) -->
+    <div class="bh__atmos" aria-hidden="true">
+      <div class="bh__floor"></div>
+      <span class="bh__orb bh__orb--a"></span>
+      <span class="bh__orb bh__orb--b"></span>
+      <span
+        class="bh__glyph"
+        *ngFor="let glyph of glyphs"
+        [style.left.%]="glyph.x"
+        [style.top.%]="glyph.y"
+        [style.--depth]="glyph.z"
+        [style.--float]="glyph.d + 's'">{{ glyph.t }}</span>
+    </div>
+    <!-- Copy: enters once the site is built (shown first when motion is reduced) -->
+    <header class="bh__head" #head>
+      <div class="bh__copy">
+        <span class="bh__kicker" data-head><i class="bh__dot" aria-hidden="true"></i>{{ hero.eyebrow }}</span>
+        <h1 class="bh__title" id="bh-title" data-head>{{ hero.title }}</h1>
+        <p class="bh__lead" data-head>{{ hero.lead }}</p>
+      </div>
+      <div class="bh__actions" data-head>
+        <button class="bh-btn bh-btn--accent" type="button" (click)="quote.emit()">Cotizar mi proyecto <span aria-hidden="true">→</span></button>
+        <a class="bh-btn bh-btn--line" href="#que-construimos">Ver qué construimos</a>
+      </div>
+    </header>
+
+    <!-- Editor + live site -->
+    <div class="bh__workspace" #workspace aria-hidden="true">
+      <div class="bh__editor">
+        <div class="bh__bar">
+          <span class="bh__dots"><i></i><i></i><i></i></span>
+          <span class="bh__file">tu-marca.component.html</span>
+          <span class="bh__status">● escribiendo</span>
+        </div>
+        <div class="bh__code" #codeScroll>
+          <pre><code #codeBody class="bh__code-body"><span class="bh__line" *ngFor="let line of lines" data-line><span class="bh__num">{{ line.index + 1 }}</span><span class="bh__text"><span *ngFor="let token of line.tokens" [class]="'tk tk--' + token.kind">{{ token.text }}</span></span></span></code></pre>
+        </div>
+      </div>
+
+      <div class="bh__browser">
+        <div class="bh__bar bh__bar--light">
+          <span class="bh__dots"><i></i><i></i><i></i></span>
+          <span class="bh__url"><b>tumarca.co</b></span>
+          <span class="bh__published">✓ Sitio publicado</span>
+        </div>
+        <div class="bh__viewport" #viewport>
+          <div class="bh__site" #site>
+            <div class="bs-nav" data-piece="1">
+              <strong>Tu Marca</strong>
+              <span class="bs-nav__links"><span>Tienda</span><span>Citas</span><span>Contacto</span></span>
+            </div>
+
+            <div class="bs-hero" data-piece="2">
+              <img [src]="heroPhoto" alt="" loading="eager" decoding="async" />
+            </div>
+
+            <div class="bs-copy" data-piece="3">
+              <strong>Hecho para destacar</strong>
+              <span>Envíos a todo el país</span>
+            </div>
+
+            <div class="bs-cta" data-piece="4">Comprar ahora</div>
+
+            <div class="bs-products" data-piece="5">
+              <div class="bs-product" *ngFor="let product of products">
+                <img [src]="product.src" alt="" loading="lazy" decoding="async" />
+                <span>{{ product.name }}</span>
+                <b>{{ product.price }}</b>
+              </div>
+            </div>
+
+            <div class="bs-booking" data-piece="6">
+              <strong>Agenda tu cita</strong>
+              <div class="bs-slots">
+                <span *ngFor="let slot of slots; let i = index" [class.is-picked]="i === 1">{{ slot }}</span>
+              </div>
+            </div>
+
+            <div class="bs-footer" data-piece="8">© Tu Marca · Medellín</div>
+          </div>
+          <span class="bs-wa" data-piece="7">
+            <img src="assets/images/icons/whatsapp.svg" alt="" />
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build log: each step lights up as its code is written -->
+    <div class="bh__log" #log aria-hidden="true">
+      <span class="bh__log-count" #stepCount>Paso 1/8</span>
+      <span class="bh__log-label" #stepLabel>Estructura y navegación</span>
+      <span class="bh__log-rail">
+        <i *ngFor="let step of steps" data-segment></i>
+      </span>
+      <span class="bh__log-hint">Desliza ↓</span>
+    </div>
+  </div>
+</section>
+
+<div class="bh-stack">
+  <div class="bh-stack__wrap">
+    <span class="bh-stack__label">Tecnologías con las que trabajamos</span>
+    <ul class="bh-stack__list">
+      <li *ngFor="let tech of hero.stack">{{ tech }}</li>
+    </ul>
+  </div>
+</div>

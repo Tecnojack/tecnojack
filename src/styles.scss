@@ -15,6 +15,9 @@ html, body {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    // `clip` hides horizontal overflow without turning <body> into a scroll container, which used to
+    // break every `position: sticky` header on the site. Older browsers keep the `hidden` fallback.
+    overflow-x: clip;
     position: relative;
     margin: 0;
     padding: 0;
@@ -3460,4 +3463,68 @@ body[data-theme='light'] .portfolio-page .service-category-hero__backdrop {
 .tj-comparison-table th.exclusive-col {
     background: rgba(255, 184, 0, 0.2);
     color: #ffb800;
+}
+
+// ─── Lenis smooth scroll (portfolio motion layer). Native smooth-scroll would fight the lerp. ───
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+html.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+// ─── Page transitions between public pages (router withViewTransitions, see app.config.ts) ───
+// The header and the floating buttons have their own names, so they stay put while the page changes.
+// Old page: dims, recedes and blurs slightly. New page: rises into place and sharpens.
+::view-transition-old(root) {
+    animation: tj-page-out 0.42s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+    animation: tj-page-in 0.62s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+::view-transition-group(tj-header),
+::view-transition-group(tj-float-wa),
+::view-transition-group(tj-float-menu) {
+    animation-duration: 0s;
+}
+
+@keyframes tj-page-out {
+    to {
+        opacity: 0;
+        transform: scale(0.985) translateY(-10px);
+        filter: blur(6px);
+    }
+}
+
+@keyframes tj-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(8px);
+    }
+}
+
+::view-transition-group(pkg-hero) {
+    animation-duration: 0.55s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
 }

@@ -62,9 +62,8 @@ export class HeroSectionComponent {
     return this.content.heroHighlights();
   }
 
-  get heroImageUrl(): string {
-    return this.content.heroImageUrl() || 'https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5';
-  }
+  /** Behind-the-lens portrait of Jackson at a wedding: the home opens on the person behind the camera. */
+  readonly heroImageUrl = 'assets/images/profile/jackson-behind-the-lens.webp';
 
   get whatsappHref() {
     const msg = this.i18n.isEn()

@@ -3,7 +3,7 @@
     <div class="portfolio-page__atmosphere" aria-hidden="true"></div>
 
     <!-- ── Apple-Style Sticky Navigation Header ───────────────────────────── -->
-    <header class="portfolio-header" *ngIf="!hideHeader">
+    <header class="portfolio-header" #headerEl *ngIf="!hideHeader">
         <div class="portfolio-header__container">
             <!-- Brand Mark -->
             <a *ngIf="isInternalRoute(brandHref); else brandExternalLink" class="portfolio-header__brand" [routerLink]="brandHref">
@@ -28,7 +28,9 @@
             </ng-template>
 
             <!-- Desktop Nav Links -->
-            <nav class="portfolio-header__nav" aria-label="Navegación principal">
+            <nav class="portfolio-header__nav" #navEl aria-label="Navegación principal">
+                <!-- Sliding highlight that follows hover/focus and rests on the active page -->
+                <span class="portfolio-header__nav-indicator" #navIndicator aria-hidden="true"></span>
                 <ng-container *ngFor="let item of headerNavItems">
                     <a
                         *ngIf="isInternalRoute(item.href); else externalNavLink"
@@ -115,6 +117,8 @@
                 </button>
             </div>
         </div>
+        <!-- Reading progress along the bottom edge -->
+        <span class="portfolio-header__progress" aria-hidden="true"></span>
     </header>
 
     <!-- ── Apple-Style Mobile Navigation Overlay ────────────────────────── -->
