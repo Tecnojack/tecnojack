@@ -239,6 +239,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.more_info': 'Más info',
     'packages.book_now': 'Reservar por WhatsApp',
     'packages.explore_collections': 'Explorar colecciones',
+    'packages.view_packages': 'Ver paquetes',
+    'packages.picker_label': '¿Qué necesitas?',
     'packages.quote_whatsapp': 'Cotizar por WhatsApp',
 
     // Service Categories Hero & Configs
@@ -628,6 +630,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'packages.more_info': 'More info',
     'packages.book_now': 'Book via WhatsApp',
     'packages.explore_collections': 'Explore collections',
+    'packages.view_packages': 'View packages',
+    'packages.picker_label': 'What do you need?',
     'packages.quote_whatsapp': 'Quote via WhatsApp',
 
     // Service Categories Hero & Configs

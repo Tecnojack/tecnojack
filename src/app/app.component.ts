@@ -5,6 +5,7 @@ import { Router, RouterOutlet, NavigationEnd, ActivatedRoute } from '@angular/ro
 import { Title } from '@angular/platform-browser';
 import { TravelBackgroundComponent } from './shared/backgrounds/travel-background.component';
 import { BackgroundAudioService } from './core/services/background-audio.service';
+import { ConversionAnalyticsService } from './core/analytics/conversion-analytics.service';
 import { filter } from 'rxjs';
 
 @Component({
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly documentTitle = inject(Title);
   private readonly documentRef = inject(DOCUMENT);
+  private readonly conversionAnalytics = inject(ConversionAnalyticsService);
   appTitle = 'TECNOJACK';
   // Starts hidden: the travel shell (and its 2 MB world map) renders only once the first navigation
   // resolves to a route that uses it, so portfolio/admin visits never download it.
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit {
   showAudioToggle = false;
 
   ngOnInit(): void {
+    this.conversionAnalytics.init();
+
     if (this.router.navigated) {
       this.syncShellState(this.router.url);
     }

@@ -1,0 +1,438 @@
+:host {
+  display: block;
+  --an-accent: var(--sl-accent, #ff5b14);
+  --an-ink: #0b0b0c;
+}
+
+.an {
+  position: relative;
+  background: var(--an-ink);
+  color: #f5f4f0;
+  overflow: hidden;
+}
+
+.an__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 64px);
+  box-sizing: border-box;
+}
+
+// ─── Copy ──────────────────────────────────────────────────────────────────
+.an__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.an__eyebrow {
+  font: 700 0.74rem/1 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--an-accent);
+}
+
+.an__title {
+  margin: 0;
+  font-size: clamp(2.1rem, 4.4vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.an__steps {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.an__step {
+  display: flex;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: opacity 0.4s ease;
+}
+
+.an__step-num {
+  font: 600 0.8rem/1.8 ui-monospace, 'SF Mono', Menlo, monospace;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.an__step-label {
+  font: 700 0.7rem/1 ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--an-accent);
+}
+
+.an__step-title {
+  margin: 6px 0 4px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.an__step-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(245, 244, 240, 0.7);
+}
+
+.an__finale {
+  margin: 8px 0 0;
+  font: 700 clamp(1.1rem, 1.8vw, 1.4rem) / 1.2 ui-monospace, 'SF Mono', Menlo, monospace;
+  color: var(--an-accent);
+}
+
+// ─── 3D scene ──────────────────────────────────────────────────────────────
+.an__scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(380px, 46vw, 560px);
+  perspective: 2200px;
+}
+
+.an__stack {
+  --explode: 1; // static (no motion): shown exploded
+  --spin: 0;
+  --gap: clamp(64px, 7vw, 96px);
+  --w: clamp(250px, 28vw, 380px);
+  --h: calc(var(--w) * 0.66);
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: translateY(calc(var(--explode) * 70px)) rotateX(57deg) rotateZ(calc(-38deg + var(--spin) * 14deg));
+}
+
+.an__layer {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  transform: translateZ(calc(var(--i) * var(--gap) * var(--explode)));
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.45s ease, filter 0.45s ease, box-shadow 0.45s ease;
+  backface-visibility: hidden;
+
+  &.is-dim {
+    opacity: 0.28;
+    filter: saturate(0.4);
+  }
+
+  &.is-lit {
+    box-shadow: 0 0 0 2px var(--an-accent), 0 30px 70px rgba(255, 91, 20, 0.25);
+  }
+}
+
+.an__tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font: 700 0.62rem/1 ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.06em;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+}
+
+// 1 · Strategy (blueprint)
+.an__layer--strategy {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 8px;
+  background-color: #0f1d2b;
+  background-image: linear-gradient(rgba(120, 170, 220, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 170, 220, 0.16) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.bp {
+  border: 1px dashed rgba(170, 210, 255, 0.6);
+  border-radius: 6px;
+  color: rgba(200, 225, 255, 0.85);
+  font: 600 0.62rem/1 ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.bp--nav {
+  height: 16px;
+  width: 60%;
+}
+
+.bp--hero {
+  display: grid;
+  place-items: center;
+}
+
+.bp--row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  border: 0;
+
+  i {
+    height: 26px;
+    border: 1px dashed rgba(170, 210, 255, 0.6);
+    border-radius: 6px;
+  }
+}
+
+.bp--cta {
+  justify-self: start;
+  padding: 7px 10px;
+  border-style: solid;
+  border-color: var(--an-accent);
+  color: #ffd2bf;
+}
+
+// 2 · Code
+.an__layer--code {
+  background: #141518;
+}
+
+.cd {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.cd__line {
+  height: 8px;
+  border-radius: 4px;
+
+  &--k {
+    background: #ff8a5c;
+  }
+
+  &--s {
+    background: #a6d189;
+    margin-left: 12%;
+  }
+
+  &--t {
+    background: rgba(241, 238, 232, 0.55);
+    margin-left: 6%;
+  }
+}
+
+.cd__badge {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  font: 700 0.66rem/1 ui-monospace, 'SF Mono', Menlo, monospace;
+  color: #ff8a5c;
+}
+
+// 3 · Design
+.an__layer--design {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: #f6f4ef;
+  color: #0b0b0c;
+}
+
+.ds__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+
+  i {
+    width: 14px;
+    height: 2px;
+    background: #0b0b0c;
+    box-shadow: 0 4px 0 #0b0b0c, 0 -4px 0 #0b0b0c;
+  }
+}
+
+.ds__title {
+  height: 12px;
+  width: 78%;
+  border-radius: 4px;
+  background: #0b0b0c;
+
+  &--short {
+    width: 50%;
+    opacity: 0.4;
+  }
+}
+
+.ds__btn {
+  align-self: flex-start;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--an-accent);
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.ds__swatches {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+
+  i {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+
+    &:nth-child(1) {
+      background: #0b0b0c;
+    }
+    &:nth-child(2) {
+      background: var(--an-accent);
+    }
+    &:nth-child(3) {
+      background: #e9e6df;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    &:nth-child(4) {
+      background: #8a8378;
+    }
+  }
+}
+
+// 4 · Content (audiovisual)
+.an__layer--content {
+  padding: 0;
+  background: #1a1a1c;
+}
+
+.ct__hero {
+  width: 100%;
+  height: 68%;
+  object-fit: cover;
+  display: block;
+}
+
+.ct__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  height: 32%;
+  padding: 4px;
+  box-sizing: border-box;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+.ct__play {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0b0c;
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+// ─── Cinematic (pinned) mode ───────────────────────────────────────────────
+.an.is-cinematic {
+  .an__stage {
+    height: 100vh;
+    height: 100svh;
+    min-height: 620px;
+    padding-top: calc(var(--tj-header-height, 72px) + 24px);
+    padding-bottom: 32px;
+  }
+
+  .an__stack {
+    --explode: 0;
+  }
+
+  .an__step {
+    opacity: 0.35;
+
+    &.is-active {
+      opacity: 1;
+    }
+  }
+
+  .an__finale {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 899px) {
+  .an__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .an.is-cinematic {
+    .an__stage {
+      grid-template-rows: auto 1fr;
+      align-content: start;
+      gap: 0;
+    }
+
+    .an__title {
+      font-size: clamp(1.8rem, 8vw, 2.4rem);
+    }
+
+    // On phones only the active step is shown, under the title.
+    .an__steps {
+      display: grid;
+    }
+
+    .an__step {
+      grid-area: 1 / 1;
+      opacity: 0;
+      visibility: hidden;
+      border-top: 0;
+      padding: 6px 0 0;
+
+      &.is-active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .an__finale {
+      grid-area: auto;
+    }
+
+    .an__scene {
+      min-height: 0;
+    }
+  }
+
+  .an__stack {
+    --gap: 46px;
+    --w: min(64vw, 260px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .an__layer,
+  .an__step {
+    transition: none;
+  }
+}

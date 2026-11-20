@@ -886,7 +886,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["1'900.000 COP"],
     lead:
       'Cobertura equilibrada que combina fotografía y video para conservar los momentos más importantes del día de una forma natural, elegante y emotiva. Ideal para bodas pequeñas o parejas que desean conservar los recuerdos esenciales sin perder calidad.',
-    image: 'assets/images/site/quinces-clientes-sofia-colorado-1776978757025-gkbq8wck38-1080.webp',
+    image: 'assets/images/site/bodas-hibridas-esencial-cover-1080.webp',
     items: [
       'Cobertura de hasta 6 horas',
       '1 fotógrafo y 1 videógrafo',
@@ -966,7 +966,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["3'900.000 COP"],
     lead:
       'Experiencia completa que combina fotografía artística y producción cinematográfica para contar la historia del día con una narrativa mucho más cuidada. Este es nuestro paquete recomendado.',
-    image: 'assets/images/site/prebodas-clientes-sara-and-jefferson-1776977120442-xm3xz9x863l-1080.webp',
+    image: 'assets/images/site/bodas-hibridas-premium-cover-1080.webp',
     featured: true,
     items: [
       'Cobertura de hasta 10 horas',
@@ -1016,7 +1016,7 @@ export const weddingMainPlans: WeddingPackagePlan[] = [
     priceLines: ["6'100.000 COP"],
     lead:
       'La experiencia audiovisual más completa de TECNOJACK. Pensada para parejas que desean transformar su boda en una producción cinematográfica de alto nivel con un enfoque de autor sumamente exclusivo.',
-    image: 'assets/images/site/prebodas-clientes-maira-and-ariel-1776976833080-o9n16l5fol8-1080.webp',
+    image: 'assets/images/site/bodas-hibridas-luxury-cover-1080.webp',
     items: [
       'Cobertura de hasta 12 horas',
       '2 fotógrafos + 2 videógrafos + Asistente de producción',

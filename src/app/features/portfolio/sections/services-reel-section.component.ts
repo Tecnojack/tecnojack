@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
 
 import { I18nService } from '../../../core/services/i18n.service';
 import { ResponsiveImageDirective } from '../../../shared/media/responsive-image.directive';
-import { loadMotionRuntime, prefersReducedMotion } from '../motion/motion-runtime';
+import { loadMotionRuntime, prefersReducedMotion } from '../../../shared/motion/motion-runtime';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 
 /**

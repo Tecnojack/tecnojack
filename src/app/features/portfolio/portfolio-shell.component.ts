@@ -3,13 +3,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
+  ElementRef,
   HostListener,
   Input,
+  NgZone,
+  ViewChild,
+  afterNextRender,
   effect,
   inject,
   signal
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs';
 
 import { PortfolioContactLink, PortfolioNavItem } from './portfolio.data';
 import { PortfolioContentService } from './services/portfolio-content.service';
@@ -29,13 +35,98 @@ export class PortfolioShellComponent {
   private readonly cdr = inject(ChangeDetectorRef);
   readonly i18n = inject(I18nService);
   readonly theme = inject(ThemeService);
+  private readonly zone = inject(NgZone);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  @ViewChild('headerEl') private headerRef?: ElementRef<HTMLElement>;
+  @ViewChild('navEl') private navRef?: ElementRef<HTMLElement>;
+  @ViewChild('navIndicator') private indicatorRef?: ElementRef<HTMLElement>;
 
   constructor() {
     effect(() => {
       this.i18n.currentLang();
       this.theme.activeTheme();
       this.cdr.markForCheck();
+      // Labels change width with the language: re-measure the indicator.
+      queueMicrotask(() => this.moveIndicatorToActive());
     });
+
+    afterNextRender(() => this.zone.runOutsideAngular(() => this.initHeaderMotion()));
+  }
+
+  // ─── Header motion: scrolled state, reading progress, sliding nav indicator ──────────────────
+  private initHeaderMotion(): void {
+    const header = this.headerRef?.nativeElement;
+    if (!header) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const doc = document.documentElement;
+      const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const y = window.scrollY;
+      header.classList.toggle('is-scrolled', y > 8);
+      header.style.setProperty('--scroll-progress', String(Math.min(1, Math.max(0, y / max))));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+
+    const nav = this.navRef?.nativeElement;
+    const onOver = (event: Event) => {
+      const link = (event.target as Element | null)?.closest<HTMLElement>('.portfolio-header__nav-link');
+      if (link) this.moveIndicatorTo(link);
+    };
+    const onLeave = () => this.moveIndicatorToActive();
+    nav?.addEventListener('pointerover', onOver);
+    nav?.addEventListener('focusin', onOver);
+    nav?.addEventListener('pointerleave', onLeave);
+    nav?.addEventListener('focusout', onLeave);
+
+    const resizeObserver = nav ? new ResizeObserver(() => this.moveIndicatorToActive()) : null;
+    if (nav) resizeObserver?.observe(nav);
+    const navSub = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => requestAnimationFrame(() => this.moveIndicatorToActive()));
+    // Fonts can change link widths after first paint.
+    document.fonts?.ready.then(() => this.moveIndicatorToActive());
+    requestAnimationFrame(() => this.moveIndicatorToActive());
+
+    this.destroyRef.onDestroy(() => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      nav?.removeEventListener('pointerover', onOver);
+      nav?.removeEventListener('focusin', onOver);
+      nav?.removeEventListener('pointerleave', onLeave);
+      nav?.removeEventListener('focusout', onLeave);
+      resizeObserver?.disconnect();
+      navSub.unsubscribe();
+    });
+  }
+
+  private moveIndicatorTo(link: HTMLElement | null): void {
+    const indicator = this.indicatorRef?.nativeElement;
+    const nav = this.navRef?.nativeElement;
+    if (!indicator || !nav) return;
+    if (!link) {
+      indicator.style.opacity = '0';
+      return;
+    }
+    nav.classList.add('has-indicator');
+    indicator.style.opacity = '1';
+    indicator.style.width = `${link.offsetWidth}px`;
+    indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+  }
+
+  private moveIndicatorToActive(): void {
+    const nav = this.navRef?.nativeElement;
+    if (!nav) return;
+    this.moveIndicatorTo(nav.querySelector<HTMLElement>('.portfolio-header__nav-link--active'));
   }
 
   @Input({ required: true }) navItems: PortfolioNavItem[] = [];

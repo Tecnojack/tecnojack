@@ -29,6 +29,8 @@ import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-fol
 import { getRealImageUrlByPath } from '../../../core/data/package-real-images';
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { ServiceRequestService } from '../../../services/service-request.service';
+import { ConversionAnalyticsService } from '../../../core/analytics/conversion-analytics.service';
+import { packageShortCode } from '../package-short-codes';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
 import { PortfolioRequestOption, PortfolioRequestOptionGroup, PortfolioPackageDetail } from '../portfolio.data';
 
@@ -66,6 +68,8 @@ export class PortfolioPackageDetailPageComponent {
   private readonly content = inject(PortfolioContentService);
   private readonly mediaPublic = inject(MediaPublicService);
   private readonly serviceRequest = inject(ServiceRequestService);
+  private readonly conversionAnalytics = inject(ConversionAnalyticsService);
+  private lastTrackedPackage: string | null = null;
   private readonly router = inject(Router);
 
   @Input() coverImage?: string;
@@ -125,8 +129,10 @@ export class PortfolioPackageDetailPageComponent {
         return videoImages[detail.slug];
       }
     }
+    // Card photo travels as navigation state; `?coverImage=` is still read so old shared links keep working.
+    const stateImage = (this.document.defaultView?.history.state as { coverImage?: unknown } | null)?.coverImage;
     const queryParamImage = this.route.snapshot.queryParamMap.get('coverImage');
-    const resolvedUrl = this.coverImage || queryParamImage;
+    const resolvedUrl = this.coverImage || (typeof stateImage === 'string' ? stateImage : null) || queryParamImage;
     if (resolvedUrl) {
       return resolvedUrl;
     }
@@ -382,6 +388,136 @@ export class PortfolioPackageDetailPageComponent {
 
   readonly isCartExpanded = signal(false);
 
+  // ─── Decision-first layout ─────────────────────────────────────────────────────────────────
+  /** Booking process shown instead of generic copy: answers "¿y ahora qué pasa?" before asking. */
+  readonly bookingSteps = [
+    { title: 'Envía tu solicitud', text: 'Elige tu paquete y déjanos tu nombre, fecha y ciudad. Toma menos de un minuto.' },
+    { title: 'Confirmamos tu fecha', text: 'Te escribimos por WhatsApp para confirmar disponibilidad y resolver tus dudas.' },
+    { title: 'Reservas tu cupo', text: 'Separamos tu fecha y empezamos a planear la cobertura contigo.' },
+  ] as const;
+
+  /** Long include lists start short; the visitor can open the full list. */
+  static readonly INCLUDE_PREVIEW = 5;
+  /** Add-on groups show a few options first. */
+  static readonly EXTRAS_PREVIEW = 4;
+  private readonly expandedIncludeBlocks = signal<ReadonlySet<string>>(new Set());
+  private readonly expandedExtraGroups = signal<ReadonlySet<string>>(new Set());
+
+  isIncludeBlockExpanded(title: string): boolean {
+    return this.expandedIncludeBlocks().has(title);
+  }
+
+  visibleIncludeItems(block: { title: string; items: string[] }): string[] {
+    return this.isIncludeBlockExpanded(block.title)
+      ? block.items
+      : block.items.slice(0, PortfolioPackageDetailPageComponent.INCLUDE_PREVIEW);
+  }
+
+  hiddenIncludeCount(block: { items: string[] }): number {
+    return Math.max(0, block.items.length - PortfolioPackageDetailPageComponent.INCLUDE_PREVIEW);
+  }
+
+  toggleIncludeBlock(title: string): void {
+    this.expandedIncludeBlocks.update((set) => this.toggledSet(set, title));
+  }
+
+  visibleExtraOptions<T>(group: { title: string; options: T[] }): T[] {
+    return this.expandedExtraGroups().has(group.title)
+      ? group.options
+      : group.options.slice(0, PortfolioPackageDetailPageComponent.EXTRAS_PREVIEW);
+  }
+
+  hiddenExtraCount(group: { title: string; options: unknown[] }): number {
+    return this.expandedExtraGroups().has(group.title)
+      ? 0
+      : Math.max(0, group.options.length - PortfolioPackageDetailPageComponent.EXTRAS_PREVIEW);
+  }
+
+  toggleExtraGroup(title: string): void {
+    this.expandedExtraGroups.update((set) => this.toggledSet(set, title));
+  }
+
+  private toggledSet(set: ReadonlySet<string>, key: string): ReadonlySet<string> {
+    const next = new Set(set);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    return next;
+  }
+
+  // ─── Sharing ───────────────────────────────────────────────────────────────────────────────
+  /** Short link (`/p/b3`) when the package has a code, else the clean canonical path. Never carries query params. */
+  readonly shareUrl = computed(() => {
+    const detail = this.packageDetail();
+    const origin = this.document.defaultView?.location.origin ?? 'https://tecnojack.co';
+    if (!detail) return origin;
+    const code = packageShortCode(detail.category, detail.slug);
+    return code ? `${origin}/p/${code}` : `${origin}${detail.categoryHref}/${detail.slug}`;
+  });
+
+  readonly shareFeedback = signal<string | null>(null);
+  private shareFeedbackTimer: ReturnType<typeof setTimeout> | null = null;
+
+  async sharePackage(): Promise<void> {
+    const detail = this.packageDetail();
+    if (!detail) return;
+    const url = this.shareUrl();
+    const nav = this.document.defaultView?.navigator;
+    this.conversionAnalytics.track('share_package', { package_slug: detail.slug, service: detail.category });
+
+    // Phones: native share sheet (WhatsApp, Instagram, etc.).
+    if (nav?.share) {
+      try {
+        await nav.share({ title: `${detail.title} · TECNOJACK`, text: `Mira este paquete de TECNOJACK: ${detail.title}`, url });
+        return;
+      } catch (error) {
+        if ((error as DOMException)?.name === 'AbortError') return; // visitor closed the sheet
+      }
+    }
+
+    // Desktop: copy the short link.
+    try {
+      await nav?.clipboard.writeText(url);
+      this.flashShareFeedback('Enlace copiado');
+    } catch {
+      this.flashShareFeedback(url);
+    }
+  }
+
+  private flashShareFeedback(message: string): void {
+    this.shareFeedback.set(message);
+    if (this.shareFeedbackTimer) clearTimeout(this.shareFeedbackTimer);
+    this.shareFeedbackTimer = setTimeout(() => this.shareFeedback.set(null), 2600);
+  }
+
+  // ─── Two-step request form ─────────────────────────────────────────────────────────────────
+  /** Step 1: who and when (required). Step 2: optional details, terms and send. */
+  readonly requestStep = signal<1 | 2>(1);
+  /** Inline errors appear only after the visitor tries to continue. */
+  readonly showRequestErrors = signal(false);
+  readonly nameError = computed(() =>
+    this.showRequestErrors() && this.customerName().trim().length < 2 ? 'Escribe tu nombre para saber cómo llamarte.' : null,
+  );
+  readonly phoneError = computed(() =>
+    this.showRequestErrors() && this.customerPhone().replace(/\D/g, '').length < 7
+      ? 'Escribe un número de WhatsApp válido para responderte.'
+      : null,
+  );
+  /** Native date input lower bound: an event can't happen in the past. */
+  readonly todayIso = new Date().toISOString().slice(0, 10);
+
+  continueRequest(): void {
+    if (!this.isRequestFormValid()) {
+      this.showRequestErrors.set(true);
+      return;
+    }
+    this.showRequestErrors.set(false);
+    this.requestStep.set(2);
+  }
+
+  backToRequestStep1(): void {
+    this.requestStep.set(1);
+  }
+
   readonly requestWhatsappHref = computed(() => {
     const detail = this.packageDetail();
 
@@ -479,6 +615,12 @@ export class PortfolioPackageDetailPageComponent {
             'El paquete solicitado no está disponible. Explora las categorías del portafolio de TECNOJACK.',
         });
         return;
+      }
+
+      // One view per package even if this effect re-runs for other signal changes.
+      if (this.lastTrackedPackage !== detail.slug) {
+        this.lastTrackedPackage = detail.slug;
+        this.conversionAnalytics.track('view_package', { package_slug: detail.slug, service: detail.category });
       }
 
       this.requestSelections.set(
@@ -587,9 +729,15 @@ export class PortfolioPackageDetailPageComponent {
   }
 
   openRequestModal(): void {
+    const opened = this.packageDetail();
+    if (opened) {
+      this.conversionAnalytics.track('begin_request', { package_slug: opened.slug, service: opened.category });
+    }
     this.hasAcceptedTerms.set(false);
     this.isDestinationService.set(false);
     this.isSubmittingRequest.set(false);
+    this.requestStep.set(1);
+    this.showRequestErrors.set(false);
     this.isRequestModalOpen.set(true);
     setTimeout(() => {
       const dialog = this.requestDialogRef?.nativeElement;
@@ -648,17 +796,11 @@ export class PortfolioPackageDetailPageComponent {
   }
 
   guardRequestSubmit(event: MouseEvent): void {
-    console.log('[WA_FLOW][PACKAGE_DETAIL] click:guard', {
-      hasAcceptedTerms: this.hasAcceptedTerms(),
-      isRequestFormValid: this.isRequestFormValid(),
-      isSubmittingRequest: this.isSubmittingRequest(),
-    });
 
     if (this.hasAcceptedTerms() && this.isRequestFormValid()) {
       return;
     }
 
-    console.log('[WA_FLOW][PACKAGE_DETAIL] blocked:invalid-state');
     event.preventDefault();
     event.stopPropagation();
   }
@@ -666,31 +808,26 @@ export class PortfolioPackageDetailPageComponent {
   async submitRequest(): Promise<void> {
     const detail = this.packageDetail();
 
-    console.log('[WA_FLOW][PACKAGE_DETAIL] click:submitRequest', {
-      hasDetail: !!detail,
-      hasAcceptedTerms: this.hasAcceptedTerms(),
-      isRequestFormValid: this.isRequestFormValid(),
-      isSubmittingRequest: this.isSubmittingRequest(),
-      href: this.requestWhatsappHref(),
-    });
-
     if (
       !detail ||
       !this.hasAcceptedTerms() ||
       !this.isRequestFormValid() ||
       this.isSubmittingRequest()
     ) {
-      console.log('[WA_FLOW][PACKAGE_DETAIL] blocked:submit-invalid-state');
       return;
     }
 
     this.isSubmittingRequest.set(true);
+    this.conversionAnalytics.track('submit_request', {
+      package_slug: detail.slug,
+      service: detail.category,
+      request_mode: this.isDestinationService() ? 'destination' : 'local',
+    });
 
     const message = this.buildWhatsappMessage(detail);
     const locationParts = [this.eventCity().trim(), this.venueName().trim()].filter((part) => part.length > 0);
 
     try {
-      console.log('[WA_FLOW][PACKAGE_DETAIL] firestore:creating-request');
       await this.serviceRequest.createRequest({
         name: this.customerName(),
         phone: this.customerPhone(),
@@ -700,18 +837,12 @@ export class PortfolioPackageDetailPageComponent {
         eventDate: this.eventDate(),
         location: locationParts.join(' - ') || undefined,
       });
-      console.log('[WA_FLOW][PACKAGE_DETAIL] firestore:request-created');
     } catch (error) {
       console.error('No se pudo guardar la solicitud del paquete en Firestore', error);
     }
 
     const href = this.requestWhatsappHref();
-    console.log('[WA_FLOW][PACKAGE_DETAIL] whatsapp:opening', { href });
-    const popup = window.open(href, '_blank', 'noopener,noreferrer');
-    console.log('[WA_FLOW][PACKAGE_DETAIL] whatsapp:open-result', {
-      opened: !!popup,
-      blockedByBrowser: !popup,
-    });
+    window.open(href, '_blank', 'noopener,noreferrer');
     this.closeRequestModal();
   }
 

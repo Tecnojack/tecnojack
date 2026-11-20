@@ -660,6 +660,41 @@ export class PortfolioServiceCategoryPageComponent {
       });
   });
 
+  // ─── Package picker ("¿Qué necesitas?") ────────────────────────────────────────────────────
+  /** Every non-empty package section, whichever grouping the category uses. */
+  readonly pickerSections = computed<AccordionSectionViewModel[]>(() => {
+    const sections = (this.accordionSections() ?? this.packageCardGroups()).filter((section) => section.cards.length > 0);
+    if (this.categoryState() !== 'bodas') return sections;
+    // Weddings lead with the core hybrid offer so the selected chip is the first one on a phone.
+    const hybridIndex = sections.findIndex((section) => /h[ií]brid/i.test(section.title));
+    return hybridIndex > 0 ? [sections[hybridIndex], ...sections.filter((_, i) => i !== hybridIndex)] : sections;
+  });
+
+  private readonly pickedSectionTitle = signal<string | null>(null);
+
+  /** Selected section: the visitor's choice, else hybrid for weddings (the core offer), else the first one. */
+  readonly activePickerSection = computed<AccordionSectionViewModel | null>(() => {
+    const sections = this.pickerSections();
+    if (!sections.length) return null;
+    const picked = this.pickedSectionTitle();
+    const byPick = picked ? sections.find((section) => section.title === picked) : undefined;
+    if (byPick) return byPick;
+    if (this.categoryState() === 'bodas') {
+      const hybrid = sections.find((section) => /h[ií]brid/i.test(section.title));
+      if (hybrid) return hybrid;
+    }
+    return sections[0];
+  });
+
+  /** The hybrid comparison table only matters while hybrid wedding packages are on screen. */
+  readonly showHybridComparison = computed(
+    () => this.categoryState() === 'bodas' && /h[ií]brid/i.test(this.activePickerSection()?.title ?? ''),
+  );
+
+  selectPickerSection(title: string): void {
+    this.pickedSectionTitle.set(title);
+  }
+
   readonly heroWhatsappHref = computed(() => {
     const config = this.pageConfig();
     return config
@@ -1092,7 +1127,8 @@ export class PortfolioServiceCategoryPageComponent {
       return;
     }
     void this.router.navigate(['/portfolio', detail.category, detail.slug], {
-      queryParams: { coverImage: imageUrl || detail.image }
+      // Passed as navigation state, not in the URL: shared links stay short (/portfolio/<cat>/<slug>).
+      state: { coverImage: imageUrl || detail.image }
     });
   }
 
@@ -1172,6 +1208,10 @@ export class PortfolioServiceCategoryPageComponent {
     return image.src || String(index);
   }
 
+  trackBySectionTitle(_: number, section: AccordionSectionViewModel): string {
+    return section.title;
+  }
+
   trackByStoryId(index: number, story: PortfolioServiceStory): string {
     return `${story.clientName}-${story.subtitle}-${index}`;
   }
@@ -1188,20 +1228,11 @@ export class PortfolioServiceCategoryPageComponent {
   }
 
   guardRequestSubmit(event: MouseEvent): void {
-    console.log('[WA_FLOW][SERVICE_CATEGORY] click:guard', {
-      hasAcceptedTerms: this.hasAcceptedTerms(),
-      href: this.requestWhatsappHref(),
-      requestMode: this.requestMode(),
-      nameLen: this.customerName().trim().length,
-      phoneLen: this.customerPhone().trim().length,
-    });
 
     if (this.hasAcceptedTerms()) {
-      console.log('[WA_FLOW][SERVICE_CATEGORY] allowed:navigate-whatsapp');
       return;
     }
 
-    console.log('[WA_FLOW][SERVICE_CATEGORY] blocked:terms-not-accepted');
     event.preventDefault();
     event.stopPropagation();
   }
@@ -1300,7 +1331,8 @@ export class PortfolioServiceCategoryPageComponent {
     }
 
     void this.router.navigate([detail.categoryHref, detail.slug], {
-      queryParams: { coverImage: imageUrl || detail.image }
+      // Passed as navigation state, not in the URL: shared links stay short (/portfolio/<cat>/<slug>).
+      state: { coverImage: imageUrl || detail.image }
     });
   }
 

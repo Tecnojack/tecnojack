@@ -1,7 +1,7 @@
 import { DestroyRef, Directive, ElementRef, NgZone, afterNextRender, inject } from '@angular/core';
 
 import type { LensScene } from './lens-scene';
-import { loadMotionRuntime, prefersReducedMotion, type MotionRuntime } from './motion-runtime';
+import { loadMotionRuntime, prefersReducedMotion, type MotionRuntime } from '../../../shared/motion/motion-runtime';
 
 /**
  * Cinematic motion layer for the portfolio landing.

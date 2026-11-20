@@ -32,7 +32,7 @@
                 <div class="service-category-hero__actions-row">
                     <div class="hero-cta-btns">
                         <a class="hero-action-btn hero-action-btn--primary" href="#service-packages">
-                            <span>{{ i18n.t('packages.explore_collections', 'Explorar colecciones') }}</span>
+                            <span>{{ i18n.t('packages.view_packages', 'Ver paquetes') }}</span>
                             <span class="hero-action-btn__icon" aria-hidden="true">↓</span>
                         </a>
                         <a class="hero-action-btn hero-action-btn--wa" [href]="heroWhatsappHref()" target="_blank" rel="noopener">
@@ -41,18 +41,6 @@
                         </a>
                     </div>
 
-                    <nav class="service-category-hero__social-nav" aria-label="Redes sociales">
-                        <a
-                            class="service-category-hero__social-circle"
-                            *ngFor="let link of heroSocialLinks()"
-                            [href]="link.href"
-                            target="_blank"
-                            rel="noopener"
-                            [attr.aria-label]="link.title">
-                            <img *ngIf="link.iconSrc" [src]="link.iconSrc" [alt]="link.title" loading="lazy" decoding="async" />
-                            <span *ngIf="!link.iconSrc">{{ link.title }}</span>
-                        </a>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -64,19 +52,44 @@
             <p class="service-category-packages__body text-body text-muted">{{ config.packageLead }}</p>
         </div>
 
-        <div class="service-category-package-groups" *ngIf="accordionSections() as sections; else groupedPackages">
-            <tj-portfolio-category-accordion
-                *ngFor="let section of sections; let index = index"
-                [title]="section.title"
-                [lead]="section.lead ?? ''"
-                [packages]="section.cards"
-                [initiallyOpen]="categoryState() === 'bodas' ? section.title.includes('híbrida') : index === 0"
-                (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
-            </tj-portfolio-category-accordion>
+        <!-- ¿Qué necesitas? — one section on screen at a time instead of every accordion stacked -->
+        <div class="service-picker" *ngIf="pickerSections() as sections">
+            <div class="service-picker__chips" role="tablist" [attr.aria-label]="i18n.t('packages.picker_label', '¿Qué necesitas?')" *ngIf="sections.length > 1">
+                <button
+                    *ngFor="let section of sections"
+                    type="button"
+                    role="tab"
+                    class="service-picker__chip"
+                    [class.is-active]="activePickerSection()?.title === section.title"
+                    [attr.aria-selected]="activePickerSection()?.title === section.title"
+                    (click)="selectPickerSection(section.title)">
+                    <span class="service-picker__chip-label">{{ section.title }}</span>
+                    <span class="service-picker__chip-count">{{ section.cards.length }}</span>
+                </button>
+            </div>
+
+            <!-- Re-created per section so the slider resets and the reveal plays as a soft transition -->
+            <ng-container *ngFor="let section of (activePickerSection() ? [activePickerSection()!] : []); trackBy: trackBySectionTitle">
+                <p class="service-picker__lead text-body text-muted" *ngIf="section.lead">{{ section.lead }}</p>
+                <tj-portfolio-category-accordion
+                    class="service-picker__panel"
+                    [title]="section.title"
+                    [lead]="section.lead ?? ''"
+                    [packages]="section.cards"
+                    [embedded]="true"
+                    [compact]="true"
+                    (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
+                </tj-portfolio-category-accordion>
+            </ng-container>
         </div>
 
         <!-- TABLA COMPARATIVA DE PAQUETES DE BODA HÍBRIDOS (FOTO + VIDEO) -->
-        <div class="tj-comparison-container" *ngIf="categoryState() === 'bodas'" tjRevealOnScroll>
+        <details class="tj-compare-toggle" *ngIf="showHybridComparison()">
+            <summary class="tj-compare-toggle__summary">
+                <span>{{ i18n.isEn() ? 'Compare hybrid plans side by side' : 'Comparar planes híbridos lado a lado' }}</span>
+                <span class="tj-compare-toggle__chevron" aria-hidden="true"></span>
+            </summary>
+        <div class="tj-comparison-container">
             <div class="tj-comparison-head">
                 <h2>{{ i18n.isEn() ? 'Hybrid Wedding Packages Comparison' : 'Tabla Comparativa de Paquetes Híbridos' }}</h2>
                 <p>{{ i18n.isEn() ? 'Directly compare key features of our primary packages.' : 'Compara de manera directa las características clave de cada uno de nuestros planes principales.' }}</p>
@@ -276,22 +289,11 @@
                 </table>
             </div>
         </div>
-
-        <ng-template #groupedPackages>
-            <div class="service-category-package-groups">
-                <tj-portfolio-category-accordion
-                    *ngFor="let group of packageCardGroups(); let groupIndex = index"
-                    [title]="group.title"
-                    [lead]="group.lead"
-                    [packages]="group.cards"
-                    [initiallyOpen]="groupIndex === 0"
-                    (openPackage)="openPackageDetails($event.slug, $event.imageUrl)">
-                </tj-portfolio-category-accordion>
-            </div>
-        </ng-template>
+        </details>
     </section>
 
-    <section class="portfolio-section service-category-stories">
+    <!-- Hidden until there is real work to show: an empty "Historias reales" block hurts trust -->
+    <section class="portfolio-section service-category-stories" *ngIf="stories().length > 0">
         <header class="service-category-stories__head" tjRevealOnScroll>
             <div class="stories-head-eyebrow">
                 <span class="stories-badge">{{ i18n.t('exhibit.badge', 'EXHIBICIÓN DE TRABAJOS') }}</span>
@@ -349,43 +351,39 @@
             </div>
         </div>
 
+        <!-- Mobile: real work first. A swipeable strip of photo cards (was a list of text accordions). -->
         <ng-template #mobileStoriesAccordions>
-            <div class="service-category-stories__accordion-list">
-                <details class="story-accordion" *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId">
-                    <summary class="story-accordion__summary">
-                        <div class="story-accordion__summary-main">
-                            <strong class="heading-md">{{ story.clientName }}</strong>
-                            <span class="story-card__meta text-body text-muted">
-                                <span>{{ story.subtitle || 'Fecha por confirmar' }}</span>
-                                <span class="story-card__meta-dot" *ngIf="story.location">•</span>
-                                <span>{{ story.location }}</span>
-                            </span>
-                        </div>
-                        <span class="story-accordion__badge">{{ story.title }}</span>
-                    </summary>
-
-                    <div class="story-accordion__body" *ngIf="story.images.length > 0; else storyAccordionEmpty">
-                        <div class="story-accordion__preview" *ngIf="getStoryPreviewImages(story)[0] as heroImg">
-                            <figure class="story-card__tile">
-                                <tj-lazy-img [src]="optimizeImage(heroImg.src, 600)" [alt]="heroImg.alt" aspectRatio="16 / 9"></tj-lazy-img>
-                            </figure>
-                        </div>
-                        <button class="service-package-modal__secondary btn-text" type="button" (click)="openStoryModal(index)">
-                            {{ i18n.t('exhibit.view_gallery', 'Ver galería completa') }}
-                        </button>
+            <div class="story-strip" role="list">
+                <button
+                    class="story-strip__card"
+                    type="button"
+                    role="listitem"
+                    *ngFor="let story of visibleStories(); let index = index; trackBy: trackByStoryId"
+                    [disabled]="story.images.length === 0"
+                    (click)="openStoryModal(index)">
+                    <div class="story-strip__media">
+                        <ng-container *ngIf="getStoryPreviewImages(story)[0] as heroImg; else stripNoImage">
+                            <tj-lazy-img [src]="optimizeImage(heroImg.src, 600)" [alt]="heroImg.alt" aspectRatio="4 / 5"></tj-lazy-img>
+                        </ng-container>
+                        <ng-template #stripNoImage>
+                            <div class="story-strip__placeholder"><span>{{ i18n.t('exhibit.no_images', 'Sin imágenes publicadas.') }}</span></div>
+                        </ng-template>
+                        <div class="story-strip__scrim"></div>
+                        <span class="story-strip__badge">{{ story.title }}</span>
                     </div>
+                    <div class="story-strip__caption">
+                        <strong class="story-strip__client">{{ story.clientName }}</strong>
+                        <span class="story-strip__meta text-muted">
+                            {{ story.subtitle || 'Sesión documental' }}<ng-container *ngIf="story.location"> · {{ story.location }}</ng-container>
+                        </span>
+                        <span class="story-strip__action" *ngIf="story.images.length > 0">{{ i18n.t('exhibit.view_gallery', 'Ver galería completa') }} →</span>
+                    </div>
+                </button>
 
-                    <ng-template #storyAccordionEmpty>
-                        <div class="story-accordion__body story-accordion__body--empty">
-                            <span class="text-body text-muted">{{ i18n.t('exhibit.no_images', 'Sin imágenes publicadas.') }}</span>
-                        </div>
-                    </ng-template>
-                </details>
-
-                <div class="tj-editorial-exhibition__more" *ngIf="hasMoreStories()">
+                <div class="story-strip__more" role="listitem" *ngIf="hasMoreStories()">
                     <button class="tj-exhibit-loadmore-btn" type="button" (click)="loadMoreStories()">
                         <span>{{ i18n.t('exhibit.load_more', 'Cargar más historias') }}</span>
-                        <span aria-hidden="true">↓</span>
+                        <span aria-hidden="true">→</span>
                     </button>
                 </div>
             </div>
