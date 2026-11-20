@@ -23,6 +23,14 @@
                     </a>
 
                     <div class="pkg-badges">
+                        <button class="pkg-share-btn" type="button" (click)="sharePackage()" [attr.aria-label]="'Compartir enlace de ' + detail.title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            <span>Compartir</span>
+                        </button>
+                        <span class="pkg-share-toast" role="status" aria-live="polite" *ngIf="shareFeedback() as feedback">{{ feedback }}</span>
                         <span class="pkg-badge">{{ detail.packageTypeLabel }}</span>
                         <span class="pkg-badge pkg-badge--recommended" *ngIf="detail.slug.includes('premium')">MÁS RECOMENDADO</span>
                         <span class="pkg-badge pkg-badge--exclusive" *ngIf="detail.slug.includes('luxury')">EXPERIENCIA EXCLUSIVA</span>
@@ -44,7 +52,8 @@
 
                         <div class="pkg-hero-mobile__content">
                             <span class="pkg-hero__kicker">COLECCIÓN EXCLUSIVA</span>
-                            <h1 class="pkg-hero-mobile__title">{{ detail.title }}</h1>
+                            <!-- Mobile twin of the desktop <h1> (only one is displayed per breakpoint) -->
+                            <p class="pkg-hero-mobile__title" role="heading" aria-level="1">{{ detail.title }}</p>
                             <div class="pkg-hero-mobile__pricing" *ngIf="detail.priceLines[0] as price">
                                 <span class="pkg-price-label">Inversión del paquete</span>
                                 <strong class="pkg-hero-mobile__price-val">{{ price }}</strong>
@@ -74,7 +83,7 @@
                         <!-- Action Buttons -->
                         <div class="pkg-hero__actions">
                             <button class="pkg-cta-btn pkg-cta-btn--primary" type="button" (click)="openRequestModal()">
-                                <span>Quiero este paquete</span>
+                                <span>Solicitar este paquete</span>
                                 <svg class="pkg-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -82,7 +91,7 @@
                             </button>
                             <a class="pkg-cta-btn pkg-cta-btn--wa" [href]="detail.whatsappHref" target="_blank" rel="noopener">
                                 <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-icon" />
-                                <span>Consultar por WhatsApp</span>
+                                <span>Preguntar por WhatsApp</span>
                             </a>
                         </div>
                     </div>
@@ -122,7 +131,7 @@
                         <!-- Action Buttons -->
                         <div class="pkg-hero__actions">
                             <button class="pkg-cta-btn pkg-cta-btn--primary" type="button" (click)="openRequestModal()">
-                                <span>Quiero este paquete</span>
+                                <span>Solicitar este paquete</span>
                                 <svg class="pkg-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -130,7 +139,7 @@
                             </button>
                             <a class="pkg-cta-btn pkg-cta-btn--wa" [href]="detail.whatsappHref" target="_blank" rel="noopener">
                                 <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-icon" />
-                                <span>Consultar por WhatsApp</span>
+                                <span>Preguntar por WhatsApp</span>
                             </a>
                         </div>
                     </div>
@@ -146,21 +155,22 @@
                 </div>
             </section>
 
-            <!-- 2. EDITORIAL PILLARS (POR QUÉ ESTE PAQUETE) -->
-            <section class="pkg-pillars" tjRevealOnScroll>
+            <!-- 2. HOW BOOKING WORKS — process transparency answers "¿y después qué?" -->
+            <section class="pkg-steps" aria-labelledby="pkg-steps-title" tjRevealOnScroll>
                 <div class="pkg-section-header">
-                    <span class="pkg-section-badge">DIRECCIÓN &amp; CALIDAD</span>
-                    <h2 class="pkg-section-title">Claridad para decidir. Cobertura para recordar.</h2>
-                    <p class="pkg-section-lead">Una propuesta concebida sin letra chica: cada recurso está planificado para proteger tu inversión y honrar tu historia.</p>
+                    <span class="pkg-section-badge">CÓMO RESERVAR</span>
+                    <h2 class="pkg-section-title" id="pkg-steps-title">Reserva en 3 pasos, sin complicaciones</h2>
                 </div>
 
-                <div class="pkg-pillars__row">
-                    <div class="pkg-pillar" *ngFor="let pillar of proposalPillars(); let idx = index">
-                        <span class="pkg-pillar__num">0{{ idx + 1 }}</span>
-                        <h3 class="pkg-pillar__title">{{ pillar.title }}</h3>
-                        <p class="pkg-pillar__text">{{ pillar.text }}</p>
-                    </div>
-                </div>
+                <ol class="pkg-steps__list">
+                    <li class="pkg-step" *ngFor="let step of bookingSteps; let idx = index">
+                        <span class="pkg-step__num" aria-hidden="true">{{ idx + 1 }}</span>
+                        <div class="pkg-step__copy">
+                            <h3 class="pkg-step__title">{{ step.title }}</h3>
+                            <p class="pkg-step__text">{{ step.text }}</p>
+                        </div>
+                    </li>
+                </ol>
             </section>
 
             <!-- 3. DETAILED INCLUSIONS (QUÉ INCLUYE ESTA EXPERIENCIA) -->
@@ -179,11 +189,19 @@
                         </div>
 
                         <ul class="pkg-include-list">
-                            <li *ngFor="let item of block.items" class="pkg-include-item">
+                            <li *ngFor="let item of visibleIncludeItems(block)" class="pkg-include-item">
                                 <span class="pkg-check" aria-hidden="true">✓</span>
                                 <span class="pkg-include-text" [innerHTML]="item"></span>
                             </li>
                         </ul>
+                        <button
+                            *ngIf="hiddenIncludeCount(block) > 0"
+                            type="button"
+                            class="pkg-more-btn"
+                            [attr.aria-expanded]="isIncludeBlockExpanded(block.title)"
+                            (click)="toggleIncludeBlock(block.title)">
+                            {{ isIncludeBlockExpanded(block.title) ? 'Ver menos' : 'Ver todo (' + block.items.length + ')' }}
+                        </button>
                     </div>
                 </div>
             </section>
@@ -203,11 +221,11 @@
                 <div class="pkg-extras__container" *ngIf="simpleAdditionalGroups().length">
                     <div class="pkg-extras__group" *ngFor="let group of simpleAdditionalGroups()">
                         <h3 class="pkg-extras__group-title">{{ group.title }}</h3>
-                        
+
                         <div class="pkg-extras__chips">
                             <div
                                 class="pkg-chip"
-                                *ngFor="let option of group.options"
+                                *ngFor="let option of visibleExtraOptions(group)"
                                 [class.is-added]="isOptionSelected(option.id)">
                                 <div class="pkg-chip__info">
                                     <strong class="pkg-chip__name">{{ getOptionName(option.label) }}</strong>
@@ -222,11 +240,23 @@
                                 </button>
                             </div>
                         </div>
+                        <button
+                            *ngIf="hiddenExtraCount(group) > 0 || group.options.length > 4"
+                            type="button"
+                            class="pkg-more-btn"
+                            (click)="toggleExtraGroup(group.title)">
+                            {{ hiddenExtraCount(group) > 0 ? 'Ver ' + hiddenExtraCount(group) + ' complementos más' : 'Ver menos' }}
+                        </button>
                     </div>
                 </div>
 
                 <!-- Related Services (e.g. Preboda, Sesión Pareja) -->
-                <div class="pkg-extras__container" *ngIf="relatedPackageGroups().length">
+                <details class="pkg-related" *ngIf="relatedPackageGroups().length">
+                    <summary class="pkg-related__summary">
+                        <span>También te puede interesar</span>
+                        <span class="pkg-related__chevron" aria-hidden="true"></span>
+                    </summary>
+                <div class="pkg-extras__container">
                     <div class="pkg-extras__group" *ngFor="let group of relatedPackageGroups()">
                         <h3 class="pkg-extras__group-title">{{ group.title }}</h3>
                         
@@ -256,6 +286,7 @@
                         </div>
                     </div>
                 </div>
+                </details>
             </section>
 
             <!-- 5. IMPORTANT NOTES -->
@@ -334,109 +365,148 @@
                     </div>
 
                     <div class="pkg-modal__body">
+                        <!-- Progress: two short steps instead of one long form -->
+                        <ol class="pkg-stepper" aria-label="Progreso de la solicitud">
+                            <li class="pkg-stepper__item" [class.is-active]="requestStep() === 1" [class.is-done]="requestStep() === 2" [attr.aria-current]="requestStep() === 1 ? 'step' : null">
+                                <span class="pkg-stepper__dot" aria-hidden="true">{{ requestStep() === 2 ? '✓' : '1' }}</span>
+                                <span>Tus datos</span>
+                            </li>
+                            <li class="pkg-stepper__item" [class.is-active]="requestStep() === 2" [attr.aria-current]="requestStep() === 2 ? 'step' : null">
+                                <span class="pkg-stepper__dot" aria-hidden="true">2</span>
+                                <span>Detalles y envío</span>
+                            </li>
+                        </ol>
+
                         <div class="pkg-modal__grid">
-                            <!-- Left: Form -->
                             <div class="pkg-modal__form-col">
-                                <h3 class="pkg-modal__section-heading">Datos del evento</h3>
+                                <!-- STEP 1: who and when -->
+                                <form class="pkg-form" *ngIf="requestStep() === 1; else stepTwo" (submit)="$event.preventDefault(); continueRequest()" novalidate>
+                                    <h3 class="pkg-modal__section-heading">¿A quién le respondemos?</h3>
 
-                                <div class="pkg-form">
-                                    <label class="pkg-form__field">
-                                        <span>Nombre completo *</span>
-                                        <input type="text" [value]="customerName()" (input)="updateCustomerName($any($event.target).value)" placeholder="Tu nombre" />
+                                    <label class="pkg-form__field" [class.has-error]="nameError()">
+                                        <span>Nombre *</span>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            autocomplete="name"
+                                            enterkeyhint="next"
+                                            [value]="customerName()"
+                                            (input)="updateCustomerName($any($event.target).value)"
+                                            [attr.aria-invalid]="!!nameError()"
+                                            aria-describedby="pkg-name-error"
+                                            placeholder="Tu nombre" />
+                                        <small class="pkg-form__error" id="pkg-name-error" *ngIf="nameError() as error" role="alert">{{ error }}</small>
+                                    </label>
+
+                                    <label class="pkg-form__field" [class.has-error]="phoneError()">
+                                        <span>WhatsApp *</span>
+                                        <input
+                                            type="tel"
+                                            name="tel"
+                                            inputmode="tel"
+                                            autocomplete="tel"
+                                            enterkeyhint="next"
+                                            [value]="customerPhone()"
+                                            (input)="updateCustomerPhone($any($event.target).value)"
+                                            [attr.aria-invalid]="!!phoneError()"
+                                            aria-describedby="pkg-phone-error"
+                                            placeholder="+57 300 000 0000" />
+                                        <small class="pkg-form__error" id="pkg-phone-error" *ngIf="phoneError() as error" role="alert">{{ error }}</small>
                                     </label>
 
                                     <label class="pkg-form__field">
-                                        <span>Teléfono / WhatsApp *</span>
-                                        <input type="tel" [value]="customerPhone()" (input)="updateCustomerPhone($any($event.target).value)" placeholder="+57 300 000 0000" />
+                                        <span>Fecha del evento</span>
+                                        <input type="date" name="event-date" [min]="todayIso" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
+                                        <small class="pkg-form__hint">Si aún no la tienes, déjala en blanco.</small>
                                     </label>
 
                                     <label class="pkg-form__field">
-                                        <span>Ciudad del evento</span>
-                                        <input type="text" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Medellín, Cartagena, etc." />
+                                        <span>Ciudad</span>
+                                        <input type="text" name="city" autocomplete="address-level2" [value]="eventCity()" (input)="updateEventCity($any($event.target).value)" placeholder="Medellín, Cartagena…" />
                                     </label>
 
-                                    <label class="pkg-form__field">
-                                        <span>Fecha estimada</span>
-                                        <input type="date" [value]="eventDate()" (input)="updateEventDate($any($event.target).value)" />
-                                    </label>
+                                    <button class="pkg-submit-btn pkg-submit-btn--next" type="submit">
+                                        Continuar
+                                        <span aria-hidden="true">→</span>
+                                    </button>
+                                </form>
 
-                                    <label class="pkg-form__field">
-                                        <span>Lugar o locación</span>
-                                        <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Hacienda, hotel, salón..." />
-                                    </label>
+                                <!-- STEP 2: optional details, terms and send -->
+                                <ng-template #stepTwo>
+                                    <div class="pkg-form">
+                                        <h3 class="pkg-modal__section-heading">Cuéntanos un poco más <small>(opcional)</small></h3>
 
-                                    <label class="pkg-form__field">
-                                        <span>Cantidad aproximada de invitados</span>
-                                        <input type="number" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 100" />
-                                    </label>
+                                        <label class="pkg-form__field">
+                                            <span>Lugar o locación</span>
+                                            <input type="text" [value]="venueName()" (input)="updateVenueName($any($event.target).value)" placeholder="Hacienda, hotel, salón…" />
+                                        </label>
 
-                                    <label class="pkg-form__field pkg-form__field--full">
-                                        <span>Notas o requerimientos especiales</span>
-                                        <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="3" placeholder="Cuéntanos detalles de lo que tienes en mente."></textarea>
-                                    </label>
-                                </div>
+                                        <label class="pkg-form__field">
+                                            <span>Invitados aproximados</span>
+                                            <input type="number" inputmode="numeric" min="0" [value]="guestCount()" (input)="updateGuestCount($any($event.target).value)" placeholder="Ej. 100" />
+                                        </label>
+
+                                        <label class="pkg-form__field pkg-form__field--full">
+                                            <span>Algo que debamos saber</span>
+                                            <textarea [value]="customerNotes()" (input)="updateCustomerNotes($any($event.target).value)" rows="3" placeholder="Estilo, momentos clave, horarios…"></textarea>
+                                        </label>
+                                    </div>
+
+                                    <tj-destination-service
+                                        *ngIf="detail.category === 'bodas' || detail.category === 'quinces'"
+                                        variant="selection"
+                                        [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
+                                        [selected]="isDestinationService()"
+                                        (selectedChange)="isDestinationService.set($event)">
+                                    </tj-destination-service>
+
+                                    <div class="pkg-modal__submit-row">
+                                        <label class="pkg-terms">
+                                            <input
+                                                type="checkbox"
+                                                [checked]="hasAcceptedTerms()"
+                                                (change)="hasAcceptedTerms.set($any($event.target).checked)" />
+                                            <span>
+                                                Acepto los <a href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
+                                            </span>
+                                        </label>
+
+                                        <div class="pkg-modal__submit-actions">
+                                            <button class="pkg-back-btn" type="button" (click)="backToRequestStep1()">← Atrás</button>
+                                            <button
+                                                class="pkg-submit-btn"
+                                                type="button"
+                                                [class.is-disabled]="!hasAcceptedTerms() || !isRequestFormValid()"
+                                                [attr.aria-disabled]="!hasAcceptedTerms() || !isRequestFormValid() || isSubmittingRequest()"
+                                                (click)="guardRequestSubmit($event); submitRequest()">
+                                                <img src="assets/images/icons/whatsapp.svg" alt="" aria-hidden="true" class="wa-icon" />
+                                                {{ isSubmittingRequest() ? 'Preparando…' : 'Enviar por WhatsApp' }}
+                                            </button>
+                                        </div>
+                                        <p class="pkg-form__hint pkg-form__hint--center" *ngIf="!hasAcceptedTerms()">Marca la casilla para poder enviar.</p>
+                                        <p class="pkg-form__hint pkg-form__hint--center" *ngIf="hasAcceptedTerms()">Se abrirá WhatsApp con tu solicitud lista. Te respondemos por ahí.</p>
+                                    </div>
+                                </ng-template>
                             </div>
 
-                            <!-- Right: Summary -->
+                            <!-- Summary stays visible in both steps -->
                             <div class="pkg-modal__summary-col">
-                                <h3 class="pkg-modal__section-heading">Resumen de inversión</h3>
+                                <h3 class="pkg-modal__section-heading">Tu propuesta</h3>
 
                                 <div class="pkg-summary-box">
                                     <div class="pkg-summary-line">
-                                        <span>Paquete base</span>
+                                        <span>{{ detail.title }}</span>
                                         <strong>{{ selectedBaseQuote()?.label || detail.priceLines[0] || 'Por definir' }}</strong>
                                     </div>
-                                    <div class="pkg-summary-line" *ngIf="additionalServicesTotalCop() > 0">
-                                        <span>Adicionales</span>
-                                        <strong>{{ formatCop(additionalServicesTotalCop()) }}</strong>
+                                    <div class="pkg-summary-line" *ngFor="let option of selectedAdditionalOptions()">
+                                        <span>+ {{ getOptionName(option.label) }}</span>
+                                        <strong>{{ option.priceLabel || 'Incluido' }}</strong>
                                     </div>
                                     <div class="pkg-summary-line pkg-summary-line--total">
                                         <span>Total estimado</span>
                                         <strong>{{ cartDisplayTotal() }}</strong>
                                     </div>
                                 </div>
-
-                                <div class="pkg-summary-extras" *ngIf="selectedAdditionalOptions().length">
-                                    <span class="extras-label">Adicionales incluidos:</span>
-                                    <ul class="extras-list">
-                                        <li *ngFor="let option of selectedAdditionalOptions()">
-                                            <span>{{ getOptionName(option.label) }}</span>
-                                            <strong>{{ option.priceLabel || 'Incluido' }}</strong>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Actions -->
-                        <div class="pkg-modal__footer">
-                            <tj-destination-service
-                                *ngIf="detail.category === 'bodas' || detail.category === 'quinces'"
-                                variant="selection"
-                                [serviceContext]="detail.packageTypeLabel + ' · ' + detail.title"
-                                [selected]="isDestinationService()"
-                                (selectedChange)="isDestinationService.set($event)">
-                            </tj-destination-service>
-
-                            <div class="pkg-modal__submit-row">
-                                <label class="pkg-terms">
-                                    <input
-                                        type="checkbox"
-                                        [checked]="hasAcceptedTerms()"
-                                        (change)="hasAcceptedTerms.set($any($event.target).checked)" />
-                                    <span>
-                                        Acepto los <a href="/terminos-y-condiciones" target="_blank" rel="noopener">Términos y Condiciones</a>.
-                                    </span>
-                                </label>
-
-                                <button
-                                    class="pkg-submit-btn"
-                                    type="button"
-                                    [class.is-disabled]="!hasAcceptedTerms() || !isRequestFormValid()"
-                                    [attr.aria-disabled]="!hasAcceptedTerms() || !isRequestFormValid() || isSubmittingRequest()"
-                                    (click)="guardRequestSubmit($event); submitRequest()">
-                                    {{ isSubmittingRequest() ? 'Preparando...' : 'Enviar solicitud por WhatsApp' }}
-                                </button>
                             </div>
                         </div>
                     </div>

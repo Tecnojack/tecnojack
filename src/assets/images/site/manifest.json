@@ -1,0 +1,290 @@
+[
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fcover.jpg?alt=media&token=fcb03148-ea72-43b7-8ee1-9fc474ee56f5",
+    "slug": "bodas-cover",
+    "storagePath": "servicios/bodas/cover.jpg",
+    "originalBytes": 11505620,
+    "originalSize": "5256x3504",
+    "variants": {
+      "640": 25296,
+      "1080": 57186,
+      "1600": 106328
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fesencial%2Fcover.jpg?alt=media&token=72ecdf15-405e-4c97-9571-e57db0d7a795",
+    "slug": "bodas-hibridas-esencial-cover",
+    "storagePath": "servicios/bodas/hibridas/esencial/cover.jpg",
+    "originalBytes": 654730,
+    "originalSize": "3831x5747",
+    "variants": {
+      "640": 27478,
+      "1080": 55232,
+      "1600": 96980
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fluxury%2Fcover.jpg?alt=media&token=14059437-1d4b-4e95-9b34-ceb54097dcf5",
+    "slug": "bodas-hibridas-luxury-cover",
+    "storagePath": "servicios/bodas/hibridas/luxury/cover.jpg",
+    "originalBytes": 832180,
+    "originalSize": "5694x3796",
+    "variants": {
+      "640": 15676,
+      "1080": 32808,
+      "1600": 65206
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fhibridas%2Fpremium%2Fcover.jpg?alt=media&token=045233c4-9e3d-4c38-8422-4467ec6b8ce9",
+    "slug": "bodas-hibridas-premium-cover",
+    "storagePath": "servicios/bodas/hibridas/premium/cover.jpg",
+    "originalBytes": 2073307,
+    "originalSize": "6652x4435",
+    "variants": {
+      "640": 25172,
+      "1080": 60274,
+      "1600": 116844
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fbodas%2Fpreboda%2Fpreboda-esencial%2Fcover.jpg?alt=media&token=cfeb5ec0-0141-40ee-ae07-f3b20b56b509",
+    "slug": "bodas-preboda-preboda-esencial-cover",
+    "storagePath": "servicios/bodas/preboda/preboda-esencial/cover.jpg",
+    "originalBytes": 1771445,
+    "originalSize": "3694x5541",
+    "variants": {
+      "640": 79720,
+      "1080": 198178,
+      "1600": 384104
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fsara-villamizar%2F1776979154327-2kayyaxspfg.jpg?alt=media&token=8aadedd4-54f8-45ab-b26a-7069447f2f63",
+    "slug": "grados-clientes-sara-villamizar-1776979154327-2kayyaxspfg",
+    "storagePath": "servicios/grados/clientes/sara-villamizar/1776979154327-2kayyaxspfg.jpg",
+    "originalBytes": 1104822,
+    "originalSize": "5563x3709",
+    "variants": {
+      "640": 28656,
+      "1080": 64954,
+      "1600": 120796
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fclientes%2Fvalentina-ruiz%2F1777006160825-y8l16dpkdzb.jpg?alt=media&token=6cc323b8-4124-4630-9016-f3492f8651db",
+    "slug": "grados-clientes-valentina-ruiz-1777006160825-y8l16dpkdzb",
+    "storagePath": "servicios/grados/clientes/valentina-ruiz/1777006160825-y8l16dpkdzb.jpg",
+    "originalBytes": 2795152,
+    "originalSize": "4537x6806",
+    "variants": {
+      "640": 84040,
+      "1080": 213552,
+      "1600": 406530
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Fcover.jpg?alt=media&token=0665a66d-07d0-41e4-8864-96ba52c7ca37",
+    "slug": "grados-cover",
+    "storagePath": "servicios/grados/cover.jpg",
+    "originalBytes": 2547094,
+    "originalSize": "6000x3375",
+    "variants": {
+      "640": 55032,
+      "1080": 128498,
+      "1600": 243224
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-esencial%2Fcover.jpg?alt=media&token=b6ffebba-06f1-4df2-a9b1-ec963e020dc1",
+    "slug": "grados-estudiantes-plan-esencial-cover",
+    "storagePath": "servicios/grados/estudiantes/plan-esencial/cover.jpg",
+    "originalBytes": 1733894,
+    "originalSize": "4000x6000",
+    "variants": {
+      "640": 50190,
+      "1080": 119464,
+      "1600": 250786
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-legado%2Fcover.jpg?alt=media&token=3b86940a-9861-41db-82cb-33d3b7330089",
+    "slug": "grados-estudiantes-plan-legado-cover",
+    "storagePath": "servicios/grados/estudiantes/plan-legado/cover.jpg",
+    "originalBytes": 1078327,
+    "originalSize": "5760x3840",
+    "variants": {
+      "640": 20408,
+      "1080": 45310,
+      "1600": 86394
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-marco%2Fcover.jpg?alt=media&token=5a574977-eb55-46a2-a979-d2dcf35a4da3",
+    "slug": "grados-estudiantes-plan-marco-cover",
+    "storagePath": "servicios/grados/estudiantes/plan-marco/cover.jpg",
+    "originalBytes": 1932533,
+    "originalSize": "6690x4460",
+    "variants": {
+      "640": 26058,
+      "1080": 68608,
+      "1600": 141634
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fgrados%2Festudiantes%2Fplan-memoria%2Fcover.jpg?alt=media&token=eb98950c-e2f0-4cb4-a535-bfcf4797fb87",
+    "slug": "grados-estudiantes-plan-memoria-cover",
+    "storagePath": "servicios/grados/estudiantes/plan-memoria/cover.jpg",
+    "originalBytes": 1437677,
+    "originalSize": "5600x3733",
+    "variants": {
+      "640": 47344,
+      "1080": 102778,
+      "1600": 189508
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fotros%2Fcover.jpg?alt=media&token=77ce7782-eef0-482f-b44c-f1bb9359e195",
+    "slug": "otros-cover",
+    "storagePath": "servicios/otros/cover.jpg",
+    "originalBytes": 773666,
+    "originalSize": "1920x1280",
+    "variants": {
+      "640": 44816,
+      "1080": 119750,
+      "1600": 239000
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaira-and-ariel%2F1776976833080-o9n16l5fol8.jpg?alt=media&token=b1e7c300-0bc7-4864-a2ba-0a07168b51d6",
+    "slug": "prebodas-clientes-maira-and-ariel-1776976833080-o9n16l5fol8",
+    "storagePath": "servicios/prebodas/clientes/maira-and-ariel/1776976833080-o9n16l5fol8.jpg",
+    "originalBytes": 955104,
+    "originalSize": "5489x3659",
+    "variants": {
+      "640": 20484,
+      "1080": 45170,
+      "1600": 83286
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fmaria-and-santi%2F1776977155132-f2s4knqe3am.jpg?alt=media&token=c6614922-58ad-4d29-aac6-d1a6e2f04ab3",
+    "slug": "prebodas-clientes-maria-and-santi-1776977155132-f2s4knqe3am",
+    "storagePath": "servicios/prebodas/clientes/maria-and-santi/1776977155132-f2s4knqe3am.jpg",
+    "originalBytes": 1518782,
+    "originalSize": "3554x5331",
+    "variants": {
+      "640": 79128,
+      "1080": 169858,
+      "1600": 311002
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fsara-and-jefferson%2F1776977120442-xm3xz9x863l.jpg?alt=media&token=552f23cf-e3e3-4d37-8b90-bdbc62396fc4",
+    "slug": "prebodas-clientes-sara-and-jefferson-1776977120442-xm3xz9x863l",
+    "storagePath": "servicios/prebodas/clientes/sara-and-jefferson/1776977120442-xm3xz9x863l.jpg",
+    "originalBytes": 797531,
+    "originalSize": "3896x5844",
+    "variants": {
+      "640": 20912,
+      "1080": 41354,
+      "1600": 70240
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fprebodas%2Fclientes%2Fyurley-and-pablo%2F1776977049571-3zaci74kgw.jpg?alt=media&token=008f639c-89e1-4cfe-9276-bea39f42fba3",
+    "slug": "prebodas-clientes-yurley-and-pablo-1776977049571-3zaci74kgw",
+    "storagePath": "servicios/prebodas/clientes/yurley-and-pablo/1776977049571-3zaci74kgw.jpg",
+    "originalBytes": 1323035,
+    "originalSize": "3670x5505",
+    "variants": {
+      "640": 42696,
+      "1080": 98014,
+      "1600": 182792
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978757025-gkbq8wck38.jpg?alt=media&token=1a6fd83a-cc76-4186-9ebd-9b4118d06ab3",
+    "slug": "quinces-clientes-sofia-colorado-1776978757025-gkbq8wck38",
+    "storagePath": "servicios/quinces/clientes/sofia-colorado/1776978757025-gkbq8wck38.jpg",
+    "originalBytes": 2206128,
+    "originalSize": "6960x4640",
+    "variants": {
+      "640": 22304,
+      "1080": 57534,
+      "1600": 124848
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fclientes%2Fsofia-colorado%2F1776978771529-asi2zvqhv8w.jpg?alt=media&token=71730aa6-a22f-4a54-a1b3-d9dd76d41ea6",
+    "slug": "quinces-clientes-sofia-colorado-1776978771529-asi2zvqhv8w",
+    "storagePath": "servicios/quinces/clientes/sofia-colorado/1776978771529-asi2zvqhv8w.jpg",
+    "originalBytes": 1943530,
+    "originalSize": "4444x6666",
+    "variants": {
+      "640": 41988,
+      "1080": 104902,
+      "1600": 210018
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fcover.jpg?alt=media&token=21bbd277-7f47-4bae-bee8-e5e916ef7b94",
+    "slug": "quinces-cover",
+    "storagePath": "servicios/quinces/cover.jpg",
+    "originalBytes": 2553592,
+    "originalSize": "4640x6960",
+    "variants": {
+      "640": 63580,
+      "1080": 177838,
+      "1600": 362176
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fesencial%2Fcover.jpg?alt=media&token=4fc53e69-c1cf-4648-bcb6-f15308a2c026",
+    "slug": "quinces-fotografia-de-quince-esencial-cover",
+    "storagePath": "servicios/quinces/fotografia-de-quince/esencial/cover.jpg",
+    "originalBytes": 1493968,
+    "originalSize": "4282x6423",
+    "variants": {
+      "640": 34218,
+      "1080": 86142,
+      "1600": 166794
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Ffotografia-de-quince%2Fpremium%2Fcover.jpg?alt=media&token=4d85cea8-1987-4f47-8599-1a2da31a0706",
+    "slug": "quinces-fotografia-de-quince-premium-cover",
+    "storagePath": "servicios/quinces/fotografia-de-quince/premium/cover.jpg",
+    "originalBytes": 1750041,
+    "originalSize": "4399x6598",
+    "variants": {
+      "640": 36990,
+      "1080": 80276,
+      "1600": 145976
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fquinces%2Fmixto%2Fesencial%2Fcover.jpg?alt=media&token=91c78330-55e3-4dc1-9784-d2c9f548d28e",
+    "slug": "quinces-mixto-esencial-cover",
+    "storagePath": "servicios/quinces/mixto/esencial/cover.jpg",
+    "originalBytes": 820443,
+    "originalSize": "6718x4479",
+    "variants": {
+      "640": 13910,
+      "1080": 29810,
+      "1600": 53436
+    }
+  },
+  {
+    "url": "https://firebasestorage.googleapis.com/v0/b/tecnojack-admin.firebasestorage.app/o/servicios%2Fvideo%2Fcover.jpg?alt=media&token=3aa1a661-c837-4a9e-9636-60f2954b93f7",
+    "slug": "video-cover",
+    "storagePath": "servicios/video/cover.jpg",
+    "originalBytes": 527446,
+    "originalSize": "1920x1280",
+    "variants": {
+      "640": 13384,
+      "1080": 29582,
+      "1600": 58864
+    }
+  }
+]

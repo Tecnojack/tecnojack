@@ -1,0 +1,125 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.about-teaser {
+  position: relative;
+  padding: clamp(72px, 12vh, 140px) clamp(20px, 5vw, 64px);
+  background: var(--tj-bg);
+  color: var(--tj-text);
+}
+
+.about-teaser__container {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.about-teaser__media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--tj-radius-lg, 26px);
+  overflow: hidden;
+  background: #0b0c0e;
+}
+
+.about-teaser__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  will-change: transform;
+}
+
+.about-teaser__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(18px, 2.6vh, 28px);
+}
+
+.about-teaser__eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tj-accent);
+}
+
+.about-teaser__quote {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+.scrub-word--em {
+  color: var(--tj-accent);
+}
+
+.about-teaser__lead {
+  margin: 0;
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--tj-text-secondary);
+}
+
+.about-teaser__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--tj-border);
+  color: var(--tj-text);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--tj-text);
+    color: var(--tj-bg);
+    border-color: var(--tj-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tj-accent);
+    outline-offset: 3px;
+  }
+}
+
+.about-teaser__arrow {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-teaser__cta:hover .about-teaser__arrow {
+  transform: translateX(5px);
+}
+
+// Scroll-scrubbed ink: only when the motion layer is active (it drives --p from 0 to 1).
+:host-context(.tj-motion) .about-teaser__quote .scrub-word {
+  opacity: clamp(0.14, calc(var(--p, 0) * (var(--n, 10) + 3) - var(--i, 0)), 1);
+  transition: opacity 0.12s linear;
+}
+
+@media (max-width: 860px) {
+  .about-teaser__container {
+    grid-template-columns: 1fr;
+  }
+
+  .about-teaser__media {
+    max-width: 420px;
+    width: 100%;
+    aspect-ratio: 4 / 4.4;
+  }
+}
