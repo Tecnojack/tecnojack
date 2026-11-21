@@ -1,99 +1,156 @@
 <tj-portfolio-shell [navItems]="navItems" [subtitle]="i18n.isEn() ? 'About Me' : 'Sobre mí'" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp" [editable]="editable">
-    <section class="portfolio-section about-hero">
-        <div class="about-hero__inner">
-            <div class="about-hero__copy" tjRevealOnScroll>
-                <p class="about-hero__eyebrow">Jackson Palacios</p>
-                <h1 class="heading-xl about-hero__title">{{ i18n.isEn() ? 'Audiovisual Producer' : 'Productor Audiovisual' }}<br>&amp; {{ i18n.isEn() ? 'Software Developer' : 'Desarrollador de Software' }}</h1>
-                <p class="about-hero__subtitle">
-                    {{ i18n.isEn() ? 'Colombian audiovisual producer, with roots in Chocó. I transform ideas into visual stories with intention, aesthetics, and emotion.' : 'Productor audiovisual colombiano, con raíces en el Chocó. Transformo ideas en historias visuales con intención, estética y emoción.' }}
-                </p>
-                <span class="text-body text-muted about-hero__desc">
-                    {{ i18n.isEn() ? 'I combine photography, video, and digital development to craft visual experiences for weddings, brands, and artists seeking excellence.' : 'Combino fotografía, video y desarrollo digital para crear experiencias visuales para bodas, marcas y artistas que buscan algo bien hecho.' }}
-                </span>
+    <div class="ab" #page>
+        <!-- 1 · Hero: full-bleed portrait, name set large, the shared cinematic viewfinder -->
+        <section class="ab-hero" [tjCinematicHero]="i18n.isEn() ? 'About' : 'Sobre mí'">
+            <div class="ab-hero__media" data-hero-backdrop>
+                <img tjFallbackImage [src]="streetPhoto" alt="" loading="eager" decoding="async" fetchpriority="high" />
+            </div>
 
-                <div class="about-hero__actions">
-                    <a class="btn about-hero__cta-primary" [href]="heroCtaHref" target="_blank" rel="noopener noreferrer">
-                        {{ i18n.t('about.cta.quote', 'Cotizar mi proyecto') }}
-                    </a>
-                    <a class="btn secondary about-hero__cta-secondary" [href]="heroScrollTarget">
-                        {{ i18n.t('about.cta.work', 'Ver mi trabajo') }}
-                    </a>
+            <div class="ab-hero__content" data-hero-content>
+                <div class="ab-hero__copy">
+                    <p class="ab-eyebrow">{{ i18n.isEn() ? 'TECNOJACK · Founder & director' : 'TECNOJACK · Fundador y director' }}</p>
+                    <h1 class="ab-hero__name">Jackson<br />Palacios</h1>
+                    <p class="ab-hero__roles">
+                        <span>{{ i18n.isEn() ? 'Audiovisual producer' : 'Productor audiovisual' }}</span>
+                        <i aria-hidden="true">/</i>
+                        <span>{{ i18n.isEn() ? 'Software developer' : 'Desarrollador de software' }}</span>
+                    </p>
+                    <p class="ab-hero__lead">
+                        {{ i18n.isEn() ? 'Colombian, with roots in Chocó. I turn ideas into visual stories and digital products, with intention, aesthetics and emotion.' : 'Colombiano, con raíces en el Chocó. Convierto ideas en historias visuales y productos digitales, con intención, estética y emoción.' }}
+                    </p>
+                    <div class="ab-hero__actions">
+                        <a class="ab-btn ab-btn--accent" [href]="heroCtaHref" target="_blank" rel="noopener noreferrer">
+                            {{ i18n.t('about.cta.quote', 'Cotizar mi proyecto') }} <span aria-hidden="true">→</span>
+                        </a>
+                        <a class="ab-btn ab-btn--line" [href]="heroScrollTarget">{{ i18n.t('about.cta.work', 'Ver mi trabajo') }}</a>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <ul class="about-hero__proof" aria-label="Datos de experiencia">
-                    <li *ngFor="let item of heroSocialProof">
-                        <span class="about-hero__proof-check" aria-hidden="true">✔</span>
-                        {{ item }}
+        <!-- 2 · Manifesto: words light up as you scroll -->
+        <section class="ab-manifesto" #manifesto aria-labelledby="ab-manifesto-title">
+            <div class="ab-wrap">
+                <p class="ab-eyebrow">{{ i18n.isEn() ? 'Manifesto' : 'Manifiesto' }}</p>
+                <h2 class="ab-manifesto__quote" id="ab-manifesto-title">
+                    <span class="ab-word" *ngFor="let word of manifestoWords; trackBy: trackByIndex">{{ word }} </span>
+                </h2>
+                <p class="ab-manifesto__body">
+                    {{ i18n.isEn() ? 'I combine photography, video and digital development to create experiences for weddings, brands and artists who want something done right.' : 'Combino fotografía, video y desarrollo digital para crear experiencias para bodas, marcas y artistas que buscan algo bien hecho.' }}
+                </p>
+                <ul class="ab-proof" [attr.aria-label]="i18n.isEn() ? 'Experience' : 'Experiencia'">
+                    <li *ngFor="let item of heroSocialProof; let i = index">
+                        <span class="ab-proof__num" aria-hidden="true">0{{ i + 1 }}</span>
+                        <strong>{{ item }}</strong>
                     </li>
                 </ul>
-
-                <strong class="about-hero__tagline">{{ heroTagline }}</strong>
             </div>
+        </section>
 
-            <figure class="about-hero__photo" tjRevealOnScroll>
-                <img tjFallbackImage [src]="heroPhotoSrc" alt="Foto de Jackson Palacios" loading="eager" decoding="async" />
-            </figure>
-        </div>
-    </section>
+        <!-- 3 · Two crafts, one standard -->
+        <section id="about-work" class="ab-crafts" aria-labelledby="ab-crafts-title">
+            <div class="ab-wrap">
+                <header class="ab-head">
+                    <p class="ab-eyebrow">{{ i18n.isEn() ? 'Two crafts' : 'Dos oficios' }}</p>
+                    <h2 class="ab-title" id="ab-crafts-title">{{ i18n.isEn() ? 'Camera and code, one same standard.' : 'Cámara y código, un mismo criterio.' }}</h2>
+                </header>
 
-    <section id="about-work" class="portfolio-section about-modules">
-        <article class="about-module" tjRevealOnScroll>
-            <div class="about-module__head">
-                <p>{{ i18n.t('about.approach', 'Enfoque') }}</p>
-                <h2 class="heading-lg">{{ i18n.t('about.deliverables_title', 'Lo que recibes') }}</h2>
-                <span class="text-body text-muted">{{ i18n.t('about.deliverables_desc', 'Una experiencia completa: dirección, estética, emoción y entrega impecable.') }}</span>
-            </div>
-            <div class="about-features" aria-label="Propuesta de valor">
-                <div class="about-feature" *ngFor="let item of valueProps">
-                    <strong class="about-feature__title">{{ item.title }}</strong>
-                    <span class="text-body text-muted about-feature__desc">{{ item.description }}</span>
+                <div class="ab-crafts__grid">
+                    <article class="ab-craft ab-craft--camera">
+                        <figure class="ab-craft__media">
+                            <img [src]="lensPhoto" [alt]="i18n.isEn() ? 'Jackson Palacios filming a wedding' : 'Jackson Palacios grabando una boda'" loading="lazy" decoding="async" data-parallax />
+                            <figcaption class="ab-craft__tag">● REC</figcaption>
+                        </figure>
+                        <div class="ab-craft__body">
+                            <span class="ab-craft__index">01 · {{ i18n.isEn() ? 'Camera' : 'Cámara' }}</span>
+                            <h3>{{ i18n.isEn() ? 'Photography & film' : 'Fotografía y video' }}</h3>
+                            <p>{{ i18n.isEn() ? 'Weddings, graduations, sweet 15s, sessions and brand content, directed and edited with a cinematic eye.' : 'Bodas, grados, quinces, sesiones y contenido de marca, dirigidos y editados con mirada de cine.' }}</p>
+                            <a class="ab-link" routerLink="/portfolio">{{ i18n.isEn() ? 'See the portfolio' : 'Ver el portafolio' }} <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="ab-craft ab-craft--code">
+                        <div class="ab-craft__media ab-craft__media--code" aria-hidden="true">
+                            <div class="ab-code">
+                                <span><b class="k">&lt;section</b> <b class="a">class</b>=<b class="s">"tu-marca"</b><b class="k">&gt;</b></span>
+                                <span class="in"><b class="k">&lt;h1&gt;</b>{{ i18n.isEn() ? 'Your story' : 'Tu historia' }}<b class="k">&lt;/h1&gt;</b></span>
+                                <span class="in"><b class="k">&lt;tj-gallery</b> <b class="a">[fotos]</b>=<b class="s">"sesion"</b> <b class="k">/&gt;</b></span>
+                                <span class="in"><b class="k">&lt;tj-booking</b> <b class="a">(reservar)</b>=<b class="s">"agendar()"</b> <b class="k">/&gt;</b></span>
+                                <span><b class="k">&lt;/section&gt;</b><i class="ab-code__caret"></i></span>
+                            </div>
+                        </div>
+                        <div class="ab-craft__body">
+                            <span class="ab-craft__index">02 · {{ i18n.isEn() ? 'Code' : 'Código' }}</span>
+                            <h3>{{ i18n.isEn() ? 'Web & software development' : 'Desarrollo web y software' }}</h3>
+                            <p>{{ i18n.isEn() ? 'Landing pages, online stores, booking portals and custom systems, built with the same care as a film.' : 'Landing pages, tiendas en línea, portales de citas y sistemas a medida, hechos con el mismo cuidado que una película.' }}</p>
+                            <a class="ab-link" routerLink="/soluciones">{{ i18n.isEn() ? 'See software solutions' : 'Ver soluciones de software' }} <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
                 </div>
             </div>
-        </article>
+        </section>
 
-        <article class="about-module" tjRevealOnScroll>
-            <div class="about-module__head">
-                <p>{{ i18n.isEn() ? 'Process' : 'Proceso' }}</p>
-                <h2 class="heading-lg">{{ i18n.isEn() ? 'How we work' : 'Cómo trabajamos' }}</h2>
-                <span class="text-body text-muted">{{ i18n.isEn() ? 'Simple, clear, and uncompromising quality at every step.' : 'Simple, claro y con calidad en cada paso.' }}</span>
+        <!-- 4 · Process: sticky title, steps light up as they cross the middle of the screen -->
+        <section class="ab-process" aria-labelledby="ab-process-title">
+            <div class="ab-wrap ab-process__grid">
+                <header class="ab-head ab-process__head">
+                    <p class="ab-eyebrow">{{ i18n.isEn() ? 'Process' : 'Proceso' }}</p>
+                    <h2 class="ab-title" id="ab-process-title">{{ i18n.isEn() ? 'How we work' : 'Cómo trabajamos' }}</h2>
+                    <p class="ab-muted">{{ i18n.isEn() ? 'Simple, clear, and uncompromising quality at every step.' : 'Simple, claro y con calidad en cada paso.' }}</p>
+                </header>
+                <ol class="ab-steps">
+                    <li class="ab-step" *ngFor="let step of processSteps; let i = index" data-step>
+                        <span class="ab-step__num" aria-hidden="true">0{{ i + 1 }}</span>
+                        <div>
+                            <h3 class="ab-step__title">{{ step.title }}</h3>
+                            <p class="ab-muted">{{ step.description }}</p>
+                        </div>
+                    </li>
+                </ol>
             </div>
-            <div class="about-steps" aria-label="Proceso de trabajo">
-                <article class="about-step" *ngFor="let step of processSteps; let i = index">
-                    <span class="about-step__num" aria-hidden="true">{{ i + 1 }}</span>
-                    <div class="about-step__body">
-                        <strong class="about-step__title">{{ step.title }}</strong>
-                        <span class="text-body text-muted">{{ step.description }}</span>
-                    </div>
-                </article>
-            </div>
-        </article>
-    </section>
+        </section>
 
-    <section class="portfolio-section about-team-section">
-        <div class="about-team-head" tjRevealOnScroll>
-            <p>{{ i18n.isEn() ? 'Team' : 'Equipo' }}</p>
-            <h2 class="heading-lg">{{ i18n.isEn() ? 'TECNOJACK Team' : 'Equipo TECNOJACK' }}</h2>
-            <span class="text-body text-muted">{{ i18n.isEn() ? 'I lead every project personally, adding specialized team members according to the scale.' : 'Lidero cada proyecto y sumo apoyo de equipo según el alcance.' }}</span>
-        </div>
-
-        <div class="about-team-grid" aria-label="Integrantes del equipo" tjRevealOnScroll>
-            <article
-                class="about-member"
-                *ngFor="let member of teamMembers"
-                [class.about-member--lead]="member.isLead"
-                [attr.data-slot]="member.slot"
-            >
-                <div class="about-member__head">
-                    <strong class="about-member__name">{{ member.name }}</strong>
-                    <span class="text-body text-muted">{{ member.title }}</span>
-                    <span class="about-member__summary text-body text-muted" *ngIf="member.summary">{{ member.summary }}</span>
+        <!-- 5 · What you get -->
+        <section class="ab-values" aria-labelledby="ab-values-title">
+            <div class="ab-wrap">
+                <header class="ab-head">
+                    <p class="ab-eyebrow">{{ i18n.t('about.approach', 'Enfoque') }}</p>
+                    <h2 class="ab-title" id="ab-values-title">{{ i18n.t('about.deliverables_title', 'Lo que recibes') }}</h2>
+                </header>
+                <div class="ab-values__grid">
+                    <article class="ab-value" *ngFor="let item of valueProps; let i = index" data-reveal>
+                        <span class="ab-value__num" aria-hidden="true">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
+                        <h3>{{ item.title }}</h3>
+                        <p class="ab-muted">{{ item.description }}</p>
+                    </article>
                 </div>
-                <ul class="about-member__list">
-                    <li *ngFor="let item of member.highlights">{{ item }}</li>
-                </ul>
-            </article>
-        </div>
-    </section>
+            </div>
+        </section>
+
+        <!-- 6 · Team -->
+        <section class="ab-team" aria-labelledby="ab-team-title">
+            <div class="ab-wrap">
+                <header class="ab-head">
+                    <p class="ab-eyebrow">{{ i18n.isEn() ? 'Team' : 'Equipo' }}</p>
+                    <h2 class="ab-title" id="ab-team-title">{{ i18n.isEn() ? 'TECNOJACK Team' : 'Equipo TECNOJACK' }}</h2>
+                    <p class="ab-muted">{{ i18n.isEn() ? 'I lead every project personally, adding specialized team members according to the scale.' : 'Lidero cada proyecto y sumo apoyo de equipo según el alcance.' }}</p>
+                </header>
+                <div class="ab-team__grid">
+                    <article class="ab-member" *ngFor="let member of teamMembers" [class.ab-member--lead]="member.isLead" data-reveal>
+                        <span class="ab-member__initials" aria-hidden="true">{{ initials(member.name) }}</span>
+                        <div class="ab-member__head">
+                            <h3>{{ member.name }}</h3>
+                            <span class="ab-member__role">{{ member.title }}</span>
+                        </div>
+                        <p class="ab-muted" *ngIf="member.summary">{{ member.summary }}</p>
+                        <ul class="ab-member__list">
+                            <li *ngFor="let item of member.highlights">{{ item }}</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <tj-contact-section [editable]="editable" />
 </tj-portfolio-shell>

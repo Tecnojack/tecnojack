@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 
 import { loadMotionRuntime, prefersReducedMotion } from '../../../shared/motion/motion-runtime';
-import { HERO, HERO_CODE, HERO_PRODUCTS, HERO_STEPS, STOCK, stockPhoto } from '../solutions.content';
+import { HERO, HERO_CODE, HERO_PRODUCTS, HERO_STEPS, HERO_STEP_NOTES, STOCK, stockPhoto } from '../solutions.content';
 
 interface CodeToken {
 	text: string;
@@ -52,6 +52,8 @@ export class BuildHeroComponent {
 	@ViewChild('site', { static: true }) private siteRef!: ElementRef<HTMLElement>;
 	@ViewChild('stepLabel', { static: true }) private stepLabelRef!: ElementRef<HTMLElement>;
 	@ViewChild('stepCount', { static: true }) private stepCountRef!: ElementRef<HTMLElement>;
+	@ViewChild('story', { static: true }) private storyRef!: ElementRef<HTMLElement>;
+	@ViewChild('storyText', { static: true }) private storyTextRef!: ElementRef<HTMLElement>;
 	@ViewChild('workspace', { static: true }) private workspaceRef!: ElementRef<HTMLElement>;
 	@ViewChild('head', { static: true }) private headRef!: ElementRef<HTMLElement>;
 	@ViewChild('log', { static: true }) private logRef!: ElementRef<HTMLElement>;
@@ -62,6 +64,7 @@ export class BuildHeroComponent {
 	readonly products = HERO_PRODUCTS.map((product) => ({ ...product, src: stockPhoto(product.photo, 300) }));
 	readonly slots = ['10:00', '11:30', '15:00', '17:30'];
 	readonly steps = HERO_STEPS;
+	readonly stepNotes = HERO_STEP_NOTES;
 	/** Floating code glyphs: position (%), depth (0 far … 1 near) and float period (s). */
 	readonly glyphs = [
 		{ t: '</>', x: 6, y: 22, z: 0.9, d: 9 },
@@ -87,6 +90,7 @@ export class BuildHeroComponent {
 	private pieceEls: HTMLElement[] = [];
 	private segmentEls: HTMLElement[] = [];
 	private lastUnits = -1;
+	private lastNoteStep = 1;
 	private introUnitsDone = 0;
 	private scrollUnits = 0;
 	private cleanup: Array<() => void> = [];
@@ -140,6 +144,7 @@ export class BuildHeroComponent {
 		const workspace = this.workspaceRef.nativeElement;
 		const headItems = Array.from(this.headRef.nativeElement.querySelectorAll<HTMLElement>('[data-head]'));
 		const log = this.logRef.nativeElement;
+		const story = this.storyRef.nativeElement;
 		/** Share of the pin used to write the code; the rest moves the build aside and reveals the copy. */
 		const TYPE_END = 0.66;
 
@@ -148,11 +153,12 @@ export class BuildHeroComponent {
 
 			// Phase 2: the finished build steps back to the right (bottom on phones) and the copy enters.
 			const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
-			tl.to(log, { autoAlpha: 0, y: 12, duration: 0.06 }, TYPE_END + 0.04)
+			// Phones keep the build on top and bring the copy in underneath it.
+			tl.to([log, story], { autoAlpha: 0, y: 12, duration: 0.06 }, TYPE_END + 0.04)
 				.to(
 					workspace,
 					mobile
-						? { scale: 0.56, yPercent: 4, transformOrigin: '50% 100%', duration: 0.16 }
+						? { scale: 0.96, transformOrigin: '50% 0%', duration: 0.16 }
 						: { scale: 0.55, xPercent: 1, transformOrigin: '100% 55%', duration: 0.16 },
 					TYPE_END + 0.06,
 				)
@@ -227,6 +233,7 @@ export class BuildHeroComponent {
 		const editor = section.querySelector<HTMLElement>('.bh__editor');
 		const browser = section.querySelector<HTMLElement>('.bh__browser');
 		const log = this.logRef.nativeElement;
+		const story = this.storyRef.nativeElement;
 		const closed = { clipPath: 'inset(49% 0% 49% 0% round 14px)', filter: 'brightness(0)', autoAlpha: 1 };
 		const open = { clipPath: 'inset(0% 0% 0% 0% round 14px)', filter: 'brightness(1)', duration: 1.05, ease: 'expo.inOut' };
 
@@ -235,14 +242,14 @@ export class BuildHeroComponent {
 		// The copy waits for the end of the build (the scroll timeline reveals it).
 		gsap.set(this.headRef.nativeElement.querySelectorAll('[data-head]'), { autoAlpha: 0, y: 34 });
 		gsap.set([editor, browser], closed);
-		gsap.set(log, { autoAlpha: 0, y: 12 });
+		gsap.set([log, story], { autoAlpha: 0, y: 12 });
 		this.zone.run(() => this.booting.set(false));
 
 		const tl = gsap.timeline({ onComplete: () => this.playIntro(0) });
 		if (atmos) tl.to(atmos, { autoAlpha: 1, duration: 1.4, ease: 'power2.out' }, 0);
 		tl.to(editor, { ...open, clearProps: 'clipPath,filter' }, 0.25)
 			.to(browser, { ...open, clearProps: 'clipPath,filter' }, 0.7)
-			.to(log, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 1.45);
+			.to([log, story], { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.15 }, 1.45);
 		this.cleanup.push(() => tl.kill());
 	}
 
@@ -305,6 +312,7 @@ export class BuildHeroComponent {
 		const currentStep = complete ? this.steps.length : Math.max(1, writingStep);
 		this.stepCountRef.nativeElement.textContent = `Paso ${currentStep}/${this.steps.length}`;
 		this.stepLabelRef.nativeElement.textContent = this.steps[currentStep - 1] + (complete ? ' ✓' : '');
+		this.showNote(currentStep);
 		this.segmentEls.forEach((el, i) => {
 			el.classList.toggle('is-done', i < doneStep);
 			el.classList.toggle('is-current', !complete && i === currentStep - 1 && i >= doneStep);
@@ -313,6 +321,21 @@ export class BuildHeroComponent {
 
 		this.followCaret(activeIndex < 0 ? this.lines.length - 1 : activeIndex);
 		this.followSite(doneStep);
+	}
+
+	/** Phones: swaps the narrative line under the build when the step changes (soft rise-in). */
+	private showNote(step: number): void {
+		if (step === this.lastNoteStep) return;
+		this.lastNoteStep = step;
+		const el = this.storyTextRef.nativeElement;
+		el.textContent = this.stepNotes[step - 1] ?? '';
+		el.animate?.(
+			[
+				{ opacity: 0, transform: 'translateY(10px)' },
+				{ opacity: 1, transform: 'none' },
+			],
+			{ duration: 380, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+		);
 	}
 
 	/** Keeps the line being typed inside the editor viewport. */

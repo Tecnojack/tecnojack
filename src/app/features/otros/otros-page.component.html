@@ -1,8 +1,8 @@
 <tj-portfolio-shell [navItems]="navItems" subtitle="Servicios" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
-  <section class="portfolio-section service-category-hero op-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/bodas-hibridas-luxury-cover-1080.webp)'">
+  <section tjCinematicHero="Servicios" class="portfolio-section service-category-hero op-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/bodas-hibridas-luxury-cover-1080.webp)'">
     <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
-    <div class="service-category-hero__content" tjRevealOnScroll>
+    <div class="service-category-hero__content">
       <div class="service-category-hero__layout">
         <div class="service-category-hero__copy">
           <p class="service-category-hero__eyebrow">TECNOJACK · Servicios</p>

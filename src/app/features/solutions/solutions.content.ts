@@ -30,7 +30,22 @@ export const HERO = {
 	title: 'Creamos el sitio web que hace crecer tu negocio.',
 	lead:
 		'Diseño, desarrollo y contenido audiovisual en un solo equipo: landing pages, tiendas en línea, portales de citas y sistemas a medida, con fotos y video hechos por nosotros.',
-	stack: ['Angular', 'TypeScript', 'Node.js', 'NestJS', 'PostgreSQL', 'Firebase'],
+	stackLabel: 'Trabajamos con la tecnología que tu proyecto necesite',
+	stack: [
+		'Angular',
+		'React',
+		'Next.js',
+		'TypeScript',
+		'JavaScript',
+		'Node.js',
+		'NestJS',
+		'PostgreSQL',
+		'MongoDB',
+		'Firebase',
+		'Tailwind CSS',
+		'Three.js',
+		'GSAP',
+	],
 };
 
 /**
@@ -73,6 +88,18 @@ export const HERO_STEPS = [
 	'Agenda de citas',
 	'WhatsApp directo',
 	'Listo para publicar',
+];
+
+/** Phones: one short line per build step, shown under the build while it is being written. */
+export const HERO_STEP_NOTES = [
+	'Todo empieza con una estructura clara: tu cliente encuentra lo que busca en segundos.',
+	'Fotos de producto hechas por nosotros: tu marca se ve como lo que vale.',
+	'Un mensaje directo que explica por qué elegirte.',
+	'Un botón que lleva a la compra sin rodeos.',
+	'Tu catálogo, fácil de recorrer desde el celular.',
+	'Tus clientes reservan solos, a cualquier hora.',
+	'Un toque y te escriben por WhatsApp.',
+	'Publicado, rápido y listo para vender.',
 ];
 
 /** Demo products shown in the live preview (stock photos, demo prices of the fictional "Tu Marca"). */
