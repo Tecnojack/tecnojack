@@ -96,14 +96,21 @@
       </span>
       <span class="bh__log-hint">Desliza ↓</span>
     </div>
+
+    <!-- Phones: what each step means for the business, under the build while it is written -->
+    <div class="bh__story" #story aria-hidden="true">
+      <p class="bh__story-text" #storyText>{{ stepNotes[0] }}</p>
+      <span class="bh__story-hint">Desliza para construirlo ↓</span>
+    </div>
   </div>
 </section>
 
 <div class="bh-stack">
   <div class="bh-stack__wrap">
-    <span class="bh-stack__label">Tecnologías con las que trabajamos</span>
+    <span class="bh-stack__label">{{ hero.stackLabel }}</span>
     <ul class="bh-stack__list">
       <li *ngFor="let tech of hero.stack">{{ tech }}</li>
+      <li class="bh-stack__more">y lo que tu proyecto necesite</li>
     </ul>
   </div>
 </div>

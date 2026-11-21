@@ -1,8 +1,8 @@
 <tj-portfolio-shell [navItems]="navItems" [subtitle]="i18n.isEn() ? 'Cinema & Video' : 'Videos'" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" headerCtaLabel="WhatsApp">
-    <section class="portfolio-section service-category-hero video-page-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/video-cover-1080.webp)'">
+    <section tjCinematicHero="Video" class="portfolio-section service-category-hero video-page-hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/video-cover-1080.webp)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
-        <div class="service-category-hero__content" tjRevealOnScroll>
+        <div class="service-category-hero__content">
             <div class="service-category-hero__editorial">
                 <!-- Eyebrow Tag -->
                 <div class="service-category-hero__eyebrow-wrapper">

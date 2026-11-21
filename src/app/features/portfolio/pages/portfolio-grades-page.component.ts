@@ -23,11 +23,12 @@ import { PortfolioContentService } from '../services/portfolio-content.service';
 import { PortfolioServiceCategoryPageComponent } from './portfolio-service-category-page.component';
 import { ServiceRequestService } from '../../../services/service-request.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
+import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
 
 @Component({
   selector: 'tj-portfolio-grades-page',
   standalone: true,
-  imports: [AsyncPipe, PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective, DestinationServiceComponent],
+  imports: [CinematicHeroDirective, AsyncPipe, PortfolioShellComponent, PortfolioServiceCategoryPageComponent, NgIf, NgFor, RevealOnScrollDirective, DestinationServiceComponent],
   templateUrl: './portfolio-grades-page.component.html',
   styleUrl: './portfolio-grades-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

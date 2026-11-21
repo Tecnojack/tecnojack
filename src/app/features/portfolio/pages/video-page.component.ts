@@ -32,6 +32,7 @@ import {
   VideoAccordionComponent,
 } from './video-accordion.component';
 import { VideoModalComponent } from './video-modal.component';
+import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
 
 export interface VideoServicePackage {
   name: string;
@@ -105,7 +106,7 @@ const videoAdditionalServices: VideoServicePackage['additionalServices'] = [
 @Component({
   selector: 'tj-video-page',
   standalone: true,
-  imports: [
+  imports: [CinematicHeroDirective, 
     AsyncPipe,
     NgFor,
     NgIf,

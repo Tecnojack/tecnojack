@@ -9,6 +9,7 @@ import {
 } from '../../../shared/media/media-public.service';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
+import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
 
 type AdditionalCard = {
   name: string;
@@ -19,7 +20,7 @@ type AdditionalCard = {
 @Component({
   selector: 'tj-portfolio-grades-institutions-page',
   standalone: true,
-  imports: [AsyncPipe, PortfolioShellComponent, NgFor],
+  imports: [CinematicHeroDirective, AsyncPipe, PortfolioShellComponent, NgFor],
   templateUrl: './portfolio-grades-institutions-page.component.html',
   styleUrl: './portfolio-grades-institutions-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
