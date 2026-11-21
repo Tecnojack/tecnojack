@@ -557,6 +557,33 @@
   display: none;
 }
 
+// Narrative line under the build (phones only, see the media query).
+.bh__story {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: var(--bh-gutter);
+  right: var(--bh-gutter);
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bh__story-text {
+  margin: 0;
+  font-size: clamp(1.35rem, 6.2vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--bh-light);
+  text-wrap: balance;
+}
+
+.bh__story-hint {
+  font: 600 0.72rem/1 var(--bh-mono);
+  color: var(--bh-accent);
+  animation: bh-seg 1.6s ease-in-out infinite;
+}
+
 // ─── Cinematic: code first, then the copy (positions animated by GSAP) ─────
 .bh.is-cinematic {
   .bh__stage {
@@ -643,6 +670,11 @@
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     font: 600 0.8rem/1 var(--bh-mono);
+
+    &.bh-stack__more {
+      border-style: dashed;
+      color: var(--bh-accent);
+    }
   }
 }
 
@@ -660,21 +692,171 @@
     display: none;
   }
 
+  // Phones: editor and browser side by side, each with a compact (miniature) layout.
   .bh__workspace {
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.85fr 1.15fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
     height: 70vh;
   }
 
-  // Pinned on a phone: the build fills the screen, then shrinks to the bottom under the copy.
+  .bh__editor,
+  .bh__browser {
+    border-radius: 10px;
+  }
+
+  .bh__bar {
+    height: 26px;
+    gap: 6px;
+    padding: 0 8px;
+    font-size: 0.5rem;
+  }
+
+  .bh__dots {
+    gap: 4px;
+
+    i {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  .bh__url {
+    padding: 3px 6px;
+  }
+
+  .bh__published {
+    padding: 2px 4px;
+    font-size: 0.48rem;
+  }
+
+  .bh__code pre {
+    padding: 10px 0 30px;
+    font-size: 0.54rem;
+    line-height: 1.75;
+  }
+
+  .bh__line {
+    padding: 0 6px;
+  }
+
+  .bh__num {
+    width: 2ch;
+    margin-right: 0.8ch;
+  }
+
+  .bh__site {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .bs-nav {
+    font-size: 0.62rem;
+  }
+
+  .bs-nav__links {
+    display: none;
+  }
+
+  .bs-hero {
+    height: 74px;
+    border-radius: 7px;
+  }
+
+  .bs-copy {
+    gap: 2px;
+
+    strong {
+      font-size: 0.78rem;
+    }
+
+    span {
+      font-size: 0.56rem;
+    }
+  }
+
+  .bs-cta {
+    padding: 6px 10px;
+    font-size: 0.56rem;
+  }
+
+  .bs-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .bs-product {
+    padding: 4px;
+    gap: 2px;
+    font-size: 0.5rem;
+    border-radius: 6px;
+
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+
+  .bs-booking {
+    gap: 5px;
+    padding: 7px;
+    border-radius: 8px;
+
+    strong {
+      font-size: 0.62rem;
+    }
+  }
+
+  .bs-slots {
+    gap: 3px;
+
+    span {
+      padding: 4px 5px;
+      font-size: 0.5rem;
+    }
+  }
+
+  .bs-footer {
+    padding-top: 6px;
+    font-size: 0.5rem;
+  }
+
+  .bs-wa {
+    right: 8px;
+    bottom: 8px;
+    width: 28px;
+    height: 28px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // Pinned on a phone: a 4:3 build on top, the step log and a narrative line under it; at the end
+  // the log and the line give way to the copy, still under the build.
+  // --bh-ws-w is the workspace width (height = 3/4 of it); --bh-below is where the content under it starts.
   .bh.is-cinematic {
+    --bh-ws-w: calc(100vw - 2 * var(--bh-gutter));
+    --bh-ws-top: calc(var(--tj-header-height, 64px) + 14px);
+    --bh-below: calc(var(--bh-ws-top) + var(--bh-ws-w) * 0.75 + 18px);
+
     .bh__workspace {
-      grid-template-rows: 0.85fr 1.15fr;
-      bottom: 60px;
+      top: var(--bh-ws-top);
+      bottom: auto;
+      height: calc(var(--bh-ws-w) * 0.75);
+    }
+
+    .bh__log {
+      top: var(--bh-below);
+      bottom: auto;
+    }
+
+    .bh__story {
+      display: flex;
+      top: calc(var(--bh-below) + 34px);
     }
 
     .bh__head {
-      top: calc(var(--tj-header-height, 64px) + 18px);
+      top: calc(var(--bh-below) - 4px);
       left: var(--bh-gutter);
       right: var(--bh-gutter);
       width: auto;
@@ -699,6 +881,14 @@
 
   .bh__log-hint {
     display: none;
+  }
+}
+
+// Tall phones have room for the lead under the title once the build is done.
+@media (max-width: 899px) and (min-height: 740px) {
+  .bh.is-cinematic .bh__lead {
+    display: block;
+    font-size: 0.95rem;
   }
 }
 
@@ -852,6 +1042,7 @@
   .bh__editor,
   .bh__browser,
   .bh__log,
+  .bh__story,
   .bh__atmos {
     visibility: hidden;
   }

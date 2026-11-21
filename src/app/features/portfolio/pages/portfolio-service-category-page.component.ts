@@ -41,6 +41,7 @@ import { resolvePortfolioPackageMediaFolder } from '../utils/portfolio-media-fol
 import { optimizeImage } from '../../../core/utils/image-optimizer.util';
 import { I18nService } from '../../../core/services/i18n.service';
 import { DestinationServiceComponent } from '../../../shared/destination/destination-service.component';
+import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
 
 type ServiceModalStep = 'detail' | 'request';
 type RequestMode = 'base' | 'custom';
@@ -100,7 +101,7 @@ const extrasSectionTitlePattern = /extra/i;
 @Component({
   selector: 'tj-portfolio-service-category-page',
   standalone: true,
-  imports: [
+  imports: [CinematicHeroDirective, 
     AsyncPipe,
     NgIf,
     NgFor,

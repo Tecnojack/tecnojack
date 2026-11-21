@@ -1,8 +1,8 @@
 <tj-portfolio-shell [navItems]="navItems" [subtitle]="pageConfig.shellSubtitle" [headerCtaHref]="headerCtaHref" [floatWaHref]="headerCtaHref" [editable]="editable">
-    <section class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/grados-estudiantes-plan-legado-cover-1080.webp)'">
+    <section tjCinematicHero="Grados" class="portfolio-section service-category-hero grades-hub__hero" [style.--category-hero-image]="(heroCategoryHeroImage$ | async) ?? 'url(assets/images/site/grados-estudiantes-plan-legado-cover-1080.webp)'">
         <div class="service-category-hero__backdrop" aria-hidden="true"></div>
 
-        <div class="service-category-hero__content" tjRevealOnScroll>
+        <div class="service-category-hero__content">
             <div class="service-category-hero__editorial">
                 <!-- Eyebrow Tag -->
                 <div class="service-category-hero__eyebrow-wrapper">

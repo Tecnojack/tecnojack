@@ -1,8 +1,21 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ElementRef,
+  NgZone,
+  ViewChild,
+  afterNextRender,
+  effect,
+  inject
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
 
-import { RevealOnScrollDirective } from '../../../shared/animations/reveal-on-scroll.directive';
+import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
+import { loadMotionRuntime, prefersReducedMotion } from '../../../shared/motion/motion-runtime';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import { ContactSectionComponent } from '../sections/contact-section.component';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
@@ -25,7 +38,7 @@ type ValueProp = { title: string; description: string };
 @Component({
   selector: 'tj-about-page',
   standalone: true,
-  imports: [NgFor, NgIf, PortfolioShellComponent, ContactSectionComponent, RevealOnScrollDirective, FallbackImageDirective],
+  imports: [NgFor, NgIf, RouterLink, PortfolioShellComponent, ContactSectionComponent, CinematicHeroDirective, FallbackImageDirective],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,9 +48,32 @@ export class AboutPageComponent {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly zone = inject(NgZone);
+  private readonly destroyRef = inject(DestroyRef);
   readonly i18n = inject(I18nService);
 
-  readonly heroPhotoSrc = 'assets/images/profile/Jackson Palacios.jpg';
+  @ViewChild('page', { static: true }) private pageRef!: ElementRef<HTMLElement>;
+  @ViewChild('manifesto', { static: true }) private manifestoRef!: ElementRef<HTMLElement>;
+
+  readonly streetPhoto = 'assets/images/profile/Jackson Palacios.jpg';
+  readonly lensPhoto = 'assets/images/profile/jackson-behind-the-lens.webp';
+  private motionCleanup: (() => void) | null = null;
+
+  /** Manifesto split into words so scroll can light them up one by one. */
+  get manifestoWords(): string[] {
+    return this.heroTagline.replace(/[“”"]/g, '').trim().split(/\s+/);
+  }
+
+  readonly trackByIndex = (index: number) => index;
+
+  initials(name: string): string {
+    return name
+      .split(/\s+/)
+      .map((part) => part[0] ?? '')
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  }
 
   get heroTagline(): string {
     return this.i18n.t('about.quote', '“No solo capturo momentos, creo historias que permanecen en el tiempo.”');
@@ -167,6 +203,11 @@ export class AboutPageComponent {
   }
 
   constructor() {
+    this.destroyRef.onDestroy(() => this.motionCleanup?.());
+    afterNextRender(() => {
+      if (prefersReducedMotion()) return;
+      this.zone.runOutsideAngular(() => void this.initMotion());
+    });
     effect(() => {
       this.i18n.currentLang();
       this.cdr.markForCheck();
@@ -180,6 +221,63 @@ export class AboutPageComponent {
       this.title.setTitle(pageMeta.title);
       this.meta.updateTag({ name: 'description', content: pageMeta.description });
     });
+  }
+
+  /** Scroll story: manifesto words light up, process steps activate mid-screen, cards rise in, photo drifts. */
+  private async initMotion(): Promise<void> {
+    const { gsap, ScrollTrigger } = await loadMotionRuntime();
+    const page = this.pageRef?.nativeElement;
+    if (!page) return;
+    page.classList.add('is-motion');
+
+    const ctx = gsap.context(() => {
+      const manifesto = this.manifestoRef.nativeElement;
+      const words = manifesto.querySelectorAll<HTMLElement>('.ab-word');
+      gsap.fromTo(
+        words,
+        { opacity: 0.14 },
+        {
+          opacity: 1,
+          ease: 'none',
+          stagger: 0.12,
+          scrollTrigger: { trigger: manifesto, start: 'top 75%', end: 'center 40%', scrub: 0.4 }
+        }
+      );
+
+      page.querySelectorAll<HTMLElement>('[data-step]').forEach((step) => {
+        // Steps stay lit once reached, so the list fills up like a progress bar (and empties going back).
+        ScrollTrigger.create({
+          trigger: step,
+          start: 'top 62%',
+          onEnter: () => step.classList.add('is-active'),
+          onLeaveBack: () => step.classList.remove('is-active')
+        });
+      });
+
+      const reveals = Array.from(page.querySelectorAll<HTMLElement>('[data-reveal]'));
+      ScrollTrigger.batch(reveals, {
+        start: 'top 88%',
+        once: true,
+        onEnter: (batch) => batch.forEach((el, i) => {
+          (el as HTMLElement).style.setProperty('--d', String(i));
+          el.classList.add('is-in');
+        })
+      });
+
+      page.querySelectorAll<HTMLElement>('[data-parallax]').forEach((img) => {
+        gsap.fromTo(
+          img,
+          { yPercent: -8 },
+          { yPercent: 0, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } }
+        );
+      });
+    }, page);
+
+    this.motionCleanup = () => {
+      ctx.revert();
+      page.classList.remove('is-motion');
+    };
+    ScrollTrigger.refresh();
   }
 
   get navItems() {

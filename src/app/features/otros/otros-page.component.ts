@@ -19,13 +19,14 @@ import {
   ServiceCategory,
   SimpleService
 } from './models/simple-service.model';
+import { CinematicHeroDirective } from '../../shared/motion/cinematic-hero.directive';
 
 const PHONE = '573145406467';
 
 @Component({
   selector: 'tj-otros-page',
   standalone: true,
-  imports: [
+  imports: [CinematicHeroDirective, 
     AsyncPipe,
     NgFor,
     NgIf,
