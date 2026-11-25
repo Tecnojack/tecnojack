@@ -1,0 +1,284 @@
+<div class="dev">
+  <!-- 1 · Intro -->
+  <section class="dev-intro" aria-labelledby="dev-title">
+    <div class="dev-wrap">
+      <p class="dev-eyebrow">{{ t(headline.eyebrow) }}</p>
+      <h2 class="dev-intro__title" id="dev-title">{{ t(headline.title) }}</h2>
+      <p class="dev-intro__role" aria-live="off">
+        <span class="dev-intro__prompt" aria-hidden="true">&gt;</span>
+        <!-- Keyed by text so the typing animation replays on every role -->
+        <span class="dev-intro__role-text" *ngFor="let role of [headline.roles[roleIndex()]]; trackBy: trackByValue">{{ role }}</span><i class="dev-caret" aria-hidden="true"></i>
+      </p>
+      <p class="dev-intro__lead">{{ t(headline.lead) }}</p>
+      <div class="dev-actions">
+        <a class="dev-btn dev-btn--accent" [href]="companyWhatsappHref" target="_blank" rel="noopener noreferrer">
+          {{ i18n.isEn() ? 'Hire me' : 'Contrátame' }} <span aria-hidden="true">→</span>
+        </a>
+        <a class="dev-btn dev-btn--line" [href]="linkedinUrl" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+      <ul class="dev-stats" data-stats [attr.aria-label]="i18n.isEn() ? 'In numbers' : 'En cifras'">
+        <li *ngFor="let stat of stats">
+          <strong class="dev-stats__value">{{ statValue(stat.value) }}{{ stat.suffix }}</strong>
+          <span class="dev-stats__label">{{ t(stat.label) }}</span>
+          <span class="dev-stats__detail">{{ t(stat.detail) }}</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2 · Two ways to work together -->
+  <section class="dev-modes" aria-labelledby="dev-modes-title" data-rise>
+    <div class="dev-wrap">
+      <header class="dev-head">
+        <p class="dev-eyebrow">{{ i18n.isEn() ? 'Working together' : 'Trabajemos juntos' }}</p>
+        <h2 class="dev-title" id="dev-modes-title">{{ i18n.isEn() ? 'Two ways to count on me.' : 'Dos formas de contar conmigo.' }}</h2>
+      </header>
+
+      <div class="dev-modes__switch" role="radiogroup" [attr.aria-label]="i18n.isEn() ? 'Working mode' : 'Modalidad'">
+        <button type="button" role="radio" [attr.aria-checked]="mode() === 'company'" [class.is-on]="mode() === 'company'" (click)="mode.set('company')">
+          {{ t(modes.company.label) }}
+        </button>
+        <button type="button" role="radio" [attr.aria-checked]="mode() === 'freelance'" [class.is-on]="mode() === 'freelance'" (click)="mode.set('freelance')">
+          {{ t(modes.freelance.label) }}
+        </button>
+        <span class="dev-modes__thumb" [class.is-right]="mode() === 'freelance'" aria-hidden="true"></span>
+      </div>
+
+      <div class="dev-modes__grid">
+        <article class="dev-mode" [class.is-active]="mode() === 'company'" (click)="mode.set('company')">
+          <span class="dev-mode__tag">01</span>
+          <h3>{{ t(modes.company.title) }}</h3>
+          <p>{{ t(modes.company.text) }}</p>
+          <ul>
+            <li *ngFor="let point of modes.company.points">{{ t(point) }}</li>
+          </ul>
+          <a class="dev-link" [href]="companyWhatsappHref" target="_blank" rel="noopener noreferrer">
+            {{ i18n.isEn() ? 'Talk about a position' : 'Hablemos de una vacante' }} <span aria-hidden="true">→</span>
+          </a>
+        </article>
+        <article class="dev-mode" [class.is-active]="mode() === 'freelance'" (click)="mode.set('freelance')">
+          <span class="dev-mode__tag">02</span>
+          <h3>{{ t(modes.freelance.title) }}</h3>
+          <p>{{ t(modes.freelance.text) }}</p>
+          <ul>
+            <li *ngFor="let point of modes.freelance.points">{{ t(point) }}</li>
+          </ul>
+          <a class="dev-link" routerLink="/soluciones">
+            {{ i18n.isEn() ? 'See software solutions' : 'Ver soluciones de software' }} <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Experience explorer -->
+  <section class="dev-exp" aria-labelledby="dev-exp-title" data-rise>
+    <div class="dev-wrap">
+      <header class="dev-head">
+        <p class="dev-eyebrow">{{ i18n.isEn() ? 'Experience' : 'Experiencia' }}</p>
+        <h2 class="dev-title" id="dev-exp-title">{{ i18n.isEn() ? 'Where I have built software.' : 'Dónde he construido software.' }}</h2>
+      </header>
+
+      <div class="dev-exp__layout">
+        <div class="dev-exp__tabs" role="tablist" aria-orientation="vertical" [attr.aria-label]="i18n.isEn() ? 'Companies' : 'Empresas'">
+          <button
+            *ngFor="let job of experience; let i = index; trackBy: trackById"
+            type="button"
+            role="tab"
+            class="dev-exp__tab"
+            [id]="'dev-tab-' + job.id"
+            [attr.aria-selected]="job.id === activeJobId()"
+            [attr.aria-controls]="'dev-panel'"
+            [attr.tabindex]="job.id === activeJobId() ? 0 : -1"
+            [class.is-active]="job.id === activeJobId()"
+            (click)="selectJob(job.id)"
+            (keydown)="onJobKey($event, i)">
+            <span class="dev-exp__company">{{ job.company }}</span>
+            <span class="dev-exp__period">{{ t(job.period) }}</span>
+            <span class="dev-exp__dot" *ngIf="job.current" [attr.aria-label]="i18n.isEn() ? 'current' : 'actual'"></span>
+          </button>
+        </div>
+
+        <article class="dev-exp__panel" id="dev-panel" role="tabpanel" [attr.aria-labelledby]="'dev-tab-' + activeJob().id">
+          <!-- Re-rendered per job so the entrance animation replays -->
+          <ng-container *ngFor="let job of [activeJob()]; trackBy: trackById">
+            <div class="dev-exp__panel-inner">
+              <div class="dev-exp__panel-head">
+                <h3>{{ t(job.role) }} <span class="dev-exp__at">· {{ job.company }}</span></h3>
+                <span class="dev-badge" *ngIf="job.freelance">Freelance</span>
+              </div>
+              <p class="dev-exp__period-line">{{ t(job.period) }}</p>
+              <p class="dev-exp__summary">{{ t(job.summary) }}</p>
+              <ul class="dev-exp__list">
+                <li *ngFor="let item of job.highlights">{{ t(item) }}</li>
+              </ul>
+              <ul class="dev-chips" aria-label="Stack">
+                <li *ngFor="let tech of job.stack; trackBy: trackByValue">{{ tech }}</li>
+              </ul>
+            </div>
+          </ng-container>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Micro Frontend architecture, explained by touch -->
+  <section class="dev-arch" aria-labelledby="dev-arch-title" data-rise>
+    <div class="dev-wrap dev-arch__layout">
+      <header class="dev-head">
+        <p class="dev-eyebrow">{{ i18n.isEn() ? 'Specialty' : 'Especialidad' }}</p>
+        <h2 class="dev-title" id="dev-arch-title">{{ i18n.isEn() ? 'Micro Frontends, explained.' : 'Micro Frontends, en simple.' }}</h2>
+        <p class="dev-muted">
+          {{ i18n.isEn() ? 'Big platforms split into modules that different teams build and deploy on their own. Tap each piece.' : 'Plataformas grandes divididas en módulos que distintos equipos construyen y despliegan por su cuenta. Toca cada pieza.' }}
+        </p>
+        <p class="dev-arch__detail" aria-live="polite">
+          <strong>{{ activeNode().label }}</strong>
+          <span>{{ t(activeNode().detail) }}</span>
+        </p>
+      </header>
+
+      <div class="dev-arch__diagram">
+        <svg class="dev-arch__lines" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M200 150 L70 50" [class.is-on]="activeNodeId() === remotes[0].id" />
+          <path d="M200 150 L330 50" [class.is-on]="activeNodeId() === remotes[1].id" />
+          <path d="M200 150 L70 250" [class.is-on]="activeNodeId() === remotes[2].id" />
+          <path d="M200 150 L330 250" [class.is-on]="activeNodeId() === remotes[3].id" />
+        </svg>
+        <button
+          type="button"
+          class="dev-node dev-node--shell"
+          [class.is-active]="activeNodeId() === 'shell'"
+          [attr.aria-pressed]="activeNodeId() === 'shell'"
+          (click)="activeNodeId.set('shell')"
+          (mouseenter)="activeNodeId.set('shell')">
+          <small>host</small>Shell
+        </button>
+        <button
+          *ngFor="let node of remotes; let i = index; trackBy: trackById"
+          type="button"
+          class="dev-node dev-node--remote"
+          [class]="'dev-node dev-node--remote dev-node--p' + i"
+          [class.is-active]="activeNodeId() === node.id"
+          [attr.aria-pressed]="activeNodeId() === node.id"
+          (click)="activeNodeId.set(node.id)"
+          (mouseenter)="activeNodeId.set(node.id)">
+          <small>remote</small>{{ node.label }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Stack explorer -->
+  <section class="dev-skills" aria-labelledby="dev-skills-title" data-rise>
+    <div class="dev-wrap">
+      <header class="dev-head">
+        <p class="dev-eyebrow">Stack</p>
+        <h2 class="dev-title" id="dev-skills-title">{{ i18n.isEn() ? 'The tools I work with.' : 'Las herramientas con las que trabajo.' }}</h2>
+      </header>
+      <div class="dev-filter" role="group" [attr.aria-label]="i18n.isEn() ? 'Filter by area' : 'Filtrar por área'">
+        <button type="button" [class.is-on]="skillFilter() === 'all'" [attr.aria-pressed]="skillFilter() === 'all'" (click)="skillFilter.set('all')">
+          {{ i18n.isEn() ? 'All' : 'Todo' }}
+        </button>
+        <button
+          *ngFor="let group of skills; trackBy: trackById"
+          type="button"
+          [class.is-on]="skillFilter() === group.id"
+          [attr.aria-pressed]="skillFilter() === group.id"
+          (click)="skillFilter.set(group.id)">
+          {{ t(group.label) }}
+        </button>
+      </div>
+      <div class="dev-skills__grid">
+        <div class="dev-skill-group" *ngFor="let group of visibleSkills(); trackBy: trackById">
+          <span class="dev-skill-group__label">{{ t(group.label) }}</span>
+          <ul class="dev-chips dev-chips--lg">
+            <li *ngFor="let item of group.items; trackBy: trackByValue">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · References -->
+  <section class="dev-refs" aria-labelledby="dev-refs-title" data-rise>
+    <div class="dev-wrap">
+      <header class="dev-head">
+        <p class="dev-eyebrow">{{ i18n.isEn() ? 'References' : 'Referencias' }}</p>
+        <h2 class="dev-title" id="dev-refs-title">{{ i18n.isEn() ? 'Ask the people I worked with.' : 'Pregúntale a quienes trabajaron conmigo.' }}</h2>
+      </header>
+
+      <div class="dev-refs__grid" *ngIf="references.length; else refsOnRequest">
+        <article class="dev-ref" *ngFor="let ref of references">
+          <p class="dev-ref__quote" *ngIf="ref.quote">“{{ t(ref.quote) }}”</p>
+          <div class="dev-ref__who">
+            <strong>{{ ref.name }}</strong>
+            <span>{{ t(ref.role) }} · {{ ref.company }}</span>
+            <span class="dev-ref__rel">{{ t(ref.relationship) }}</span>
+          </div>
+          <a class="dev-link" *ngIf="ref.contactUrl" [href]="ref.contactUrl" target="_blank" rel="noopener noreferrer">
+            {{ ref.contactLabel || (i18n.isEn() ? 'Contact' : 'Contactar') }} <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      </div>
+      <ng-template #refsOnRequest>
+        <div class="dev-refs__empty">
+          <p>
+            {{ i18n.isEn() ? 'Work references from the companies I have worked with are available on request.' : 'Las referencias laborales de las empresas donde he trabajado están disponibles a solicitud.' }}
+          </p>
+          <a class="dev-btn dev-btn--line" [href]="companyWhatsappHref" target="_blank" rel="noopener noreferrer">
+            {{ i18n.isEn() ? 'Request references' : 'Solicitar referencias' }}
+          </a>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+
+  <!-- 7 · Education, certifications, languages -->
+  <section class="dev-edu" aria-labelledby="dev-edu-title" data-rise>
+    <div class="dev-wrap">
+      <header class="dev-head">
+        <p class="dev-eyebrow">{{ i18n.isEn() ? 'Education' : 'Formación' }}</p>
+        <h2 class="dev-title" id="dev-edu-title">{{ i18n.isEn() ? 'Engineer by training.' : 'Ingeniero de formación.' }}</h2>
+      </header>
+      <div class="dev-edu__grid">
+        <div class="dev-edu__col">
+          <h3>{{ i18n.isEn() ? 'Degrees' : 'Títulos' }}</h3>
+          <ul>
+            <li *ngFor="let degree of education.degrees">
+              <strong>{{ t(degree.title) }}</strong>
+              <span>{{ degree.place }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="dev-edu__col">
+          <h3>{{ i18n.isEn() ? 'Certifications' : 'Certificaciones' }}</h3>
+          <ul>
+            <li *ngFor="let cert of education.certifications">{{ cert }}</li>
+          </ul>
+        </div>
+        <div class="dev-edu__col">
+          <h3>{{ i18n.isEn() ? 'Languages' : 'Idiomas' }}</h3>
+          <ul>
+            <li *ngFor="let lang of education.languages">{{ t(lang) }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · Closing call -->
+  <section class="dev-cta" data-rise>
+    <div class="dev-wrap dev-cta__inner">
+      <h2>{{ i18n.isEn() ? 'Does your team need a senior frontend? Or does your business need software?' : '¿Tu equipo necesita un frontend senior? ¿O tu negocio necesita software?' }}</h2>
+      <div class="dev-actions">
+        <a class="dev-btn dev-btn--accent" [href]="companyWhatsappHref" target="_blank" rel="noopener noreferrer">
+          {{ i18n.isEn() ? 'For companies' : 'Para empresas' }} <span aria-hidden="true">→</span>
+        </a>
+        <a class="dev-btn dev-btn--line" [href]="freelanceWhatsappHref" target="_blank" rel="noopener noreferrer">
+          {{ i18n.isEn() ? 'Quote a project' : 'Cotizar un proyecto' }}
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

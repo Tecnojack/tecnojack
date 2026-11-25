@@ -28,6 +28,43 @@
             </div>
         </section>
 
+        <!-- Profile switcher: audiovisual (default) or software developer. Deep link: ?perfil=desarrollador -->
+        <div class="ab-switch" id="perfil" #switcher>
+            <div class="ab-switch__inner" role="radiogroup" [attr.aria-label]="i18n.isEn() ? 'Choose a profile' : 'Elige un perfil'">
+                <button
+                    type="button"
+                    role="radio"
+                    class="ab-switch__opt"
+                    [class.is-on]="profile() === 'audiovisual'"
+                    [attr.aria-checked]="profile() === 'audiovisual'"
+                    [attr.tabindex]="profile() === 'audiovisual' ? 0 : -1"
+                    (click)="setProfile('audiovisual')"
+                    (keydown)="onSwitchKey($event)">
+                    <span class="ab-switch__icon" aria-hidden="true">●</span>
+                    {{ i18n.isEn() ? 'Audiovisual profile' : 'Perfil audiovisual' }}
+                </button>
+                <button
+                    type="button"
+                    role="radio"
+                    class="ab-switch__opt"
+                    [class.is-on]="profile() === 'developer'"
+                    [attr.aria-checked]="profile() === 'developer'"
+                    [attr.tabindex]="profile() === 'developer' ? 0 : -1"
+                    (click)="setProfile('developer')"
+                    (keydown)="onSwitchKey($event)">
+                    <span class="ab-switch__icon" aria-hidden="true">&lt;/&gt;</span>
+                    {{ i18n.isEn() ? 'Developer profile' : 'Perfil desarrollador' }}
+                </button>
+                <span class="ab-switch__thumb" [class.is-right]="profile() === 'developer'" aria-hidden="true"></span>
+            </div>
+        </div>
+
+        <!-- Developer profile: its code only downloads the first time it is selected -->
+        @defer (when profile() === 'developer') {
+            <tj-developer-profile class="ab-profile ab-profile--dev" [hidden]="profile() !== 'developer'" />
+        }
+
+        <div class="ab-profile ab-profile--av" [hidden]="profile() !== 'audiovisual'">
         <!-- 2 · Manifesto: words light up as you scroll -->
         <section class="ab-manifesto" #manifesto aria-labelledby="ab-manifesto-title">
             <div class="ab-wrap">
@@ -150,6 +187,7 @@
                 </div>
             </div>
         </section>
+        </div>
     </div>
 
     <tj-contact-section [editable]="editable" />

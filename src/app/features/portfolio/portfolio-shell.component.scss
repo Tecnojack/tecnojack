@@ -524,6 +524,9 @@
   max-width: 100%;
   min-width: 0;
   overflow-x: hidden;
+  // `clip` keeps sideways overflow hidden without creating a scroll container, so `position: sticky`
+  // inside pages (profile switcher, sticky section titles) keeps working.
+  overflow-x: clip;
   box-sizing: border-box;
 }
 

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { Location, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,15 +9,17 @@ import {
   ViewChild,
   afterNextRender,
   effect,
-  inject
+  inject,
+  signal
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CinematicHeroDirective } from '../../../shared/motion/cinematic-hero.directive';
 import { loadMotionRuntime, prefersReducedMotion } from '../../../shared/motion/motion-runtime';
 import { FallbackImageDirective } from '../../../shared/images/fallback-image.directive';
 import { ContactSectionComponent } from '../sections/contact-section.component';
+import { DeveloperProfileComponent } from '../components/developer-profile.component';
 import { PortfolioShellComponent } from '../portfolio-shell.component';
 import { PortfolioContentService } from '../services/portfolio-content.service';
 import { I18nService } from '../../../core/services/i18n.service';
@@ -33,12 +35,16 @@ type TeamMember = {
 };
 
 type ProcessStep = { title: string; description: string };
+type Profile = 'audiovisual' | 'developer';
+
+/** Query param value that opens the developer profile directly (shareable with companies). */
+const DEVELOPER_PARAM = 'desarrollador';
 type ValueProp = { title: string; description: string };
 
 @Component({
   selector: 'tj-about-page',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink, PortfolioShellComponent, ContactSectionComponent, CinematicHeroDirective, FallbackImageDirective],
+  imports: [NgFor, NgIf, RouterLink, PortfolioShellComponent, ContactSectionComponent, DeveloperProfileComponent, CinematicHeroDirective, FallbackImageDirective],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -50,9 +56,49 @@ export class AboutPageComponent {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute);
   readonly i18n = inject(I18nService);
 
   @ViewChild('page', { static: true }) private pageRef!: ElementRef<HTMLElement>;
+  @ViewChild('switcher', { static: true }) private switcherRef!: ElementRef<HTMLElement>;
+
+  /** Which profile is shown under the hero. Audiovisual by default; `?perfil=desarrollador` opens the developer one. */
+  readonly profile = signal<Profile>(
+    this.route.snapshot.queryParamMap.get('perfil') === DEVELOPER_PARAM ? 'developer' : 'audiovisual'
+  );
+
+  setProfile(next: Profile): void {
+    if (next === this.profile()) return;
+    this.profile.set(next);
+    // Keep the choice in the URL so the link can be shared, without adding history entries.
+    // (replaceState instead of a router navigation: no router events, so the page title and scroll stay put.)
+    const tree = this.router.createUrlTree([], {
+      relativeTo: this.route,
+      queryParams: { perfil: next === 'developer' ? DEVELOPER_PARAM : null },
+      queryParamsHandling: 'merge'
+    });
+    this.location.replaceState(this.router.serializeUrl(tree));
+    // Bring the start of the chosen profile under the header, then re-measure scroll animations.
+    const switcher = this.switcherRef?.nativeElement;
+    if (switcher && switcher.getBoundingClientRect().top < 0) {
+      switcher.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    }
+    requestAnimationFrame(() => {
+      if (prefersReducedMotion()) return;
+      void loadMotionRuntime().then(({ ScrollTrigger }) => ScrollTrigger.refresh());
+    });
+  }
+
+  onSwitchKey(event: KeyboardEvent): void {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault();
+    const next: Profile = this.profile() === 'audiovisual' ? 'developer' : 'audiovisual';
+    this.setProfile(next);
+    const buttons = this.switcherRef.nativeElement.querySelectorAll<HTMLElement>('[role="radio"]');
+    buttons[next === 'audiovisual' ? 0 : 1]?.focus();
+  }
   @ViewChild('manifesto', { static: true }) private manifestoRef!: ElementRef<HTMLElement>;
 
   readonly streetPhoto = 'assets/images/profile/Jackson Palacios.jpg';
